@@ -15,6 +15,10 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer',  platforms: :ruby
+# Add Haml
+gem 'haml-rails'
+# Support Mongodb
+gem 'mongoid'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -39,4 +43,21 @@ gem 'spring',        group: :development
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+
+# Gems used only for assets and not required
+# in production environments by default.
+group :assets do
+  gem 'therubyracer', :platform=>:ruby
+end
+
+#Gems used for devlopment and testing environment
+group :development, :test do
+  gem 'rspec-rails'
+end
+
+group :test do
+  gem 'cucumber-rails', :require => false
+  gem 'database_cleaner'
+end
 
