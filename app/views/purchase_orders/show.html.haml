@@ -1,0 +1,21 @@
+%p#notice= notice
+
+%p
+  %b Number:
+  = @purchase_order.number
+%p
+  %b Date:
+  = @purchase_order.date
+%p
+  %b Status:
+  = @purchase_order.status
+%p
+  %b Description:
+  = @purchase_order.description
+%p
+  %b Purchasing agent:
+  = @purchase_order.purchasing_agent
+
+= link_to 'Edit', edit_purchase_order_path(@purchase_order)
+\|
+= link_to 'Back', purchase_orders_path
