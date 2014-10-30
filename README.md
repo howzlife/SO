@@ -5,9 +5,9 @@ This README would normally document whatever steps are necessary to get your app
 ### Technology Stack ###
 
 + Ruby On Rails
-* 2.1.4
-* Haml
-* Sass
+    * 2.1.4
+    * Haml
+    * Sass
 * Mongo DB
 
 
@@ -15,24 +15,4 @@ This README would normally document whatever steps are necessary to get your app
 
 
 
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
-
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+[Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
