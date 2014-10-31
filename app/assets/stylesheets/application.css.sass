@@ -30,6 +30,15 @@ h1,h2,h3,h4,h5,h5
 	margin: 0
 	padding: 0
 
+.clear
+	&:after
+		content: "."
+		display: block
+		clear: both
+		visibility: hidden
+		line-height: 0
+		height: 0
+
 .buttons
 	text-align: right
 	margin: 15px 0 0 0
@@ -161,3 +170,44 @@ h1,h2,h3,h4,h5,h5
 
 	.purcuahseorder
 		background: #f8f7f3
+		
+		.purcuahseorder-vendor
+			border-bottom: 1px solid #dedfe3
+			padding: 15px 0
+			.to
+				font-size: 18px
+				color: #a1a8c2
+				font-weight: 600
+				float: left
+				margin: 0 10px 0 0
+			.vendor-select
+				float: left
+		
+		.purcuahseorder-header
+			border-bottom: 1px solid #dedfe3
+			padding: 0px 0 15px 0
+			
+			.purcuahseorder-date
+				float: right
+				margin: 10px 0 0 0
+
+			.purcuahseorder-number
+				float: left
+				margin: 10px 0 0 0
+				
+				.number
+					color: #e54747
+					font-size: 18px
+				
+			.purcuahseorder-address
+				float: left
+				font-style: normal
+				color: #a1a8c2
+				font-size: 14px
+				margin: 0 0 0 25px
+				border-left: 1px solid #dedfe3
+				padding: 5px 0 5px 10px
+
+			
+			
+
