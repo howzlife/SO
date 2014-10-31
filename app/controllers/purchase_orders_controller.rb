@@ -21,7 +21,6 @@ class PurchaseOrdersController < ApplicationController
 
   # GET /purchase_orders/1/edit
   def edit
-    @vendors = Vendor.all
   end
 
   # POST /purchase_orders
