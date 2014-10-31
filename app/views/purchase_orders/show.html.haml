@@ -5,7 +5,7 @@
   = @purchase_order.number
 %p
   %b Date:
-  = @purchase_order.date
+  = @purchase_order.date.strftime("%B %d, %Y")
 %p
   %b Status:
   = @purchase_order.status

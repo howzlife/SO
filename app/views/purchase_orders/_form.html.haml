@@ -6,12 +6,7 @@
         - @purchase_order.errors.full_messages.each do |msg|
           %li= msg
 
-  .field
-    = f.label :number
-    = f.text_field :number
-  .field
-    = f.label :date
-    = f.datetime_select :date
+
   .field
     = f.label :status
     = f.text_field :status
