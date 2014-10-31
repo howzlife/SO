@@ -1,0 +1,22 @@
+.sidebar
+  %ul
+    %li.dashboard
+      %a{:href => "#"}
+        %i.fa.fa-dashboard.fa-fw
+        %span.text Dashboard
+    %li.orders
+      = link_to purchase_orders_path, class: cp(purchase_orders_path) do
+        %i.fa.fa-list-alt.fa-fw
+        %span.text Purchase Orders
+    %li.vendors
+      = link_to vendors_path, class: cp(vendors_path) do
+        %i.fa.fa-truck.fa-fw
+        %span.text Your Vendors
+    %li.settings
+      %a{:href => "#"}
+        %i.fa.fa-cog.fa-fw
+        %span.text Settings
+    %li.account
+      %a{:href => "#"}
+        %i.fa.fa-user.fa-fw
+        %span.text Account
