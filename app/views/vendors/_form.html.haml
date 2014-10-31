@@ -13,7 +13,10 @@
     = f.label :address
     = f.text_field :address
   .field
+    = f.label :contact
+    = f.text_field :contact
+  .field
     = f.label :telephone
     = f.text_field :telephone
   .actions
-    = f.submit 'Save'
+    = f.submit 'Save Vendor', :class => 'btn btn-add'

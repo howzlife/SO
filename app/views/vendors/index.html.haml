@@ -1,23 +1,25 @@
-%h1 Listing vendors
+= render :partial => "shared/header", :locals => {:title => "Your Vendors",:icon => "fa-truck"}
+%p#notice= notice
+.wrapper
+	.card
+		- if @vendors.length == 0
+			You haven't added any vendors. Click the button below to create your first one.
+		- else
+			%table
+				%tr
+					%th.text-label Name
+					%th.text-label Email
+					%th.text-label Contact
+					%th.text-label Telephone
 
-%table
-  %tr
-    %th Name
-    %th Address
-    %th Telephone
-    %th
-    %th
-    %th
+				- @vendors.each do |vendor|
+					%tr
+						%td= link_to vendor.name, edit_vendor_path(vendor)
+						%td= vendor.address
+						%td= vendor.contact
+						%td= vendor.telephone
 
-  - @vendors.each do |vendor|
-    %tr
-      %td= vendor.name
-      %td= vendor.address
-      %td= vendor.telephone
-      %td= link_to 'Show', vendor
-      %td= link_to 'Edit', edit_vendor_path(vendor)
-      %td= link_to 'Destroy', vendor, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New Vendor', new_vendor_path
+		.buttons
+			= button_to new_vendor_path, method: 'get', class: 'btn btn-add' do
+				%i.fa.fa-plus-circle.fa-fw
+				%span.text Add Vendor

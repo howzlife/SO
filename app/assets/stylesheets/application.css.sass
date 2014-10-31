@@ -16,3 +16,198 @@
 
 @import "bootstrap-sprockets"
 @import "bootstrap"
+@import "//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
+
+body
+	background: #f9f9f9
+	margin: 0px
+	padding: 0px
+	font-family: "proxima-nova",sans-serif
+	font-size: 15px
+
+h1,h2,h3,h4,h5,h5
+	font-weight: 300
+	margin: 0
+	padding: 0
+
+.clear
+	&:after
+		content: "."
+		display: block
+		clear: both
+		visibility: hidden
+		line-height: 0
+		height: 0
+
+.buttons
+	text-align: right
+	margin: 15px 0 0 0
+
+.btn
+	display: inline-block  
+	padding: 6px 12px  
+	margin-bottom: 0  
+	font: 400 14px/14px "proxima-nova", sans-serif  
+	text-align: center  
+	white-space: nowrap  
+	vertical-align: middle  
+	cursor: pointer  
+	-webkit-user-select: none  
+	-moz-user-select: none  
+	-ms-user-select: none  
+	user-select: none  
+	background-image: none  
+	border: 1px solid transparent  
+	border-radius: 4px
+	color: #fff
+	i
+		margin: 0 6px 0 0
+
+.btn-edit
+	background-color: #fcf7ee
+	color: #e5b558
+	border: solid 1px #efd39b
+.btn-add
+	background-color: #e1fcda
+	color: #499a27
+	border: solid 1px #c9f2bd
+.btn-draft
+	color: #c0c0c0
+	background-color: #f9f9f9
+	border: solid 1px #d9d9d9
+
+.sidebar
+	position: fixed
+	top: 0px
+	bottom: 0px
+	width: 190px
+	overflow: hidden
+	padding: 0
+	z-index: 10
+	font: 600 13px/18px "proxima-nova", sans-serif
+	-webkit-box-sizing: border-box
+	-moz-box-sizing: border-box
+	box-sizing: border-box
+	background-color: #2e404f
+	color: #B4B4B4
+
+	ul
+		padding: 0px
+		margin: 0px
+		list-style: none
+
+		i
+			margin: 0 6px 0 0
+
+		a
+			color: #a7b1c2
+			font-weight: 600
+			padding: 14px 20px 14px 25px
+			display: block
+			text-decoration: none
+			
+			&.current
+				background-color: #293846
+				border-left: 5px solid #f9f9f9
+				padding: 14px 20px 14px 20px
+				color: #f9f9f9
+
+			&:hover
+				color: #fff
+				background-color: #293846
+
+.content
+	min-width: 768px
+	padding: 0 0 0 190px
+	width: 100%
+	-webkit-box-sizing: border-box
+	-moz-box-sizing: border-box
+	box-sizing: border-box
+
+	.page-header
+		border-bottom: 1px solid #e4e4e4
+		padding: 15px 25px
+		margin: 0
+		background: #fff
+
+		h2
+			font-size: 24px
+			color: #253948
+
+	
+	table
+		border-collapse: collapse  
+		margin: 0  
+		padding: 0  
+		width: 100%  
+
+		th
+			text-align: left
+			padding: 0px 10px 5px 10px
+		td
+			padding: 6px 10px
+			border-top: 1px solid #dedfe3
+			vertical-align: top
+
+	.wrapper
+		padding: 20px
+
+	.card
+		background: #fff  
+		padding: 25px  
+		box-shadow: 0 2px 4px rgba(0,0,0,0.1)  
+		outline: none  
+		border: 1px solid #e7e7e7  
+		-webkit-border-radius: 4px  
+		-moz-border-radius: 4px  
+		border-radius: 4px  
+		margin: 0 0 25px 0  
+
+		.text-label
+			font-size: 12px
+			color: #a1a8c2
+			font-weight: 400
+
+	.purcuahseorder
+		background: #f8f7f3
+		
+		.purcuahseorder-vendor
+			border-bottom: 1px solid #dedfe3
+			padding: 15px 0
+			.to
+				font-size: 18px
+				color: #a1a8c2
+				font-weight: 600
+				float: left
+				margin: 0 10px 0 0
+			.vendor-select
+				float: left
+		
+		.purcuahseorder-header
+			border-bottom: 1px solid #dedfe3
+			padding: 0px 0 15px 0
+			
+			.purcuahseorder-date
+				float: right
+				margin: 10px 0 0 0
+
+			.purcuahseorder-number
+				float: left
+				margin: 10px 0 0 0
+				
+				.number
+					color: #e54747
+					font-size: 18px
+				
+			.purcuahseorder-address
+				float: left
+				font-style: normal
+				color: #a1a8c2
+				font-size: 14px
+				margin: 0 0 0 25px
+				border-left: 1px solid #dedfe3
+				padding: 5px 0 5px 10px
+
+			
+			
+

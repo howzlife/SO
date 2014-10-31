@@ -1,7 +1,8 @@
-%h1 Editing vendor
-
-= render 'form'
-
-= link_to 'Show', @vendor
-\|
-= link_to 'Back', vendors_path
+= render :partial => "shared/header", :locals => {:title => "Edit Vendor",:icon => "fa-truck"}
+.wrapper
+	.card
+		= render 'form'
+		.buttons
+			= link_to 'Delete Vendor', @vendor, :method => :delete, :data => { :confirm => 'Are you sure?' }
+			\|
+			= link_to 'Back', vendors_path
