@@ -4,4 +4,6 @@ class Vendor
   field :address, type: String
   field :contact, type: String
   field :telephone, type: String
+
+  has_many :purchase_orders, autosave: true
 end

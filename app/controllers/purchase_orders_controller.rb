@@ -15,6 +15,7 @@ class PurchaseOrdersController < ApplicationController
   # GET /purchase_orders/new
   def new
     @purchase_order = PurchaseOrder.new
+
     @vendors = Vendor.all
   end
 

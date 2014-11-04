@@ -6,7 +6,9 @@
         - @purchase_order.errors.full_messages.each do |msg|
           %li= msg
 
-
+  .field
+    = f.label :Vendor
+    = f.collection_select :vendors, @vendors,:id,:name, :include_blank => "Please select a vendor..."
   .field
     = f.label :status
     = f.text_field :status
