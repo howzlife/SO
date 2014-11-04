@@ -19,6 +19,10 @@
 		.purcuahseorder-vendor.clear
 			.to
 				Send To
+			.vendor-select
+				%select.text-input
+					- @vendors.each do |vendor|
+						%option{:value => vendor.id}= vendor.name
 		= render 'form'
 		.buttons
 			= button_to purchase_orders_path, method: 'get', class: 'btn btn-add' do
