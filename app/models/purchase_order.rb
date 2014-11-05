@@ -6,5 +6,7 @@ class PurchaseOrder
   field :description, type: String
   field :purchasing_agent, type: String
 
-  belongs_to :vendors
+  validates_presence_of :number, :date, :purchasing_agent
+
+  belongs_to :vendor
 end

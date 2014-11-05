@@ -2,6 +2,9 @@
   %b Number:
   = @purchase_order.number
 %p
+  %b vendor:
+  = @purchase_order.vendor.name
+%p
   %b Date:
   = @purchase_order.date.strftime("%B %d, %Y")
 %p

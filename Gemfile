@@ -19,6 +19,8 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'haml-rails'
 # Support Mongodb
 gem 'mongoid'
+# Add simple form
+gem 'simple_form'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -54,6 +56,7 @@ end
 #Gems used for devlopment and testing environment
 group :development, :test do
   gem 'rspec-rails'
+  gem 'better_errors'
 end
 
 group :test do
