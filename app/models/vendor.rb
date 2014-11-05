@@ -10,7 +10,7 @@ class Vendor
 
   validates_presence_of :name, :email, :contact, :telephone
 
-  has_many :purchase_orders, autosave: true
+  has_many :purchase_orders, autosave: true, :inverse_of => :vendor
 
   accepts_nested_attributes_for :purchase_orders
 

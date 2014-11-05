@@ -7,15 +7,18 @@ class PurchaseOrder
   field :status, type: String
   field :description, type: String
   field :purchasing_agent, type: String
+  field :tags, type: String
 
-  validates_presence_of :number, :date, :purchasing_agent
+  validates_presence_of :number, :date, :purchasing_agent, :description, :vendor
 
   belongs_to :vendor
+
+  embeds_many :comment
 
 
   def self.search(search)
     if search
-      any_of({number: /#{search}/i}, {status: /#{search}/i}, {description: /#{search}/i}, {purchasing_agent: /#{search}/i})
+      any_of({number: /#{search}/i}, {status: /#{search}/i}, {description: /#{search}/i}, {purchasing_agent: /#{search}/i}, {tags: /#{search}/i})
     end
   end
 
