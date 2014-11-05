@@ -15,16 +15,5 @@
 			.purcuahseorder-date
 				.text-label Date
 				.date
-					=@purchase_order.date.strftime("%b #{@purchase_order.date.day.ordinalize}, %Y")
-		.purcuahseorder-vendor.clear
-			.to
-				Send To
-			.vendor-select
-				%select.text-input
-					- @vendors.each do |vendor|
-						%option{:value => vendor.id}= vendor.name
+					=@purchase_order.date.strftime("%B #{@purchase_order.date.day.ordinalize}, %Y")
 		= render 'form'
-		.buttons
-			= button_to purchase_orders_path, method: 'get', class: 'btn btn-add' do
-				%i.fa.fa-undo.fa-fw
-				%span.text Cancel

@@ -1,19 +1,26 @@
-%p
-  %b Number:
-  = @purchase_order.number
-%p
-  %b Date:
-  = @purchase_order.date.strftime("%B %d, %Y")
-%p
-  %b Status:
-  = @purchase_order.status
-%p
-  %b Description:
-  = @purchase_order.description
-%p
-  %b Purchasing agent:
-  = @purchase_order.purchasing_agent
-
-// = link_to 'Edit', edit_purchase_order_path(@purchase_order)
-\|
-= link_to 'Back', purchase_orders_path
+- ponumber = 'EMP.' + number_with_delimiter(@purchase_order.number, :delimiter => '.')
+= render :partial => "shared/header", :locals => {:title => "Purchase Order "+ponumber,:icon => "fa-list-alt"}
+.wrapper
+  #purcuahseorder.card.purcuahseorder
+    .purcuahseorder-header.clear
+      .purcuahseorder-number
+        .text-label Purchase Order
+        .number
+          = ponumber
+      .purcuahseorder-address
+        The Emporium
+        %br>/
+        47 Main Street
+        %br>/
+        Ottawa, Ontario K1S 1B1
+      .purcuahseorder-date
+        .text-label Date
+        .date
+          =@purchase_order.date.strftime("%B #{@purchase_order.date.day.ordinalize}, %Y")
+    .purcuahseorder-input
+      = simple_format(@purchase_order.description)
+  .buttons
+    = link_to 'Back', purchase_orders_path
+    = link_to 'Print', '#', class: 'btn btn-add print'
+  .credits
+    %p= 'Created with Orderboard -- getorderboard.com'

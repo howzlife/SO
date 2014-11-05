@@ -5,18 +5,24 @@
       %ul
         - @purchase_order.errors.full_messages.each do |msg|
           %li= msg
-
-  .field
-    = f.label :Vendor
-    = f.collection_select :vendors, @vendors,:id,:name, :include_blank => "Please select a vendor..."
-  .field
-    = f.label :status
-    = f.text_field :status
-  .field
+  .purcuahseorder-vendor.clear
+    .to
+      Send To
+    .vendor-select
+      .vendor-details
+      .vendor-change
+        %button.small-btn.btn.btn-edit{:type => "button"}
+          %i.fa.fa-undo
+          %span.text Change
+      %select.text-input
+        - @vendors.each do |vendor|
+          %option{:value => vendor.id}= vendor.name
+  .purcuahseorder-input
     = f.label :description
-    = f.text_field :description
-  .field
-    = f.label :purchasing_agent
-    = f.text_field :purchasing_agent
-  .actions
-    = f.submit 'Save'
+    = f.text_area :description, :placeholder => "enter your order information..."
+  .buttons
+    = f.hidden_field :number, :value => @purchase_order.number
+    = button_to purchase_orders_path, method: 'get', class: 'btn btn-add' do
+      %i.fa.fa-undo.fa-fw
+      %span.text Cancel
+    = f.submit 'Save and email', class: 'btn btn-save'

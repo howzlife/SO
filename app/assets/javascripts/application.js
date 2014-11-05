@@ -15,3 +15,26 @@
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require_tree .
+
+$(function() {
+	$('.purcuahseorder-vendor .vendor-select').on('change','select',function() {
+		var vendor = $(this).val();
+		$(this).hide();
+		$.getJSON( '/vendors/' + vendor + '.json', function( data ) {
+			$('.purcuahseorder-vendor .vendor-select .vendor-details').html(data.name +'<br>Attention: '+ data.contact +'<br>'+ data.address).show();
+			$('.vendor-change .small-btn').show();
+		});
+	});
+
+    $('.purcuahseorder-vendor .vendor-select').on('click', '.small-btn', function() {
+        $('.purcuahseorder-vendor .vendor-select select').show();
+        $('.purcuahseorder-vendor .vendor-change .small-btn, .purcuahseorder-vendor .vendor-select .vendor-details').hide();
+    });
+
+	$('.purcuahseorder .purcuahseorder-input textarea').css('overflow', 'hidden').autogrow();
+
+    $('.buttons').on('click', '.print', function() {
+		window.print();
+    });
+
+});

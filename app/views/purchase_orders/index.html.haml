@@ -1,32 +1,29 @@
 = render :partial => "shared/header", :locals => {:title => "Purchase Orders",:icon => "fa-list-alt"}
 .wrapper
-	.card
-		- if @purchase_orders.length == 0
-			You haven't created any purchase orders. Click the button below to create your first one.
-		- else
-			%table
-				%tr
-					%th.text-label Number
-					%th.text-label Date
-					%th.text-label Status
-					%th.text-label Description
-					%th.text-label Purchasing agent
-					%th
-					%th
-					%th
+  .card
+    - if @purchase_orders.length == 0
+      You haven&amp;t created any purchase orders. Click the button below to create your first one.
+    - else
+      %table
+        %tr
+          %th.text-label Number
+          %th.text-label Date
+          %th.text-label Vendor
+          %th.text-label Status
 
-				- @purchase_orders.each do |purchase_order|
-					%tr
-						%td= purchase_order.number
-						%td= purchase_order.date
-						%td= purchase_order.status
-						%td= purchase_order.description
-						%td= purchase_order.purchasing_agent
-						%td= link_to 'Show', purchase_order
-						// %td= link_to 'Edit', edit_purchase_order_path(purchase_order)
-						%td= link_to 'Destroy', purchase_order, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        - @purchase_orders.each do |purchase_order|
+        -#= Declare PO Number Variable
+        - ponumber = 'EMP.' + number_with_delimiter(purchase_order.number, :delimiter => '.')
+          %tr
+            %td= link_to ponumber, purchase_order
+            %td= purchase_order.date.strftime("%B #{purchase_order.date.day.ordinalize}, %Y")
+            %td= 'Vendor Name'
+            %td= purchase_order.status
+            -#= %td= link_to 'Show', purchase_order
+            -#= %td= link_to 'Edit', edit_purchase_order_path(purchase_order)
+            -#= %td= link_to 'Destroy', purchase_order, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
-		.buttons
-			= button_to new_purchase_order_path, method: 'get', class: 'btn btn-add' do
-				%i.fa.fa-plus-circle.fa-fw
-				%span.text New Purchase Order
+    .buttons
+      = button_to new_purchase_order_path, method: 'get', class: 'btn btn-add' do
+        %i.fa.fa-plus-circle.fa-fw
+        %span.text New Purchase Order
