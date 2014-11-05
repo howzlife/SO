@@ -1,9 +1,5 @@
 .sidebar
   %ul
-    %li.dashboard
-      %a{:href => "#"}
-        %i.fa.fa-dashboard.fa-fw
-        %span.text Dashboard
     %li.orders
       = link_to purchase_orders_path, class: cp(purchase_orders_path) do
         %i.fa.fa-list-alt.fa-fw
