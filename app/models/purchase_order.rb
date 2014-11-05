@@ -11,4 +11,12 @@ class PurchaseOrder
   validates_presence_of :number, :date, :purchasing_agent
 
   belongs_to :vendor
+
+
+  def self.search(search)
+    if search
+      any_of({number: /#{search}/i}, {status: /#{search}/i}, {description: /#{search}/i}, {purchasing_agent: /#{search}/i})
+    end
+  end
+
 end

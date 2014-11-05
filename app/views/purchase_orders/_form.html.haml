@@ -5,7 +5,7 @@
       %ul
         - @purchase_order.errors.full_messages.each do |msg|
           %li= msg
-  = f.association :vendors, prompt: "Select a vendor"
+  = f.association :vendor, prompt: "Select a vendor"
   = f.input :status
   = f.input :description
   = f.input :purchasing_agent

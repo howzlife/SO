@@ -5,6 +5,11 @@ class PurchaseOrdersController < ApplicationController
   # GET /purchase_orders.json
   def index
     @purchase_orders = PurchaseOrder.all
+    if params["q"].blank?
+      @purchase_orders = PurchaseOrder.all
+    else
+      @purchase_orders = PurchaseOrder.search(params["q"])
+    end
   end
 
   # GET /purchase_orders/1
@@ -27,9 +32,10 @@ class PurchaseOrdersController < ApplicationController
   # POST /purchase_orders.json
   def create
     @purchase_order = PurchaseOrder.new(purchase_order_params)
-    puts "purchase_order_params"
-    puts purchase_order_params
-    vendor = Vendor.find(params["purchase_order"]["vendors_id"])
+
+    #search for associated Vendor
+    vendor = Vendor.find(params["purchase_order"]["vendor_id"])
+    #save vendor association to purchase order
     @purchase_order.vendor = vendor
     respond_to do |format|
       if @purchase_order.save
