@@ -17,11 +17,11 @@
           %tr
             %td= link_to ponumber, purchase_order
             %td= purchase_order.date.strftime("%B #{purchase_order.date.day.ordinalize}, %Y")
-            %td= 'Vendor Name'
+            %td= purchase_order.vendor.name
             %td= purchase_order.status
             -#= %td= link_to 'Show', purchase_order
             -#= %td= link_to 'Edit', edit_purchase_order_path(purchase_order)
-            -#= %td= link_to 'Destroy', purchase_order, :method => :delete, :data => { :confirm => 'Are you sure?' }
+            %td= link_to 'Destroy', purchase_order, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
     .buttons
       = button_to new_purchase_order_path, method: 'get', class: 'btn btn-add' do

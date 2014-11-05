@@ -5,6 +5,11 @@ class PurchaseOrdersController < ApplicationController
   # GET /purchase_orders.json
   def index
     @purchase_orders = PurchaseOrder.all
+    if params["q"].blank?
+      @purchase_orders = PurchaseOrder.all
+    else
+      @purchase_orders = PurchaseOrder.search(params["q"])
+    end
   end
 
   # GET /purchase_orders/1
@@ -27,6 +32,16 @@ class PurchaseOrdersController < ApplicationController
   # POST /purchase_orders.json
   def create
     @purchase_order = PurchaseOrder.new(purchase_order_params)
+
+    #search for associated Vendor
+    vendor = Vendor.find(params["purchase_order"]["vendor_id"]) rescue nil
+    #session[:return_to] ||= request.referer
+    if vendor.nil?
+      return redirect_to :back
+    end
+    #save vendor association to purchase order
+    @purchase_order.vendor = vendor
+
 
     respond_to do |format|
       if @purchase_order.save
@@ -72,5 +87,15 @@ class PurchaseOrdersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def purchase_order_params
       params.require(:purchase_order).permit(:number, :date, :status, :description, :purchasing_agent)
+    end
+
+
+  private
+
+    def purchase_order_params
+      # It's mandatory to specify the nested attributes that should be whitelisted.
+      # If you use `permit` with just the key that points to the nested attributes hash,
+      # it will return an empty hash.
+      params.require(:purchase_order).permit(:status, :description, :purchasing_agent, :tags, :comment, vendors_id: [])
     end
 end

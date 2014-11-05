@@ -1,9 +1,17 @@
 class Vendor
   include Mongoid::Document
+  include Mongoid::Timestamps
+  include Mongoid::Paranoia
   field :name, type: String
-  field :address, type: String
+  field :email, type: String
   field :contact, type: String
   field :telephone, type: String
 
-  has_many :purchase_orders, autosave: true
+
+  validates_presence_of :name, :email, :contact, :telephone
+
+  has_many :purchase_orders, autosave: true, :inverse_of => :vendor
+
+  accepts_nested_attributes_for :purchase_orders
+
 end

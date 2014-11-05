@@ -17,6 +17,14 @@
         .text-label Date
         .date
           =@purchase_order.date.strftime("%B #{@purchase_order.date.day.ordinalize}, %Y")
+    .purcuahseorder-vendor.clear
+      .to
+        Send To
+      .vendor-select
+        .vendor-details
+          =@purchase_order.vendor.name
+          =@purchase_order.vendor.contact
+          =@purchase_order.vendor.email
     .purcuahseorder-input
       = simple_format(@purchase_order.description)
   .buttons
