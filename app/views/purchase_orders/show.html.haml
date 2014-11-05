@@ -23,7 +23,9 @@
       .vendor-select
         .vendor-details
           =@purchase_order.vendor.name
+          %br
           =@purchase_order.vendor.contact
+          %br
           =@purchase_order.vendor.email
     .purcuahseorder-input
       = simple_format(@purchase_order.description)
