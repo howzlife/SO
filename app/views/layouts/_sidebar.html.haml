@@ -13,7 +13,7 @@
         %i.fa.fa-truck.fa-fw
         %span.text Your Vendors
     %li.settings
-      %a{:href => "#"}
+      = link_to settings_path, class: cp(settings_path) do
         %i.fa.fa-cog.fa-fw
         %span.text Settings
     %li.account

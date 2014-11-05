@@ -1,7 +1,7 @@
 - ponumber = 'EMP.' + number_with_delimiter(@purchase_order.number, :delimiter => '.')
 = render :partial => "shared/header", :locals => {:title => "Purchase Order "+ponumber,:icon => "fa-list-alt"}
 .wrapper
-  #purcuahseorder.card.purcuahseorder
+  #purcuahseorder.card.purcuahseorder.saved
     .purcuahseorder-header.clear
       .purcuahseorder-number
         .text-label Purchase Order

@@ -42,7 +42,6 @@ class PurchaseOrdersController < ApplicationController
     #save vendor association to purchase order
     @purchase_order.vendor = vendor
 
-
     respond_to do |format|
       if @purchase_order.save
         format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully created.' }
@@ -88,7 +87,6 @@ class PurchaseOrdersController < ApplicationController
     def purchase_order_params
       params.require(:purchase_order).permit(:number, :date, :status, :description, :purchasing_agent)
     end
-
 
   private
 

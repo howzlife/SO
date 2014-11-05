@@ -15,7 +15,6 @@ class PurchaseOrder
 
   embeds_many :comment
 
-
   def self.search(search)
     if search
       any_of({number: /#{search}/i}, {status: /#{search}/i}, {description: /#{search}/i}, {purchasing_agent: /#{search}/i}, {tags: /#{search}/i})
