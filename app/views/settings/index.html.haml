@@ -2,3 +2,29 @@
 .wrapper
   .card
     %h4 Send Purchase Orders From
+.divider
+.wrapper
+  .card
+    %h4 Your Additional Addresses
+    - if @addresses.length == 0
+      You have yet to added any addresss. Click the button below to create your first one.
+    - else
+      %table
+        %tr
+          %th.text-label Name
+          %th.text-label Address
+          %th.text-label Telephone
+          %th.text-label Receiving Agent
+
+        - @addresses.each do |address|
+          %tr
+            %td= link_to address.name, edit_address_path(address)
+            %td= address.address
+            %td= address.telephone
+            %td= address.agent
+
+    .buttons
+      = button_to new_address_path, method: 'get', class: 'btn btn-add' do
+        %i.fa.fa-plus-circle.fa-fw
+        %span.text Add address
+
