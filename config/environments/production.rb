@@ -72,4 +72,7 @@ Rails.application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  #Ensure you have defined default url options in your environments files for devise gem
+  config.action_mailer.default_url_options = { host: 'www.myorderboard.com', port: 80 }
 end

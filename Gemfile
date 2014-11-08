@@ -21,12 +21,17 @@ gem 'haml-rails'
 # Support Mongodb
 gem 'mongoid'
 # Add simple form
+#add BSON support
+gem 'bson_ext'
+#for simple forms
 gem 'simple_form'
 # Add paranoia so we can recover things that are deleted
 gem 'mongoid_paranoia'
 #Include 'rails_12factor' gem to enable all platform features
 #See https://devcenter.heroku.com/articles/rails-integration-gems for more information.
 gem 'rails_12factor'
+#add devise
+gem 'devise'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

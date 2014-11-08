@@ -9,4 +9,10 @@
     .app-wrapper
       = render "layouts/sidebar"
       .content
+        - if flash[:notice]
+          %p.notice
+            = notice
+        - if flash[:alert]
+          %p.alert
+            = alert
         = yield
