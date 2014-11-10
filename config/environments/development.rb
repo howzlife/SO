@@ -14,7 +14,19 @@ Rails.application.configure do
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
+  #Ensure you have defined default url options in your environments files for devise gem
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  #this is a temporary testing gmail address used to test the local environment
+  config.action_mailer.smtp_settings = { 
+    address:              'smtp.gmail.com',
+    port:                 587,
+    domain:               'gmail.com',
+    user_name:            ENV['EMAIL_USERNAME'],
+    password:             ENV['EMAIL_PASSWORD'],
+    authentication:       'plain',
+    enable_starttls_auto: true  
+  }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -31,7 +43,4 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-
-  #Ensure you have defined default url options in your environments files for devise gem
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 end
