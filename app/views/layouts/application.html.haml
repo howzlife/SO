@@ -6,13 +6,17 @@
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body
-    .app-wrapper
-      = render "layouts/sidebar"
-      .content
-        - if flash[:notice]
-          %p.notice
-            = notice
-        - if flash[:alert]
-          %p.alert
-            = alert
-        = yield
+- unless user_signed_in?
+  .log-in
+    = yield
+- else
+  .app-wrapper
+    = render "layouts/sidebar"
+    .content
+      - if flash[:notice]
+        %p.notice
+          = notice
+      - if flash[:alert]
+        %p.alert
+          = alert
+      = yield
