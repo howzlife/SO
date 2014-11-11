@@ -27,8 +27,8 @@ Set this in the new config/application.yml file which will be generated when you
 #!ruby
 
 development:
-  EMAIL_USERNAME: "myorderboard2014"
-  EMAIL_PASSWORD: "goodpassword"
+  EMAIL_USERNAME: "username"
+  EMAIL_PASSWORD: "password"
 ```
 
 
