@@ -90,7 +90,7 @@ class PurchaseOrdersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def purchase_order_params
-      params.require(:purchase_order).permit(:number, :date, :status, :description, :purchasing_agent)
+      params.require(:purchase_order).permit(:number, :date, :status, :description)
     end
 
   private
@@ -99,6 +99,6 @@ class PurchaseOrdersController < ApplicationController
       # It's mandatory to specify the nested attributes that should be whitelisted.
       # If you use `permit` with just the key that points to the nested attributes hash,
       # it will return an empty hash.
-      params.require(:purchase_order).permit(:status, :description, :purchasing_agent, :tags, :comment, vendors_id: [])
+      params.require(:purchase_order).permit(:status, :description, :tags, :comment, vendors_id: [])
     end
 end
