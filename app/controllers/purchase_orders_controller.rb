@@ -1,4 +1,5 @@
 class PurchaseOrdersController < ApplicationController
+  require 'send_pdf'
   before_action :set_purchase_order, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
 
@@ -45,6 +46,9 @@ class PurchaseOrdersController < ApplicationController
 
     respond_to do |format|
       if @purchase_order.save
+        #send pdf
+        PDFMailer.send_pdf(@purchase_order).deliver
+
         format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully created.' }
         format.json { render :show, status: :created, location: @purchase_order }
       else
