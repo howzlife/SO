@@ -6,14 +6,12 @@ RSpec.describe "purchase_orders/index", :type => :view do
       PurchaseOrder.create!(
         :number => "",
         :status => "Status",
-        :description => "Description",
-        :purchasing_agent => "Purchasing Agent"
+        :description => "Description"
       ),
       PurchaseOrder.create!(
         :number => "",
         :status => "Status",
-        :description => "Description",
-        :purchasing_agent => "Purchasing Agent"
+        :description => "Description"
       )
     ])
   end

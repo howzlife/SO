@@ -5,8 +5,7 @@ RSpec.describe "purchase_orders/show", :type => :view do
     @purchase_order = assign(:purchase_order, PurchaseOrder.create!(
       :number => "",
       :status => "Status",
-      :description => "Description",
-      :purchasing_agent => "Purchasing Agent"
+      :description => "Description"
     ))
   end
 

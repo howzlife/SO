@@ -1,4 +1,5 @@
 class PurchaseOrdersController < ApplicationController
+  require 'send_pdf'
   before_action :set_purchase_order, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
 
@@ -45,6 +46,9 @@ class PurchaseOrdersController < ApplicationController
 
     respond_to do |format|
       if @purchase_order.save
+        #send pdf
+        PDFMailer.send_pdf(@purchase_order).deliver
+
         format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully created.' }
         format.json { render :show, status: :created, location: @purchase_order }
       else
@@ -86,7 +90,7 @@ class PurchaseOrdersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def purchase_order_params
-      params.require(:purchase_order).permit(:number, :date, :status, :description, :purchasing_agent)
+      params.require(:purchase_order).permit(:number, :date, :status, :description)
     end
 
   private
@@ -95,6 +99,6 @@ class PurchaseOrdersController < ApplicationController
       # It's mandatory to specify the nested attributes that should be whitelisted.
       # If you use `permit` with just the key that points to the nested attributes hash,
       # it will return an empty hash.
-      params.require(:purchase_order).permit(:status, :description, :purchasing_agent, :tags, :comment, vendors_id: [])
+      params.require(:purchase_order).permit(:status, :description, :tags, :comment, vendors_id: [])
     end
 end
