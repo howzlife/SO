@@ -3,7 +3,9 @@
     %li.header
       %h1
         The Emporium
-      = link_to "sign out", destroy_user_session_path, method: :delete
+      = link_to destroy_user_session_path, method: :delete do
+        %i.fa.fa-sign-out.fa-fw
+        %span.text Log out
     %li.orders
       = link_to purchase_orders_path, class: cp(purchase_orders_path) do
         %i.fa.fa-list-alt.fa-fw
