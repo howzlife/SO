@@ -35,4 +35,9 @@ $(function() {
     $('.buttons').on('click', '.print', function() {
 		window.print();
     });
+    
+    if ($('p.notice').length) {
+    	$('p.notice').delay( 3000 ).fadeOut(100);
+    }
+    
 });
