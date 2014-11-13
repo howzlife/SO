@@ -142,12 +142,22 @@ font-size: 15px;
 </html>'
 		#randomly generate file name so we don't have file name collisions
 		file_name = [*100000..999999].sample.to_s
-		File.open(file_name, "w+b") do |f|
-		  f.write DocRaptor.create(:document_content => pdf_html,
-		                           :name             => file_name,
-		                           :document_type    => "pdf",
-		                           :test             => true)
-		end
+    
+    if Rails.env == 'production' then
+  		File.open(file_name, "w+b") do |f|
+  		  f.write DocRaptor.create(:document_content => pdf_html,
+  		                           :name             => file_name,
+  		                           :document_type    => "pdf",
+  		                           :test             => false)
+  		end
+    else
+      File.open(file_name, "w+b") do |f|
+        f.write DocRaptor.create(:document_content => pdf_html,
+                                 :name             => file_name,
+                                 :document_type    => "pdf",
+                                 :test             => true)
+      end
+    end
 
 		#add attachment, renamed
 		attachments['purchase_order_'+@purchase_order.number.to_s+'.pdf'] = File.read(file_name)
