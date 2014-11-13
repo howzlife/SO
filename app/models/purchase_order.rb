@@ -12,7 +12,7 @@ class PurchaseOrder
 
   belongs_to :vendor
 
-  embeds_many :comment
+  embeds_many :comments
 
   def self.search(search)
     if search
