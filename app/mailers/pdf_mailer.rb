@@ -49,31 +49,31 @@ font-size: 15px;
   font-weight: 600;
   margin: 0 0 10px 0;
 }
-.purcuahseorder label {
+.purchaseorder label {
   display: none;
 }
-.purcuahseorder .purcuahseorder-vendor {
+.purchaseorder .purchaseorder-vendor {
   border-bottom: 1px solid #dedfe3;
   padding: 15px 0;
 }
-.purcuahseorder .purcuahseorder-vendor .to {
+.purchaseorder .purchaseorder-vendor .to {
   font-size: 18px;
   color: #a1a8c2;
   font-weight: 600;
   float: left;
   margin: 0 10px 0 0;
 }
-.purcuahseorder .purcuahseorder-vendor .vendor-select {
+.purchaseorder .purchaseorder-vendor .vendor-select {
   float: left;
 }
-.purcuahseorder .purcuahseorder-input {
+.purchaseorder .purchaseorder-input {
   min-height: 315px;
   background: url(/assets/line.png);
 }
-.purcuahseorder .purcuahseorder-input p {
+.purchaseorder .purchaseorder-input p {
   margin: 0 0 21px 0;
 }
-.purcuahseorder .purcuahseorder-input textarea {
+.purchaseorder .purchaseorder-input textarea {
   font: 400 14px/21px "proxima-nova", sans-serif;
   box-sizing: border-box;
   outline: none;
@@ -84,23 +84,23 @@ font-size: 15px;
   min-height: 315px;
   resize: none;
 }
-.purcuahseorder .purcuahseorder-header {
+.purchaseorder .purchaseorder-header {
   border-bottom: 1px solid #dedfe3;
   padding: 0px 0 15px 0;
 }
-.purcuahseorder .purcuahseorder-header .purcuahseorder-date {
+.purchaseorder .purchaseorder-header .purchaseorder-date {
   float: right;
   margin: 10px 0 0 0;
 }
-.purcuahseorder .purcuahseorder-header .purcuahseorder-number {
+.purchaseorder .purchaseorder-header .purchaseorder-number {
   float: left;
   margin: 10px 0 0 0;
 }
-.purcuahseorder .purcuahseorder-header .purcuahseorder-number .number {
+.purchaseorder .purchaseorder-header .purchaseorder-number .number {
   color: #ea4e1b;
   font-size: 18px;
 }
-.purcuahseorder .purcuahseorder-header .purcuahseorder-address {
+.purchaseorder .purchaseorder-header .purchaseorder-address {
   float: left;
   font-style: normal;
   color: #a1a8c2;
@@ -114,21 +114,21 @@ font-size: 15px;
     </style>
 </head>
 <body>
-	<div class="card purcuahseorder saved" id="purcuahseorder">
-        <div class="purcuahseorder-header clear">
-          <div class="purcuahseorder-number">
+	<div class="card purchaseorder saved" id="purchaseorder">
+        <div class="purchaseorder-header clear">
+          <div class="purchaseorder-number">
             <div class="text-label">Purchase Order</div>
             <div class="number">'+ponumber+'</div>
           </div>
-          <div class="purcuahseorder-address">
+          <div class="purchaseorder-address">
             The Emporium<br>47 Main Street<br>Ottawa, Ontario K1S 1B1
           </div>
-          <div class="purcuahseorder-date">
+          <div class="purchaseorder-date">
             <div class="text-label">Date</div>
             <div class="date">'+@purchase_order.date.strftime("%B #{@purchase_order.date.day.ordinalize}, %Y")+'</div>
           </div>
         </div>
-        <div class="purcuahseorder-vendor clear">
+        <div class="purchaseorder-vendor clear">
           <div class="to">
             Send To
           </div>
@@ -136,7 +136,7 @@ font-size: 15px;
             <div class="vendor-details">'+@purchase_order.vendor.name+'<br>Attention: '+@purchase_order.vendor.contact+'<br>'+@purchase_order.vendor.email+'</div>
           </div>
         </div>
-        <div class="purcuahseorder-input">'+simple_format(@purchase_order.description)+'</div>
+        <div class="purchaseorder-input">'+simple_format(@purchase_order.description)+'</div>
       </div>
 </body>
 </html>'
