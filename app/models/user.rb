@@ -1,9 +1,13 @@
 class User
   include Mongoid::Document
+  include Mongoid::Timestamps
+  include Mongoid::Paranoia
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
+
+  before_create :create_company
 
   ## Database authenticatable
   field :email,              type: String, default: ""
@@ -33,4 +37,12 @@ class User
   # field :failed_attempts, type: Integer, default: 0 # Only if lock strategy is :failed_attempts
   # field :unlock_token,    type: String # Only if unlock strategy is :email or :both
   # field :locked_at,       type: Time
+
+  belongs_to :company
+
+  #create company for each new user that's created
+  def create_company
+    self.company = Company.new
+    self.company.save
+  end
 end

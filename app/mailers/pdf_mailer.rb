@@ -6,10 +6,11 @@ class PDFMailer < ActionMailer::Base
 
   default from: "from@example.com"
 
-  def send_pdf(purchase_order)
+  def send_pdf(purchase_order, company_email)
 
 		#create instance variables
 		@purchase_order = purchase_order
+    @company_email = company_email
 
 		ponumber = 'EMP.' + number_with_delimiter(@purchase_order.number, :delimiter => '.')
 
@@ -162,7 +163,7 @@ font-size: 15px;
 		#add attachment, renamed
 		attachments['purchase_order_'+@purchase_order.number.to_s+'.pdf'] = File.read(file_name)
 		#send email with pdf attachment
-		mail(to: @purchase_order.vendor.email, subject: 'Purchase Order '+@purchase_order.number.to_s)
+		mail(to: @purchase_order.vendor.email, subject: 'Purchase Order '+@purchase_order.number.to_s, from: company_email, reply_to: company_email)
 		#delete local file
 		File.delete(file_name)
 	end

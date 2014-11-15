@@ -5,7 +5,7 @@ class VendorsController < ApplicationController
   # GET /vendors
   # GET /vendors.json
   def index
-    @vendors = Vendor.all
+    @vendors = @company.vendors.all
   end
 
   # GET /vendors/1
@@ -15,7 +15,7 @@ class VendorsController < ApplicationController
 
   # GET /vendors/new
   def new
-    @vendor = Vendor.new
+    @vendor = @company.vendors.new
   end
 
   # GET /vendors/1/edit
@@ -25,8 +25,8 @@ class VendorsController < ApplicationController
   # POST /vendors
   # POST /vendors.json
   def create
-    @vendor = Vendor.new(vendor_params)
-
+    #build but don't yet save the new vendor sub document
+    @vendor = @company.vendors.build(vendor_params)    
     respond_to do |format|
       if @vendor.save
         format.html { redirect_to @vendor, notice: 'Vendor was successfully created.' }
@@ -65,7 +65,7 @@ class VendorsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_vendor
-      @vendor = Vendor.find(params[:id])
+      @vendor = @company.vendors.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

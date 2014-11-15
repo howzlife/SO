@@ -2,13 +2,13 @@ class PurchaseOrdersController < ApplicationController
   require 'send_pdf'
   before_action :set_purchase_order, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  before_action :has_company_info, only: [:new]
 
   # GET /purchase_orders
   # GET /purchase_orders.json
   def index
-    @purchase_orders = PurchaseOrder.all
     if params["q"].blank?
-      @purchase_orders = PurchaseOrder.all
+      @purchase_orders = @company.purchase_orders.all
     else
       @purchase_orders = PurchaseOrder.search(params["q"])
     end
@@ -21,9 +21,9 @@ class PurchaseOrdersController < ApplicationController
 
   # GET /purchase_orders/new
   def new
-    @purchase_order = PurchaseOrder.new
+    @purchase_order = @company.purchase_orders.new
 
-    @vendors = Vendor.all
+    @vendors = @company.vendors.all
   end
 
   # GET /purchase_orders/1/edit
@@ -33,21 +33,17 @@ class PurchaseOrdersController < ApplicationController
   # POST /purchase_orders
   # POST /purchase_orders.json
   def create
-    @purchase_order = PurchaseOrder.new(purchase_order_params)
+    @pop = purchase_order_params
+    #The vendor data had to be passed as a string. Here were are changing it to a hash so it can be saved.
+    #desired_vendor_hash = JSON.parse(@pop["vendor"].gsub("'",'"').gsub('=>',':'))
+    @pop["vendor"] = JSON.parse(@pop["vendor"].gsub("'",'"').gsub('=>',':'))
 
-    #search for associated Vendor
-    vendor = Vendor.find(params["purchase_order"]["vendor_id"]) rescue nil
-    #session[:return_to] ||= request.referer
-    if vendor.nil?
-      return redirect_to :back
-    end
-    #save vendor association to purchase order
-    @purchase_order.vendor = vendor
+    @purchase_order = @company.purchase_orders.build(@pop)
 
     respond_to do |format|
       if @purchase_order.save
         #send pdf
-        PDFMailer.send_pdf(@purchase_order).deliver
+        PDFMailer.send_pdf(@purchase_order, current_user.company.email).deliver
 
         format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully created.' }
         format.json { render :show, status: :created, location: @purchase_order }
@@ -99,6 +95,14 @@ class PurchaseOrdersController < ApplicationController
       # It's mandatory to specify the nested attributes that should be whitelisted.
       # If you use `permit` with just the key that points to the nested attributes hash,
       # it will return an empty hash.
-      params.require(:purchase_order).permit(:status, :description, :tags, :comment, vendors_id: [])
+      params.require(:purchase_order).permit(:number, :status, :description, :tags, :comment, :vendor)
+    end
+
+    def has_company_info
+      if @company.name.presence && @company.email.presence && @company.sending_telephone.presence && @company.address.presence && @company.receiving_telephone.presence && @company.location_name.presence
+
+      else
+        redirect_to edit_company_path(@company), alert: "Fill in required company information before making PO"
+      end
     end
 end

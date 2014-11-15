@@ -1,0 +1,27 @@
+= render :partial => "shared/header", :locals => {:title => "My Company",:icon => "fa-cog"}
+%p
+  %b Name:
+  = @company.name
+%p
+  %b Email:
+  = @company.email
+%p
+  %b Send fax:
+  = @company.fax
+%p
+  %b Send telephone:
+  = @company.sending_telephone
+%p
+  %b Location name:
+  = @company.location_name
+%p
+  %b Address:
+  = @company.address
+%p
+  %b Receive telephone:
+  = @company.receiving_telephone
+%p
+  %b Receiving agent:
+  = @company.receiving_agent
+
+= link_to 'Edit', edit_company_path(@company)

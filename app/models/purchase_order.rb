@@ -10,9 +10,12 @@ class PurchaseOrder
 
   validates_presence_of :number, :date, :description, :vendor
 
-  belongs_to :vendor
-
+  embeds_one :vendor, as: :vendorable, autobuild: true
   embeds_many :comments
+
+  belongs_to :company
+
+  accepts_nested_attributes_for :vendor
 
   def self.search(search)
     if search

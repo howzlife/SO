@@ -1,0 +1,15 @@
+= simple_form_for(@company) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :name
+    = f.input :email
+    = f.input :fax
+    = f.input :sending_telephone
+    = f.input :location_name
+    = f.input :address
+    = f.input :receiving_telephone
+    = f.input :receiving_agent
+
+  .form-actions
+    = f.button :submit

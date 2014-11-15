@@ -14,7 +14,8 @@
         %button.small-btn.btn.btn-edit{:type => "button"}
           %i.fa.fa-undo
           %span.text Change
-      = f.association :vendor, prompt: "Select a vendor"
+      -# the instance variable below isn't the vendor document that embedded in the purchase order. It's the one embedded in the company. We use the vendors created there in this form. The data from them is then saved to the purchase order's embedded vendor document. We allow vendor information to be changed for the company but not on the purchase orders. This way, if the Company's vendor data changes, the already saved purchase orders' vendor data doesn't. This vendor data is being passed as a hash string.
+      = f.select :vendor, @company.vendors.all.map { |r| [r.name, "{'name' => '"+r.name+"','email' => '"+r.email+"', 'contact' => '"+r.contact+"', 'telephone' => '"+r.telephone+"'}"] }, include_blank: true
   .purcuahseorder-input
     = f.label :description
     = f.text_area :description, :placeholder => "enter your order information..."
