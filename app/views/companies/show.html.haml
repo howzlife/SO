@@ -11,6 +11,9 @@
 %p
   %b Telephone:
   = @company.telephone
+%p
+  %b Prefix:
+  = @company.prefix
 - @company.addresses.each do |address|
   %p
     %b Location name:

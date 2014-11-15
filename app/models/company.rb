@@ -6,6 +6,7 @@ class Company
   field :email, type: String
   field :fax, type: Integer
   field :telephone, type: Integer
+  field :prefix, type: String
 
   has_many :users
   has_many :purchase_orders
