@@ -10,7 +10,7 @@ class PurchaseOrdersController < ApplicationController
     if params["q"].blank?
       @purchase_orders = @company.purchase_orders.all
     else
-      @purchase_orders = PurchaseOrder.search(params["q"])
+      @purchase_orders = PurchaseOrder.search(@company.id, params["q"])
     end
   end
 
