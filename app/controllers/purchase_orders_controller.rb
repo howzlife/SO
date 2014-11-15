@@ -98,11 +98,11 @@ class PurchaseOrdersController < ApplicationController
     end
 
     def has_company_info
-      if @company.addresses.first.try(:name) && @company.try(:email) && @company.addresses.first.try(:address)
-
-      else
-        flash[:notice] = "Fill in required company information before making PO"
-        redirect_to edit_company_path(@company)
+      if @company.addresses.first.try(:name) && @company.try(:email) && @company.addresses.first.try(:address) && @company.vendors.first.try(:name) && @company.vendors.first.try(:email)
+      
+      else 
+        flash[:notice] = "Fill in required Company information and have at least one Vendor before making a PO"
+        redirect_to :back
       end
     end
 end
