@@ -5,11 +5,13 @@
     = f.input :name
     = f.input :email
     = f.input :fax
-    = f.input :sending_telephone
-    = f.input :location_name
-    = f.input :address
-    = f.input :receiving_telephone
-    = f.input :receiving_agent
+    = f.input :telephone
+    - @company.addresses.each do |address|
+      = f.fields_for address, index: address.id do |a|
+        = a.input :name
+        = a.input :address
+        = a.input :telephone
+        = a.input :agent
 
   .form-actions
     = f.button :submit

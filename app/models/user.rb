@@ -44,5 +44,6 @@ class User
   def create_company
     self.company = Company.new
     self.company.save
+    self.company.addresses.create
   end
 end

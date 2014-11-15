@@ -5,15 +5,12 @@ class Company
   field :name, type: String
   field :email, type: String
   field :fax, type: Integer
-  field :sending_telephone, type: Integer
-  field :location_name, type: String
-  field :address, type: String
-  field :receiving_telephone, type: Integer
-  field :receiving_agent, type: String
+  field :telephone, type: Integer
 
   has_many :users
   has_many :purchase_orders
   embeds_many :vendors, as: :vendorable
+  embeds_many :addresses
 
   accepts_nested_attributes_for :purchase_orders, :users, :vendors
 end

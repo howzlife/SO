@@ -10,6 +10,6 @@ class Address
 
   validates_presence_of :name, :address
 
-  belongs_to :settings
+  embedded_in :company
 
 end

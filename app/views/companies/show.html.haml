@@ -6,22 +6,23 @@
   %b Email:
   = @company.email
 %p
-  %b Send fax:
+  %b Fax:
   = @company.fax
 %p
-  %b Send telephone:
-  = @company.sending_telephone
-%p
-  %b Location name:
-  = @company.location_name
-%p
-  %b Address:
-  = @company.address
-%p
-  %b Receive telephone:
-  = @company.receiving_telephone
-%p
-  %b Receiving agent:
-  = @company.receiving_agent
+  %b Telephone:
+  = @company.telephone
+- @company.addresses.each do |address|
+  %p
+    %b Location name:
+    = address.name
+  %p
+    %b Address:
+    = address.address
+  %p
+    %b Telephone:
+    = address.telephone
+  %p
+    %b Agent:
+    = address.agent
 
 = link_to 'Edit', edit_company_path(@company)
