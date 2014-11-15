@@ -12,10 +12,8 @@
           %th.text-label Status
 
         - @purchase_orders.each do |purchase_order|
-        -#= Declare PO Number Variable
-        - ponumber = 'EMP.' + number_with_delimiter(purchase_order.number, :delimiter => '.')
           %tr
-            %td= link_to ponumber, purchase_order
+            %td= link_to purchase_order.number, purchase_order
             %td= purchase_order.date.strftime("%B #{purchase_order.date.day.ordinalize}, %Y")
             %td= purchase_order.vendor.name
             %td= purchase_order.status

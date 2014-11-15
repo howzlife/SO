@@ -12,7 +12,7 @@ class PDFMailer < ActionMailer::Base
 		@purchase_order = purchase_order
     @company_email = company_email
 
-		ponumber = 'EMP.' + number_with_delimiter(@purchase_order.number, :delimiter => '.')
+		ponumber = @purchase_order.number
 
 
   	#create PDFS

@@ -3,6 +3,7 @@ class PurchaseOrdersController < ApplicationController
   before_action :set_purchase_order, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
   before_action :has_company_info, only: [:new]
+  include ActionView::Helpers::NumberHelper
 
   # GET /purchase_orders
   # GET /purchase_orders.json
@@ -38,6 +39,7 @@ class PurchaseOrdersController < ApplicationController
     @pop["vendor"] = JSON.parse(@pop["vendor"].gsub("'",'"').gsub('=>',':'))
 
     @purchase_order = @company.purchase_orders.build(@pop)
+    @purchase_order.number =  @company.prefix + '.' + number_with_delimiter([*100000..999999].sample, :delimiter => '.')
 
     respond_to do |format|
       if @purchase_order.save
@@ -98,7 +100,7 @@ class PurchaseOrdersController < ApplicationController
     end
 
     def has_company_info
-      if @company.addresses.first.try(:name) && @company.try(:email) && @company.addresses.first.try(:address) && @company.vendors.first.try(:name) && @company.vendors.first.try(:email)
+      if @company.addresses.first.try(:name) && @company.try(:email) && @company.try(:prefix) && @company.addresses.first.try(:address) && @company.vendors.first.try(:name) && @company.vendors.first.try(:email)
       
       else 
         flash[:notice] = "Fill in required Company information and have at least one Vendor before making a PO"

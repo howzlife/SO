@@ -2,7 +2,7 @@ class PurchaseOrder
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::Paranoia
-  field :number, type: Integer, default: -> { [*100000..999999].sample }
+  field :number, type: String
   field :date, type: DateTime, default: ->{ DateTime.current } 
   field :status, type: String
   field :description, type: String
