@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
 
   private
   def set_var
-    @company = current_user.company
+  	if user_signed_in?
+    	@company = current_user.company
+	end
   end
 end
