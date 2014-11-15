@@ -10,7 +10,7 @@ class Company
   has_many :users
   has_many :purchase_orders
   embeds_many :vendors, as: :vendorable
-  embeds_many :addresses
+  embeds_many :addresses, class_name: "Address"
 
-  accepts_nested_attributes_for :purchase_orders, :users, :vendors
+  accepts_nested_attributes_for :addresses, :purchase_orders, :users, :vendors
 end

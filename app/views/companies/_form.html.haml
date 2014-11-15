@@ -6,12 +6,15 @@
     = f.input :email
     = f.input :fax
     = f.input :telephone
-    - @company.addresses.each do |address|
-      = f.fields_for address, index: address.id do |a|
-        = a.input :name
-        = a.input :address
-        = a.input :telephone
-        = a.input :agent
+    %h3
+      %u
+        %b
+          Default Ship-To Address
+    = f.simple_fields_for :addresses, @company.addresses.build do |a|
+      = a.input :name
+      = a.input :address
+      = a.input :telephone
+      = a.input :agent
 
   .form-actions
     = f.button :submit

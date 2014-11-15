@@ -99,7 +99,7 @@ class PurchaseOrdersController < ApplicationController
     end
 
     def has_company_info
-      if @company.name.presence && @company.email.presence && @company.telephone.presence && @company.address.presence && @company.receiving_telephone.presence && @company.location_name.presence
+      if @company.addresses.first.try(:name) && @company.try(:email) && @company.addresses.first.try(:address)
 
       else
         redirect_to edit_company_path(@company), alert: "Fill in required company information before making PO"
