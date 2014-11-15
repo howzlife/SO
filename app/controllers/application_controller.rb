@@ -8,7 +8,14 @@ class ApplicationController < ActionController::Base
   private
   def set_var
   	if user_signed_in?
-    	@company = current_user.company
-	end
+      #if current user has a company, use it, if not, create it.
+      if current_user.company.present?
+        @company = current_user.company 
+      else 
+        current_user.company = Company.new
+        current_user.company.save
+      end
+      return current_user.company
+    end
   end
 end

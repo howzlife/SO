@@ -7,7 +7,6 @@ class User
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
-  before_create :create_company
 
   ## Database authenticatable
   field :email,              type: String, default: ""
@@ -40,9 +39,4 @@ class User
 
   belongs_to :company
 
-  #create company for each new user that's created
-  def create_company
-    self.company = Company.new
-    self.company.save
-  end
 end

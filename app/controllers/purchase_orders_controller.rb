@@ -22,7 +22,6 @@ class PurchaseOrdersController < ApplicationController
   # GET /purchase_orders/new
   def new
     @purchase_order = @company.purchase_orders.new
-
     @vendors = @company.vendors.all
   end
 
@@ -102,7 +101,8 @@ class PurchaseOrdersController < ApplicationController
       if @company.addresses.first.try(:name) && @company.try(:email) && @company.addresses.first.try(:address)
 
       else
-        redirect_to edit_company_path(@company), alert: "Fill in required company information before making PO"
+        flash[:notice] = "Fill in required company information before making PO"
+        redirect_to edit_company_path(@company)
       end
     end
 end
