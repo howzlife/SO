@@ -36,9 +36,10 @@ You'll need to put spaces in front of the EMAIL... variables (tabs throw an erro
 
 
 
-## Weird things ##
-#(**I swear to god, you better read this before editing this code. NO EXCUSES**) #
 
+#(**I swear to god, you better read this section before editing this code. NO EXCUSES**) #
+
+## Weird things ##
 ### Company Vendors and PurchaseOrder Vendors ###
 It was requested that if vendors change their name in the future, purchase order data will still retain their old name. Doing this required us to keep two versions of the same data, which isn't best practice and causes us is dangerous for data integrity. To make this feature on the back end as succinctly as possible and allow us to revert to a more conventional and integrous data structure later on, I created a polymorphic model called "Vendors" that is shared by the Company and the Purchase Order model. It is an embedded document in each; not a referenced document. 
 
