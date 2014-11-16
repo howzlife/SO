@@ -45,7 +45,7 @@ It was requested that if vendors change their name in the future, purchase order
 
 If the Vendor's name is changed in the future, it's changed in the Company's embedded vendor document only because the vendor controller's methods only reference the Company's vendor doc.
 
-How do we create vendors in the Purchase Order? In the purchase order creation form, instead of using the conventional "fields_for :association" form helper, which would reference the PurchaseOrder.Vendor, we use a select field that has for its data a reference to @company.vendors. The user selects their vendor from the Company.vendor document. And the selected model's hash is then serialized and passed through the form where we save it to the PurchaseOrder.Vendor's document.
+How do we create vendors in the Purchase Order? In the purchase order creation form, instead of using the conventional "fields_for :association" form helper, which would reference the PurchaseOrder.Vendor, we use a select field that has for its data a reference to company.vendors. The user selects their vendor from the Company.vendor document. And the selected model's hash is then serialized and passed through the form where we save it to the PurchaseOrder.Vendor's document.
 
 
 
