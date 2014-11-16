@@ -37,7 +37,7 @@ You'll need to put spaces in front of the EMAIL... variables (tabs throw an erro
 
 
 
-#(**I swear to god, you better read this section before editing this code. NO EXCUSES**) #
+#(**I swear to god, you better read "Weird Things" before you start editing this code. NO EXCUSES**) #
 
 ## Weird things ##
 ### Company Vendors and PurchaseOrder Vendors ###
