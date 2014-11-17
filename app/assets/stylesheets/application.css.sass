@@ -19,11 +19,9 @@
 @import "//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
 
 html
-	max-height: 100%
 	height: 100%
 
 body
-	max-height: 100%
 	height: 100%
 	background: #8a9495
 	margin: 0px
@@ -54,7 +52,7 @@ h1,h2,h3,h4,h5,h5
 
 .btn
 	display: inline-block  
-	padding: 6px 12px  
+	padding: 6px 12px 6px 6px
 	margin-bottom: 0  
 	font: 400 14px/14px "proxima-nova", sans-serif  
 	text-align: center  
@@ -80,7 +78,7 @@ h1,h2,h3,h4,h5,h5
 	background-color: #e1fcda
 	color: #499a27
 	border: solid 1px #c9f2bd
-.btn-draft
+.btn-draft, .btn-cancel
 	color: #c0c0c0
 	background-color: #f9f9f9
 	border: solid 1px #d9d9d9
@@ -126,14 +124,13 @@ h1,h2,h3,h4,h5,h5
 			position: relative
 
 .app-wrapper
-	max-width: 1440px
+	max-width: 2560px
 	min-width: 768px
 	margin: 0px auto
 	background: #f1f1f1
-	max-height: 100%
-	height: 100%
 	box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.5)
 	position: relative
+	min-height: 100%
 
 .divider
 	border-bottom: 1px solid rgba(0, 0, 0, 0.1)
@@ -150,7 +147,7 @@ p.notice
 	background: #000
 
 .sidebar
-	position: absolute
+	position: fixed
 	top: 0
 	bottom: 0
 	left: 0
@@ -208,8 +205,8 @@ p.notice
 .content
 	position: relative
 	z-index: 2
-	float: right
-	width: calc(100% - 190px)
+	width: 100%
+	padding: 0 0 0 190px
 	max-height: 100%
 	height: 100%
 	-webkit-box-sizing: border-box
@@ -231,7 +228,10 @@ p.notice
 			font-size: 21px
 			color: #2e404f
 
-	
+	.search-area
+		margin: 0 0 20px 0
+		.search-query
+			width: 100%
 	table
 		border-collapse: collapse  
 		margin: 0  
@@ -245,9 +245,12 @@ p.notice
 			padding: 6px 10px
 			border-top: 1px solid #dedfe3
 			vertical-align: top
+			input
+				width: 100%
 
 	.wrapper
 		padding: 20px
+
 
 	.card
 		background: #fff  

@@ -6,8 +6,26 @@
         - @vendor.errors.full_messages.each do |msg|
           %li= msg
 
-  = f.input :name
-  = f.input :email
-  = f.input :contact
-  = f.input :telephone
-  = f.button :submit, 'Save Vendor', class: 'btn btn-add'
+  %table
+    %thead
+      %tr
+        %th.text-label Name
+        %th.text-label Email
+        %th.text-label Contact
+        %th.text-label Telephone
+    %tbody
+      %tr
+        %td= f.input_field :name
+        %td= f.input_field :email
+        %td= f.input_field :contact
+        %td= f.input_field :telephone
+  .buttons
+    = link_to vendors_path, class: 'btn btn-cancel' do
+      %i.fa.fa-undo.fa-fw
+      %span.text Cancel
+    - if action_name == "edit"
+      = link_to 'Delete Vendor', @vendor, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-cancel'
+    = button_tag(type: 'submit', class: "btn btn-add") do
+      %i.fa.fa-save.fa-fw
+      %span.text Save Vendor
+

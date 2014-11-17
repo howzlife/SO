@@ -4,22 +4,25 @@
     - if @purchase_orders.length == 0
       No purchase orders found. Click the button below to create a new one.
     - else
-      %table
-        %tr
-          %th.text-label Number
-          %th.text-label Date
-          %th.text-label Vendor
-          %th.text-label Status
-
-        - @purchase_orders.each do |purchase_order|
+      = form_tag purchase_orders_path, :class => "search-area", :method => :get do
+        = text_field_tag :q, nil, :class => "search-query", :placeholder => "Search for purchase orders..."
+      %table#purchase-orders-table.sortable
+        %thead
           %tr
-            %td= link_to purchase_order.number, purchase_order
-            %td= purchase_order.date.strftime("%B #{purchase_order.date.day.ordinalize}, %Y")
-            %td= purchase_order.vendor.name
-            %td= purchase_order.status
-            -#= %td= link_to 'Show', purchase_order
-            -#= %td= link_to 'Edit', edit_purchase_order_path(purchase_order)
-            %td= link_to 'Destroy', purchase_order, :method => :delete, :data => { :confirm => 'Are you sure?' }
+            %th.text-label Number
+            %th.text-label Date
+            %th.text-label Vendor
+            %th.text-label Status
+        %tbody
+          - @purchase_orders.each do |purchase_order|
+            %tr
+              %td= link_to purchase_order.number, purchase_order
+              %td= purchase_order.date.strftime("%B #{purchase_order.date.day.ordinalize}, %Y")
+              %td= purchase_order.vendor.name
+              %td= purchase_order.status
+              -#= %td= link_to 'Show', purchase_order
+              -#= %td= link_to 'Edit', edit_purchase_order_path(purchase_order)
+              -#= %td= link_to 'Destroy', purchase_order, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
     .buttons
       = button_to new_purchase_order_path, method: 'get', class: 'btn btn-add' do

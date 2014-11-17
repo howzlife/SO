@@ -38,4 +38,33 @@ $(function() {
     	$('p.notice').delay( 3000 ).fadeOut(100);
     }
     
+    $('.sortable').tablesorter();
+
+	var currReqObj = null;
+    var searchTimeoutThrottle = 500;
+    var searchTimeoutID = -1;
+	$('.search-area .search-query').bind('keyup change', function(){
+        //Only search if search string longer than 2, and it has changed
+        if($(this).val().length > 2 && $(this).val() != $(this).data('oldval')) {
+        	$(this).data('oldval', $(this).val());
+        	if(currReqObj != null) currReqObj.abort();
+        	 clearTimeout(searchTimeoutID);
+        	 var term = $(this).val();
+        	 searchTimeoutID = setTimeout(function(){
+				 currReqObj = $.get( "/purchase_orders.json?q=" + term, function( data ) {
+					currReqObj = null;
+					if(data.length == 0) {
+					} else {
+						$('#purchase-orders-table tbody').empty();
+						$.each(data, function(index, item) {
+							var url = item.url.slice(0, -5);
+							$('#purchase-orders-table tbody').append('<tr><td><a href="' + url + '">' + item.number + '</a></td><td>' +  $.format.date(item.date, "MMMM D, yyyy") + '</td><td>' + item.vendor.name + '</td><td>' + item.status + '</td></tr>');
+						});
+						$('.sortable').trigger("update");
+					}
+				});
+            }, searchTimeoutThrottle);
+        }
+    }).attr('autocomplete', 'off').data('oldval', '');
+    
 });

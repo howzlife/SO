@@ -15,13 +15,16 @@
           %i.fa.fa-undo
           %span.text Change
       -# the instance variable below isn't the vendor document that embedded in the purchase order. It's the one embedded in the company. We use the vendors created there in this form. The data from them is then saved to the purchase order's embedded vendor document. We allow vendor information to be changed for the company but not on the purchase orders. This way, if the Company's vendor data changes, the already saved purchase orders' vendor data doesn't. This vendor data is being passed as a hash string.
-      = f.select :vendor, @company.vendors.all.map { |r| [r.name, "{'name' : '"+r.name+"','email' : '"+r.email+"', 'contact' : '"+r.contact+"', 'telephone': '"+r.telephone+"'}"] }, include_blank: true
+      = f.select :vendor, @company.vendors.all.map { |r| [r.name, "{'name' : '"+r.name+"','email' : '"+r.email+"', 'contact' : '"+r.contact+"', 'telephone': '"+r.telephone+"'}"] }, :include_blank => "Select Vendor"
   .purchaseorder-input
     = f.label :description
     = f.text_area :description, :placeholder => "enter your order information..."
   .buttons
     = f.hidden_field :number, :value => @purchase_order.number
-    = link_to purchase_orders_path, method: 'get', class: 'btn btn-add' do
+    = f.hidden_field :status, :value => "open"
+    = link_to purchase_orders_path, method: 'get', class: 'btn btn-cancel' do
       %i.fa.fa-undo.fa-fw
       %span.text Cancel
-    = f.submit 'Save and email', class: 'btn btn-save'
+    = button_tag(type: 'submit', class: "btn btn-add") do
+      %i.fa.fa-envelope-o.fa-fw
+      %span.text Complete and email

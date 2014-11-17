@@ -29,7 +29,7 @@ class VendorsController < ApplicationController
     @vendor = @company.vendors.build(vendor_params)    
     respond_to do |format|
       if @vendor.save
-        format.html { redirect_to @vendor, notice: 'Vendor was successfully created.' }
+        format.html { redirect_to vendors_url, notice: 'Vendor was successfully created.' }
         format.json { render :show, status: :created, location: @vendor }
       else
         format.html { render :new }

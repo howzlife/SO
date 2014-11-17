@@ -2,7 +2,7 @@
   %ul
     %li.header
       %h1
-        The Emporium
+        = @company.name
       = link_to destroy_user_session_path, method: :delete do
         %i.fa.fa-sign-out.fa-fw
         %span.text Log out
@@ -15,7 +15,7 @@
         %i.fa.fa-truck.fa-fw
         %span.text Your Vendors
     %li.settings
-      = link_to company_path(@company) do
+      = link_to company_path(@company), class: cp(company_path(@company)) do
         %i.fa.fa-cog.fa-fw
         %span.text Company
     %li.account

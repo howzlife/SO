@@ -22,6 +22,10 @@ class AddressesController < ApplicationController
     end
   end
 
+	def edit
+    @address = @company.addresses.find(params[:id])
+  end
+
   # PATCH/PUT /addresses/1
   # PATCH/PUT /addresses/1.json
   def update
@@ -51,6 +55,7 @@ class AddressesController < ApplicationController
     def set_address
       @address = Address.find(params[:id])
     end
+
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def address_params

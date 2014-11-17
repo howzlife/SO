@@ -1,21 +1,19 @@
 = simple_form_for(@company) do |f|
   = f.error_notification
 
-  .form-inputs
-    = f.input :name
-    = f.input :email
-    = f.input :fax
-    = f.input :telephone
-    = f.input :prefix
-    %h3
-      %u
-        %b
-          Default Ship-To Address
-    = f.simple_fields_for :addresses, @company.addresses.build do |a|
-      = a.input :name
-      = a.input :address
-      = a.input :telephone
-      = a.input :agent
-
-  .form-actions
-    = f.button :submit
+  %table
+    %thead
+      %tr
+        %th.text-label Name
+        %th.text-label Email
+        %th.text-label Fax
+        %th.text-label Telephone
+    %tbody
+      %tr
+        %td= f.input_field :name
+        %td= f.input_field :email
+        %td= f.input_field :fax
+        %td= f.input_field :telephone
+  .buttons
+    = link_to 'Cancel', company_path(@company), class: 'btn btn-cancel'
+    = f.button :submit, 'Save', class: 'btn-add'

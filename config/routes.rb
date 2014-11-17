@@ -14,6 +14,11 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   root 'purchase_orders#index'
+  
+  get ':copyright' => 'static#:copyright'
+  get ':licences' => 'static#:licences'
+  get ':privacy' => 'static#:privacy'
+  get ':terms' => 'static#:terms'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

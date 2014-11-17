@@ -1,24 +1,25 @@
 = render :partial => "shared/header", :locals => {:title => "Your Vendors",:icon => "fa-truck"}
 .wrapper
-	.card
-		- if @vendors.length == 0
-			You have yet to added any vendors. Click the button below to create your first one.
-		- else
-			%table
-				%tr
-					%th.text-label Name
-					%th.text-label Email
-					%th.text-label Contact
-					%th.text-label Telephone
+  .card
+    - if @vendors.length == 0
+      You have yet to added any vendors. Click the button below to create your first one.
+    - else
+      %table.sortable
+        %thead
+          %tr
+            %th.text-label Name
+            %th.text-label Email
+            %th.text-label Contact
+            %th.text-label Telephone
+        %tbody
+          - @vendors.each do |vendor|
+            %tr
+              %td= link_to vendor.name, edit_vendor_path(vendor)
+              %td= vendor.email
+              %td= vendor.contact
+              %td= vendor.telephone
 
-				- @vendors.each do |vendor|
-					%tr
-						%td= link_to vendor.name, edit_vendor_path(vendor)
-						%td= vendor.email
-						%td= vendor.contact
-						%td= vendor.telephone
-
-		.buttons
-			= button_to new_vendor_path, method: 'get', class: 'btn btn-add' do
-				%i.fa.fa-plus-circle.fa-fw
-				%span.text Add Vendor
+    .buttons
+      = button_to new_vendor_path, method: 'get', class: 'btn btn-add' do
+        %i.fa.fa-plus-circle.fa-fw
+        %span.text Add Vendor
