@@ -1,31 +1,39 @@
-= render :partial => "shared/header", :locals => {:title => "My Company",:icon => "fa-cog"}
-%p
-  %b Name:
-  = @company.name
-%p
-  %b Email:
-  = @company.email
-%p
-  %b Fax:
-  = @company.fax
-%p
-  %b Telephone:
-  = @company.telephone
-%p
-  %b Prefix:
-  = @company.prefix
-- @company.addresses.each do |address|
-  %p
-    %b Location name:
-    = address.name
-  %p
-    %b Address:
-    = address.address
-  %p
-    %b Telephone:
-    = address.telephone
-  %p
-    %b Agent:
-    = address.agent
+= render :partial => "shared/header", :locals => {:title => "Settings",:icon => "fa-cog"}
 
-= link_to 'Edit', edit_company_path(@company)
+.wrapper
+  .card
+    %h4 Send Purchase Orders From
+    %p
+      %b Name:
+      = @company.name
+    %p
+      %b Email:
+      = @company.email
+    %p
+      %b Fax:
+      = @company.fax
+    %p
+      %b Telephone:
+      = @company.telephone
+    %p
+      %b Prefix:
+      = @company.prefix
+    .buttons
+      = link_to 'Edit', edit_company_path(@company)
+.divider
+.wrapper
+  .card
+    %h4 Your Additional Addresses
+    - @company.addresses.each do |address|
+      %p
+        %b Location name:
+        = address.name
+      %p
+        %b Address:
+        = address.address
+      %p
+        %b Telephone:
+        = address.telephone
+      %p
+        %b Agent:
+        = address.agent

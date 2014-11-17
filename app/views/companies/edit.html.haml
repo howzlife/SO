@@ -1,5 +1,5 @@
-%h1 Editing company
+= render :partial => "shared/header", :locals => {:title => "Settings",:icon => "fa-cog"}
+.wrapper
+  .card
+    = render 'form'
 
-= render 'form'
-
-= link_to 'Show', @company

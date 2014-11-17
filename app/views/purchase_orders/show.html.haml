@@ -1,22 +1,22 @@
 = render :partial => "shared/header", :locals => {:title => "Purchase Order "+@purchase_order.number,:icon => "fa-list-alt"}
 .wrapper
-  #purcuahseorder.card.purcuahseorder.saved
-    .purcuahseorder-header.clear
-      .purcuahseorder-number
+  #purchaseorder.card.purchaseorder.saved
+    .purchaseorder-header.clear
+      .purchaseorder-number
         .text-label Purchase Order
         .number
           = @purchase_order.number
-      .purcuahseorder-address
+      .purchaseorder-address
         The Emporium
         %br>/
         47 Main Street
         %br>/
         Ottawa, Ontario K1S 1B1
-      .purcuahseorder-date
+      .purchaseorder-date
         .text-label Date
         .date
           =@purchase_order.date.strftime("%B #{@purchase_order.date.day.ordinalize}, %Y")
-    .purcuahseorder-vendor.clear
+    .purchaseorder-vendor.clear
       .to
         Send To
       .vendor-select
@@ -27,7 +27,7 @@
           =@purchase_order.vendor.contact
           %br
           =@purchase_order.vendor.email
-    .purcuahseorder-input
+    .purchaseorder-input
       = simple_format(@purchase_order.description)
   .buttons
     = link_to 'Back', purchase_orders_path

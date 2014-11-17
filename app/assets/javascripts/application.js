@@ -17,21 +17,19 @@
 //= require_tree .
 
 $(function() {
-	$('.purcuahseorder-vendor .vendor-select').on('change','select',function() {
-		var vendor = $(this).val();
-		if (vendor != "") {
-			$(this).hide();
-			$.getJSON( '/vendors/' + vendor + '.json', function( data ) {
-				$('.purcuahseorder-vendor .vendor-select .vendor-details').html(data.name +'<br>Attention: '+ data.contact +'<br>'+ data.email).show();
-				$('.vendor-change .small-btn').show();
-			});
+	$('.purchaseorder-vendor .vendor-select').on('change','select',function() {
+		if ($(this).val() != "") {
+			var vendor = JSON.parse($(this).val().replace(/'/g, '"'));
+        	$(this).hide();
+			$('.purchaseorder-vendor .vendor-select .vendor-details').html(vendor.name +'<br>Attention: '+ vendor.contact +'<br>'+ vendor.email).show();
+			$('.vendor-change .small-btn').show();
 		}
 	});
-    $('.purcuahseorder-vendor .vendor-select').on('click', '.small-btn', function() {
-        $('.purcuahseorder-vendor .vendor-select select').show();
-        $('.purcuahseorder-vendor .vendor-change .small-btn, .purcuahseorder-vendor .vendor-select .vendor-details').hide();
+    $('.purchaseorder-vendor .vendor-select').on('click', '.small-btn', function() {
+        $('.purchaseorder-vendor .vendor-select select').show();
+        $('.purchaseorder-vendor .vendor-change .small-btn, .purchaseorder-vendor .vendor-select .vendor-details').hide();
     });
-	$('.purcuahseorder .purcuahseorder-input textarea').css('overflow', 'hidden').autogrow();
+	$('.purchaseorder .purchaseorder-input textarea').css('overflow', 'hidden').autogrow();
     $('.buttons').on('click', '.print', function() {
 		window.print();
     });

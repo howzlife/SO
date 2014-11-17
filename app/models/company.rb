@@ -4,8 +4,8 @@ class Company
   include Mongoid::Paranoia
   field :name, type: String
   field :email, type: String
-  field :fax, type: Integer
-  field :telephone, type: Integer
+  field :fax, type: String
+  field :telephone, type: String
   field :prefix, type: String
 
   has_many :users
