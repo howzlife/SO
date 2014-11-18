@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   root 'purchase_orders#index'
   
   get ':copyright' => 'static#:copyright'
-  get ':licences' => 'static#:licences'
+  get ':licenses' => 'static#:licenses'
   get ':privacy' => 'static#:privacy'
   get ':terms' => 'static#:terms'
 
