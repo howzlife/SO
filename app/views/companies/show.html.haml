@@ -1,5 +1,4 @@
 = render :partial => "shared/header", :locals => {:title => "Settings",:icon => "fa-cog"}
-
 .wrapper
   .card
     %h4 Send Purchase Orders From
@@ -35,7 +34,7 @@
         %tbody
           - @company.addresses.each do |address|
             %tr
-              %td= link_to address.name, edit_address_path(address)
+              %td= link_to address.name, edit_company_path(@company)
               %td= address.address
               %td= address.agent
               %td= address.telephone

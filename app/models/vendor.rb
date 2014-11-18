@@ -7,7 +7,6 @@ class Vendor
   field :contact, type: String
   field :telephone, type: String
 
-
   validates_presence_of :name, :email, :contact, :telephone
 
   embedded_in :vendorable, polymorphic: true

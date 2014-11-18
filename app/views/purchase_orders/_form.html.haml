@@ -20,7 +20,6 @@
     = f.label :description
     = f.text_area :description, :placeholder => "enter your order information..."
   .buttons
-    = f.hidden_field :number, :value => @purchase_order.number
     = f.hidden_field :status, :value => "open"
     = link_to purchase_orders_path, method: 'get', class: 'btn btn-cancel' do
       %i.fa.fa-undo.fa-fw
