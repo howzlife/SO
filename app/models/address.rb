@@ -10,5 +10,4 @@ class Address
 
 
   embedded_in :company
-
 end
