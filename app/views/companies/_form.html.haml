@@ -1,19 +1,43 @@
-= simple_form_for(@company) do |f|
-  = f.error_notification
+.wrapper.section.clear
+	.section-description
+		%h3 Company Details
+		%p Provide information about your company. The email address is the address from which your purchase orders will be sent.
+	.section-content
+		.card
+			= simple_form_for(@company) do |f|
+				= f.error_notification
 
-  %table
-    %thead
-      %tr
-        %th.text-label Name
-        %th.text-label Email
-        %th.text-label Fax
-        %th.text-label Telephone
-    %tbody
-      %tr
-        %td= f.input_field :name
-        %td= f.input_field :email
-        %td= f.input_field :fax
-        %td= f.input_field :telephone
-  .buttons
-    = link_to 'Cancel', company_path(@company), class: 'btn btn-cancel'
-    = f.button :submit, 'Save', class: 'btn-add'
+				%table
+					%thead
+						%tr
+							%th.text-label Name
+							%th.text-label Email
+							%th.text-label Fax
+							%th.text-label Telephone
+					%tbody
+						%tr
+							%td= f.input_field :name
+							%td= f.input_field :email
+							%td= f.input_field :fax
+							%td= f.input_field :telephone
+				.buttons
+					= link_to company_path(@company), class: 'btn btn-cancel' do
+						%i.fa.fa-undo.fa-fw
+						%span.text Cancel
+					= button_tag(type: 'submit', class: "btn btn-add") do
+						%i.fa.fa-save.fa-fw
+						%span.text Save
+.divider
+.wrapper.section.clear
+	.section-description
+		%h3 Purchase Orders
+		%p Customize the purchase orders.
+	.section-content
+		.card
+			= simple_form_for(@company) do |f|
+				= f.label :prefix
+				= f.input_field :prefix
+				.buttons
+					= button_tag(type: 'submit', class: "btn btn-add") do
+						%i.fa.fa-save.fa-fw
+						%span.text Save
