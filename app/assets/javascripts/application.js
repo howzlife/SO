@@ -29,6 +29,20 @@ $(function() {
         $('.purchaseorder-vendor .vendor-select select').show();
         $('.purchaseorder-vendor .vendor-change .small-btn, .purchaseorder-vendor .vendor-select .vendor-details').hide();
     });
+
+	$('.purchaseorder-deliverto .deliverto-select').on('change','select',function() {
+		if ($(this).val() != "") {
+			var address = JSON.parse($(this).val().replace(/'/g, '"'));
+        	$(this).hide();
+			$('.purchaseorder-deliverto .deliverto-select .deliverto-details').html(address.name +'<br>'+ address.address +'<br>Attention: '+ address.agent +'<br>'+ address.telephone).show();
+			$('.deliverto-change .small-btn').show();
+		}
+	});
+    $('.purchaseorder-deliverto .deliverto-select').on('click', '.small-btn', function() {
+        $('.purchaseorder-deliverto .deliverto-select select').show();
+        $('.purchaseorder-deliverto .deliverto-change .small-btn, .purchaseorder-deliverto .deliverto-select .deliverto-details').hide();
+    });
+
 	$('.purchaseorder .purchaseorder-input textarea').css('overflow', 'hidden').autogrow();
     $('.buttons').on('click', '.print', function() {
 		window.print();

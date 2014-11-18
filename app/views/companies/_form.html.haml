@@ -35,9 +35,60 @@
 	.section-content
 		.card
 			= simple_form_for(@company) do |f|
-				= f.label :prefix
-				= f.input_field :prefix
+				= f.input :prefix
 				.buttons
 					= button_tag(type: 'submit', class: "btn btn-add") do
 						%i.fa.fa-save.fa-fw
 						%span.text Save
+.divider
+.wrapper.section.clear
+	.section-description
+		%h3 Comany Addresses
+		%p Customize the purchase orders.
+	.section-content
+		.card
+			= simple_form_for(@company) do |f|
+				%table
+					%thead
+						%tr
+							%th.text-label Name
+							%th.text-label Address
+							%th.text-label Purchasing Agent
+							%th.text-label Telephone
+					%tbody
+						= f.simple_fields_for :addresses, @company.addresses do |a|
+							%tr
+								%td= a.input_field :name
+								%td= a.text_area :address, :rows => 3 , :class => "string"
+								%td= a.input_field :agent
+								%td= a.input_field :telephone
+				.buttons
+					= button_tag(type: 'submit', class: "btn btn-add") do
+						%i.fa.fa-save.fa-fw
+						%span.text Save
+.divider
+.wrapper.section.clear
+	.section-description
+		%h3 New Address
+		%p Add a new address to your company.
+	.section-content
+		.card
+			= simple_form_for(@company) do |f|
+				= f.simple_fields_for :addresses, @company.addresses.build do |a|
+					%table
+						%thead
+							%tr
+								%th.text-label Name
+								%th.text-label Address
+								%th.text-label Purchasing Agent
+								%th.text-label Telephone
+						%tbody
+							%tr
+								%td= a.input_field :name
+								%td= a.text_area :address, :rows => 3 , :class => "string"
+								%td= a.input_field :agent
+								%td= a.input_field :telephone
+					.buttons
+						= button_tag(type: 'submit', class: "btn btn-add") do
+							%i.fa.fa-save.fa-fw
+							%span.text Save
