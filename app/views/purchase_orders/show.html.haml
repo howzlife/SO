@@ -1,37 +1,41 @@
 = render :partial => "shared/header", :locals => {:title => "Purchase Order "+@purchase_order.number,:icon => "fa-list-alt"}
 .wrapper
-  #purchaseorder.card.purchaseorder.saved
-    .purchaseorder-header.clear
-      .purchaseorder-number
-        .text-label Purchase Order
-        .number
-          = @purchase_order.number
-      .purchaseorder-address
-        =@company.name
-        %br
-        47 Main St.
-        %br
-        Ottawa, Ontario K1S 1B1
-      .purchaseorder-date
-        .text-label Date
-        .date
-          =@purchase_order.date.strftime("%B #{@purchase_order.date.day.ordinalize}, %Y")
-    .purchaseorder-vendor.clear
-      .to
-        Send To
-      .vendor-select
-        .vendor-details
-          =@purchase_order.vendor.name
-          %br
-          Attention: 
-          =@purchase_order.vendor.contact
-          %br
-          =@purchase_order.vendor.email
-    .purchaseorder-input
-      = simple_format(@purchase_order.description)
-  .buttons
-    = link_to 'Back', purchase_orders_path, class: 'btn btn-cancel'
-    = link_to 'Print', '#', class: 'btn btn-add print'
-  .credits
-    %p= 'Created with Swiftorders -- swiftorders.com'
+	#purchaseorder.card.purchaseorder.saved
+		.purchaseorder-header.clear
+			.purchaseorder-number
+				.text-label Purchase Order
+				.number
+					= @purchase_order.number
+			.purchaseorder-address
+				=@company.name
+				%br
+				47 Main St.
+				%br
+				Ottawa, Ontario K1S 1B1
+			.purchaseorder-date
+				.text-label Date
+				.date
+					=@purchase_order.date.strftime("%B #{@purchase_order.date.day.ordinalize}, %Y")
+		.purchaseorder-vendor.clear
+			.to
+				Send To
+			.vendor-select
+				.vendor-details
+					=@purchase_order.vendor.name
+					%br
+					Attention: 
+					=@purchase_order.vendor.contact
+					%br
+					=@purchase_order.vendor.email
+		.purchaseorder-input
+			= simple_format(@purchase_order.description)
+	.buttons
+		= link_to purchase_orders_path, class: 'btn btn-cancel' do
+			%i.fa.fa-undo.fa-fw
+			%span.text Back
+		= link_to '#', class: 'btn btn-edit print' do
+			%i.fa.fa-print.fa-fw
+			%span.text Print
+	.credits
+		%p= 'Created with Swiftorders -- swiftorders.com'
 = render 'internal'
