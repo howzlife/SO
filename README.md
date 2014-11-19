@@ -11,7 +11,7 @@ This README would normally document whatever steps are necessary to get your app
 * Mongo DB
 
 # Getting Started #
-1
+You'll need to install Figaro. Figaro creates a configuration file (config/application.yml) in your environment that has secret keys and passwords to run this service. It ensures that this file is added to .gitignore so it is **NOT** pushed in your git commits. **That's really important**. If you want to know more about figaro [CLICK HERE](https://github.com/laserlemon/figaro). After running the initial "bundle install", in your command line run....
 
 ```
 #!ruby
@@ -32,7 +32,7 @@ development:
 ```
 
 
-You'll need to put spaces in front of the EMAIL... variables (tabs throw an error). It will also add config/application.yml to your .gitignore file so it can't be added to your commits. If you want to know more about figaro [CLICK HERE](https://github.com/laserlemon/figaro)
+You'll need to put spaces in front of the EMAIL... variables (tabs throw an error). It will also add config/application.yml to your .gitignore file so it can't be added to your commits. 
 
 
 
