@@ -1,23 +1,22 @@
 !!!
 %html
-  %head
-    %title The Emporium ~ Orderboard
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true
-    = csrf_meta_tags
+	%head
+		%title The Emporium ~ Orderboard
+		= stylesheet_link_tag		'application', media: 'all', 'data-turbolinks-track' => true
+		= javascript_include_tag 'application', 'data-turbolinks-track' => true
+		= csrf_meta_tags
 - unless user_signed_in?
-  %body.splash
-  .log-in
-    = yield
+	%body.splash
+	= yield
 - else
-  %body
-  .app-wrapper
-    - if flash[:notice]
-      %p.notice
-        = notice
-    - if flash[:alert]
-      %p.alert
-        = alert
-    = render "layouts/sidebar"
-    .content
-      = yield
+	%body
+	.app-wrapper
+		- if flash[:notice]
+			%p.notice
+				= notice
+		- if flash[:alert]
+			%p.alert
+				= alert
+		= render "layouts/sidebar"
+		.content
+			= yield

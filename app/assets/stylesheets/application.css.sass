@@ -29,7 +29,8 @@ body
 	font-family: "proxima-nova",sans-serif
 	font-size: 15px
 body.splash
-	background: #f1f1f1
+	height: auto
+	background: #ebeef0
 
 h1,h2,h3,h4,h5,h5
 	font-weight: 300
@@ -89,16 +90,25 @@ h1,h2,h3,h4,h5,h5
 	padding: 4px 5px 3px 5px
 .log-in
 	width: 320px
-	margin: 0px auto
+	margin: 60px auto
 	text-align: center
-	padding: 60px 0 0 0
+	padding: 25px
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1)
+	background: #fff
+	outline: none  
+	border: 1px solid #e7e7e7  
 	h2
-		font-size: 21px
-		color: #9a9f99
+		font-size: 18px
+		color: #8a9495
 		margin: 0 0 20px 0
-	label
-		color: #c5c8c5
-		font-weight: 400
+	.control-group
+		margin: 0 0 10px 0
+		label
+			color: #8a9495
+			font-size: 12px
+			font-weight: 400
+			margin: 0
+
 	.form-inputs
 		text-align: left
 		&.right
@@ -107,13 +117,23 @@ h1,h2,h3,h4,h5,h5
 	.form-actions
 		margin: 0 0 20px 0
 	input[type=email], input[type=password]
-		padding: 10px
 		width: 100%
+		border: 1px solid #e7e7e7
+		-webkit-border-radius: 4px
+		-moz-border-radius: 4px
 		border-radius: 4px
-		border: 1px solid #9a9f99
-		outline: none
+		padding: 6px 10px
+		box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075)
+		&:focus
+			outline: none
+			border: 1px solid #8a9495
 	.btn
 		width: 100%
+		background: #0aa29b
+		padding: 10px
+		&:hover
+			color: #fff
+			
 	.boolean
 		.controls, input[type="checkbox"], label
 			display: inline
@@ -122,7 +142,12 @@ h1,h2,h3,h4,h5,h5
 		input[type="checkbox"]
 			margin: 0 0 4px 8px
 			position: relative
-
+.log-in.links
+	font-size: 11px
+	background: none
+	border: none
+	box-shadow: none
+	padding: 0
 .app-wrapper
 	max-width: 2560px
 	min-width: 768px
@@ -148,6 +173,11 @@ p.notice
 	color: #fff
 	background: #000
 
+a
+	color: #0aa29b
+	&:hover
+		color: #411051
+		
 .sidebar
 	position: fixed
 	top: 0
@@ -170,9 +200,13 @@ p.notice
 		padding: 21px 20px 41px 20px
 		h1
 			font-size: 13px
+			margin: 0 0 5px 0
+		h2
+			font-size: 12px
+			margin: 0 0 10px 0
+			color: #888
 		a
 			padding: 0px
-			margin: 10px 0 0 0
 			border-bottom: none
 			font-size: 11px
 			&:hover
@@ -214,11 +248,6 @@ p.notice
 	-webkit-box-sizing: border-box
 	-moz-box-sizing: border-box
 	box-sizing: border-box
-
-	a
-		color: #0aa29b
-		&:hover
-			color: #411051
 
 	.page-header
 		border-bottom: 1px solid #e4e4e4
@@ -312,7 +341,8 @@ p.notice
 
 
 	.purchaseorder
-		background: #f8f7f3
+		background: #fafcfc
+		border-radius: 0px
 		label
 			display: none
 		.purchaseorder-vendor, .purchaseorder-deliverto
@@ -382,7 +412,9 @@ p.notice
 				border-left: 1px solid #dedfe3
 				padding: 5px 0 5px 10px
 	.purchaseorder.saved
-		background: #f8f7f3 asset-url("po-sent.png", image) bottom left repeat-x
+		background-image: asset-url("po-sent.png", image)
+		background-position: bottom left
+		background-repeat: repeat-x
 	.section
 		.section-description
 			float: left
