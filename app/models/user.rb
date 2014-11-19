@@ -9,7 +9,8 @@ class User
 
 
   ## Database authenticatable
-  field :name,              type: String, default: ""
+  field :first_name,              type: String, default: ""
+  field :last_name,              type: String, default: ""
   field :email,              type: String, default: ""
   field :encrypted_password, type: String, default: ""
 
