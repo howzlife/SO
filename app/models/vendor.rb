@@ -1,3 +1,10 @@
+class EmailValidator < ActiveModel::EachValidator
+  def validate_each(record, attribute, value)
+    record.errors.add attribute, (options[:message] || "is not an email") unless
+      value =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+  end
+end
+
 class Vendor
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -6,8 +13,11 @@ class Vendor
   field :email, type: String
   field :contact, type: String
   field :telephone, type: String
+  include ActiveModel::Validations
 
-  validates_presence_of :name, :email, :contact, :telephone
+  validates_presence_of :name, :contact, :telephone
+
+  validates :email, presence: true, email: true
 
   embedded_in :vendorable, polymorphic: true
 
