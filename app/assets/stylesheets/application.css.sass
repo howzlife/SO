@@ -277,7 +277,7 @@ a
 		h2
 			font-size: 21px
 			font-weight: 600
-
+	
 	.search-area
 		margin: 0 0 20px 0
 		.search-query
@@ -332,8 +332,10 @@ a
 	.form-inputs
 		margin: 0 0 10px 0
 		.half
-			width: 48%
+			width: 49%
 			float: left
+		.half.first
+			margin: 0 2% 0 0
 		abbr
 			display: none
 	.card
@@ -345,7 +347,22 @@ a
 		-webkit-border-radius: 3px  
 		-moz-border-radius: 3px  
 		border-radius: 3px  
-
+		&.hastabs
+			padding: 0
+			.contents
+				padding: 25px
+			ul.tabs
+				outline: none  
+				margin: 0
+				padding: 0
+				background-color: #f5f6f7
+				list-style: none
+				li
+					display: inline-block
+					padding: 15px
+					border-right: 1px solid #e7e7e7
+					&.active
+						background-color: #fff
 		.text-label
 			font-size: 11px
 			letter-spacing: 1px

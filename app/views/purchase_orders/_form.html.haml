@@ -34,7 +34,6 @@
 					%span.text Change
 			= f.select :deliver_to, @company.addresses.all.map { |r| [r.name, "{'name' : '"+r.name+"','address' : '"+r.address.squish+"', 'agent' : '"+r.agent+"', 'telephone': '"+r.telephone+"'}"] }, :include_blank => "Select Address"
 	.buttons
-		= f.hidden_field :status, :value => "open"
 		= link_to purchase_orders_path, method: 'get', class: 'btn btn-cancel' do
 			%i.fa.fa-undo.fa-fw
 			%span.text Cancel

@@ -12,11 +12,11 @@
 							- @vendor.errors.full_messages.each do |msg|
 								%li= msg
 				.form-inputs
-					= f.input :name
+					= f.input :name, label: 'Vendor name'
 				.form-inputs
-					= f.input :email
+					= f.input :contact, label: 'Contact name'
 				.form-inputs
-					= f.input :contact
+					= f.input :email, label: 'Email address'
 				.form-inputs
 					= f.input :telephone
 				.buttons
