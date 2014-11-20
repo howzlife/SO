@@ -33,6 +33,12 @@
 				=@purchase_order.date_required
 		.purchaseorder-input
 			= simple_format(@purchase_order.description)
+		.purchaseorder-deliverto.clear
+			.to
+				Deliver To
+			.deliverto-select
+				.deliverto-details
+					=@purchase_order.deliver_to
 	.buttons
 		= link_to purchase_orders_path, class: 'btn btn-cancel' do
 			%i.fa.fa-undo.fa-fw

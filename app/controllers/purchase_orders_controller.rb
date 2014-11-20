@@ -37,7 +37,8 @@ class PurchaseOrdersController < ApplicationController
     #The vendor data had to be passed as a string. Here were are changing it to a hash so it can be saved.
     #desired_vendor_hash = JSON.parse(@pop["vendor"].gsub("'",'"').gsub('=>',':'))
     @pop["vendor"] = JSON.parse(@pop["vendor"].gsub("'",'"').gsub('=>',':'))
-
+		@pop["deliver_to"] = JSON.parse(@pop["deliver_to"].gsub("'",'"').gsub('=>',':'))
+	
     @purchase_order = @company.purchase_orders.build(@pop)
     @purchase_order.number =  @company.prefix + '.' + number_with_delimiter([*100000..999999].sample, :delimiter => '.')
 
