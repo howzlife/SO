@@ -38,6 +38,6 @@
 		= link_to purchase_orders_path, method: 'get', class: 'btn btn-cancel' do
 			%i.fa.fa-undo.fa-fw
 			%span.text Cancel
-		= button_tag(type: 'submit', class: "btn btn-add") do
+		= button_tag(type: 'submit', :data => { :confirm => 'Are you sure? Once you complete this purchase order, you will not be able to edit its contents.' }, class: "btn btn-add") do
 			%i.fa.fa-envelope-o.fa-fw
 			%span.text Complete and email
