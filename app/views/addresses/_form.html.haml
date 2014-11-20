@@ -11,25 +11,22 @@
 						%ul
 							- @address.errors.full_messages.each do |msg|
 								%li= msg
-				%table
-					%thead
-						%tr
-							%th.text-label Name
-							%th.text-label Address
-							%th.text-label Purchasing Agent
-							%th.text-label Telephone
-					%tbody
-						%tr
-							%td= f.input_field :name
-							%td= f.input_field :address
-							%td= f.input_field :agent
-							%td= f.input_field :telephone
+				.form-inputs
+					= f.input :name
+				.form-inputs
+					= f.input :address, as: :text, input_html: { class: 'string', rows: 3 }
+				.form-inputs
+					= f.input :agent, label: 'Receiving agent'
+				.form-inputs
+					= f.input :telephone
 				.buttons
 					= link_to @company, class: 'btn btn-cancel' do
 						%i.fa.fa-undo.fa-fw
 						%span.text Cancel
 					- if action_name == "edit"
-						= link_to 'Delete Address', @address, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-cancel'
+						= link_to @address, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-cancel' do
+							%i.fa.fa-trash.fa-fw
+							%span.text Delete Address
 					= button_tag(type: 'submit', class: "btn btn-add") do
 						%i.fa.fa-save.fa-fw
 						%span.text Save Address

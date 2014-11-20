@@ -303,6 +303,8 @@ a
 			padding: 6px 4px
 			border-top: 1px solid #dedfe3
 			vertical-align: top
+			p
+				margin: 0
 
 	h3
 		font-size: 18px
@@ -311,8 +313,6 @@ a
 		font-size: 16px
 		font-weight: 600
 		margin: 0 0 30px 0
-	p
-		font-size: 13px
 	input, textarea
 		width: 100%
 
@@ -329,7 +329,13 @@ a
 		&:focus
 			outline: none
 			border: 1px solid #8a9495
-
+	.form-inputs
+		margin: 0 0 10px 0
+		.half
+			width: 48%
+			float: left
+		abbr
+			display: none
 	.card
 		background: #fff  
 		padding: 25px  
@@ -438,6 +444,8 @@ a
 		background-position: bottom left
 		background-repeat: repeat-x
 	.section
+		p
+			font-size: 13px
 		.section-description
 			float: left
 			width: 200px

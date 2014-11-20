@@ -11,20 +11,14 @@
 						%ul
 							- @vendor.errors.full_messages.each do |msg|
 								%li= msg
-
-				%table
-					%thead
-						%tr
-							%th.text-label Name
-							%th.text-label Email
-							%th.text-label Contact
-							%th.text-label Telephone
-					%tbody
-						%tr
-							%td= f.input_field :name
-							%td= f.input_field :email
-							%td= f.input_field :contact
-							%td= f.input_field :telephone
+				.form-inputs
+					= f.input :name
+				.form-inputs
+					= f.input :email
+				.form-inputs
+					= f.input :contact
+				.form-inputs
+					= f.input :telephone
 				.buttons
 					= link_to vendors_path, class: 'btn btn-cancel' do
 						%i.fa.fa-undo.fa-fw

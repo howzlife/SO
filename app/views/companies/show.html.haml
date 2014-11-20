@@ -35,7 +35,7 @@
 					- @company.addresses.each do |a|
 						%tr
 							%td= link_to a.name, edit_address_path(a)
-							%td= a.address
+							%td= simple_format(a.address)
 							%td= a.agent
 							%td= a.telephone
 		.buttons

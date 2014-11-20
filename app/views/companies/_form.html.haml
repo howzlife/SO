@@ -6,20 +6,14 @@
 		.card
 			= simple_form_for(@company) do |f|
 				= f.error_notification
-
-				%table
-					%thead
-						%tr
-							%th.text-label Name
-							%th.text-label Email
-							%th.text-label Fax
-							%th.text-label Telephone
-					%tbody
-						%tr
-							%td= f.input_field :name
-							%td= f.input_field :email
-							%td= f.input_field :fax
-							%td= f.input_field :telephone
+				.form-inputs
+					= f.input :name
+				.form-inputs
+					= f.input :email
+				.form-inputs
+					= f.input :fax
+				.form-inputs
+					= f.input :telephone
 				.buttons
 					= link_to company_path(@company), class: 'btn btn-cancel' do
 						%i.fa.fa-undo.fa-fw

@@ -7,16 +7,22 @@
 		.card
 			= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
 				= f.error_notification
+				.form-inputs.clear
+					.half
+						= f.input :first_name, required: true, autofocus: false
+					.half
+						= f.input :last_name, required: true, autofocus: false
 				.form-inputs
-					= f.input :first_name, required: true, autofocus: true
-					= f.input :last_name, required: true, autofocus: true
-					= f.input :email, required: true, autofocus: true
+					= f.input :email, required: true, autofocus: false
 					- if devise_mapping.confirmable? && resource.pending_reconfirmation?
 						%p
 							Currently waiting confirmation for: #{resource.unconfirmed_email}
 					= f.input :current_password, hint: "we need your current password to confirm your changes", required: true
-					= f.input :password, autocomplete: "off", hint: "leave it blank if you don't want to change it", required: false
-					= f.input :password_confirmation, required: false
+				.form-inputs.clear
+					.half
+						= f.input :password, autocomplete: "off", hint: "leave it blank if you don't want to change it", required: false
+					.half
+						= f.input :password_confirmation, required: false
 				.buttons
 					= link_to purchase_orders_path, class: 'btn btn-cancel' do
 						%i.fa.fa-undo.fa-fw
@@ -24,6 +30,6 @@
 					= button_tag(type: 'submit', class: "btn btn-add") do
 						%i.fa.fa-save.fa-fw
 						%span.text Save Changes
-			%h4 Cancel my account
-			%p
-				Unhappy? #{link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete}
+-#			%h4 Cancel my account
+-#			%p
+-#				Unhappy? #{link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete}
