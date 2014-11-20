@@ -33,6 +33,7 @@
 		= link_to purchase_orders_path, class: 'btn btn-cancel' do
 			%i.fa.fa-undo.fa-fw
 			%span.text Back
+		= link_to 'Delete Purchase Order', @purchase_order, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-cancel'
 		= link_to '#', class: 'btn btn-edit print' do
 			%i.fa.fa-print.fa-fw
 			%span.text Print
