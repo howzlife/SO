@@ -45,7 +45,7 @@ class PurchaseOrdersController < ApplicationController
     respond_to do |format|
       if @purchase_order.save
         #send pdf
-        #PDFMailer.send_pdf(@purchase_order, current_user.company.email).deliver
+        PDFMailer.send_pdf(@purchase_order, current_user.company.email).deliver
 
         format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully created.' }
         format.json { render :show, status: :created, location: @purchase_order }
