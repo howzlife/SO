@@ -18,6 +18,9 @@ Rails.application.routes.draw do
   get ':licenses' => 'static#:licenses'
   get ':privacy' => 'static#:privacy'
   get ':terms' => 'static#:terms'
+  get ':about' => 'static#:about'
+  get ':legal' => 'static#:legal'
+  get ':contact' => 'static#:contact'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

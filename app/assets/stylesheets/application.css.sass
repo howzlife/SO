@@ -28,6 +28,7 @@ body
 	padding: 0px
 	font-family: "proxima-nova",sans-serif
 	font-size: 15px
+	color: #738189
 body.splash
 	height: auto
 	background: #ebeef0
@@ -93,7 +94,7 @@ h1,h2,h3,h4,h5,h5
 	margin: 60px auto
 	text-align: center
 	padding: 25px
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1)
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2)
 	background: #fff
 	outline: none  
 	border: 1px solid #e7e7e7  
@@ -105,18 +106,23 @@ h1,h2,h3,h4,h5,h5
 		margin: 0 0 10px 0
 		label
 			color: #8a9495
-			font-size: 12px
+			font-size: 11px
 			font-weight: 400
 			margin: 0
 
 	.form-inputs
 		text-align: left
-		&.right
-			text-align: right
-			margin: 0 0 20px 0
+		margin: 0 0 20px 0
+		abbr
+			display: none
+	.remember-me
+	.forgot-password
+		font-size: 11px
+	.right
+		text-align: right
 	.form-actions
 		margin: 0 0 20px 0
-	input[type=email], input[type=password]
+	input[type=email], input[type=password], input[type=text]
 		width: 100%
 		border: 1px solid #e7e7e7
 		-webkit-border-radius: 4px
@@ -129,8 +135,8 @@ h1,h2,h3,h4,h5,h5
 			border: 1px solid #8a9495
 	.btn
 		width: 100%
-		background: #0aa29b
-		padding: 10px
+		background: #33cccc
+		padding: 20px
 		&:hover
 			color: #fff
 			
@@ -142,6 +148,8 @@ h1,h2,h3,h4,h5,h5
 		input[type="checkbox"]
 			margin: 0 0 4px 8px
 			position: relative
+	.footer
+		margin: 30px 0 0 0
 .log-in.links
 	font-size: 11px
 	background: none
@@ -174,7 +182,7 @@ p.notice
 	background: #000
 
 a
-	color: #0aa29b
+	color: #33cccc
 	&:hover
 		color: #411051
 		
@@ -221,7 +229,7 @@ a
 			margin: 0 6px 0 0
 
 		a
-			color: #a9a9a9
+			color: #6d7a82
 			font-weight: 600
 			padding: 11px 20px 11px 25px
 			display: block
@@ -278,6 +286,7 @@ a
 
 		th
 			text-align: left
+			text-transform: uppercase
 			padding: 0px 4px 5px 4px
 		td
 			padding: 6px 4px
@@ -313,15 +322,16 @@ a
 	.card
 		background: #fff  
 		padding: 25px  
-		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1)
+		box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2)
 		outline: none  
 		border: 1px solid #e7e7e7  
-		-webkit-border-radius: 4px  
-		-moz-border-radius: 4px  
-		border-radius: 4px  
+		-webkit-border-radius: 3px  
+		-moz-border-radius: 3px  
+		border-radius: 3px  
 
 		.text-label
-			font-size: 12px
+			font-size: 11px
+			letter-spacing: 1px
 			color: #a1a8c2
 			font-weight: 400
 		.label
