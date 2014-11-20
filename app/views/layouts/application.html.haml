@@ -10,6 +10,7 @@
 		= csrf_meta_tags
 - unless user_signed_in?
 	%body.splash
+	.logo
 	= yield
 - else
 	%body
