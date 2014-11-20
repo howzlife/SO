@@ -44,7 +44,7 @@ class PurchaseOrdersController < ApplicationController
     respond_to do |format|
       if @purchase_order.save
         #send pdf
-        PDFMailer.send_pdf(@purchase_order, current_user.company.email).deliver
+        #PDFMailer.send_pdf(@purchase_order, current_user.company.email).deliver
 
         format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully created.' }
         format.json { render :show, status: :created, location: @purchase_order }
@@ -96,7 +96,7 @@ class PurchaseOrdersController < ApplicationController
       # It's mandatory to specify the nested attributes that should be whitelisted.
       # If you use `permit` with just the key that points to the nested attributes hash,
       # it will return an empty hash.
-      params.require(:purchase_order).permit(:number, :status, :description, :tags, :comment, :vendor)
+      params.require(:purchase_order).permit(:number, :status, :description, :tags, :comment, :vendor, :date_required, :deliver_to)
     end
 
     def has_company_info

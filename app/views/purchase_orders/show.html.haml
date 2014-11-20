@@ -27,16 +27,23 @@
 					=@purchase_order.vendor.contact
 					%br
 					=@purchase_order.vendor.email
+			.date-required
+				Date Required
+			.date-field
+				=@purchase_order.date_required
 		.purchaseorder-input
 			= simple_format(@purchase_order.description)
 	.buttons
 		= link_to purchase_orders_path, class: 'btn btn-cancel' do
 			%i.fa.fa-undo.fa-fw
 			%span.text Back
-		= link_to 'Delete Purchase Order', @purchase_order, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-cancel'
+		= link_to @purchase_order, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-cancel' do
+			%i.fa.fa-trash.fa-fw
+			%span.text Delete Purchase Order
 		= link_to '#', class: 'btn btn-edit print' do
 			%i.fa.fa-print.fa-fw
 			%span.text Print
 	.credits
 		%p= 'Created with Swiftorders -- swiftorders.com'
 = render 'internal'
+=debug @purchase_order
