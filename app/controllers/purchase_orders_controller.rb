@@ -8,10 +8,14 @@ class PurchaseOrdersController < ApplicationController
   # GET /purchase_orders
   # GET /purchase_orders.json
   def index
-    if params["q"].blank?
+    if params["q"].blank? && params["status"].blank? 
       @purchase_orders = @company.purchase_orders.all
     else
-      @purchase_orders = PurchaseOrder.search(@company.id, params["q"])
+    	if params["q"].blank?
+	      @purchase_orders = PurchaseOrder.status(@company.id, params["status"])
+	    else
+	      @purchase_orders = PurchaseOrder.search(@company.id, params["q"])
+	    end
     end
   end
 

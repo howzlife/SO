@@ -25,4 +25,10 @@ class PurchaseOrder
     end
   end
 
+  def self.status(company_id, status)
+    if status
+      where(company_id: company_id, status: status)
+    end
+  end
+
 end

@@ -1,15 +1,23 @@
 = render :partial => "shared/header", :locals => {:title => "Purchase Orders",:icon => "fa-list-alt"}
 .wrapper
 	.card.hastabs
-		- if @purchase_orders.length == 0
-			No purchase orders found. Click the button below to create a new one.
-		- else
-			%ul.tabs
-				%li.active Complete
-				%li Open
-				%li Closed
-				%li Archived
-			.contents
+		%ul.tabs.clear
+			%li{class: sp('complete')}
+				=link_to 'Complete', "?status=complete"
+			%li{class: sp('open')}
+				=link_to 'Open', "?status=open"
+			%li{class: sp('closed')}
+				=link_to 'Closed', "?status=closed"
+			%li{class: sp('archived')}
+				=link_to 'Archived', "?status=archived"
+		.contents
+			- if @purchase_orders.length == 0
+				No purchase orders found. Click the button below to create a new one.
+				.buttons
+					= button_to new_purchase_order_path, method: 'get', class: 'btn btn-add' do
+						%i.fa.fa-plus-circle.fa-fw
+						%span.text New Purchase Order
+			- else
 				= form_tag purchase_orders_path, :class => "search-area", :method => :get do
 					= text_field_tag :q, nil, :class => "search-query", :placeholder => "Search for purchase orders..."
 				%table#purchase-orders-table.sortable
@@ -30,7 +38,6 @@
 								-#= %td= link_to 'Show', purchase_order
 								-#= %td= link_to 'Edit', edit_purchase_order_path(purchase_order)
 								-#= %td= link_to 'Destroy', purchase_order, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
 				.buttons
 					= button_to new_purchase_order_path, method: 'get', class: 'btn btn-add' do
 						%i.fa.fa-plus-circle.fa-fw
