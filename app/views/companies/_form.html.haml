@@ -29,7 +29,8 @@
 	.section-content
 		.card
 			= simple_form_for(@company) do |f|
-				= f.input :prefix
+				.form-inputs
+					= f.input :prefix
 				.buttons
 					= button_tag(type: 'submit', class: "btn btn-add") do
 						%i.fa.fa-save.fa-fw

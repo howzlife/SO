@@ -1,20 +1,3 @@
 = render :partial => "shared/header", :locals => {:title => "New Purchase Order",:icon => "fa-list-alt"}
-.wrapper
-	.card.purchaseorder
-		.purchaseorder-header.clear
-			.purchaseorder-number
-				.text-label Purchase Order
-				.number
-					= @purchase_order.number
-			.purchaseorder-address
-				The Emporium
-				%br>/
-				47 Main Street
-				%br>/
-				Ottawa, Ontario K1S 1B1
-			.purchaseorder-date
-				.text-label Date
-				.date
-					=@purchase_order.date.strftime("%B #{@purchase_order.date.day.ordinalize}, %Y")
-		= render 'form'
+= render 'form'
 = render 'internal'
