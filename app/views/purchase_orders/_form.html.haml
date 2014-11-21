@@ -5,13 +5,15 @@
 			%ul
 				- @purchase_order.errors.full_messages.each do |msg|
 					%li= msg
+	-ponumber = @company.prefix + '.' + number_with_delimiter([*100000..999999].sample, :delimiter => '.')
 	.wrapper
 		.card.purchaseorder
 			.purchaseorder-header.clear
 				.purchaseorder-number
 					.text-label Purchase Order
 					.number
-						= @purchase_order.number
+						= ponumber
+						= f.hidden_field :number, :value => ponumber
 				.purchaseorder-address
 					The Emporium
 					%br>/
