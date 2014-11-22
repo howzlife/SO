@@ -38,9 +38,19 @@ class PurchaseOrdersController < ApplicationController
   # POST /purchase_orders.json
   def create
     @pop = purchase_order_params
+
+    #get vendor name so we can search for it.
+    vendor_name = purchase_order_params["vendor"]
+
+    #.find_by_name is a custom instance method I put in the company controller...
+    #We're also removing attributes here from the company vendor that we don't want to save to the ...
+    #new PO vendor we are about to save
+    vendor = @company.vendors.find_by_name(vendor_name).attributes.except("_id","deleted_at","updated_at","created_at")
+    @pop["vendor"] = vendor
+
     #The vendor data had to be passed as a string. Here were are changing it to a hash so it can be saved.
     #desired_vendor_hash = JSON.parse(@pop["vendor"].gsub("'",'"').gsub('=>',':'))
-    @pop["vendor"] = JSON.parse(@pop["vendor"].gsub("'",'"').gsub('=>',':'))
+    #@pop["vendor"] = JSON.parse(@pop["vendor"].gsub("'",'"').gsub('=>',':'))
 		@pop["deliver_to"] = JSON.parse(@pop["deliver_to"].gsub("'",'"').gsub('=>',':'))
 	
     @purchase_order = @company.purchase_orders.build(@pop)
@@ -91,16 +101,10 @@ class PurchaseOrdersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def purchase_order_params
-      params.require(:purchase_order).permit(:number, :date, :status, :description)
-    end
-
-  private
-
-    def purchase_order_params
       # It's mandatory to specify the nested attributes that should be whitelisted.
       # If you use `permit` with just the key that points to the nested attributes hash,
       # it will return an empty hash.
-      params.require(:purchase_order).permit(:number, :status, :description, :tags, :comment, :vendor, :date_required, :deliver_to)
+      params.require(:purchase_order).permit(:number, :status, :description, :tags, :comment, :date_required, :deliver_to, :vendor, vendors_attributes: [:name, :email, :contact, :telephone])
     end
 
     def has_company_info

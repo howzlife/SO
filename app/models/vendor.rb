@@ -19,6 +19,12 @@ class Vendor
 
   validates :email, presence: true, email: true
 
+  #for embedded documents, this will only check that the field is unique within...
+  #the context of the parent document, not the entire database. 
+  #We are setting this as unique within the company so we can use it to search for the right
+  #vendor to add to the PO when a new PO is created.
+  validates_uniqueness_of :name
+
   embedded_in :vendorable, polymorphic: true
 
 
