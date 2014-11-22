@@ -15,11 +15,9 @@
 						= ponumber
 						= f.hidden_field :number, :value => ponumber
 				.purchaseorder-address
-					The Emporium
-					%br>/
-					47 Main Street
-					%br>/
-					Ottawa, Ontario K1S 1B1
+					=@company.name
+					%br
+					=@company.email
 				.purchaseorder-date
 					.text-label Date
 					.date

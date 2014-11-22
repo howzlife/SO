@@ -304,7 +304,9 @@ a
 		margin: 0  
 		padding: 0  
 		width: 100%  
-
+		tr.status-archived
+			td
+				color: #ccc
 		th
 			text-align: left
 			text-transform: uppercase
@@ -395,6 +397,10 @@ a
 				background-color: #86d566
 			&.status-closed
 				background-color: #738189
+			&.status-complete
+				background-color: #a1a8c2
+			&.status-archived
+				background-color: #ccc
 
 	.control-group
 		label

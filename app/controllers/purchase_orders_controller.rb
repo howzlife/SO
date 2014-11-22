@@ -55,7 +55,7 @@ class PurchaseOrdersController < ApplicationController
 	
     @purchase_order = @company.purchase_orders.build(@pop)
 
-    @purchase_order.status = "Complete"
+    @purchase_order.status = "complete"
 
     respond_to do |format|
       if @purchase_order.save
