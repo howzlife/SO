@@ -38,7 +38,14 @@
 				Deliver To
 			.deliverto-select
 				.deliverto-details
-					=@purchase_order.deliver_to
+					-deliver_to = eval(@purchase_order.deliver_to)
+					=deliver_to['name']
+					%br
+					=deliver_to['address']
+					%br
+					=deliver_to['agent']
+					%br
+					
 	.buttons
 		= link_to purchase_orders_path, class: 'btn btn-cancel' do
 			%i.fa.fa-undo.fa-fw
@@ -52,4 +59,3 @@
 	.credits
 		%p= 'Created with Swiftorders -- swiftorders.com'
 = render 'internal'
-=debug @purchase_order

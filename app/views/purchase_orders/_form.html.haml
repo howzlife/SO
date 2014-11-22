@@ -33,8 +33,8 @@
 						%button.small-btn.btn.btn-edit{:type => "button"}
 							%i.fa.fa-undo
 							%span.text Change
-					-# the instance variable below isn't the vendor document that embedded in the purchase order. It's the one embedded in the company. We use the vendors created there in this form. The data from them is then saved to the purchase order's embedded vendor document. We allow vendor information to be changed for the company but not on the purchase orders. This way, if the Company's vendor data changes, the already saved purchase orders' vendor data doesn't. This vendor data is being passed as a hash string.
-					= f.select :vendor, @company.vendors.all.map { |r| [r.name, r.name] }, :include_blank => "Select Vendor"
+						-# the instance variable below isn't the vendor document that embedded in the purchase order. It's the one embedded in the company. We use the vendors created there in this form. The data from them is then saved to the purchase order's embedded vendor document. We allow vendor information to be changed for the company but not on the purchase orders. This way, if the Company's vendor data changes, the already saved purchase orders' vendor data doesn't. This vendor data is being passed as a hash string.
+						= f.select :vendor, @company.vendors.all.map { |r| [r.name, r.id] }, :include_blank => "Select Vendor"
 				.date-required
 					Date Required
 				.date-field

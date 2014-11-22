@@ -45,7 +45,7 @@ class PurchaseOrdersController < ApplicationController
     #.find_by_name is a custom instance method I put in the company controller...
     #We're also removing attributes here from the company vendor that we don't want to save to the ...
     #new PO vendor we are about to save
-    vendor = @company.vendors.find_by_name(vendor_name).attributes.except("_id","deleted_at","updated_at","created_at")
+    vendor = @company.vendors.find(vendor_name).attributes.except("_id","deleted_at","updated_at","created_at")
     @pop["vendor"] = vendor
 
     #The vendor data had to be passed as a string. Here were are changing it to a hash so it can be saved.

@@ -2,10 +2,12 @@
 $(function() {
 	$('.purchaseorder-vendor .vendor-select').on('change','select',function() {
 		if ($(this).val() != "") {
-			var vendor = JSON.parse($(this).val().replace(/'/g, '"'));
-        	$(this).hide();
-			$('.purchaseorder-vendor .vendor-select .vendor-details').html(vendor.name +'<br>Attention: '+ vendor.contact +'<br>'+ vendor.email).show();
-			$('.vendor-change .small-btn').show();
+        	vendor = $(this);
+			$.get( "/vendors/" + vendor.val() + ".json", function( data ) {
+				$('.purchaseorder-vendor .vendor-select .vendor-details').html(data.name +'<br>Attention: '+ data.contact +'<br>'+ data.email).show();
+				$('.vendor-change .small-btn').show();
+				vendor.hide();
+			});
 		}
 	});
     $('.purchaseorder-vendor .vendor-select').on('click', '.small-btn', function() {
