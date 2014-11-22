@@ -40,12 +40,12 @@ class PurchaseOrdersController < ApplicationController
     @pop = purchase_order_params
 
     #get vendor name so we can search for it.
-    vendor_name = purchase_order_params["vendor"]
+    vendor_id = purchase_order_params["vendor"]
 
-    #.find_by_name is a custom instance method I put in the company controller...
+    
     #We're also removing attributes here from the company vendor that we don't want to save to the ...
     #new PO vendor we are about to save
-    vendor = @company.vendors.find(vendor_name).attributes.except("_id","deleted_at","updated_at","created_at")
+    vendor = @company.vendors.find(vendor_id).attributes.except("_id","deleted_at","updated_at","created_at")
     @pop["vendor"] = vendor
 
     #The vendor data had to be passed as a string. Here were are changing it to a hash so it can be saved.
@@ -55,10 +55,16 @@ class PurchaseOrdersController < ApplicationController
 	
     @purchase_order = @company.purchase_orders.build(@pop)
 
+    @purchase_order.status = "Complete"
+
     respond_to do |format|
       if @purchase_order.save
         #send pdf
-        PDFMailer.send_pdf(@purchase_order, current_user.company.email).deliver
+        if params[:status] == "email"
+          PDFMailer.send_pdf(@purchase_order, current_user.company.email).deliver
+          @purchase_order.status = "open"
+          @purchase_order.save
+        end
 
         format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully created.' }
         format.json { render :show, status: :created, location: @purchase_order }
@@ -72,8 +78,21 @@ class PurchaseOrdersController < ApplicationController
   # PATCH/PUT /purchase_orders/1
   # PATCH/PUT /purchase_orders/1.json
   def update
+
+    #send pdf
+    if params[:status] == "email"
+      PDFMailer.send_pdf(@purchase_order, current_user.company.email).deliver
+      @purchase_order.status = "open"
+    elsif params[:status] == "closed"
+      @purchase_order.status = "closed"
+    elsif params[:status] == "open"
+      @purchase_order.status = "open"
+    elsif params[:status] == "archived"
+      @purchase_order.status = "archived"
+    end
+
     respond_to do |format|
-      if @purchase_order.update(purchase_order_params)
+      if @purchase_order.save
         format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully updated.' }
         format.json { render :show, status: :ok, location: @purchase_order }
       else
