@@ -8,6 +8,7 @@ class Company
   field :telephone, type: String
   field :prefix, type: String
 
+
   has_many :users
   has_many :purchase_orders
   embeds_many :vendors, as: :vendorable do
