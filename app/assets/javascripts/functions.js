@@ -29,8 +29,22 @@ $(function() {
     });
 
 	$('.purchaseorder .purchaseorder-input textarea').css('overflow', 'hidden').autogrow();
-    $('.buttons').on('click', '.print', function() {
-		window.print();
+	
+		
+	
+    $('.buttons .form-print').on('click', '.print', function(event) {
+    	event.preventDefault();
+    	if($(this).closest('form').hasClass('status-complete')) {
+    		form = $(this).closest('form');
+	    	if(confirm('This will mark the purchase order open. Are you sure?')) {
+	    		var payload = form.serialize() + '&status=open';
+	    		$.post( form.attr('action'), payload, function( data ) {
+					window.print();
+	    		});
+	    	}
+    	} else {
+			window.print();
+		}
     });
     
     if ($('p.notice').length) {
