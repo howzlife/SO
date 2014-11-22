@@ -8,6 +8,7 @@ class Address
   field :agent, type: String
   field :defaultflag, type: Boolean
 
+  validates_presence_of :name, :address
 
   embedded_in :company
 end

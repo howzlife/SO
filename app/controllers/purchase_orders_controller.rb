@@ -44,7 +44,6 @@ class PurchaseOrdersController < ApplicationController
 		@pop["deliver_to"] = JSON.parse(@pop["deliver_to"].gsub("'",'"').gsub('=>',':'))
 	
     @purchase_order = @company.purchase_orders.build(@pop)
-    @purchase_order.number =  @company.prefix + '.' + number_with_delimiter([*100000..999999].sample, :delimiter => '.')
 
     respond_to do |format|
       if @purchase_order.save
