@@ -8,7 +8,6 @@ class Company
   field :telephone, type: String
   field :prefix, type: String
 
-  validates_presence_of :name, :email, :fax, :telephone, :prefix
 
   has_many :users
   has_many :purchase_orders
