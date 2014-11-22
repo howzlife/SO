@@ -7,9 +7,9 @@
 			= simple_form_for(@company) do |f|
 				= f.error_notification
 				.form-inputs
-					= f.input :name
+					= f.input :name, required: true
 				.form-inputs
-					= f.input :email
+					= f.input :email, required: true
 				.form-inputs
 					= f.input :fax
 				.form-inputs
@@ -30,7 +30,7 @@
 		.card
 			= simple_form_for(@company) do |f|
 				.form-inputs
-					= f.input :prefix
+					= f.input :prefix, required: true
 				.buttons
 					= button_tag(type: 'submit', class: "btn btn-add") do
 						%i.fa.fa-save.fa-fw
