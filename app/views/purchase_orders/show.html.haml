@@ -54,12 +54,21 @@
 		= link_to '#', class: 'btn btn-edit print' do
 			%i.fa.fa-print.fa-fw
 			%span.text Print
+
+		= simple_form_for @purchase_order, html: { class: "form-email"}, url: purchase_order_path do |f|
+			- if @purchase_order.status != "closed" && @purchase_order.status != "archived"
+				= button_tag(type: 'submit', :name => "status", :value => "email", :data => { :confirm => 'Are you sure?' }, class: "btn btn-edit") do
+					%i.fa.fa-envelope-o.fa-fw
+					%span.text Email
+
+
+
 		= simple_form_for @purchase_order, url: purchase_order_path do |f|
 			- if @purchase_order.status != "closed" && @purchase_order.status != "archived"
 				= button_tag(type: 'submit', :name => "status", :value => "closed", :data => { :confirm => 'Are you sure?' }, class: "btn btn-close") do
 					%i.fa.fa-times.fa-fw
 					%span.text Mark as Closed
-			- if @purchase_order.status != "archived"
+			- if @purchase_order.status != "archived" && (@purchase_order.status == "closed" || @purchase_order.status == "complete")
 				= button_tag(type: 'submit', :name => "status", :value => "archived", :data => { :confirm => 'Are you sure?' }, class: "btn btn-cancel") do
 					%i.fa.fa-trash.fa-fw
 					%span.text Archive Purchase Order
