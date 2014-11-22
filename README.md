@@ -35,7 +35,15 @@ development:
 You'll need to put spaces in front of the EMAIL... variables (tabs throw an error). It will also add config/application.yml to your .gitignore file so it can't be added to your commits. 
 
 
+## Application Wide Instance Variables ##
 
+```
+#!ruby
+
+@company 
+```
+
+-> this is the company of the currently logged in user. It points to only one company but it is exposed to all controllers and views. Use it to get the current user's company vendors and PO's
 
 #(**I swear to god, you better read "Weird Things" before you start editing this code. NO EXCUSES**) #
 
