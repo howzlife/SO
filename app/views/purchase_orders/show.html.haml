@@ -56,5 +56,10 @@
 		= link_to '#', class: 'btn btn-edit print' do
 			%i.fa.fa-print.fa-fw
 			%span.text Print
+		= simple_form_for @purchase_order do |f|
+			= button_tag(type: 'submit', :name => "status", :value => "closed", :data => { :confirm => 'Are you sure?' }, class: "btn btn-close") do
+				%i.fa.fa-times.fa-fw
+				%span.text Mark Closed
+
 	.credits
 		%p= 'Created with Swiftorders -- swiftorders.com'
