@@ -46,7 +46,7 @@
 					=deliver_to['agent']
 					%br
 					
-	.buttons
+	.buttons.clear
 		= link_to purchase_orders_path, class: 'btn btn-cancel' do
 			%i.fa.fa-undo.fa-fw
 			%span.text Back
@@ -59,7 +59,7 @@
 		= simple_form_for @purchase_order do |f|
 			= button_tag(type: 'submit', :name => "status", :value => "closed", :data => { :confirm => 'Are you sure?' }, class: "btn btn-close") do
 				%i.fa.fa-times.fa-fw
-				%span.text Mark Closed
+				%span.text Mark as Closed
 
 	.credits
 		%p= 'Created with Swiftorders -- swiftorders.com'
