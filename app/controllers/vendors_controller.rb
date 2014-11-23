@@ -5,7 +5,11 @@ class VendorsController < ApplicationController
   # GET /vendors
   # GET /vendors.json
   def index
-    @vendors = @company.vendors.all
+    if params["q"].blank?
+      @vendors = @company.vendors.all
+    else
+      @vendors = @company.vendors.search(params["q"])
+    end
   end
 
   # GET /vendors/1
