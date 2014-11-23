@@ -6,7 +6,6 @@ class PurchaseOrder
   field :date, type: DateTime, default: ->{ DateTime.current } 
   field :status, type: String
   field :description, type: String
-  field :deliver_to, type: String
   field :tags, type: String
   field :date_required, type: String
 
@@ -14,6 +13,7 @@ class PurchaseOrder
 
   embeds_one :vendor, as: :vendorable, autobuild: true
   embeds_many :comments
+  embeds_one :address, as: :addressable, autobuild: true
 
   belongs_to :company
 

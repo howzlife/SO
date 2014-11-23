@@ -17,7 +17,7 @@ class Company
     end
   end
   
-  embeds_many :addresses, class_name: "Address"
+  embeds_many :addresses, as: :addressable
 
   accepts_nested_attributes_for :addresses, :purchase_orders, :users, :vendors
 end

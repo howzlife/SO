@@ -39,12 +39,14 @@
 				Deliver To
 			.deliverto-select
 				.deliverto-details
-					-deliver_to = eval(@purchase_order.deliver_to)
-					=deliver_to['name']
+					-address = @purchase_order.address
+					=address['name']
 					%br
-					=deliver_to['address']
+					- address.attributes.each_pair do |k, v|
+						- if !["_id", "deleted_at"].include?(k)
+							= v
 					%br
-					=deliver_to['agent']
+					=address['agent']
 					%br
 					
 	.buttons.clear.purchaseorder-buttons

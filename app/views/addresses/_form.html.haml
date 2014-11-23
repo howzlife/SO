@@ -12,13 +12,53 @@
 							- @address.errors.full_messages.each do |msg|
 								%li= msg
 				.form-inputs
-					= f.input :name
+					= f.label 'Name'
+					= f.text_field :name
+				= f.simple_fields_for :address do |af|
+					- if @address.address.blank?
+						.form-inputs
+						= af.label 'Address Line 1'
+						= af.text_field :address_line_1, label: 'Address Line 1'
+						.form-inputs
+						= af.label 'Address Line 2'
+						= af.text_field :address_line_2, label: 'Address Line 2'
+						.form-inputs
+						= af.label 'City'
+						= af.text_field :city, label: 'City'
+						.form-inputs
+						= af.label 'State / Province'
+						= af.text_field :state, label: 'State / Province'
+						.form-inputs
+						= af.label 'Country'
+						= af.text_field :country
+						.form-inputs
+						= af.label 'Zip / Postal Code'
+						= af.text_field :zip, label: 'Zip / Postal Code'
+					- else					
+						.form-inputs
+						= af.label 'Address Line 1'
+						= af.text_field :address_line_1, label: 'Address Line 1', :value => @address.address[:address_line_1]
+						.form-inputs
+						= af.label 'Address Line 2'
+						= af.text_field :address_line_2, label: 'Address Line 2', :value => @address.address[:address_line_2]
+						.form-inputs
+						= af.label 'City'
+						= af.text_field :city, label: 'City', :value => @address.address[:city]
+						.form-inputs
+						= af.label 'State / Province'
+						= af.text_field :state, label: 'State / Province', :value => @address.address[:state]
+						.form-inputs
+						= af.label 'Country'
+						= af.text_field :country, :value => @address.address[:country]
+						.form-inputs
+						= af.label 'Zip / Postal Code'
+						= af.text_field :zip, label: 'Zip / Postal Code', :value => @address.address[:zip]
 				.form-inputs
-					= f.input :address, as: :text, input_html: { class: 'string', rows: 3 }
+					= f.label 'Receiving agent'
+					= f.text_field :agent
 				.form-inputs
-					= f.input :agent, label: 'Receiving agent'
-				.form-inputs
-					= f.input :telephone
+					= f.label 'Telephone'
+					= f.text_field :telephone
 				.buttons
 					= link_to @company, class: 'btn btn-cancel' do
 						%i.fa.fa-undo.fa-fw

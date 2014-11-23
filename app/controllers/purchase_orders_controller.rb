@@ -42,16 +42,19 @@ class PurchaseOrdersController < ApplicationController
     #get vendor name so we can search for it.
     vendor_id = purchase_order_params["vendor"]
 
+    #get company address so we can search for it.
+    company_address_id = purchase_order_params["address"]
+
     
     #We're also removing attributes here from the company vendor that we don't want to save to the ...
     #new PO vendor we are about to save
     vendor = @company.vendors.find(vendor_id).attributes.except("_id","deleted_at","updated_at","created_at")
     @pop["vendor"] = vendor
 
-    #The vendor data had to be passed as a string. Here were are changing it to a hash so it can be saved.
-    #desired_vendor_hash = JSON.parse(@pop["vendor"].gsub("'",'"').gsub('=>',':'))
-    #@pop["vendor"] = JSON.parse(@pop["vendor"].gsub("'",'"').gsub('=>',':'))
-		@pop["deliver_to"] = JSON.parse(@pop["deliver_to"].gsub("'",'"').gsub('=>',':'))
+    #We're also removing attributes here from the company address that we don't want to save to the ...
+    #new PO vendor we are about to save
+    address = @company.addresses.find(company_address_id).attributes.except("_id","deleted_at","updated_at","created_at")
+    @pop["address"] = address
 	
     @purchase_order = @company.purchase_orders.build(@pop)
 
@@ -123,7 +126,7 @@ class PurchaseOrdersController < ApplicationController
       # It's mandatory to specify the nested attributes that should be whitelisted.
       # If you use `permit` with just the key that points to the nested attributes hash,
       # it will return an empty hash.
-      params.require(:purchase_order).permit(:number, :status, :description, :tags, :comment, :date_required, :deliver_to, :vendor, vendors_attributes: [:name, :email, :contact, :telephone])
+      params.require(:purchase_order).permit(:number, :status, :description, :tags, :comment, :date_required, :address, :vendor)
     end
 
     def has_company_info
