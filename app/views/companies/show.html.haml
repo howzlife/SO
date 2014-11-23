@@ -35,7 +35,15 @@
 					- @company.addresses.each do |a|
 						%tr
 							%td= link_to a.name, edit_address_path(a)
-							%td= simple_format(a.address)
+							-address = a.address
+							%td
+								= address["address_line_1"]
+								%br
+								= address["address_line_2"]
+								%br
+								= "#{address["city"]}, #{address["state"]}, #{address["zip"]}"
+								%br
+								= address["country"]
 							%td= a.agent
 							%td= a.telephone
 		.buttons

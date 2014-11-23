@@ -12,53 +12,55 @@
 							- @address.errors.full_messages.each do |msg|
 								%li= msg
 				.form-inputs
-					= f.label 'Name'
-					= f.text_field :name
+					= f.input :name, label: 'Name'
 				= f.simple_fields_for :address do |af|
 					- if @address.address.blank?
 						.form-inputs
-						= af.label 'Address Line 1'
-						= af.text_field :address_line_1, label: 'Address Line 1'
+							= af.label 'Address Line 1'
+							= af.text_field :address_line_1, class: 'string'
 						.form-inputs
-						= af.label 'Address Line 2'
-						= af.text_field :address_line_2, label: 'Address Line 2'
-						.form-inputs
-						= af.label 'City'
-						= af.text_field :city, label: 'City'
-						.form-inputs
-						= af.label 'State / Province'
-						= af.text_field :state, label: 'State / Province'
-						.form-inputs
-						= af.label 'Country'
-						= af.text_field :country
-						.form-inputs
-						= af.label 'Zip / Postal Code'
-						= af.text_field :zip, label: 'Zip / Postal Code'
+							= af.label 'Address Line 2'
+							= af.text_field :address_line_2, class: 'string'
+						.form-inputs.clear
+							.half.first
+								= af.label 'City'
+								= af.text_field :city, class: 'string'
+							.half
+								= af.label 'State / Province'
+								= af.text_field :state, class: 'string'
+						.form-inputs.clear
+							.half.first
+								= af.label 'Country'
+								= af.text_field :country, class: 'string'
+							.half
+								= af.label 'Zip / Postal Code'
+								= af.text_field :zip, class: 'string'
 					- else					
 						.form-inputs
-						= af.label 'Address Line 1'
-						= af.text_field :address_line_1, label: 'Address Line 1', :value => @address.address[:address_line_1]
+							= af.label 'Address Line 1'
+							= af.text_field :address_line_1, class: 'string', :value => @address.address[:address_line_1]
 						.form-inputs
-						= af.label 'Address Line 2'
-						= af.text_field :address_line_2, label: 'Address Line 2', :value => @address.address[:address_line_2]
-						.form-inputs
-						= af.label 'City'
-						= af.text_field :city, label: 'City', :value => @address.address[:city]
-						.form-inputs
-						= af.label 'State / Province'
-						= af.text_field :state, label: 'State / Province', :value => @address.address[:state]
-						.form-inputs
-						= af.label 'Country'
-						= af.text_field :country, :value => @address.address[:country]
-						.form-inputs
-						= af.label 'Zip / Postal Code'
-						= af.text_field :zip, label: 'Zip / Postal Code', :value => @address.address[:zip]
-				.form-inputs
-					= f.label 'Receiving agent'
-					= f.text_field :agent
-				.form-inputs
-					= f.label 'Telephone'
-					= f.text_field :telephone
+							= af.label 'Address Line 2'
+							= af.text_field :address_line_2, class: 'string', :value => @address.address[:address_line_2]
+						.form-inputs.clear
+							.half.first
+								= af.label 'City'
+								= af.text_field :city, class: 'string', :value => @address.address[:city]
+							.half
+								= af.label 'State / Province'
+								= af.text_field :state, class: 'string', :value => @address.address[:state]
+						.form-inputs.clear
+							.half.first
+								= af.label 'Country'
+								= af.text_field :country, class: 'string', :value => @address.address[:country]
+							.half
+								= af.label 'Zip / Postal Code'
+								= af.text_field :zip, class: 'string', :value => @address.address[:zip]
+				.form-inputs.clear
+					.half.first
+						= f.input :agent, label: 'Receiving agent'
+					.half
+						= f.input :telephone
 				.buttons
 					= link_to @company, class: 'btn btn-cancel' do
 						%i.fa.fa-undo.fa-fw
