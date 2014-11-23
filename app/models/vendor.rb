@@ -15,9 +15,9 @@ class Vendor
   field :telephone, type: String
   include ActiveModel::Validations
 
-  validates_presence_of :name, :contact, :telephone
+  validates_presence_of :name
 
-  validates :email, presence: true, email: true
+  validates :email, email: true, :allow_blank => true
 
   #for embedded documents, this will only check that the field is unique within...
   #the context of the parent document, not the entire database. 
