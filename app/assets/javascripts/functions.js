@@ -2,7 +2,7 @@
 $(function() {
 	$('.purchaseorder-vendor .vendor-select').on('change','select',function() {
 		if ($(this).val() != "") {
-        	vendor = $(this);
+        	var vendor = $(this);
 			$.get( "/vendors/" + vendor.val() + ".json", function( data ) {
 				$('.purchaseorder-vendor .vendor-select .vendor-details').html(data.name +'<br>Attention: '+ data.contact +'<br>'+ data.email).show();
 				$('.vendor-change .small-btn').show();
@@ -17,12 +17,17 @@ $(function() {
 
 	$('.purchaseorder-deliverto .deliverto-select').on('change','select',function() {
 		if ($(this).val() != "") {
-			var address = JSON.parse($(this).val().replace(/'/g, '"'));
-        	$(this).hide();
-			$('.purchaseorder-deliverto .deliverto-select .deliverto-details').html(address.name +'<br>'+ address.address +'<br>Attention: '+ address.agent +'<br>'+ address.telephone).show();
-			$('.deliverto-change .small-btn').show();
+        	var address = $(this);
+			$.get( "/addresses/" + address.val() + ".json", function( data ) {
+				$('.purchaseorder-deliverto .deliverto-select .deliverto-details').html(data.name +'<br>'+ data.address.address_line_1 +', '+ data.address.address_line_2 +'<br>'+ data.address.city +', '+ data.address.state +', '+ data.address.zip +'<br>Attention: '+ data.agent +'<br>'+ data.telephone).show();
+				$('.deliverto-change .small-btn').show();
+				address.hide();
+			});
 		}
 	});
+
+
+
     $('.purchaseorder-deliverto .deliverto-select').on('click', '.small-btn', function() {
         $('.purchaseorder-deliverto .deliverto-select select').show();
         $('.purchaseorder-deliverto .deliverto-change .small-btn, .purchaseorder-deliverto .deliverto-select .deliverto-details').hide();
@@ -53,10 +58,17 @@ $(function() {
     
     $('.sortable').tablesorter();
 
+
+	$('.phone input').formatter({
+	  'pattern': '({{999}}) {{999}}-{{9999}}'
+	});
+
 	var currReqObj = null;
     var searchTimeoutThrottle = 500;
     var searchTimeoutID = -1;
 	$('.search-area .search-query').bind('keyup change', function(){
+	    var searchAction = $('.search-area .search-query').parent().attr('action').substring(1, $('.search-area .search-query').parent().attr('action').length);
+	    console.log(searchAction);
         // only search if search string has changed
         if($(this).val() != $(this).data('oldval')) {
         	$(this).data('oldval', $(this).val());
@@ -64,21 +76,31 @@ $(function() {
         	 clearTimeout(searchTimeoutID);
         	 var term = $(this).val();
         	 searchTimeoutID = setTimeout(function(){
-				 currReqObj = $.get( "/purchase_orders.json?q=" + term, function( data ) {
+				 currReqObj = $.get( "/" + searchAction + ".json?q=" + term, function( data ) {
 					currReqObj = null;
 					if(data.length == 0) {
-						$('#purchase-orders-table').hide();
-						if (!$('#purchase-orders-search').length) {
-							$('#purchase-orders-table').parent().append('<div id="purchase-orders-search"><h3>Could not find any purchase orders</h3><p>Try changing the search term</p></div>');
+						$('#searchable-table').hide();
+						if (!$('#searchable-table-text').length) {
+							if (searchAction == "purchase_orders") {
+								$('#searchable-table').parent().append('<div id="searchable-table-text"><h3>Could not find any purchase orders</h3><p>Try changing the search term</p></div>');
+							} else {
+								$('#searchable-table').parent().append('<div id="searchable-table-text"><h3>Could not find any vendors</h3><p>Try changing the search term</p></div>');
+							}
 						}
-						$('#purchase-orders-search').show();
+						$('#searchable-table-text').show();
 					} else {
-						$('#purchase-orders-table').show();
-						$('#purchase-orders-search').hide();
-						$('#purchase-orders-table tbody').empty();
+						$('#searchable-table').show();
+						$('#searchable-table-text').hide();
+						$('#searchable-table tbody').empty();
 						$.each(data, function(index, item) {
+							console.log(item);
 							var url = item.url.slice(0, -5);
-							$('#purchase-orders-table tbody').append('<tr><td><a href="' + url + '">' + item.number + '</a></td><td>' +  $.format.date(item.date, "MMMM D, yyyy") + '</td><td>' + item.vendor.name + '</td><td><span class="label status-' + item.status + '">' + item.status + '</span></td></tr>');
+							if (searchAction == "purchase_orders") {
+								$('#searchable-table tbody').append('<tr><td><a href="' + url + '">' + item.number + '</a></td><td>' +  $.format.date(item.date, "MMMM D, yyyy") + '</td><td>' + item.vendor.name + '</td><td><span class="label status-' + item.status + '">' + item.status + '</span></td></tr>');
+							} else {
+								url += "/edit";
+								$('#searchable-table tbody').append('<tr><td><a href="' + url + '">' + item.name + '</a></td><td>' + item.email + '</td><td>' + item.contact + '</td><td>' + item.telephone + '</td></tr>');
+							}
 						});
 						$('.sortable').trigger("update");
 					}

@@ -6,6 +6,11 @@ class AddressesController < ApplicationController
     @address = @company.addresses.new
   end
 
+  # GET /vendors/1
+  # GET /vendors/1.json
+  def show
+  end
+
   # POST /addresses
   # POST /addresses.json
   def create

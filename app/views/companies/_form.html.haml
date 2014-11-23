@@ -10,9 +10,9 @@
 					= f.input :name, required: true
 				.form-inputs
 					= f.input :email, required: true
-				.form-inputs
+				.form-inputs.phone
 					= f.input :fax
-				.form-inputs
+				.form-inputs.phone
 					= f.input :telephone
 				.buttons
 					= link_to company_path(@company), class: 'btn btn-cancel' do
