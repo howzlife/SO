@@ -13,6 +13,7 @@ class Vendor
   field :email, type: String
   field :contact, type: String
   field :telephone, type: String
+  field :fax, type: String
   include ActiveModel::Validations
 
   validates_presence_of :name
