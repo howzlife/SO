@@ -12,8 +12,8 @@ class Company
   has_many :users
   has_many :purchase_orders
   embeds_many :vendors, as: :vendorable do
-    def find_by_name(name)
-      where(name: name).first
+    def search(search)
+      any_of({name: /#{search}/i}, {email: /#{search}/i}, {contact: /#{search}/i}, {telephone: /#{search}/i})
     end
   end
   
