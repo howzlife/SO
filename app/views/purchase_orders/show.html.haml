@@ -58,7 +58,7 @@
 			= button_tag(type: 'submit', :name => "status", :value => "open", class: "btn btn-edit print") do
 				%i.fa.fa-print.fa-fw
 				%span.text Print
-			- if @purchase_order.status != "closed" && @purchase_order.status != "archived"
+			- if @purchase_order.status != "closed" && @purchase_order.status != "archived" && !@purchase_order.vendor.email.blank?
 				= button_tag(type: 'submit', :name => "status", :value => "email", :data => { :confirm => 'Are you sure?' }, class: "btn btn-edit email") do
 					%i.fa.fa-envelope-o.fa-fw
 					%span.text Email
