@@ -39,14 +39,19 @@
 				Deliver To
 			.deliverto-select
 				.deliverto-details
-					-address = @purchase_order.address
-					=address['name']
+					-a = @purchase_order.address
+					=a['name']
 					%br
-					- address.attributes.each_pair do |k, v|
-						- if !["_id", "deleted_at"].include?(k)
-							= v
+					= a["address"]["address_line_1"]
 					%br
-					=address['agent']
+					- if a["address"]["address_line_2"] != ""
+						= a["address"]["address_line_2"]
+						%br
+					= "#{a["address"]["city"]}, #{a["address"]["state"]}, #{a["address"]["zip"]}"
+					%br
+					= a["address"]["country"]
+					%br
+					=a['agent']
 					%br
 					
 	.buttons.clear.purchaseorder-buttons
