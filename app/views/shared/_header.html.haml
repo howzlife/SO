@@ -1,4 +1,15 @@
-.page-header
-  %h2
-    -#%i{:class => "fa #{icon} fa-fw"}
-    = title
+-hasbutton = false if local_assigns[:hasbutton].nil?
+
+.page-header.clear
+	%h2
+		-#%i{:class => "fa #{icon} fa-fw"}
+		= title
+	-if hasbutton
+		-if button == "New Purchase Order"
+			= button_to new_purchase_order_path, method: 'get', class: 'btn btn-add' do
+				%i.fa.fa-plus-circle.fa-fw
+				%span.text New Purchase Order
+		-if button == "New Vendor"
+			= button_to new_vendor_path, method: 'get', class: 'btn btn-add' do
+				%i.fa.fa-plus-circle.fa-fw
+				%span.text New Vendor

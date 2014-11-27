@@ -1,7 +1,7 @@
 .log-in
 	%h2 Log in to manage your orders
 	= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-		.form-inputs
+		.form-inputs.hidereq
 			= f.input :email, required: true, autofocus: true
 			= f.input :password, required: true
 			.form-inputs.forgot-password.right

@@ -1,4 +1,4 @@
-= render :partial => "shared/header", :locals => {:title => "Your Vendors",:icon => "fa-truck"}
+= render :partial => "shared/header", :locals => {:title => "Your Vendors",:icon => "fa-truck", :hasbutton => true, :button => "New Vendor" }
 .wrapper
 	.card
 		- if @vendors.length == 0
@@ -13,6 +13,7 @@
 						%th.text-label Email
 						%th.text-label Contact
 						%th.text-label Telephone
+						%th.text-label Fax
 				%tbody
 					- @vendors.each do |vendor|
 						%tr
@@ -20,8 +21,4 @@
 							%td= vendor.email
 							%td= vendor.contact
 							%td= vendor.telephone
-
-		.buttons
-			= button_to new_vendor_path, method: 'get', class: 'btn btn-add' do
-				%i.fa.fa-plus-circle.fa-fw
-				%span.text Add Vendor
+							%td= vendor.fax

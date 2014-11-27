@@ -27,7 +27,7 @@ body
 	margin: 0px
 	padding: 0px
 	font-family: "proxima-nova",sans-serif
-	font-size: 15px
+	font-size: 14px
 	color: #738189
 body.splash
 	height: auto
@@ -52,11 +52,6 @@ h1,h2,h3,h4,h5,h6
 .buttons
 	text-align: right
 	margin: 15px 0 0 0
-	&.purchaseorder-buttons
-		form
-			float: left	
-			&.form-email
-				float: none
 	form
 		display: inline
 
@@ -79,15 +74,17 @@ h1,h2,h3,h4,h5,h6
 	color: #fff
 	i
 		margin: 0 6px 0 0
+	&.left
+		float: left	
 
 .btn-edit
 	background-color: #fcf7ee
 	color: #e5b558
 	border: solid 1px #efd39b
 .btn-add
-	background-color: #e6f2f2
-	color: #0aa29b
-	border: solid 1px #c9f2bd
+	background-color: #3895d9
+	color: #fff
+	border: solid 1px #f4f7fa
 .btn-draft, .btn-cancel
 	color: #c0c0c0
 	background-color: #f9f9f9
@@ -137,6 +134,9 @@ h1,h2,h3,h4,h5,h6
 		margin: 0 0 20px 0
 		abbr
 			color: #ea4e1b
+		&.hidereq
+			abbr
+				display: none
 	.remember-me
 	.forgot-password
 		font-size: 11px
@@ -204,7 +204,7 @@ p.notice
 	background: #000
 
 a
-	color: #389693
+	color: #3895d9
 	&:hover
 		color: #411051
 		
@@ -214,7 +214,7 @@ a
 	bottom: 0
 	left: 0
 	display: block
-	width: 190px
+	width: 175px
 	overflow: hidden
 	padding: 0
 	z-index: 10
@@ -254,7 +254,7 @@ a
 		a
 			color: #6d7a82
 			font-weight: 600
-			padding: 11px 20px 11px 25px
+			padding: 11px 10px 11px 15px
 			display: block
 			text-decoration: none
 			border-bottom: 1px solid rgba(255, 255, 255, 0.1)
@@ -262,7 +262,7 @@ a
 			&.current
 				background: rgba(255, 255, 255, 0.1)
 				border-left: 5px solid #ea4e1b
-				padding: 11px 20px 11px 20px
+				padding: 11px 10px 11px 10px
 				color: #f9f9f9
 
 			&:hover
@@ -273,7 +273,7 @@ a
 	position: relative
 	z-index: 2
 	width: 100%
-	padding: 0 0 0 190px
+	padding: 0 0 0 175px
 	max-height: 100%
 	height: 100%
 	-webkit-box-sizing: border-box
@@ -285,10 +285,15 @@ a
 		padding: 15px 25px
 		margin: 0
 		background: #fff
-
+		position: relative
 		h2
 			font-size: 21px
 			font-weight: 600
+			display: inline-block
+		form
+			position: absolute
+			right: 20px
+			top: 10px
 	
 	.search-area
 		margin: 0 0 20px 0
@@ -306,9 +311,13 @@ a
 		margin: 0  
 		padding: 0  
 		width: 100%  
-		tr.status-archived
-			td
-				color: #ccc
+		tr
+			&.status-archived
+				td
+					color: #ccc
+			&:hover
+				td
+					background: #f4f7fa
 		th
 			text-align: left
 			text-transform: uppercase
@@ -319,6 +328,8 @@ a
 			vertical-align: top
 			p
 				margin: 0
+		.right
+			text-align: right
 
 	h3
 		font-size: 18px
@@ -397,15 +408,18 @@ a
 			font-size: 10px
 			text-transform: uppercase
 			font-weight: 700
-			color: #fff
 			&.status-open
-				background-color: #86d566
+				color: #86d566
+				border: 1px solid #86d566
 			&.status-closed
-				background-color: #738189
-			&.status-complete
-				background-color: #a1a8c2
+				color: #738189
+				border: 1px solid #738189
+			&.status-draft
+				color: #a1a8c2
+				border: 1px solid #a1a8c2
 			&.status-archived
-				background-color: #ccc
+				color: #ccc
+				border: 1px solid #ccc
 
 	.purchaseorder
 		background: #fafcfc

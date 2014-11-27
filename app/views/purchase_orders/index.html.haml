@@ -1,4 +1,4 @@
-= render :partial => "shared/header", :locals => {:title => "Purchase Orders",:icon => "fa-list-alt"}
+= render :partial => "shared/header", :locals => {:title => "Purchase Orders", :icon => "fa-list-alt", :hasbutton => true, :button => "New Purchase Order" }
 .wrapper
 	.card.hastabs
 		%ul.tabs.clear
@@ -24,6 +24,7 @@
 							%th.text-label Number
 							%th.text-label Date Sent
 							%th.text-label Vendor
+							%th.text-label Label
 							%th.text-label Status
 					%tbody
 						- @purchase_orders.each do |purchase_order|
@@ -34,12 +35,9 @@
 									%td= link_to purchase_order.number, purchase_order
 								%td= purchase_order.date.strftime("%B #{purchase_order.date.day.ordinalize}, %Y")
 								%td= purchase_order.vendor.name
+								%td= purchase_order.label
 								%td
 									%span{class: "label status-#{purchase_order.status}"}= purchase_order.status
 								-#= %td= link_to 'Show', purchase_order
 								-#= %td= link_to 'Edit', edit_purchase_order_path(purchase_order)
 								-#= %td= link_to 'Destroy', purchase_order, :method => :delete, :data => { :confirm => 'Are you sure?' }
-				.buttons
-					= button_to new_purchase_order_path, method: 'get', class: 'btn btn-add' do
-						%i.fa.fa-plus-circle.fa-fw
-						%span.text New Purchase Order

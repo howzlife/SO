@@ -1,7 +1,2 @@
-%h1 Editing #{@purchase_order.number}
-
+= render :partial => "shared/header", :locals => {:title => "Editing Purchase Order "+@purchase_order.number,:icon => "fa-list-alt"}
 = render 'form'
-
-= link_to 'Show', @purchase_order
-\|
-= link_to 'Back', purchase_orders_path
