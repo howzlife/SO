@@ -160,9 +160,6 @@ class PurchaseOrdersController < ApplicationController
       address = @company.addresses.find(company_address_id).attributes.except("_id","deleted_at","updated_at","created_at") rescue nil
       purchase_order_params["address"] = address
 
-      puts "address"
-      puts address
-
       return purchase_order_params
     end
 end
