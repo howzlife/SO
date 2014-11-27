@@ -31,8 +31,15 @@
 						%button.small-btn.btn.btn-edit{:type => "button"}
 							%i.fa.fa-undo
 							%span.text Change
-						-# the instance variable below isn't the vendor document that embedded in the purchase order. It's the one embedded in the company. We use the vendors created there in this form. The data from them is then saved to the purchase order's embedded vendor document. We allow vendor information to be changed for the company but not on the purchase orders. This way, if the Company's vendor data changes, the already saved purchase orders' vendor data doesn't. This vendor data is being passed as a hash string.
-						= f.select :vendor, @company.vendors.all.map { |r| [r.name, r.id] }, :include_blank => "Select Vendor"
+						-# the instance variable below isn't the vendor document that embedded in the purchase order. It's the one embedded in the company. We use the vendors created there in this form. The data from them is then saved to the purchase order's embedded vendor document. We allow vendor information to be changed for the company but not on the purchase orders. This way, if the Company's vendor data changes, the already saved purchase orders' vendor data doesn't. This vendor data is being passed as a hash string. 
+						- if @purchase_order.vendor.name.blank? 
+							= f.select :vendor, @company.vendors.all.map { |r| [r.name, r.id] }, :include_blank => "Select Vendor"
+						- else
+							- id_of_vendor = @company.vendors.where(name: @purchase_order.vendor.name).first.id
+							%select{:name => 'purchase_order[vendor]', :id => 'purchase_order_vendor' } 
+								- @company.vendors.each do |v|
+									%option{:value => "#{v.id}", :selected => id_of_vendor == v.id}
+										= v.name
 				.date-required
 					Date Required
 				.date-field
@@ -49,15 +56,26 @@
 						%button.small-btn.btn.btn-edit{:type => "button"}
 							%i.fa.fa-undo
 							%span.text Change
-					= f.select :address, @company.addresses.all.map { |r| [r.name, r.id] }, :include_blank => "Select Address"
+					- if @purchase_order.address.name.blank? 
+						= f.select :address, @company.addresses.all.map { |r| [r.name, r.id] }, :include_blank => "Select Address"
+					- else
+						- id_of_address = @company.addresses.where(name: @purchase_order.address.name).first.id
+						%select{:name => 'purchase_order[address]', :id => 'purchase_order_address' } 
+							- @company.addresses.each do |a|
+								%option{:value => "#{a.id}", :selected => id_of_address == a.id}
+									= a.name
 			.buttons
-				= link_to purchase_orders_path, method: 'get', class: 'btn btn-cancel' do
-					%i.fa.fa-undo.fa-fw
-					%span.text Cancel
-				= button_tag(type: 'submit', :name => "status", :value => "complete", :data => { :confirm => 'Are you sure? Once you complete this purchase order, you will not be able to edit its contents.' }, class: "btn btn-add") do
+				- if @purchase_order.status == nil?
+					= link_to purchase_orders_path, method: 'get', class: 'btn btn-delete' do
+						%i.fa.fa-undo.fa-fw
+						%span.text Discard
+				- elsif @purchase_order.status == "draft"
+					= link_to purchase_order_path, method: 'delete', class: 'btn btn-cancel' do
+						%i.fa.fa-undo.fa-fw
+						%span.text Delete
+				= button_tag(type: 'submit', :name => "status", :value => "draft", class: "btn btn-add") do
 					%i.fa.fa-save.fa-fw
-					%span.text Complete
-			/
+					%span.text Save As Draft
 				= button_tag(type: 'submit', :name => "status", :value => "email", :data => { :confirm => 'Are you sure? Once you complete this purchase order, you will not be able to edit its contents.' }, class: "btn btn-add") do
 					%i.fa.fa-envelope-o.fa-fw
-					%span.text Complete and email
+					%span.text Send PO As Email

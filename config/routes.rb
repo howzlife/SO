@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resources :companies, only: [:show, :edit, :update]
 
   devise_for :users, controllers: { sessions: 'users/sessions',  registrations: 'users/registrations', confirmations: 'users/confirmations' }
-  resources :purchase_orders, only: [:index, :show, :new, :create, :update]
+  resources :purchase_orders
 
   resources :vendors
   resources :addresses

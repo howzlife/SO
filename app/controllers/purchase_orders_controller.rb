@@ -32,33 +32,17 @@ class PurchaseOrdersController < ApplicationController
 
   # GET /purchase_orders/1/edit
   def edit
+    if @purchase_order.status != "draft"
+      redirect_to action: "index"
+    end
   end
 
   # POST /purchase_orders
   # POST /purchase_orders.json
   def create
-    @pop = purchase_order_params
-
-    #get vendor name so we can search for it.
-    vendor_id = purchase_order_params["vendor"]
-
-    #get company address so we can search for it.
-    company_address_id = purchase_order_params["address"]
-
-    
-    #We're also removing attributes here from the company vendor that we don't want to save to the ...
-    #new PO vendor we are about to save
-    vendor = @company.vendors.find(vendor_id).attributes.except("_id","deleted_at","updated_at","created_at")
-    @pop["vendor"] = vendor
-
-    #We're also removing attributes here from the company address that we don't want to save to the ...
-    #new PO vendor we are about to save
-    address = @company.addresses.find(company_address_id).attributes.except("_id","deleted_at","updated_at","created_at")
-    @pop["address"] = address
-	
+    @pop = organize_purchase_order_params(purchase_order_params)	
     @purchase_order = @company.purchase_orders.build(@pop)
-
-    @purchase_order.status = "complete"
+    @purchase_order.status = "draft"
 
     respond_to do |format|
       if @purchase_order.save
@@ -67,10 +51,14 @@ class PurchaseOrdersController < ApplicationController
           PDFMailer.send_pdf(@purchase_order, current_user.company.email).deliver
           @purchase_order.status = "open"
           @purchase_order.save
+
+          format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully emailed.' }
+          format.json { render :show, status: :created, location: @purchase_order }
+        else
+          format.html { redirect_to edit_purchase_order_path(@purchase_order), notice: 'Purchase order was successfully saved.' }
+          format.json { render :edit, status: :created, location: edit_purchase_order_path(@purchase_order) }
         end
 
-        format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully created.' }
-        format.json { render :show, status: :created, location: @purchase_order }
       else
         format.html { render :new }
         format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
@@ -81,7 +69,6 @@ class PurchaseOrdersController < ApplicationController
   # PATCH/PUT /purchase_orders/1
   # PATCH/PUT /purchase_orders/1.json
   def update
-
     #send pdf
     if params[:status] == "email"
       PDFMailer.send_pdf(@purchase_order, current_user.company.email).deliver
@@ -90,14 +77,25 @@ class PurchaseOrdersController < ApplicationController
       @purchase_order.status = "closed"
     elsif params[:status] == "open"
       @purchase_order.status = "open"
+    elsif params[:status] == "draft" 
+      @pop = organize_purchase_order_params(purchase_order_params) 
+      @purchase_order.update(@pop.except(:number))
     elsif params[:status] == "archived"
       @purchase_order.status = "archived"
     end
 
     respond_to do |format|
       if @purchase_order.save
-        format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully updated.' }
-        format.json { render :show, status: :ok, location: @purchase_order }
+        if @purchase_order.status == "draft"
+          format.html { redirect_to edit_purchase_order_path(@purchase_order), notice: 'Purchase order was successfully saved.' }
+          format.json { render :edit, status: :created, location: edit_purchase_order_path(@purchase_order) }
+        elsif params[:status] == "email"                   
+          format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully emailed.' }
+          format.json { render :show, status: :ok, location: @purchase_order }          
+        else         
+          format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully updated.' }
+          format.json { render :show, status: :ok, location: @purchase_order }
+        end
       else
         format.html { render :edit }
         format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
@@ -108,10 +106,17 @@ class PurchaseOrdersController < ApplicationController
   # DELETE /purchase_orders/1
   # DELETE /purchase_orders/1.json
   def destroy
-    @purchase_order.destroy
-    respond_to do |format|
-      format.html { redirect_to purchase_orders_url, notice: 'Purchase order was successfully destroyed.' }
-      format.json { head :no_content }
+    if @purchase_order.status == "draft"
+      @purchase_order.destroy
+      respond_to do |format|
+        format.html { redirect_to purchase_orders_path, notice: 'Purchase order was successfully deleted.' }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to @purchase_order, notice: 'Purchase order can\' be deleted.' }
+        format.json { head :no_content }
+      end
     end
   end
 
@@ -136,5 +141,28 @@ class PurchaseOrdersController < ApplicationController
         flash[:notice] = "Fill in required Company information and have at least one Vendor before making a PO"
         redirect_to :back
       end
+    end
+
+    def organize_purchase_order_params(purchase_order_params)
+
+      #get vendor name so we can search for it.
+      vendor_id = purchase_order_params["vendor"]
+      #get company address so we can search for it.
+      company_address_id = purchase_order_params["address"]
+
+      #We're also removing attributes here from the company vendor that we don't want to save to the ...
+      #new PO vendor we are about to save
+      vendor = @company.vendors.find(vendor_id).attributes.except("_id","deleted_at","updated_at","created_at") rescue nil
+      purchase_order_params["vendor"] = vendor
+
+      #We're also removing attributes here from the company address that we don't want to save to the ...
+      #new PO vendor we are about to save
+      address = @company.addresses.find(company_address_id).attributes.except("_id","deleted_at","updated_at","created_at") rescue nil
+      purchase_order_params["address"] = address
+
+      puts "address"
+      puts address
+
+      return purchase_order_params
     end
 end
