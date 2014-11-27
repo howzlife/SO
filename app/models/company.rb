@@ -10,7 +10,12 @@ class Company
 
 
   has_many :users
-  has_many :purchase_orders
+  has_many :purchase_orders do
+    def active()
+      excludes(label: "archived")
+    end
+  end
+  
   embeds_many :vendors, as: :vendorable do
     def search(search)
       any_of({name: /#{search}/i}, {email: /#{search}/i}, {contact: /#{search}/i}, {telephone: /#{search}/i})
