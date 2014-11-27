@@ -9,7 +9,7 @@ class PurchaseOrdersController < ApplicationController
   # GET /purchase_orders.json
   def index
     if params["q"].blank? && params["status"].blank? && params["label"].blank? 
-      @purchase_orders = @company.purchase_orders.all
+      @purchase_orders = @company.purchase_orders.active
     else
     	if params.has_key?("status")
 	      @purchase_orders = PurchaseOrder.status(@company.id, params["status"])
