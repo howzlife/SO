@@ -1,9 +1,10 @@
 = render :partial => "shared/header", :locals => {:title => "Your Vendors",:icon => "fa-truck", :hasbutton => true, :button => "New Vendor" }
 .wrapper
-	.card
-		- if @vendors.length == 0
-			You have yet to added any vendors. Click the button below to create your first one.
-		- else
+	- if @vendors.length == 0
+		.firstrun
+			You have yet to added any vendors. Click the button above to create your first one.
+	- else
+		.card
 			= form_tag vendors_path, :class => "search-area", :method => :get do
 				= text_field_tag :q, nil, :class => "search-query", :placeholder => "Search for vendors..."
 			%table#searchable-table.sortable

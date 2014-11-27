@@ -1,23 +1,20 @@
 = render :partial => "shared/header", :locals => {:title => "Purchase Orders", :icon => "fa-list-alt", :hasbutton => true, :button => "New Purchase Order" }
 .wrapper
-	.card.hastabs
-		%ul.tabs.clear
-			%li{class: sp('all')}
-				=link_to 'All', purchase_orders_path
-			%li{class: sp('open')}
-				=link_to 'Open', "?status=open"
-			%li{class: sp('closed')}
-				=link_to 'Closed', "?status=closed"
-			%li{class: sp('archived')}
-				=link_to 'Archived', "?label=archived"
-		.contents
-			- if @purchase_orders.length == 0
-				No purchase orders found. Click the button below to create a new one.
-				.buttons
-					= button_to new_purchase_order_path, method: 'get', class: 'btn btn-add' do
-						%i.fa.fa-plus-circle.fa-fw
-						%span.text New Purchase Order
-			- else
+	- if @purchase_orders.length == 0
+		.firstrun
+			No purchase orders found. Click the button above to create a new one.
+	- else
+		.card.hastabs
+			%ul.tabs.clear
+				%li{class: sp('all')}
+					=link_to 'All', purchase_orders_path
+				%li{class: sp('open')}
+					=link_to 'Open', "?status=open"
+				%li{class: sp('closed')}
+					=link_to 'Closed', "?status=closed"
+				%li{class: sp('archived')}
+					=link_to 'Archived', "?label=archived"
+			.contents
 				= form_tag purchase_orders_path, :class => "search-area", :method => :get do
 					= text_field_tag :q, nil, :class => "search-query", :placeholder => "Search for purchase orders..."
 				%table#searchable-table.sortable
