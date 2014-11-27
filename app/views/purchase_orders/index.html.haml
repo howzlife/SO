@@ -2,6 +2,8 @@
 .wrapper
 	.card.hastabs
 		%ul.tabs.clear
+			%li{class: sp('all')}
+				=link_to 'All', purchase_orders_path
 			%li{class: sp('open')}
 				=link_to 'Open', "?status=open"
 			%li{class: sp('closed')}
