@@ -64,6 +64,21 @@
 					Deliver To
 				.deliverto-select
 					.deliverto-details
+						- if !@purchase_order.address.name.blank?
+							-a = @purchase_order.address
+							=a['name']
+							%br
+							= a["address"]["address_line_1"]
+							%br
+							- if a["address"]["address_line_2"] != ""
+								= a["address"]["address_line_2"]
+								%br
+							= "#{a["address"]["city"]}, #{a["address"]["state"]}, #{a["address"]["zip"]}"
+							%br
+							= a["address"]["country"]
+							%br
+							Attention: #{a['agent']}
+							%br
 					.deliverto-change
 						%button.small-btn.btn.btn-edit{:type => "button"}
 							%i.fa.fa-undo
@@ -72,7 +87,7 @@
 						= f.select :address, @company.addresses.all.map { |r| [r.name, r.id] }, :include_blank => "Select Address"
 					- else
 						- id_of_address = @company.addresses.where(name: @purchase_order.address.name).first.id
-						%select{:name => 'purchase_order[address]', :id => 'purchase_order_address' } 
+						%select{ :name => 'purchase_order[address]', :id => 'purchase_order_address' } 
 							- @company.addresses.each do |a|
 								%option{:value => "#{a.id}", :selected => id_of_address == a.id}
 									= a.name
@@ -98,5 +113,5 @@
 			%p Use this area to add additional information about this purchase order.
 		.section-content
 			.card
-				= f.input :label, :placeholder => "enter a label..."
+				= f.input :tags, label: 'Label', :placeholder => "enter a label..."
 

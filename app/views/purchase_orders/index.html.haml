@@ -35,7 +35,7 @@
 									%td= link_to purchase_order.number, purchase_order
 								%td= purchase_order.date.strftime("%B #{purchase_order.date.day.ordinalize}, %Y")
 								%td= purchase_order.vendor.name
-								%td= purchase_order.label
+								%td= purchase_order.tags
 								%td
 									%span{class: "label status-#{purchase_order.status}"}= purchase_order.status
 								-#= %td= link_to 'Show', purchase_order
