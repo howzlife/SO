@@ -8,6 +8,7 @@ class PurchaseOrder
   field :description, type: String
   field :tags, type: String
   field :date_required, type: String
+  field :label, type: String
 
   validates_presence_of :number, :date, :description, :vendor
 
