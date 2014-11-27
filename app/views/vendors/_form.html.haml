@@ -26,10 +26,9 @@
 						%i.fa.fa-undo.fa-fw
 						%span.text Cancel
 					- if action_name == "edit"
-						= link_to @vendor, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-cancel' do
+						= link_to @vendor, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger' do
 							%i.fa.fa-trash.fa-fw
 							%span.text Delete Vendor
 					= button_tag(type: 'submit', class: "btn btn-add") do
 						%i.fa.fa-save.fa-fw
 						%span.text Save Vendor
-

@@ -5,7 +5,10 @@
 			%ul
 				- @purchase_order.errors.full_messages.each do |msg|
 					%li= msg
-	-ponumber = @company.prefix + '.' + number_with_delimiter([*100000..999999].sample, :delimiter => '.')
+	- if @purchase_order.number.blank? 
+		-ponumber = @company.prefix + '.' + number_with_delimiter([*100000..999999].sample, :delimiter => '.')
+	- else
+		- ponumber = @purchase_order.number
 	.wrapper
 		.card.purchaseorder
 			.purchaseorder-header.clear
@@ -27,6 +30,14 @@
 					Send To
 				.vendor-select
 					.vendor-details
+						- if !@purchase_order.vendor.name.blank?
+							=@purchase_order.vendor.name
+							%br
+							- if !@purchase_order.vendor.contact.blank?
+								Attention: #{@purchase_order.vendor.contact}
+								%br
+							- if !@purchase_order.vendor.email.blank?
+								=@purchase_order.vendor.email
 					.vendor-change
 						%button.small-btn.btn.btn-edit{:type => "button"}
 							%i.fa.fa-undo
@@ -36,7 +47,8 @@
 							= f.select :vendor, @company.vendors.all.map { |r| [r.name, r.id] }, :include_blank => "Select Vendor"
 						- else
 							- id_of_vendor = @company.vendors.where(name: @purchase_order.vendor.name).first.id
-							%select{:name => 'purchase_order[vendor]', :id => 'purchase_order_vendor' } 
+							%select{:name => 'purchase_order[vendor]', :id => 'purchase_order_vendor' }
+								%option Select Vendor
 								- @company.vendors.each do |v|
 									%option{:value => "#{v.id}", :selected => id_of_vendor == v.id}
 										= v.name
@@ -64,18 +76,27 @@
 							- @company.addresses.each do |a|
 								%option{:value => "#{a.id}", :selected => id_of_address == a.id}
 									= a.name
-			.buttons
-				- if @purchase_order.status == nil?
-					= link_to purchase_orders_path, method: 'get', class: 'btn btn-delete' do
-						%i.fa.fa-undo.fa-fw
-						%span.text Discard
-				- elsif @purchase_order.status == "draft"
-					= link_to purchase_order_path, method: 'delete', class: 'btn btn-close left' do
-						%i.fa.fa-times.fa-fw
-						%span.text Delete
-				= button_tag(type: 'submit', :name => "status", :value => "draft", class: "btn btn-add") do
-					%i.fa.fa-save.fa-fw
-					%span.text Save As Draft
-				= button_tag(type: 'submit', :name => "status", :value => "email", :data => { :confirm => 'Are you sure? Once you email this purchase order, you will not be able to edit its contents.' }, class: "btn btn-email") do
-					%i.fa.fa-envelope-o.fa-fw
-					%span.text Send As Email
+		.buttons
+			- if @purchase_order.status == nil?
+				= link_to purchase_orders_path, method: 'get', class: 'btn btn-danger' do
+					%i.fa.fa-undo.fa-fw
+					%span.text Discard
+			- elsif @purchase_order.status == "draft"
+				= link_to purchase_order_path, method: 'delete', class: 'btn btn-danger left' do
+					%i.fa.fa-trash.fa-fw
+					%span.text Delete
+			= button_tag(type: 'submit', :name => "status", :value => "draft", class: "btn btn-add") do
+				%i.fa.fa-save.fa-fw
+				%span.text Save As Draft
+			= button_tag(type: 'submit', :name => "status", :value => "email", :data => { :confirm => 'Are you sure? Once you email this purchase order, you will not be able to edit its contents.' }, class: "btn btn-email") do
+				%i.fa.fa-envelope-o.fa-fw
+				%span.text Send As Email
+	.divider.no-print
+	.wrapper.section.clear.no-print
+		.section-description
+			%h3 For Internal Use
+			%p Use this area to add additional information about this purchase order.
+		.section-content
+			.card
+				= f.input :label, :placeholder => "enter a label..."
+

@@ -4,7 +4,16 @@ $(function() {
 		if ($(this).val() != "") {
         	var vendor = $(this);
 			$.get( "/vendors/" + vendor.val() + ".json", function( data ) {
-				$('.purchaseorder-vendor .vendor-select .vendor-details').html(data.name +'<br>Attention: '+ data.contact +'<br>'+ data.email).show();
+				$('.purchaseorder-vendor .vendor-select .vendor-details').empty().append(data.name +'<br>').show();
+				if (data.contact != "") {
+					$('.purchaseorder-vendor .vendor-select .vendor-details').append('Attention: '+data.contact +'<br>');
+				}
+				if (data.email != "") {
+					$('.purchaseorder-vendor .vendor-select .vendor-details').append(data.email);
+					$('.buttons .btn-email').show();
+				} else {
+					$('.buttons .btn-email').hide();
+				}
 				$('.vendor-change .small-btn').show();
 				vendor.hide();
 			});
@@ -12,7 +21,7 @@ $(function() {
 	});
     $('.purchaseorder-vendor .vendor-select').on('click', '.small-btn', function() {
         $('.purchaseorder-vendor .vendor-select select').show();
-        $('.purchaseorder-vendor .vendor-change .small-btn, .purchaseorder-vendor .vendor-select .vendor-details').hide();
+        $('.purchaseorder-vendor .vendor-change .small-btn, .purchaseorder-vendor .vendor-select .vendor-details, .purchaseorder .buttons .btn-email').hide();
     });
 
 	$('.purchaseorder-deliverto .deliverto-select').on('change','select',function() {
@@ -25,6 +34,11 @@ $(function() {
 			});
 		}
 	});
+	
+	if ($('form').hasClass('edit_purchase_order')) {
+		$('.deliverto-change .small-btn, .vendor-change .small-btn').show();
+        $('.purchaseorder-vendor .vendor-select select, .purchaseorder-deliverto .deliverto-select select').hide();
+	}
 
 
 
@@ -34,7 +48,7 @@ $(function() {
     });
 
 	$('.purchaseorder .purchaseorder-input textarea').css('overflow', 'hidden').autogrow();
-	
+	$('.buttons .btn-email').hide();
 		
 	
     $('.buttons .form-print').on('click', '.print', function(event) {
