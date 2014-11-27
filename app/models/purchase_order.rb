@@ -32,4 +32,9 @@ class PurchaseOrder
     end
   end
 
+  def self.label(company_id, label)
+    if label
+      where(company_id: company_id, label: label)
+    end
+  end
 end

@@ -9,7 +9,7 @@
 			%li{class: sp('closed')}
 				=link_to 'Closed', "?status=closed"
 			%li{class: sp('archived')}
-				=link_to 'Archived', "?status=archived"
+				=link_to 'Archived', "?label=archived"
 		.contents
 			- if @purchase_orders.length == 0
 				No purchase orders found. Click the button below to create a new one.
