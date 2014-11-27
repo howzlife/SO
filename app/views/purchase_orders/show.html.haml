@@ -77,7 +77,7 @@
 				= button_tag(type: 'submit', :name => "status", :value => "open", :data => { :confirm => 'Are you sure?' }, class: "btn") do
 					%i.fa.fa-times.fa-fw
 					%span.text Mark as Open
-			- if @purchase_order.label != "archived" && (@purchase_order.status == "closed" || @purchase_order.status == "complete")
+			- if @purchase_order.label != "archived" && @purchase_order.status == "closed"
 				= button_tag(type: 'submit', :name => "label", :value => "archived", :data => { :confirm => 'Are you sure?' }, class: "btn btn-cancel") do
 					%i.fa.fa-trash.fa-fw
 					%span.text Archive Purchase Order
