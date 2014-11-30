@@ -24,5 +24,11 @@ class Company
   
   embeds_many :addresses, as: :addressable
 
+  embeds_many :labels do
+    def search(search)
+      any_of({name: /#{search}/i}).descending(:updated_at).to_json
+    end
+  end
+
   accepts_nested_attributes_for :addresses, :purchase_orders, :users, :vendors
 end

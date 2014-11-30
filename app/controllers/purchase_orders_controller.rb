@@ -47,6 +47,7 @@ class PurchaseOrdersController < ApplicationController
     @pop = organize_purchase_order_params(purchase_order_params)	
     @purchase_order = @company.purchase_orders.build(@pop)
     @purchase_order.status = "draft"
+    @company.labels.find_or_create_by(name: @purchase_order.label)
 
     respond_to do |format|
       if @purchase_order.save
@@ -84,6 +85,7 @@ class PurchaseOrdersController < ApplicationController
     elsif params[:status] == "draft" 
       @pop = organize_purchase_order_params(purchase_order_params) 
       @purchase_order.update(@pop.except(:number))
+      @company.labels.find_or_create_by(name: @purchase_order.label)
     elsif params[:archived] == "true"
       @purchase_order.archived = true
     end
