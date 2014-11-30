@@ -23,7 +23,7 @@ class PurchaseOrder
 
   def self.search(company_id, search)
     if search
-      where(company_id: company_id).any_of({number: /#{search}/i}, {status: /#{search}/i}, {description: /#{search}/i}, {tags: /#{search}/i}, {"vendor.name" => /#{search}/i}, {"vendor.email" => /#{search}/i}, {"vendor.contact" => /#{search}/i}, {"vendor.telephone" => /#{search}/i})
+      where(company_id: company_id).any_of({number: /#{search}/i}, {status: /#{search}/i}, {description: /#{search}/i}, {label: /#{search}/i}, {"vendor.name" => /#{search}/i}, {"vendor.email" => /#{search}/i}, {"vendor.contact" => /#{search}/i}, {"vendor.telephone" => /#{search}/i})
     end
   end
 
