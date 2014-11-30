@@ -8,13 +8,15 @@ class PurchaseOrdersController < ApplicationController
   # GET /purchase_orders
   # GET /purchase_orders.json
   def index
-    if params["q"].blank? && params["status"].blank? && params["label"].blank? 
+    if params["q"].blank? && params["status"].blank? && params["label"].blank? && params["archived"].blank? 
       @purchase_orders = @company.purchase_orders.active
     else
     	if params.has_key?("status")
 	      @purchase_orders = PurchaseOrder.status(@company.id, params["status"])
 	    elsif params.has_key?("label")
 	      @purchase_orders = PurchaseOrder.label(@company.id, params["label"])
+      elsif params.has_key?("archived")
+        @purchase_orders = PurchaseOrder.archived(@company.id)
       elsif params.has_key?("q")
         @purchase_orders = PurchaseOrder.search(@company.id, params["q"])
 	    end
@@ -82,8 +84,8 @@ class PurchaseOrdersController < ApplicationController
     elsif params[:status] == "draft" 
       @pop = organize_purchase_order_params(purchase_order_params) 
       @purchase_order.update(@pop.except(:number))
-    elsif params[:label] == "archived"
-      @purchase_order.label = "archived"
+    elsif params[:archived] == "true"
+      @purchase_order.archived = true
     end
 
     respond_to do |format|

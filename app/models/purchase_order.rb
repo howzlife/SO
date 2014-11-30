@@ -9,6 +9,7 @@ class PurchaseOrder
   field :tags, type: String
   field :date_required, type: String
   field :label, type: String
+  field :archived, type: Boolean
 
   validates_presence_of :number, :date, :description, :vendor
 
@@ -36,5 +37,9 @@ class PurchaseOrder
     if label
       where(company_id: company_id, label: label)
     end
+  end
+
+  def self.archived(company_id)
+    where(company_id: company_id, archived: true)
   end
 end

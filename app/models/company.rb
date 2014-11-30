@@ -12,7 +12,7 @@ class Company
   has_many :users
   has_many :purchase_orders do
     def active()
-      excludes(label: "archived")
+      excludes(archived: true)
     end
   end
   
