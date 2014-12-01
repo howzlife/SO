@@ -6,9 +6,9 @@ class VendorsController < ApplicationController
   # GET /vendors.json
   def index
     if params["q"].blank?
-      @vendors = @company.vendors.all
+      @vendors = @company.vendors.all.page params[:page]
     else
-      @vendors = @company.vendors.search(params["q"])
+      @vendors = @company.vendors.search(params["q"]).page params[:page]
     end
   end
 

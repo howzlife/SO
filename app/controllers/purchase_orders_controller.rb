@@ -9,16 +9,16 @@ class PurchaseOrdersController < ApplicationController
   # GET /purchase_orders.json
   def index
     if params["q"].blank? && params["status"].blank? && params["label"].blank? && params["archived"].blank? 
-      @purchase_orders = @company.purchase_orders.active
+      @purchase_orders = @company.purchase_orders.active.page params[:page]
     else
     	if params.has_key?("status")
-	      @purchase_orders = PurchaseOrder.status(@company.id, params["status"])
+	      @purchase_orders = PurchaseOrder.status(@company.id, params["status"]).page params[:page]
 	    elsif params.has_key?("label")
-	      @purchase_orders = PurchaseOrder.label(@company.id, params["label"])
+	      @purchase_orders = PurchaseOrder.label(@company.id, params["label"]).page params[:page]
       elsif params.has_key?("archived")
-        @purchase_orders = PurchaseOrder.archived(@company.id)
+        @purchase_orders = PurchaseOrder.archived(@company.id).page params[:page]
       elsif params.has_key?("q")
-        @purchase_orders = PurchaseOrder.search(@company.id, params["q"])
+        @purchase_orders = PurchaseOrder.search(@company.id, params["q"]).page params[:page]
 	    end
     end
   end

@@ -54,6 +54,8 @@ gem 'doc_raptor'
 #mailchimp api for adding confirmed signups to mailchimp
 gem 'mailchimp-api', require: 'mailchimp'
 
+gem 'kaminari'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
