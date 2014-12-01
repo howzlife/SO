@@ -12,22 +12,33 @@
 	.wrapper
 		.card.purchaseorder
 			.purchaseorder-header.clear
+				.purchaseorder-company
+					= @company.name
+				.purchaseorder-address
+					=@company.name
+					%br
+					=@company.email
+				.purchaseorder-from
+					.text-label From
+					=@company.name
+					%br
+					=@company.email
+					.section
+						.text-label Sent By
+						= current_user.first_name
+						= current_user.last_name
 				.purchaseorder-number
 					.text-label Purchase Order
 					.number
 						= ponumber
 						= f.hidden_field :number, :value => ponumber
-				.purchaseorder-address
-					=@company.name
-					%br
-					=@company.email
-				.purchaseorder-date
-					.text-label Date
-					.date
-						=@purchase_order.date.strftime("%B #{@purchase_order.date.day.ordinalize}, %Y")
+					.section
+						.text-label Date
+						.date
+							=@purchase_order.date.strftime("%B #{@purchase_order.date.day.ordinalize}, %Y")
 			.purchaseorder-vendor.clear
 				.to
-					Send To
+					.text-label Send To
 				.vendor-select
 					.vendor-details
 						- if !@purchase_order.vendor.name.blank?
@@ -53,15 +64,17 @@
 									%option{:value => "#{v.id}", :selected => id_of_vendor == v.id}
 										= v.name
 				.date-required
-					Date Required
-				.date-field
-					= f.input :date_required, :placeholder => "enter a date..."
+					.text-label Date Required
+					.date-field
+						= f.input :date_required, :placeholder => "enter a date..."
+			.purchaseorder-description
+				.text-label Description
 			.purchaseorder-input
 				= f.label :description
 				= f.text_area :description, :placeholder => "enter your order information..."
 			.purchaseorder-deliverto.clear
 				.to
-					Deliver To
+					.text-label Ship To
 				.deliverto-select
 					.deliverto-details
 						- if !@purchase_order.address.name.blank?
@@ -75,10 +88,7 @@
 								%br
 							= "#{a["address"]["city"]}, #{a["address"]["state"]}, #{a["address"]["zip"]}"
 							%br
-							= a["address"]["country"]
-							%br
-							Attention: #{a['agent']}
-							%br
+							Tel. #{a["telephone"]}
 					.deliverto-change
 						%button.small-btn.btn.btn-edit{:type => "button"}
 							%i.fa.fa-undo
@@ -91,6 +101,12 @@
 							- @company.addresses.each do |a|
 								%option{:value => "#{a.id}", :selected => id_of_address == a.id}
 									= a.name
+				.to
+					.text-label Attention
+				.deliverto-agent
+					- if !@purchase_order.address.name.blank?
+						= a['agent']
+
 		.buttons
 			- if @purchase_order.status == nil?
 				= link_to purchase_orders_path, method: 'get', class: 'btn btn-danger' do

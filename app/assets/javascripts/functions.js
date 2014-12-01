@@ -28,7 +28,8 @@ $(function() {
 		if ($(this).val() != "") {
         	var address = $(this);
 			$.get( "/addresses/" + address.val() + ".json", function( data ) {
-				$('.purchaseorder-deliverto .deliverto-select .deliverto-details').html(data.name +'<br>'+ data.address.address_line_1 +', '+ data.address.address_line_2 +'<br>'+ data.address.city +', '+ data.address.state +', '+ data.address.zip +'<br>Attention: '+ data.agent +'<br>'+ data.telephone).show();
+				$('.purchaseorder-deliverto .deliverto-select .deliverto-details').html(data.name +'<br>'+ data.address.address_line_1 +', '+ data.address.address_line_2 +'<br>'+ data.address.city +', '+ data.address.state +', '+ data.address.zip +'<br>Tel. '+ data.telephone).show();
+				$('.purchaseorder-deliverto .deliverto-agent').html(data.agent);
 				$('.deliverto-change .small-btn').show();
 				address.hide();
 			});
@@ -109,8 +110,9 @@ $(function() {
 						$.each(data, function(index, item) {
 							console.log(item);
 							var url = item.url.slice(0, -5);
+							var label = item.tags != null ? item.tags : '';
 							if (searchAction == "purchase_orders") {
-								$('#searchable-table tbody').append('<tr><td><a href="' + url + '">' + item.number + '</a></td><td>' +  $.format.date(item.date, "MMMM D, yyyy") + '</td><td>' + item.vendor.name + '</td><td><span class="label status-' + item.status + '">' + item.status + '</span></td></tr>');
+								$('#searchable-table tbody').append('<tr><td><a href="' + url + '">' + item.number + '</a></td><td>' +  $.format.date(item.date, "MMMM D, yyyy") + '</td><td>' + item.vendor.name + '</td><td>' + label + '</td><td><span class="label status-' + item.status + '">' + item.status + '</span></td></tr>');
 							} else {
 								url += "/edit";
 								$('#searchable-table tbody').append('<tr><td><a href="' + url + '">' + item.name + '</a></td><td>' + item.email + '</td><td>' + item.contact + '</td><td>' + item.telephone + '</td></tr>');

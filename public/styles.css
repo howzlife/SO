@@ -1,0 +1,373 @@
+html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
+  display: block;
+}
+
+audio, canvas, progress, video {
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+[hidden], template {
+  display: none;
+}
+
+a {
+  background: 0 0;
+}
+
+a:active, a:hover {
+  outline: 0;
+}
+
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+
+b, strong {
+  font-weight: 700;
+}
+
+dfn {
+  font-style: italic;
+}
+
+h1 {
+  font-size: 2em;
+  margin: .67em 0;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+}
+
+small {
+  font-size: 80%;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -.5em;
+}
+
+sub {
+  bottom: -.25em;
+}
+
+img {
+  border: 0;
+}
+
+svg:not(:root) {
+  overflow: hidden;
+}
+
+figure {
+  margin: 1em 40px;
+}
+
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+
+pre {
+  overflow: auto;
+}
+
+code, kbd, pre, samp {
+  font-family: monospace,monospace;
+  font-size: 1em;
+}
+
+button, input, optgroup, select, textarea {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+button {
+  overflow: visible;
+}
+
+button, select {
+  text-transform: none;
+}
+
+button, html input[type=button], input[type=reset], input[type=submit] {
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+
+button[disabled], html input[disabled] {
+  cursor: default;
+}
+
+button::-moz-focus-inner, input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+input {
+  line-height: normal;
+}
+
+input[type=checkbox], input[type=radio] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+input[type=search] {
+  -webkit-appearance: textfield;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+input[type=search]::-webkit-search-cancel-button, input[type=search]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+fieldset {
+  border: 1px solid silver;
+  margin: 0 2px;
+  padding: .35em .625em .75em;
+}
+
+legend {
+  border: 0;
+  padding: 0;
+}
+
+textarea {
+  overflow: auto;
+}
+
+optgroup {
+  font-weight: 700;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td, th {
+  padding: 0;
+}
+
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+* html .clearfix {
+  zoom: 1;
+}
+
+/* IE6 */
+*:first-child + html .clearfix {
+  zoom: 1;
+}
+
+/* IE7 */
+* {
+  font-family: "Proxima Nova Soft W03 Reg";
+}
+
+section {
+  padding: 2.5rem 6rem;
+}
+
+p {
+  font-size: 1.2rem;
+}
+
+button {
+  text-align: center;
+  background: #4495DC;
+  border: none;
+  padding: 20px 40px;
+  color: #FFF;
+  font-size: 1.8rem;
+  margin: 4rem 2rem 0 2rem;
+  border-radius: 10px;
+}
+
+header {
+  margin: 1rem 4rem;
+}
+header h1 {
+  text-indent: -99999px;
+  background-image: url("swiftOrdersLogo.png");
+  background-repeat: no-repeat;
+  float: left;
+  width: 50%;
+}
+header ul {
+  list-style-type: none;
+  width: 50%;
+  float: right;
+  text-align: right;
+}
+header ul li {
+  display: inline-block;
+  margin: 1rem;
+}
+
+main {
+  clear: both;
+  background: linear-gradient(rgba(12, 1, 1, 0.1), rgba(12, 1, 1, 0.66)), url("desk10.jpg");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 700px;
+  background-position: 50% 50%;
+  text-align: center;
+}
+main h2 {
+  color: #FFF;
+  text-align: center;
+  padding-top: 130px;
+  font-size: 2.5rem;
+  max-width: 538px;
+  margin: auto;
+}
+main h3 {
+  color: white;
+}
+
+.features .container {
+  display: table;
+  margin: auto;
+  text-align: center;
+}
+.features .container .column {
+  display: table-cell;
+  padding: 2rem;
+  max-width: 300px;
+}
+.features h4 {
+  font-size: 2.5rem;
+  margin: 0;
+}
+.features i.fa.fa-truck.fa-fw {
+  color: #4495DC;
+  font-size: 5rem;
+  margin: 0 0 2rem 0;
+}
+.features i.fa.fa-list-alt.fa-fw {
+  color: #4495DC;
+  font-size: 5rem;
+  margin: 0 0 2rem 0;
+}
+.features i.fa.fa-user.fa-fw {
+  color: #4495DC;
+  font-size: 5rem;
+  margin: 0 0 2rem 0;
+}
+
+.beta {
+  text-align: center;
+  background: #F5F5F5;
+}
+.beta h2 {
+  max-width: 800px;
+  text-align: center;
+  margin: 2rem auto;
+  font-size: 2.5rem;
+}
+.beta button {
+  margin-bottom: 1rem;
+}
+
+.about {
+  margin-top: 6rem;
+}
+.about ul {
+  list-style-type: none;
+}
+.about .container {
+  display: table;
+  text-align: left;
+  float: left;
+}
+.about .container .column {
+  display: table-cell;
+  padding: 0 2rem 2rem 2rem;
+  max-width: 300px;
+}
+.about .container .column a {
+  text-decoration: none;
+  color: grey;
+}
+.about .container .listTitle {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+.about .social {
+  float: right;
+}
+.about .social li {
+  display: inline-block;
+}
+.about .social .fa {
+  color: #4495DC;
+  font-size: 2.5rem;
+  margin: 0 1rem;
+}
+
+footer {
+  clear: both;
+  margin: 0rem 6rem;
+  padding: 2rem 0;
+  text-align: center;
+}
+footer a {
+  text-decoration: none;
+  color: grey;
+  margin: 0 1rem;
+  font-size: 0.7rem;
+}
+footer p {
+  font-size: 0.7rem;
+  color: grey;
+}

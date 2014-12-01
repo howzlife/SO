@@ -479,17 +479,23 @@ a
 			border-bottom: 1px solid #dedfe3
 			padding: 15px 0
 			.to, .date-required
-				font-size: 18px
-				color: #a1a8c2
-				font-weight: 600
+				float: left
+				.text-label
+					font-size: 18px
+					color: #a1a8c2
+					font-weight: 600
+			.to
 				float: left
 				margin: 0 10px 0 0
-			.vendor-select, .deliverto-select, .date-field
+			.date-required
+				min-width: 225px
+				float: right
+				padding-left: 25px
+				border-left: 1px solid #dedfe3
+			.vendor-select, .deliverto-select, .deliverto-agent
 				float: left
-			.vendor-select
-				border-right: 1px solid #dedfe3
-				margin: 0 10px
-				padding: 0 25px 0 0
+			.deliverto-select
+				margin: 0 25px 0 0
 			.date-field
 				.string
 					border: none
@@ -500,8 +506,14 @@ a
 					&:focus
 						padding: 1px 0 0 0
 						border-bottom: 1px solid #dedfe3
+		.purchaseorder-description
+			margin: 5px 0
+			.text-label
+				font-size: 18px
+				color: #a1a8c2
+				font-weight: 600
 		.purchaseorder-input
-			min-height: 315px
+			min-height: 215px
 			background: asset-url("line.png", image)
 			p
 				margin: 0 0 21px 0
@@ -515,32 +527,37 @@ a
 				background: none
 				width: 100%
 				height: 100%
-				min-height: 315px
+				min-height: 215px
 				resize: none
 		.purchaseorder-header
 			border-bottom: 1px solid #dedfe3
 			padding: 0px 0 15px 0
-			
-			.purchaseorder-date
-				float: right
-				margin: 10px 0 0 0
-
-			.purchaseorder-number
-				float: left
-				margin: 10px 0 0 0
+			.purchaseorder-company
+				font-size: 18px
+				font-weight: 600
 				
+			.purchaseorder-company, .purchaseorder-address
+				float: left
+			.purchaseorder-address
+				margin: 0  0 0 25px
+			.purchaseorder-number
+				float: right
+				margin:  0 25px 0  0 
 				.number
 					color: #ea4e1b
 					font-size: 18px
-				
-			.purchaseorder-address
-				float: left
+				.date
+					color: #a1a8c2
+			.purchaseorder-from
+				float: right
 				font-style: normal
 				color: #a1a8c2
+				min-width: 225px
 				font-size: 14px
-				margin: 0 0 0 25px
+				padding-left: 25px
 				border-left: 1px solid #dedfe3
-				padding: 5px 0 5px 10px
+			.section
+				margin: 10px 0 0 0
 	.purchaseorder.saved
 		background-image: asset-url("po-sent.png", image)
 		background-position: bottom left
