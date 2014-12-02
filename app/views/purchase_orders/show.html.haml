@@ -55,10 +55,10 @@
 					%br
 					
 	.buttons.clear.purchaseorder-buttons
-		-#= link_to purchase_orders_path, class: 'btn btn-cancel' do
-			-#%i.fa.fa-undo.fa-fw
-			-#%span.text Back
-
+		- if @purchase_order.status == "draft"
+			= link_to edit_purchase_order_path(@purchase_order), class: 'btn btn-cancel' do
+				%i.fa.fa-edit.fa-fw
+				%span.text Edit
 		= simple_form_for @purchase_order, html: { class: "form-email form-print status-"+@purchase_order.status}, url: purchase_order_path do |f|
 			= button_tag(type: 'submit', :name => "status", :value => "open", class: "btn btn-edit print") do
 				%i.fa.fa-print.fa-fw
@@ -73,7 +73,7 @@
 				= button_tag(type: 'submit', :name => "status", :value => "closed", :data => { :confirm => 'Are you sure?' }, class: "btn btn-close") do
 					%i.fa.fa-times.fa-fw
 					%span.text Mark as Closed
-			- else			
+			- if @purchase_order.status != "open" && @purchase_order.archived != true			
 				= button_tag(type: 'submit', :name => "status", :value => "open", :data => { :confirm => 'Are you sure?' }, class: "btn") do
 					%i.fa.fa-times.fa-fw
 					%span.text Mark as Open
