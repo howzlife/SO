@@ -1,4 +1,3 @@
-
 $(function() {
 	$('.purchaseorder-vendor .vendor-select').on('change','select',function() {
 		if ($(this).val() != "") {
@@ -51,6 +50,11 @@ $(function() {
 	$('.purchaseorder .purchaseorder-input textarea').css('overflow', 'hidden').autogrow();
 	$('.buttons .btn-email').hide();
 		
+	
+	$('.buttons').on('click','.btn.email', function(event) {
+		$('.buttons .btn').hide();
+		$('.buttons').append('<div class="loading" />');
+	});
 	
     $('.buttons .form-print').on('click', '.print', function(event) {
     	if($(this).closest('form').hasClass('status-closed')) {

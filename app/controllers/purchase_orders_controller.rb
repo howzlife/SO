@@ -54,7 +54,7 @@ class PurchaseOrdersController < ApplicationController
       if @purchase_order.save
         #send pdf
         if params[:status] == "email"
-          PDFMailer.send_pdf(@purchase_order, current_user.company.email).deliver
+     			PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
           @purchase_order.status = "open"
           @purchase_order.save
 
@@ -77,7 +77,7 @@ class PurchaseOrdersController < ApplicationController
   def update
     #send pdf
     if params[:status] == "email"
-      PDFMailer.send_pdf(@purchase_order, current_user.company.email).deliver
+      PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
       @purchase_order.status = "open"
     elsif params[:status] == "closed"
       @purchase_order.status = "closed"

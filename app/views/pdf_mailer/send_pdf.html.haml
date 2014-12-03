@@ -1,12 +1,20 @@
 !!!
 %html
-  %head
-    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-  %body
-    %h1
-      New Purchase order for you, #{@email}
-    %p
-      You have received a new purchase order
-      your email is: #{@email}.
-      %br/
-    %p Thanks for reading and have a great day!
+	%head
+		%meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+	%body{ :style => "background: #f1f1f1;" }
+		%table{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%", :style => "padding: 10px;" }
+			%tr
+				%td{:align => "center"}
+					%table{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "background: #ffffff; max-width: 420px; padding: 10px;" }
+						%tr
+							%td{:align => "left", :style => "font-size: 13px; line-height: 18px;"}
+								%p
+									You have received a new purchase order. Please find the contents of the purchase order as a PDF document attached to this email.
+						%tr
+							%td{:align => "center", :style => "color:#3895d9; font-size: 10px; "}
+								SwiftOrders takes the pain out of business purchasing.
+								%br/
+								%a{:href => "http://SwiftOrders.com", :style => "color:#3895d9;"} SwiftOrders.com
+								%br/
+								Try it free for 60 days.

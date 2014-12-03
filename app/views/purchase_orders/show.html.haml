@@ -3,56 +3,70 @@
 - else
 	= render :partial => "shared/header", :locals => {:title => "Purchase Order "+@purchase_order.number,:icon => "fa-list-alt"}
 .wrapper
-	#purchaseorder.card.purchaseorder.saved
+	#purchaseorder.card.purchaseorder
 		.purchaseorder-header.clear
-			.purchaseorder-number
-				.text-label Purchase Order
-				.number
-					= @purchase_order.number
+			.purchaseorder-company
+				= @company.name
 			.purchaseorder-address
 				=@company.name
 				%br
 				=@company.email
-			.purchaseorder-date
-				.text-label Date Sent
-				.date
-					=@purchase_order.date.strftime("%B #{@purchase_order.date.day.ordinalize}, %Y")
+			.purchaseorder-from
+				.text-label From
+				=@company.name
+				%br
+				=@company.email
+				.section
+					.text-label Sent By
+					= current_user.first_name
+					= current_user.last_name
+			.purchaseorder-number
+				.text-label Purchase Order
+				.number
+					= @purchase_order.number
+				.section
+					.text-label Date
+					.date
+						=@purchase_order.date.strftime("%B #{@purchase_order.date.day.ordinalize}, %Y")
 		.purchaseorder-vendor.clear
 			.to
-				Send To
+				.text-label Send To
 			.vendor-select
-				.vendor-details
-					=@purchase_order.vendor.name
+				=@purchase_order.vendor.name
+				%br
+				- if !@purchase_order.vendor.contact.blank?
+					Attention: #{@purchase_order.vendor.contact}
 					%br
-					Attention: 
-					=@purchase_order.vendor.contact
-					%br
+				- if !@purchase_order.vendor.email.blank?
 					=@purchase_order.vendor.email
 			.date-required
-				Date Required
-			.date-field
-				=@purchase_order.date_required
+				.text-label Date Required
+				.date-field
+					=@purchase_order.date_required
+		.purchaseorder-description
+			.text-label Description
 		.purchaseorder-input
 			= simple_format(@purchase_order.description)
 		.purchaseorder-deliverto.clear
 			.to
-				Deliver To
+				.text-label Ship To
 			.deliverto-select
-				.deliverto-details
-					-a = @purchase_order.address
-					=a['name']
+				-a = @purchase_order.address
+				=a['name']
+				%br
+				= a["address"]["address_line_1"]
+				%br
+				- if a["address"]["address_line_2"] != ""
+					= a["address"]["address_line_2"]
 					%br
-					= a["address"]["address_line_1"]
-					%br
-					- if a["address"]["address_line_2"] != ""
-						= a["address"]["address_line_2"]
-						%br
-					= "#{a["address"]["city"]}, #{a["address"]["state"]}, #{a["address"]["zip"]}"
-					%br
-					= a["address"]["country"]
-					%br
-					=a['agent']
-					%br
+				= "#{a["address"]["city"]}, #{a["address"]["state"]}, #{a["address"]["zip"]}"
+				%br
+				Tel. #{a["telephone"]}
+			.to
+				.text-label Attention
+			.deliverto-agent
+				- if !@purchase_order.address.name.blank?
+					= a['agent']
 					
 	.buttons.clear.purchaseorder-buttons
 		- if @purchase_order.status == "draft"
