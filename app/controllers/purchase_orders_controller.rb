@@ -46,7 +46,8 @@ class PurchaseOrdersController < ApplicationController
   def create
     @pop = organize_purchase_order_params(purchase_order_params)	
     @purchase_order = @company.purchase_orders.build(@pop)
-    @purchase_order.status = "draft"
+    @purchase_order.status = "draft" if params[:status] == "draft"
+    @purchase_order.status = "open" if params[:status] == "open"
     @company.labels.find_or_create_by(name: @purchase_order.label)
 
     respond_to do |format|
@@ -60,8 +61,8 @@ class PurchaseOrdersController < ApplicationController
           format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully emailed.' }
           format.json { render :show, status: :created, location: @purchase_order }
         else
-          format.html { redirect_to edit_purchase_order_path(@purchase_order), notice: 'Purchase order was successfully saved.' }
-          format.json { render :edit, status: :created, location: edit_purchase_order_path(@purchase_order) }
+          format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully saved.' }
+          format.json { render :show, status: :ok, location: @purchase_order } 
         end
 
       else
@@ -93,8 +94,8 @@ class PurchaseOrdersController < ApplicationController
     respond_to do |format|
       if @purchase_order.save
         if @purchase_order.status == "draft"
-          format.html { redirect_to edit_purchase_order_path(@purchase_order), notice: 'Purchase order was successfully saved.' }
-          format.json { render :edit, status: :created, location: edit_purchase_order_path(@purchase_order) }
+          format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully saved.' }
+          format.json { render :show, status: :ok, location: @purchase_order } 
         elsif params[:status] == "email"                   
           format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully emailed.' }
           format.json { render :show, status: :ok, location: @purchase_order }          

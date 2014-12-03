@@ -108,17 +108,20 @@
 						= a['agent']
 
 		.buttons
-			- if @purchase_order.status == nil?
+			- if @purchase_order.status == nil
 				= link_to purchase_orders_path, method: 'get', class: 'btn btn-danger' do
 					%i.fa.fa-undo.fa-fw
 					%span.text Discard
 			- elsif @purchase_order.status == "draft"
 				= link_to purchase_order_path, method: 'delete', class: 'btn btn-danger left' do
 					%i.fa.fa-trash.fa-fw
-					%span.text Delete
+					%span.text Discard
 			= button_tag(type: 'submit', :name => "status", :value => "draft", class: "btn btn-add") do
 				%i.fa.fa-save.fa-fw
 				%span.text Save As Draft
+			= button_tag(type: 'submit', :name => "status", :value => "open", class: "btn btn-edit print") do
+				%i.fa.fa-print.fa-fw
+				%span.text Print
 			= button_tag(type: 'submit', :name => "status", :value => "email", :data => { :confirm => 'Are you sure? Once you email this purchase order, you will not be able to edit its contents.' }, class: "btn btn-email") do
 				%i.fa.fa-envelope-o.fa-fw
 				%span.text Send As Email
