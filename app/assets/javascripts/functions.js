@@ -52,8 +52,7 @@ $(function() {
 		
 	
     $('.buttons .form-print').on('click', '.print', function(event) {
-    	event.preventDefault();
-    	if($(this).closest('form').hasClass('status-complete')) {
+    	if($(this).closest('form').hasClass('status-closed')) {
     		form = $(this).closest('form');
 	    	if(confirm('This will mark the purchase order open. Are you sure?')) {
 	    		var payload = form.serialize() + '&status=open';

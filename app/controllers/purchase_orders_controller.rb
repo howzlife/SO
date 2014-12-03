@@ -46,7 +46,8 @@ class PurchaseOrdersController < ApplicationController
   def create
     @pop = organize_purchase_order_params(purchase_order_params)	
     @purchase_order = @company.purchase_orders.build(@pop)
-    @purchase_order.status = "draft"
+    @purchase_order.status = "draft" if params[:status] == "draft"
+    @purchase_order.status = "open" if params[:status] == "open"
     @company.labels.find_or_create_by(name: @purchase_order.label)
 
     respond_to do |format|

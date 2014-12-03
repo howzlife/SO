@@ -56,6 +56,9 @@
 					
 	.buttons.clear.purchaseorder-buttons
 		- if @purchase_order.status == "draft"
+			= link_to purchase_order_path, method: 'delete', class: 'btn btn-danger left' do
+				%i.fa.fa-trash.fa-fw
+				%span.text Discard
 			= link_to edit_purchase_order_path(@purchase_order), class: 'btn btn-cancel' do
 				%i.fa.fa-edit.fa-fw
 				%span.text Edit
@@ -69,11 +72,11 @@
 					%span.text Email
 
 		= simple_form_for @purchase_order, url: purchase_order_path do |f|
-			- if @purchase_order.status != "closed" && @purchase_order.archived != true
+			- if @purchase_order.status == "open" && @purchase_order.archived != true
 				= button_tag(type: 'submit', :name => "status", :value => "closed", :data => { :confirm => 'Are you sure?' }, class: "btn btn-close") do
 					%i.fa.fa-times.fa-fw
 					%span.text Mark as Closed
-			- if @purchase_order.status != "open" && @purchase_order.archived != true			
+			- if @purchase_order.status == "closed" && @purchase_order.archived != true			
 				= button_tag(type: 'submit', :name => "status", :value => "open", :data => { :confirm => 'Are you sure?' }, class: "btn") do
 					%i.fa.fa-times.fa-fw
 					%span.text Mark as Open
