@@ -77,7 +77,7 @@
 				%i.fa.fa-edit.fa-fw
 				%span.text Edit
 		= simple_form_for @purchase_order, html: { class: "form-email form-print status-"+@purchase_order.status}, url: purchase_order_path do |f|
-			= button_tag(type: 'submit', :name => "status", :value => "open", class: "btn btn-edit print") do
+			= button_tag(type: 'submit', :name => "status", :value => "open", class: "btn btn-edit show-print") do
 				%i.fa.fa-print.fa-fw
 				%span.text Print
 			- if @purchase_order.status != "closed" && @purchase_order.archived != true && !@purchase_order.vendor.email.blank?

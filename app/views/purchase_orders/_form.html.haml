@@ -119,7 +119,7 @@
 			= button_tag(type: 'submit', :name => "status", :value => "draft", class: "btn btn-add") do
 				%i.fa.fa-save.fa-fw
 				%span.text Save As Draft
-			= button_tag(type: 'submit', :name => "status", :value => "open", class: "btn btn-edit print") do
+			= button_tag(type: 'submit', :name => "status", :value => "open", class: "btn btn-edit edit-print") do
 				%i.fa.fa-print.fa-fw
 				%span.text Print
 			= button_tag(type: 'submit', :name => "status", :value => "email", :data => { :confirm => 'Are you sure? Once you email this purchase order, you will not be able to edit its contents.' }, class: "btn btn-email") do
