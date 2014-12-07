@@ -53,14 +53,15 @@
 			.deliverto-select
 				-a = @purchase_order.address
 				=a['name']
-				%br
-				= a["address"]["address_line_1"]
-				%br
-				- if a["address"]["address_line_2"] != ""
-					= a["address"]["address_line_2"]
+				- if a["address"]
 					%br
-				= "#{a["address"]["city"]}, #{a["address"]["state"]}, #{a["address"]["zip"]}"
-				%br
+					= a["address"]["address_line_1"]
+					%br
+					- if a["address"]["address_line_2"] != ""
+						= a["address"]["address_line_2"]
+						%br
+					= "#{a["address"]["city"]}, #{a["address"]["state"]}, #{a["address"]["zip"]}"
+					%br
 				Tel. #{a["telephone"]}
 			.to
 				.text-label Attention
