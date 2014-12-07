@@ -60,12 +60,12 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
   #Ensure you have defined default url options in your environments files for devise gem
-  config.action_mailer.default_url_options = { host: 'swiftorders.herokuapp.com', port: 80 }
+  config.action_mailer.default_url_options = { host: 'swiftorders.com', port: 80 }
   config.action_mailer.default_options = {  :from => "no-reply@swiftorders.com" }
   config.action_mailer.smtp_settings = { 
     address:              'smtp.sendgrid.net',
     port:                 587,
-    domain:               'heroku.com',
+    domain:               'swiftorders.com',
     user_name:            ENV['SENDGRID_USERNAME'],
     password:             ENV['SENDGRID_PASSWORD'],
     authentication:       'plain',
