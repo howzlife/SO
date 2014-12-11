@@ -2,25 +2,26 @@
 .wrapper
 	- if @vendors.length == 0
 		.firstrun
-			You have yet to added any vendors. Click the button above to create your first one.
+			You have yet to added any vendors. Click the button below to create your first one.
+			= button_to new_vendor_path, method: 'get', class: 'btn btn-add' do
+				%span.text New Vendor
 	- else
-		.card
-			= form_tag vendors_path, :class => "search-area", :method => :get do
-				= text_field_tag :q, nil, :class => "search-query", :placeholder => "Search for vendors..."
-			%table#searchable-table.sortable
-				%thead
+		= form_tag vendors_path, :class => "search-area", :method => :get do
+			= text_field_tag :q, nil, :class => "search-query", :placeholder => "Search for vendors..."
+		%table#searchable-table.sortable
+			%thead
+				%tr
+					%th.text-label Name
+					%th.text-label Email
+					%th.text-label Contact
+					%th.text-label Telephone
+					%th.text-label Fax
+			%tbody
+				- @vendors.each do |vendor|
 					%tr
-						%th.text-label Name
-						%th.text-label Email
-						%th.text-label Contact
-						%th.text-label Telephone
-						%th.text-label Fax
-				%tbody
-					- @vendors.each do |vendor|
-						%tr
-							%td= link_to vendor.name, edit_vendor_path(vendor)
-							%td= vendor.email
-							%td= vendor.contact
-							%td= vendor.telephone
-							%td= vendor.fax
-		= paginate @vendors
+						%td= link_to vendor.name, edit_vendor_path(vendor)
+						%td= vendor.email
+						%td= vendor.contact
+						%td= vendor.telephone
+						%td= vendor.fax
+	= paginate @vendors

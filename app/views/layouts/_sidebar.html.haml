@@ -3,27 +3,23 @@
 		%li.header
 			%h1
 				= @company.name
-			%h2
-				= current_user.first_name
-				= current_user.last_name
-			= link_to destroy_user_session_path, method: :delete do
-				%i.fa.fa-sign-out.fa-fw
-				%span.text Log out
+		%li.button
+			= button_to new_purchase_order_path, method: 'get', class: 'btn btn-add' do
+				%span.text New Purchase Order
 		%li.orders
 			= link_to purchase_orders_path, class: cp(purchase_orders_path) do
-				%i.fa.fa-list-alt.fa-fw
 				%span.text Purchase Orders
+				%i.fa.fa-list-alt.fa-fw
 		%li.vendors
 			= link_to vendors_path, class: cp(vendors_path) do
+				%span.text Vendors
 				%i.fa.fa-truck.fa-fw
-				%span.text Your Vendors
+		%li.divider
 		%li.settings
 			= link_to company_path(@company), class: cp(company_path(@company)) do
-				%i.fa.fa-cog.fa-fw
 				%span.text Settings
+				%i.fa.fa-cog.fa-fw
 		%li.account
 			= link_to edit_user_registration_path, class: cp(edit_user_registration_path) do
-				%i.fa.fa-user.fa-fw
 				%span.text Account
-	%div.information
-		%div.logo
+				%i.fa.fa-user.fa-fw

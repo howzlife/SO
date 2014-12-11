@@ -1,0 +1,9 @@
+.user-header
+	%h2
+		%i.fa.fa-user.fa-fw
+		%span.text
+			= current_user.first_name
+			= current_user.last_name
+	= link_to destroy_user_session_path, method: :delete do
+		%i.fa.fa-sign-out.fa-fw
+		%span.text Log out

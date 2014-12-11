@@ -18,7 +18,7 @@
 	= yield
 - else
 	%body
-	.app-wrapper
+	.app-wrapper.clear
 		- if flash[:notice]
 			%p.notice
 				= notice
@@ -27,4 +27,6 @@
 				= alert
 		= render "layouts/sidebar"
 		.content
-			= yield
+			= render "layouts/header"
+			.sheet
+				= yield
