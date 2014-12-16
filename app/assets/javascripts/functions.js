@@ -61,10 +61,7 @@ $(function() {
 
     		form = $(this).closest('form');
 	    	if(confirm('This will mark the purchase order open. Are you sure?')) {  
-				window.print();		
-	    		var payload = form.serialize() + '&status=open';
-	    		$.post( form.attr('action'), payload, function( data ) {
-	    		});
+				window.print();
 	    	} else {
 	    		event.preventDefault();
 	    	}
