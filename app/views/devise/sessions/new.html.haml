@@ -13,3 +13,11 @@
 			= f.input :remember_me, as: :boolean if devise_mapping.rememberable?
 .log-in.links
 	= render "devise/shared/links"
+
+
+- if flash[:notice]
+	%p.notice
+		= notice
+- if flash[:alert]
+	%p.alert
+		= alert

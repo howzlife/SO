@@ -11,8 +11,6 @@ Rails.application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
-  # You can have the root of your site routed with "root"
-  root 'purchase_orders#index'
   
   get ':copyright' => 'static#:copyright'
   get ':licenses' => 'static#:licenses'
@@ -21,6 +19,20 @@ Rails.application.routes.draw do
   get ':about' => 'static#:about'
   get ':legal' => 'static#:legal'
   get ':contact' => 'static#:contact'
+
+
+  # You can have the root of your site routed with "root"
+  #http://stackoverflow.com/questions/3791096/devise-logged-in-root-route-rails-3
+  authenticated :user do
+    root 'purchase_orders#index', as: :authenticated_root
+  end
+
+  unauthenticated :user do
+    devise_scope :user do 
+      get "/" => "users/sessions#new"
+    end
+  end
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
