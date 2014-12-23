@@ -24,4 +24,7 @@
 						%td= vendor.contact
 						%td= vendor.telephone
 						%td= vendor.fax
-	= paginate @vendors
+		= paginate @vendors
+		.buttons
+			= button_to new_vendor_path, method: 'get', class: 'btn btn-add' do
+				%span.text New Vendor
