@@ -79,6 +79,7 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem 'better_errors'
+  gem 'capybara'
 end
 
 group :test do
