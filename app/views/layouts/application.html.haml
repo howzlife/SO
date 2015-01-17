@@ -12,21 +12,21 @@
 		:javascript
 			try{Typekit.load();}catch(e){}
 		= csrf_meta_tags
-- unless user_signed_in?
-	%body.splash
-	.logo
-	= yield
-- else
-	%body
-	.app-wrapper.clear
-		- if flash[:notice]
-			%p.notice
-				= notice
-		- if flash[:alert]
-			%p.alert
-				= alert
-		= render "layouts/sidebar"
-		.content
-			= render "layouts/header"
-			.sheet
-				= yield
+	- unless user_signed_in?
+		%body.splash
+		.logo
+		= yield
+	- else
+		%body
+		.app-wrapper.clear
+			- if flash[:notice]
+				%p.notice
+					= notice
+			- if flash[:alert]
+				%p.alert
+					= alert
+			= render "layouts/sidebar"
+			.content
+				= render "layouts/header"
+				.sheet
+					= yield

@@ -56,6 +56,12 @@ gem 'mailchimp-api', require: 'mailchimp'
 
 gem 'kaminari'
 
+#gem factory girl, to use as fixtures for testing
+gem "factory_girl_rails", "~> 4.0"
+
+#warden gem for testing authentication
+gem "warden"
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
