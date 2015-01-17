@@ -1,8 +1,9 @@
 .sidebar
 	%ul
 		%li.header
-			%h1
-				= @company.name
+			%a{ :href => purchase_orders_path }
+				%h1
+					= @company.name
 		%li.button
 			= button_to new_purchase_order_path, method: 'get', class: 'btn btn-add' do
 				%span.text New Purchase Order
@@ -23,5 +24,5 @@
 			= link_to edit_user_registration_path, class: cp(edit_user_registration_path) do
 				%span.text Account
 				%i.fa.fa-user.fa-fw
-		%li.help
-			%span.text Need Help?
+	/	%li.help
+	/		%span.text Need Help?
