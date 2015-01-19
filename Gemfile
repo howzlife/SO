@@ -62,6 +62,9 @@ gem "factory_girl_rails", "~> 4.0"
 #warden gem for testing authentication
 gem "warden"
 
+# capistrano gem to set up staging environment. All code will be pushed there before being put into production
+gem 'capistrano', '~> 3.3.0'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
