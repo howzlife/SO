@@ -65,6 +65,9 @@ gem "warden"
 # capistrano gem to set up staging environment. All code will be pushed there before being put into production
 gem 'capistrano', '~> 3.3.0'
 
+# stripe gem to accept payments
+gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
