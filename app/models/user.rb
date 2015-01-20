@@ -43,5 +43,6 @@ class User
   # field :locked_at,       type: Time
 
   belongs_to :company
+  has_one :subscription
 
 end
