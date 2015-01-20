@@ -67,18 +67,18 @@ test:
         # low amounts for fast failures.
         max_retries: 1
         retry_interval: 0
-development:
+staging:
   sessions:
     default:
       uri: mongodb://heroku_app33286348:ga4m7eblkqo4ccmfe6bvomtedh@ds031701.mongolab.com:31701/heroku_app33286348
-#development:
-#  sessions:
-#    default:
-#      database: myorderboard_development
-#      hosts:
-#        - localhost:27017
-#      options:
-#  options:
+development:
+  sessions:
+    default:
+      database: myorderboard_development
+      hosts:
+        - localhost:27017
+      options:
+  options:
 production:
   sessions:
     default:
