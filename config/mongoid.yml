@@ -70,11 +70,15 @@ test:
 development:
   sessions:
     default:
-      database: myorderboard_development
-      hosts:
-        - localhost:27017
-      options:
-  options:
+      uri: mongodb://heroku_app33286348:ga4m7eblkqo4ccmfe6bvomtedh@ds031701.mongolab.com:31701/heroku_app33286348
+#development:
+#  sessions:
+#    default:
+#      database: myorderboard_development
+#      hosts:
+#        - localhost:27017
+#      options:
+#  options:
 production:
   sessions:
     default:

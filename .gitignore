@@ -18,6 +18,9 @@
 # Ignore application configuration
 /config/application.yml
 
+# Ignore stripe key file
+/config/initializers/stripe.rb
+
 # Ignore rvmrc file
 /.rvmrc
 

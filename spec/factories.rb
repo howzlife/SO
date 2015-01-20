@@ -1,5 +1,8 @@
 # This is a user factory, to simulate a user object
-FactoryGirl.define do
+FactoryGirl.define do  factory :subscription do
+    
+  end
+
   	factory :user, class: User do
     	first_name "John"
     	last_name  "Doe"

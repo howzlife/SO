@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :subscriptions
+
   resources :companies, only: [:show, :edit, :update]
 
   devise_for :users, controllers: { sessions: 'users/sessions',  registrations: 'users/registrations', confirmations: 'users/confirmations' }
@@ -7,6 +9,7 @@ Rails.application.routes.draw do
   resources :vendors
   resources :addresses
   resources :settings
+  resources :charges 
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
