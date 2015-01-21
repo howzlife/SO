@@ -20,14 +20,14 @@ class SubscriptionsController < ApplicationController
   def edit
   end
 
-def create
-  @subscription = Subscription.new(params[:subscription])
-  if @subscription.save_with_payment
-    redirect_to @subscription, :notice => "Thank you for subscribing!"
-  else
-    render :new
+  def create
+    @subscription = Subscription.new(subscription_params)
+    if @subscription.save_with_payment
+      redirect_to @subscription, :notice => "Thank you for subscribing!"
+    else
+      render :new
+    end
   end
-end
 
   def update
     @subscription.update(subscription_params)
@@ -45,6 +45,8 @@ end
     end
 
     def subscription_params
-      params[:subscription]
+      # add all the fields you want to allow to be updated via your form... 
+      # example below is just :name, :email but you get the idea.
+      #params.require(:subscription).permit() 
     end
 end
