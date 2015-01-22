@@ -75,7 +75,11 @@ development:
         - localhost:27017
       options:
   options:
+staging:
+  sessions:
+    default:
+      uri: <%= ENV['MONGOHQ_URL']  
 production:
   sessions:
     default:
-      uri: <%= ENV['MONGOHQ_URL'] %>
+      uri: <%= ENV['heroku_staging_db'] %>

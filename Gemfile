@@ -62,8 +62,19 @@ gem "factory_girl_rails", "~> 4.0"
 #warden gem for testing authentication
 gem "warden"
 
-# capistrano gem to set up staging environment. All code will be pushed there before being put into production
 gem 'capistrano', '~> 3.3.0'
+
+# rails specific capistrano funcitons
+gem 'capistrano-rails', '~> 1.1.0'
+
+# integrate bundler with capistrano
+gem 'capistrano-bundler'
+
+# Use the Unicorn app server
+gem 'unicorn'
+
+# To align ruby version when deploying
+gem 'capistrano-rbenv', "~> 2.0" 
 
 # stripe gem to accept payments
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
