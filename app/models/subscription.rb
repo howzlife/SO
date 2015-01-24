@@ -4,9 +4,9 @@ class Subscription
 
   attr_accessor :stripe_card_token
 
-  def save_with_payment
+  def save_with_payment(plan, email, name)
   	if valid?
-  		customer = Stripe::Customer.create(description: :email, plan: "basic_plan", card: stripe_card_token)
+  		customer = Stripe::Customer.create(description: name, email: email, plan: plan, card: stripe_card_token)
   		stripe_customer_token = customer.id 
   		save!
   	end
