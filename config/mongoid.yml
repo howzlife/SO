@@ -82,4 +82,4 @@ production:
 staging:
   sessions:
     default:
-      uri: <%= ENV['MONGOHQ_URL'] %>
+      uri: ds031701.mongolab.com
