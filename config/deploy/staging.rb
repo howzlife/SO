@@ -4,9 +4,9 @@
 # is considered to be the first unless any hosts have the primary
 # property set.  Don't declare `role :all`, it's a meta role.
 
-role :app, %w{https://powerful-chamber-1551.herokuapp.com}
-role :web, %w{https://powerful-chamber-1551.herokuapp.com}
-role :db,  %w{mongodb://howzlife:Ilikepie69!@ds031701.mongolab.com:31701/heroku_app33286348}
+role :app, %w{deploy@https://powerful-chamber-1551.herokuapp.com}
+role :web, %w{deploy@https://powerful-chamber-1551.herokuapp.com}
+role :db,  %w{deploy@mongodb://howzlife:Ilikepie69!@ds031701.mongolab.com:31701/heroku_app33286348}
 
 
 # Extended Server Syntax

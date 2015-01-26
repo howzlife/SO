@@ -23,7 +23,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
   # end
 
   # The path used after confirmation.
-  def after_confirmation_path_for(resource_name, resource)    
+  def after_confirmation_path_for(resource_name, resource)  
     #add user to mailchimp
     if Rails.env.production?      
       mailchimp = MailChimp.new(ENV['MAILCHIMP_API_KEY'], ENV['MAILCHIMP_LIST_ID'])

@@ -22,6 +22,7 @@ class SubscriptionsController < ApplicationController
 
   def create
     @subscription = Subscription.new(subscription_params)
+    current_user.subscription = @subscription
     plan = params[:plan]
     name = current_user.first_name + " " + current_user.last_name
     if @subscription.save_with_payment(plan[0], current_user.email, name)

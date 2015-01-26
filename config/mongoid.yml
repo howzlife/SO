@@ -79,3 +79,7 @@ production:
   sessions:
     default:
       uri: <%= ENV['MONGOHQ_URL'] %>
+staging:
+  sessions:
+    default:
+      uri: <%= ENV['MONGOHQ_URL'] %>
