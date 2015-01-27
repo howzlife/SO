@@ -61,7 +61,7 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
   #Ensure you have defined default url options in your environments files for devise gem
   config.action_mailer.default_url_options = { host: 'powerful-chamber-1551.herokuapp.com' }
-  config.action_mailer.default_options = {  :from => "nico.dubus17@gmail.com" }
+  config.action_mailer.default_options = {  :from => 'nico.dubus17@gmail.com' }
   config.action_mailer.smtp_settings = { 
     address:              'smtp.sendgrid.net',
     port:                 587,
