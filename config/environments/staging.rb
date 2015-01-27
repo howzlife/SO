@@ -60,14 +60,14 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
   #Ensure you have defined default url options in your environments files for devise gem
-  config.action_mailer.default_url_options = { host: 'powerful-chamber-1551.herokuapp.com' }
-  config.action_mailer.default_options = {  :from => 'nico.dubus17@gmail.com' }
+  config.action_mailer.default_url_options = { host: 'powerful-chamber-1551.herokuapp.com'}
+  config.action_mailer.default_options = {  :from => 'no-reply@swiftorders.com' }
   config.action_mailer.smtp_settings = { 
     address:              'smtp.sendgrid.net',
     port:                 587,
     domain:               'heroku.com',
-    user_name:            ENV['SENDGRID_USERNAME'],
-    password:             ENV['SENDGRID_PASSWORD'],
+    user_name:            'app31103542@heroku.com',#ENV['SENDGRID_USERNAME'],
+    password:             'xvpjbkc5',#ENV['SENDGRID_PASSWORD'],
     authentication:       'plain',
     enable_starttls_auto: true         
   }
