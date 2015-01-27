@@ -29,10 +29,10 @@
 			= link_to new_subscription_path, class: cp(new_subscription_path) do
 				%span.text Sign Up!
 				%i.fa.fa-user.fa-fw
-		- else
-		    %li.update_subscription_info
-		    = link_to edit_subscription_path, class: cp(edit_subscription_path) do
-		    	%span.text Edit Subscription Info
-		    	%i.fa.fa-user.fa-fw
+		/- else
+		/    %li.update_subscription_info
+		/    = link_to edit_subscription_path, class: cp(edit_subscription_path) do
+		/    	%span.text Edit Subscription Info
+		/    	%i.fa.fa-user.fa-fw
 	/	%li.help
 	/		%span.text Need Help?

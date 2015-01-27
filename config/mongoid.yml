@@ -75,11 +75,16 @@ development:
         - localhost:27017
       options:
   options:
+staging:
+  sessions:
+    default:
+      database: app33286348
+      hosts: 
+        - candidate.40.mongolayer.com:10514
+      username: howzlife 
+      password: Password 
+  options:
 production:
   sessions:
     default:
       uri: <%= ENV['MONGOHQ_URL'] %>
-staging:
-  sessions:
-    default:
-      uri: ds031701.mongolab.com
