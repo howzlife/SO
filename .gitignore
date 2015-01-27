@@ -25,4 +25,5 @@
 /.rvmrc
 
 /data
-
+# Ignore locally compiled assets
+/public/assets
