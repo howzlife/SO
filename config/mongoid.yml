@@ -78,13 +78,12 @@ development:
 staging:
   sessions:
     default:
-      uri: <%= ENV['MONGOHQ_URL'] %>
-      #database: app33286348
-      #hosts: 
-      # - 'candidate.40.mongolayer.com:10514'
-      #username: howzlife 
-      #password: Password 
-      #options:
+      database: app33286348
+      hosts: 
+       - 'candidate.40.mongolayer.com:10514'
+      username: howzlife 
+      password: Password 
+      options:
 production:
   sessions:
     default:
