@@ -66,8 +66,8 @@ Rails.application.configure do
     address:              'smtp.sendgrid.net',
     port:                 587,
     domain:               'swiftorders.com',
-    user_name:            ENV['SENDGRID_USERNAME'],
-    password:             ENV['SENDGRID_PASSWORD'],
+    user_name:            'app33286348@heroku.com',#ENV['SENDGRID_USERNAME'],
+    password:             'ch54onoc',#ENV['SENDGRID_PASSWORD'],
     authentication:       'plain',
     enable_starttls_auto: true  
   }
