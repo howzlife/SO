@@ -1,0 +1,21 @@
+%p#notice= notice
+
+%p
+  %b Recipient name:
+  = @fax.recipient_name
+%p
+  %b Company name:
+  = @fax.company_name
+%p
+  %b Fax number:
+  = @fax.fax_number
+%p
+  %b Subject:
+  = @fax.subject
+%p
+  %b Content:
+  = @fax.content
+
+= link_to 'Edit', edit_fax_path(@fax)
+\|
+= link_to 'Back', faxes_path

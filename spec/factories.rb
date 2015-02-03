@@ -1,5 +1,12 @@
 # This is a user factory, to simulate a user object
-FactoryGirl.define do  factory :subscription do
+FactoryGirl.define do  factory :fax do
+    recipient_name "MyString"
+company_name "MyString"
+fax_number "MyString"
+subject "MyString"
+content "MyText"
+  end
+  factory :subscription do
     
   end
 

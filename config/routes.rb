@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :faxes
+
   resources :subscriptions
 
   resources :companies, only: [:show, :edit, :update]

@@ -1,0 +1,13 @@
+= simple_form_for(@fax) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :recipient_name
+    = f.input :company_name
+    = f.input :fax_number
+    = f.input :subject
+    = f.input :content
+
+  .form-actions
+    = f.button :submit, "Send", :name => "send"
+    = f.button :submit, "Save as Draft", :name => "draft"
