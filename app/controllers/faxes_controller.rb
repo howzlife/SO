@@ -22,11 +22,15 @@ class FaxesController < ApplicationController
 
   def create
     @fax = Fax.new(fax_params)
-    @number = 
+    @recipient = params[:recipient_name]
+    @number = params[:fax_number]
+    @subject = params[:subject]
+    @content = params[:content]
+
     respond_to do |format|
       if @fax.save
           if params[:send] 
-            @sent_fax = Phaxio.send_fax(to: '(+1 613 563 4984)', string_data: "Hi Ryan, Greetings from SwiftOrders")
+            @sent_fax = Phaxio.send_fax(to: '(+1 613 563 4984)', string_data: "Subject: " + @subject + " - " + @content )
             if @sent_fax["success"]  
               format.html { redirect_to faxes_url, notice: @sent_fax["message"] }
               #format.json { redirect_to faxes_path, notice: @sent_fax["message"] }
