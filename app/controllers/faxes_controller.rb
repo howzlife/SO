@@ -22,6 +22,7 @@ class FaxesController < ApplicationController
 
   def create
     @fax = Fax.new(fax_params)
+    @number = 
     respond_to do |format|
       if @fax.save
           if params[:send] 
