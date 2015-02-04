@@ -7,5 +7,6 @@ class Fax
   field :content, type: String
 
   validates_presence_of :recipient_name, :company_name, :fax_number, :subject, :content
+
   belongs_to :user
 end
