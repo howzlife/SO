@@ -16,6 +16,7 @@
   %b Content:
   = @fax.content
 
-= link_to 'Edit', edit_fax_path(@fax)
-\|
+- if @fax.status == "draft"
+  = link_to 'Edit', edit_fax_path(@fax)
+  \|
 = link_to 'Back', faxes_path

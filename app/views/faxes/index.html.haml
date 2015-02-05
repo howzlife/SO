@@ -9,7 +9,7 @@
       %th Fax number
       %th Subject
       %th Content
-      %th
+      %th Status
       %th
       %th
       
@@ -21,9 +21,11 @@
         %td= fax.fax_number
         %td= fax.subject
         %td= fax.content
+        %td= fax.status
         %td= link_to 'Show', fax
-        %td= link_to 'Edit', edit_fax_path(fax)
-        %td= link_to 'Destroy', fax, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        -if fax.status == "draft"
+          %td= link_to 'Edit', edit_fax_path(fax)
+          %td= link_to 'Destroy', fax, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 

@@ -10,7 +10,7 @@
   .form-inputs
     = f.input :subject
   .form-inputs
-    = f.input :content
+    = f.input :content, as: :text, :input_html => {:rows => 10}
 
   .form-actions
     = f.submit "Send", :name => "send"
