@@ -1,5 +1,6 @@
 class PurchaseOrdersController < ApplicationController
   require 'send_pdf'
+  require 'format_po_fax'
   before_action :set_purchase_order, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
   before_action :has_company_info, only: [:new]
@@ -59,6 +60,21 @@ class PurchaseOrdersController < ApplicationController
           @purchase_order.save
 
           format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully emailed.' }
+          format.json { render :show, status: :created, location: @purchase_order }
+        elsif params[:status] == "fax"
+          formatted_fax = PO_FAX.format_po_fax(@purchase_order, @company, current_user) #retrieve html formatted string 
+          @number =  ("+1" + @purchase_order.vendor.fax.to_s.gsub(/[^0-9]/, "")).to_s #retrieve and format fax number for sending fax
+          @sent_fax = Phaxio.send_fax(to: @number, string_data: formatted_fax, string_data_type: 'html')
+          @purchase_order.status = "open"
+          @purchase_order.save
+
+            if @sent_fax["success"]
+              format.html { redirect_to @purchase_order, notice: @sent_fax["message"] }
+            else 
+              format.html {render :new, notice: @sent_fax["message"]}
+              format.json { render json: @purchase_order.erros, status: :unprocessable_entity }
+            end
+          format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully faxed.' }
           format.json { render :show, status: :created, location: @purchase_order }
         else
           format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully saved.' }

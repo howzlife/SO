@@ -125,6 +125,9 @@
 			= button_tag(type: 'submit', :name => "status", :value => "email", :data => { :confirm => 'Are you sure? Once you email this purchase order, you will not be able to edit its contents.' }, class: "btn btn-email") do
 				%i.fa.fa-envelope-o.fa-fw
 				%span.text Send As Email
+			= button_tag(type: 'submit', :name => "status", :value => "fax", :data => { :confirm => 'Are you sure? Once you fax this purchase order, you will not be able to edit its contents.' }, class: "btn btn-email") do
+				%i.fa.fa-fax.fa-fw
+				%span.text Send As Fax
 	.divider.no-print
 	.wrapper.section.clear.no-print
 		.section-description
