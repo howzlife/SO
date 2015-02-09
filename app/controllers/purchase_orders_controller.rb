@@ -54,6 +54,7 @@ class PurchaseOrdersController < ApplicationController
     respond_to do |format|
       if @purchase_order.save
         #send pdf
+        @purchase_order.update_attribute(:status, "draft")
         if params[:status] == "email"
      			PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
           @purchase_order.status = "open"
@@ -61,21 +62,25 @@ class PurchaseOrdersController < ApplicationController
 
           format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully emailed.' }
           format.json { render :show, status: :created, location: @purchase_order }
-        elsif params[:status] == "fax"
-          formatted_fax = PO_FAX.format_po_fax(@purchase_order, @company, current_user) #retrieve html formatted string 
-          @number =  ("+1" + @purchase_order.vendor.fax.to_s.gsub(/[^0-9]/, "")).to_s #retrieve and format fax number for sending fax
-          @sent_fax = Phaxio.send_fax(to: @number, string_data: formatted_fax, string_data_type: 'html')
-          @purchase_order.status = "open"
-          @purchase_order.save
 
-            if @sent_fax["success"]
-              format.html { redirect_to @purchase_order, notice: @sent_fax["message"] }
-            else 
-              format.html {render :new, notice: @sent_fax["message"]}
-              format.json { render json: @purchase_order.erros, status: :unprocessable_entity }
-            end
-          format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully faxed.' }
-          format.json { render :show, status: :created, location: @purchase_order }
+        elsif params[:status] == "fax"
+          if @purchase_order.vendor.fax.blank?
+            format.html { redirect_to purchase_orders_path, notice: "Please set a fax number for this vendor before sending fax"}
+            format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
+          else
+            formatted_fax = PO_FAX.format_po_fax(@purchase_order, @company, current_user) #retrieve html formatted string 
+            @number =  ("+1" + @purchase_order.vendor.fax.to_s.gsub(/[^0-9]/, "")).to_s #retrieve and format fax number for sending fax
+            @sent_fax = Phaxio.send_fax(to: @number, string_data: formatted_fax, string_data_type: 'html')
+            @purchase_order.save
+
+              if @sent_fax["success"]
+                @purchase_order.update_attribute(:status, "open")
+                format.html { redirect_to @purchase_order, notice: @sent_fax["message"] }
+              else 
+                format.html {render :new, notice: @sent_fax["message"]}
+                format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
+              end
+          end
         else
           format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully saved.' }
           format.json { render :show, status: :ok, location: @purchase_order } 
@@ -94,7 +99,15 @@ class PurchaseOrdersController < ApplicationController
     #send pdf
     if params[:status] == "email"
       PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
-      @purchase_order.status = "open"
+      @purchase_order.update_attributes(:status, "open")
+
+    elsif params[:status] == "fax"
+      formatted_fax = PO_FAX.format_po_fax(@purchase_order, @company, current_user) #retrieve html formatted string 
+      @number =  ("+1" + @purchase_order.vendor.fax.to_s.gsub(/[^0-9]/, "")).to_s #retrieve and format fax number for sending fax
+      @sent_fax = Phaxio.send_fax(to: @number, string_data: formatted_fax, string_data_type: 'html')
+      @successful_send = @sent_fax["success"]
+      @purchase_order.save
+
     elsif params[:status] == "closed"
       @purchase_order.status = "closed"
     elsif params[:status] == "open"
@@ -109,12 +122,20 @@ class PurchaseOrdersController < ApplicationController
 
     respond_to do |format|
       if @purchase_order.save
-        if @purchase_order.status == "draft"
-          format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully saved.' }
-          format.json { render :show, status: :ok, location: @purchase_order } 
-        elsif params[:status] == "email"                   
+        if params[:status] == "email"                   
           format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully emailed.' }
-          format.json { render :show, status: :ok, location: @purchase_order }          
+          format.json { render :show, status: :ok, location: @purchase_order }    
+        elsif params[:status] == "fax"
+          if @successful_send
+            @purchase_order.update_attribute(:status, "open")
+            format.html { redirect_to @purchase_order, notice: @sent_fax["message"] }
+          else 
+            format.html {redirect_to @purchase_order, notice: @sent_fax["message"] }
+            format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
+          end 
+        elsif @purchase_order.status == "draft"
+          format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully saved.' }
+          format.json { render :show, status: :ok, location: @purchase_order }      
         else         
           format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully updated.' }
           format.json { render :show, status: :ok, location: @purchase_order }

@@ -21,11 +21,11 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
   #this is a temporary testing gmail address used to test the local environment
   config.action_mailer.smtp_settings = { 
-    address:              'smtp.gmail.com',
+    address:              'smtp.sendgrid.net',
     port:                 587,
     domain:               'gmail.com',
-    user_name:            ENV['EMAIL_USERNAME'],
-    password:             ENV['EMAIL_PASSWORD'],
+    user_name:            'app33286348@heroku.com',
+    password:             'ch54onoc',
     authentication:       'plain',
     enable_starttls_auto: true  
   }

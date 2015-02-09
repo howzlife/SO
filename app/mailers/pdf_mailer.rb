@@ -1,4 +1,5 @@
 require 'doc_raptor'
+DocRaptor.api_key "ydVvQdh5knSYuG8yZkS"
 
 class PDFMailer < ActionMailer::Base
 	include ActionView::Helpers::NumberHelper

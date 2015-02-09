@@ -85,6 +85,11 @@
 				= button_tag(type: 'submit', :name => "status", :value => "email", :data => { :confirm => 'Are you sure?' }, class: "btn btn-edit email") do
 					%i.fa.fa-envelope-o.fa-fw
 					%span.text Email
+			- if @purchase_order.status != "closed" && @purchase_order.archived != true && !@purchase_order.vendor.fax.blank?
+				= button_tag(type: 'submit', :name => "status", :value => "fax", :data => { :confirm => 'Are you sure?' }, class: "btn btn-edit email") do
+					%i.fa.fa-fax.fa-fw
+					%span.text Fax
+
 
 		= simple_form_for @purchase_order, url: purchase_order_path do |f|
 			- if @purchase_order.status == "open" && @purchase_order.archived != true
