@@ -1,4 +1,5 @@
 class PurchaseOrdersController < ApplicationController
+  require 'pdf_mailer'
   require 'send_pdf'
   require 'format_po_fax'
   before_action :set_purchase_order, only: [:show, :edit, :update, :destroy]
