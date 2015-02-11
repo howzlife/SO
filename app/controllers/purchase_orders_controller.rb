@@ -182,7 +182,7 @@ class PurchaseOrdersController < ApplicationController
     def has_company_info
       if @company.addresses.first.try(:name) && @company.try(:email) && @company.try(:prefix) && @company.addresses.first.try(:address) && @company.vendors.first.try(:name) && @company.vendors.first.try(:email)
       
-      elsif @company.adddresses.first.try(:name).blank?
+      elsif @company.addresses.first.try(:name).blank?
         flash[:notice] = "Please fill in required Company information"
         redirect_to :back
       elsif @company.vendors.first.try(:name).blank?
