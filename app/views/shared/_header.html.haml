@@ -1,4 +1,16 @@
+-hasbutton = false if local_assigns[:hasbutton].nil?
+
 .page-header.clear
-	%h2
-		%i{:class => "fa #{icon} fa-fw"}
-		= title
+	.title
+		%h2
+			%i{:class => "fa #{icon} fa-fw"}
+			= title
+	-if hasbutton
+		.buttons
+			-if button == "Create New PO"
+				= button_to new_purchase_order_path, method: 'get', class: 'btn btn-add' do
+					%span.text Create New PO
+			-if button == "Create New Vendor"
+				= button_to new_vendor_path, method: 'get', class: 'btn btn-add' do
+					%span.text Create New Vendor
+			%span < >

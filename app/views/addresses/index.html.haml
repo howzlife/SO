@@ -1,25 +1,24 @@
 = render :partial => "shared/header", :locals => {:title => "Your Addresses",:icon => "fa-building"}
 %p#notice= notice
-.wrapper
-	.card
-		- if @addresses.length == 0
-			You have yet to add any addresses. Click the button below to create your first one.
-		- else
-			%table
+.card
+	- if @addresses.length == 0
+		You have yet to add any addresses. Click the button below to create your first one.
+	- else
+		%table
+			%tr
+				%th.text-label Name
+				%th.text-label Address
+				%th.text-label Telephone
+				%th.text-label Agent
+
+			- @addresses.each do |address|
 				%tr
-					%th.text-label Name
-					%th.text-label Address
-					%th.text-label Telephone
-					%th.text-label Agent
+					%td= link_to address.name, edit_address_path(address)
+					%td= address.address
+					%td= address.telephone
+					%td= address.agent
 
-				- @addresses.each do |address|
-					%tr
-						%td= link_to address.name, edit_address_path(address)
-						%td= address.address
-						%td= address.telephone
-						%td= address.agent
-
-		.buttons
-			= button_to new_address_path, method: 'get', class: 'btn btn-add' do
-				%i.fa.fa-plus-circle.fa-fw
-				%span.text Add address
+	.buttons
+		= button_to new_address_path, method: 'get', class: 'btn btn-add' do
+			%i.fa.fa-plus-circle.fa-fw
+			%span.text Add address

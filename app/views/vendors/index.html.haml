@@ -1,21 +1,31 @@
-= render :partial => "shared/header", :locals => {:title => "Your Vendors",:icon => "fa-truck", :hasbutton => true, :button => "New Vendor" }
-.wrapper
-	- if @vendors.length == 0
-		.firstrun
-			You have yet to added any vendors. Click the button below to create your first one.
-			= button_to new_vendor_path, method: 'get', class: 'btn btn-add' do
-				%span.text New Vendor
-	- else
+= render :partial => "shared/header", :locals => {:title => "Your Vendors",:icon => "fa-bus", :hasbutton => true, :button => "Create New Vendor" }
+- if @vendors.length == 0
+	.firstrun
+		You have yet to added any vendors. Click the button below to create your first one.
+		= button_to new_vendor_path, method: 'get', class: 'btn btn-add' do
+			%span.text New Vendor
+- else
+	.contents
 		= form_tag vendors_path, :class => "search-area", :method => :get do
 			= text_field_tag :q, nil, :class => "search-query", :placeholder => "Search for vendors..."
 		%table#searchable-table.sortable
 			%thead
 				%tr
-					%th.text-label Name
-					%th.text-label Email
-					%th.text-label Contact
-					%th.text-label Telephone
-					%th.text-label Fax
+					%th.text-label
+						Name
+						.arrow
+					%th.text-label
+						Email
+						.arrow
+					%th.text-label
+						Contact
+						.arrow
+					%th.text-label
+						Telephone
+						.arrow
+					%th.text-label
+						Fax
+						.arrow
 			%tbody
 				- @vendors.each do |vendor|
 					%tr
@@ -25,6 +35,5 @@
 						%td= vendor.telephone
 						%td= vendor.fax
 		= paginate @vendors
-		.buttons
-			= button_to new_vendor_path, method: 'get', class: 'btn btn-add' do
-				%span.text New Vendor
+	.page-footer.clear
+		%span < >

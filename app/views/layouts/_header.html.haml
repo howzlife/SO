@@ -1,9 +1,17 @@
-.user-header
-	%h2
-		%i.fa.fa-user.fa-fw
-		%span.text
-			= current_user.first_name
-			= current_user.last_name
-	= link_to destroy_user_session_path, method: :delete do
-		%i.fa.fa-sign-out.fa-fw
-		%span.text Log out
+.app-header
+	.wrapper
+		.title
+			%h1
+				= @company.name
+		.user
+			%span.name
+				= link_to edit_user_registration_path do
+					= current_user.first_name
+					= current_user.last_name
+				.tool-tip
+					= link_to edit_user_registration_path do
+						%span.text User Settings
+					.divider
+					= link_to destroy_user_session_path, method: :delete do
+						%span.text Sign Out
+			.arrow-down
