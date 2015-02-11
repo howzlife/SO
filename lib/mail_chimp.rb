@@ -8,7 +8,7 @@ class MailChimp
 	def initialize(mailchimp_api_key, mailchimp_list_id)
 		@mak = mailchimp_api_key
 		@mli = mailchimp_list_id
-		@mc = Mailchimp::API.new(mailchimp_api_key)
+		@mc = Mailchimp::API.new(@mak)
 	end
 
 	#add user to mailchimp list with no opt in
