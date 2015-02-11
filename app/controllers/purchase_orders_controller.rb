@@ -182,13 +182,13 @@ class PurchaseOrdersController < ApplicationController
     def has_company_info
       if @company.addresses.first.try(:name) && @company.try(:email) && @company.try(:prefix) && @company.addresses.first.try(:address) && @company.vendors.first.try(:name) && @company.vendors.first.try(:email)
       
-      elsif @company.addresses.first.try(:name).blank?
+      elsif !@company.addresses.first.try(:name)
         flash[:notice] = "Please fill in required Company information"
         redirect_to :back
-      elsif @company.vendors.first.try(:name).blank?
+      elsif !@company.vendors.first.try(:name)
         flash[:notice] = "Please have at least one Vendor before making a PO"
         redirect_to :back
-      elsif @company.try(:prefix).blank?
+      elsif !@company.try(:prefix)
         flash[:notice] = "Please fill in prefix information"
         redirect_to :back
       end
