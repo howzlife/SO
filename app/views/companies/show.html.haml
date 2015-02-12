@@ -1,61 +1,58 @@
 = render :partial => "shared/header", :locals => {:title => "Settings",:icon => "fa-cog"}
 - if @company.name.blank?
-	.wrapper
-		.firstrun
-			You haven't set up your company settings. You can't send a purchase order without setting this up. Click the button below to get started.
-			.buttons.centered
-				= button_to edit_company_path(@company), method: 'get', class: 'btn btn-add' do
-					%i.fa.fa-plus-circle.fa-fw
-					%span.text Start
+	.firstrun
+		You haven't set up your company settings. You can't send a purchase order without setting this up. Click the button below to get started.
+		.buttons.centered
+			= button_to edit_company_path(@company), method: 'get', class: 'btn btn-add' do
+				%i.fa.fa-plus-circle.fa-fw
+				%span.text Start
 - else
-	.wrapper
-		.card
-			%h4 Send Purchase Orders From
-			%table
-				%tr
-					%th.text-label Name
-					%th.text-label Email
-					%th.text-label Fax
-					%th.text-label Telephone
-				%tr
-					%td= @company.name
-					%td= @company.email
-					%td= @company.fax
-					%td= @company.telephone
-			.buttons
-				= button_to edit_company_path(@company), method: 'get', class: 'btn btn-edit' do
-					%i.fa.fa-pencil.fa-fw
-					%span.text Edit
+	.card
+		%h4 Send Purchase Orders From
+		%table
+			%tr
+				%th.text-label Name
+				%th.text-label Email
+				%th.text-label Fax
+				%th.text-label Telephone
+			%tr
+				%td= @company.name
+				%td= @company.email
+				%td= @company.fax
+				%td= @company.telephone
+		.buttons
+			= button_to edit_company_path(@company), method: 'get', class: 'btn btn-edit' do
+				%i.fa.fa-pencil.fa-fw
+				%span.text Edit
 	.divider
-	.wrapper
-		.card
-			%h4 Your Additional Addresses
-			- if @company.addresses.length == 0
-				No addresses found.
-			- else
-				%table.sortable
-					%thead
+	.card
+		%h4 Your Additional Addresses
+		- if @company.addresses.length == 0
+			No addresses found.
+		- else
+			%table.sortable
+				%thead
+					%tr
+						%th.text-label Name
+						%th.text-label Address
+						%th.text-label Receiving Agent
+						%th.text-label Telephone
+				%tbody
+					- @company.addresses.each do |a|
 						%tr
-							%th.text-label Name
-							%th.text-label Address
-							%th.text-label Receiving Agent
-							%th.text-label Telephone
-					%tbody
-						- @company.addresses.each do |a|
-							%tr
-								%td= link_to a.name, edit_address_path(a)
-								-address = a.address
-								%td
-									= address["address_line_1"]
-									%br
-									= address["address_line_2"]
-									%br
-									= "#{address["city"]}, #{address["state"]}, #{address["zip"]}"
-									%br
-									= address["country"]
-								%td= a.agent
-								%td= a.telephone
-			.buttons
-				= button_to new_address_path, method: 'get', class: 'btn btn-add' do
-					%i.fa.fa-plus-circle.fa-fw
-					%span.text Add address
+							%td= link_to a.name, edit_address_path(a)
+							-address = a.address
+							%td
+								= address["address_line_1"]
+								%br
+								= address["address_line_2"]
+								%br
+								= "#{address["city"]}, #{address["state"]}, #{address["zip"]}"
+								%br
+								= address["country"]
+							%td= a.agent
+							%td= a.telephone
+		.buttons
+			= button_to new_address_path, method: 'get', class: 'btn btn-add' do
+				%i.fa.fa-plus-circle.fa-fw
+				%span.text Add address
