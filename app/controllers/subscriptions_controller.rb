@@ -33,8 +33,28 @@ class SubscriptionsController < ApplicationController
   end
 
   def update
-    @subscription.update(subscription_params)
-    respond_with(@subscription)
+    respond_to do |format|
+      if params[:update_plan]
+          if @subscription.update_plan(params[:plan])
+            @subscription.update_attribute(:plan, params[:plan])
+            format.html {redirect_to @subscription, :notice => "Congratulations! Your plan has been changed to the #{current_user.subscription.plan.to_s} " }
+          else 
+            format.html { render :edit, :notice => "Unable to update plan" }
+          end
+      elsif params[:cancel]
+        if @subscription.cancel_plan 
+          format.html {redirect_to new_subscription_path, :notice => "Plan successfully canceled" }
+        end
+      elsif params[:update_card]
+        if @subscription.update_card
+          format.html {redirect_to @subscription, :notice => "Card was successfully updated" }
+        else 
+          format.html {redirect_to @subscription, :notice => "Error updating card" }
+        end
+      else
+        format.html {redirect_to @subscription, :notice => "Everything went wrong" }
+      end
+    end
   end
 
   def destroy
@@ -50,6 +70,6 @@ class SubscriptionsController < ApplicationController
     def subscription_params
       # add all the fields you want to allow to be updated via your form... 
       # example below is just :name, :email but you get the idea.
-      params.require(:subscription).permit(:plan, :id) 
+      params.require(:subscription).permit(:plan) 
     end
 end

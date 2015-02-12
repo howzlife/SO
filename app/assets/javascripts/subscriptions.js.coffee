@@ -14,19 +14,36 @@ subscription =
         false
       else
         true
-  
+#Update card form -> Update action
+  updateForm: ->
+    $('#edit_subscription').submit ->
+      $('input[type=submit] #update_card' ).attr('disabled', true)
+      if $('#card_number').length
+        subscription.updateCard()
+        false
+      else
+        true
+#For adding a card
   processCard: ->
     card =
       number: $('#card_number').val()
       cvc: $('#card_code').val()
       expMonth: $('#card_month').val()
       expYear: $('#card_year').val()
-    Stripe.createToken(card, subscription.handleStripeResponse)
+    Stripe.card.createToken(card, subscription.handleStripeResponse)
+#For updating a card
+  updateCard: ->
+    card =
+      number: $('#card_number').val()
+      cvc: $('#card_code').val()
+      expMonth: $('#card_month').val()
+      expYear: $('#card_year').val()
+    Stripe.card.createToken(card, subscription.handleStripeResponse)
   
   handleStripeResponse: (status, response) ->
     if status == 200
       $('#subscription_stripe_card_token').val(response.id)
-      $('#new_subscription')[0].submit()
+      $('#update_subscription')[0].submit()
     else
       $('#stripe_error').text(response.error.message)
       $('input[type=submit]').attr('disabled', false)
