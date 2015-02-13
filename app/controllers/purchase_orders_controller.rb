@@ -71,7 +71,7 @@ class PurchaseOrdersController < ApplicationController
           else
             formatted_fax = PO_FAX.format_po_fax(@purchase_order, @company, current_user) #retrieve html formatted string 
             @number =  ("+1" + @purchase_order.vendor.fax.to_s.gsub(/[^0-9]/, "")).to_s #retrieve and format fax number for sending fax
-            @sent_fax = Phaxio.send_fax(to: @number, string_data: formatted_fax, string_data_type: 'html')
+            @sent_fax = Phaxio.send_fax(to: @number, string_data: "Test String", string_data_type: 'html')
             @purchase_order.save
 
               if @sent_fax["success"]

@@ -16,7 +16,7 @@ class PO_FAX < ActionMailer::Base
 		a = @purchase_order.address
 
   	#create PDFS
-	  return '<!DOCTYPE html>
+	  pdf_html = '<!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -215,8 +215,9 @@ font-size: 11px;
         </div>
       </div>
 </body>
-</html>'
+</html>"
 	
+  return pdf_html
 	end
 
 
