@@ -14,7 +14,7 @@
       %th
       
   %tbody
-    - @faxes.each do |fax|
+    - current_user.faxes.each do |fax|
       %tr
         %td= fax.recipient_name
         %td= fax.company_name
