@@ -37,9 +37,9 @@ class Subscription
       false
   end
 
-  def update_card
+  def update_card(attributes)
     customer = Stripe::Customer::retrieve(read_attribute(:stripe_customer_token))
-    customer.card = :stripe_card_token
+    customer.card = attributes[:stripe_card_token]
     customer.save
     rescue Stripe::InvalidRequestError => e
       logger.error "Stripe error while updating card: #{e.message}"

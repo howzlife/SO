@@ -33,6 +33,8 @@ class SubscriptionsController < ApplicationController
   end
 
   def update
+    @subscription = current_user.subscription
+    @subscription.update(subscription_params)
     respond_to do |format|
       if params[:update_plan]
           if @subscription.update_plan(params[:plan])
@@ -45,14 +47,12 @@ class SubscriptionsController < ApplicationController
         if @subscription.cancel_plan 
           format.html {redirect_to new_subscription_path, :notice => "Plan successfully canceled" }
         end
-      elsif params[:update_card]
-        if @subscription.update_card
+      else
+        if @subscription.update_card(params[:subscription])
           format.html {redirect_to @subscription, :notice => "Card was successfully updated" }
         else 
           format.html {redirect_to @subscription, :notice => "Error updating card" }
         end
-      else
-        format.html {redirect_to @subscription, :notice => "Everything went wrong" }
       end
     end
   end

@@ -1,0 +1,7 @@
+%br
+.wrapper
+.field 
+= label_tag :plan, "Pick a Plan!"
+= select :plan, nil, :options_for_select => ["basic_plan", "better_plan"]
+= submit_tag "Update Plan", :name => "update_plan", :data => { :confirm => 'Are you sure? This will take effect at the start of the next billing cycle'}, class: "update_plan" 
+%br
