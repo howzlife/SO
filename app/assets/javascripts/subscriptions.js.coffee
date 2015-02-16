@@ -23,6 +23,11 @@ subscription =
       cvc: $('#card_code').val()
       expMonth: $('#card_month').val()
       expYear: $('#card_year').val()
+      country: $('#country').val()
+      address_zip: $('#postal_code').val()
+      address_line1: $('#address').val()
+      address_city: $('#city').val()
+      address_state: $('#state').val()
     Stripe.card.createToken(card, subscription.handleStripeCreateResponse)
   
   handleStripeCreateResponse: (status, response) ->
@@ -51,13 +56,17 @@ changecard =
       cvc: $('#card_code').val()
       expMonth: $('#card_month').val()
       expYear: $('#card_year').val()
+      country: $('#country').val()
+      address_zip: $('#postal_code').val()
+      address_line1: $('#address').val()
+      address_city: $('#city').val()
+      address_state: $('#state').val()
     Stripe.card.createToken(card, changecard.handleStripeUpdateResponse)
 
   # handle the stripe response
   handleStripeUpdateResponse: (status, response) ->
     if status == 200
       $('#subscription_stripe_card_token').val(response.id)
-      $('#stripe_error').text(response.id)
       $('#update_card')[0].submit()
     else
       $('#stripe_error').text(response.error.message)

@@ -26,7 +26,7 @@ class SubscriptionsController < ApplicationController
     plan = params[:plan]
     name = current_user.first_name + " " + current_user.last_name
     if @subscription.save_with_payment(plan[0], current_user.email, name)
-      redirect_to @subscription, :notice => "Subscription was successfully created!"
+      redirect_to purchase_orders_path, :notice => "Subscription was successfully created!"
     else
       render :new, :notice => "Error creating subscription"
     end
@@ -34,22 +34,23 @@ class SubscriptionsController < ApplicationController
 
   def update
     @subscription = current_user.subscription
-    @subscription.update(subscription_params)
     respond_to do |format|
       if params[:update_plan]
           if @subscription.update_plan(params[:plan])
             @subscription.update_attribute(:plan, params[:plan])
-            format.html {redirect_to @subscription, :notice => "Congratulations! Your plan has been changed to the #{current_user.subscription.plan.to_s} " }
+            format.html {redirect_to purchase_orders_path, :notice => "Congratulations! Your plan has been changed to the #{current_user.subscription.plan.to_s} " }
           else 
             format.html { render :edit, :notice => "Unable to update plan" }
           end
-      elsif params[:cancel]
-        if @subscription.cancel_plan 
-          format.html {redirect_to new_subscription_path, :notice => "Plan successfully canceled" }
+      elsif params[:cancel_subscription]
+        if @subscription.cancel_plan
+          @subscription.destroy
+          format.html {redirect_to purchase_orders_path, :notice => "Plan successfully canceled" }
         end
       else
+        @subscription.update(subscription_params)
         if @subscription.update_card(params[:subscription])
-          format.html {redirect_to @subscription, :notice => "Card was successfully updated" }
+          format.html {redirect_to purchase_orders_path, :notice => "Card was successfully updated" }
         else 
           format.html {redirect_to @subscription, :notice => "Error updating card" }
         end

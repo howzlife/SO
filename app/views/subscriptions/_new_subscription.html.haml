@@ -1,5 +1,4 @@
-= simple_form_for @subscription, :html => {id: "update_card"} do |f|
-  = f.error_notification
+= form_for @subscription do |f|
   = f.hidden_field :stripe_card_token 
   .field
     = label_tag :card_number, "Credit Card Number"
@@ -26,10 +25,11 @@
   .field
     = label_tag :postal_code, "Zip/Postal Code"
     = text_field_tag :postal_code, nil, name: nil
-  %br
-  .field
-  = f.button :submit, "Update Card Information", :name => "update_card", :data => { :confirm => 'Are you sure? This card will now be the default card used for payments'}, class: "update_card" 
-  %br
+  .field 
+    = label_tag :plan, "Pick a Plan!"
+    = select :plan, nil, :options_for_select => [["Basic Plan $20/month", "basic_plan"], ["Better Plan $30/month","better_plan"]]
 
   #stripe_error
-  %noscript JavaScript is not enabled and is required for this form. First enable it in your web browser settings.
+    %noscript JavaScript is not enabled and is required for this form. First enable it in your web browser settings.
+  .form-actions
+    = f.submit "Submit"
