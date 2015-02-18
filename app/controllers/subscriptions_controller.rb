@@ -3,10 +3,10 @@ class SubscriptionsController < ApplicationController
 
   respond_to :html
 
-  def index
-    @subscriptions = Subscription.all
-    respond_with(@subscriptions)
-  end
+  #def index
+  #  @subscriptions = Subscription.all
+  #  respond_with(@subscriptions)
+  #end
 
   def show
     respond_with(@subscription)

@@ -23,11 +23,12 @@
 			= link_to faxes_path, class: cp(faxes_path) do
 				%span.text Faxes
 				%i.fa.fa-fax.fa-fw
-		- unless current_user.subscription.present?
-			%li.sign_up
-			= link_to new_subscription_path, class: cp(new_subscription_path) do
-				%span.text Sign Up!
-				%i.fa.fa-thumbs-up.fa-fw
+		- unless current_user.subscription.present? 
+			- if current_user.confirmed?
+				%li.sign_up
+				= link_to new_subscription_path, class: cp(new_subscription_path) do
+					%span.text Sign Up!
+					%i.fa.fa-thumbs-up.fa-fw
 
 		- if current_user.subscription.present? 
 			%li.update_subscription_info

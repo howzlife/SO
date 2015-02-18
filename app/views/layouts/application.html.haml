@@ -36,3 +36,5 @@
 							Need Help? Go to the Swiftorders
 							= succeed "." do
 								%a{:href => "#"} Support Page
+			-if !current_user.confirmed? 
+				%p.notice Your account is not yet confirmed; Please click link in confirmation email to fully use the applications

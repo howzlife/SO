@@ -3,8 +3,8 @@ class PurchaseOrdersController < ApplicationController
   require 'send_pdf'
   require 'format_po_fax'
   before_action :set_purchase_order, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!
   before_action :has_company_info, only: [:new]
+  before_action :authenticate_user!
   include ActionView::Helpers::NumberHelper
 
   # GET /purchase_orders
@@ -82,6 +82,9 @@ class PurchaseOrdersController < ApplicationController
                 format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
               end
           end
+        elsif params[:status] == "dummy"
+          @purchase_order.status = "draft"
+          format.html { redirect_to purchase_orders_path, notice: "Please confirm email address via the email that was sent to you" }
         else
           format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully saved.' }
           format.json { render :show, status: :ok, location: @purchase_order } 
@@ -134,6 +137,10 @@ class PurchaseOrdersController < ApplicationController
             format.html {redirect_to @purchase_order, notice: @sent_fax["message"] }
             format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
           end 
+        elsif params[:status] == "dummy"
+          @purchase_order.status = "draft"
+          format.html { redirect_to purchase_orders_path, notice: "Please confirm email address via the email that was sent to you" }
+
         elsif @purchase_order.status == "draft"
           format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully saved.' }
           format.json { render :show, status: :ok, location: @purchase_order }      
