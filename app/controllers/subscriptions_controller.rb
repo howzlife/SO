@@ -3,10 +3,10 @@ class SubscriptionsController < ApplicationController
 
   respond_to :html
 
-  def index
-    @subscriptions = Subscription.all
-    respond_with(@subscriptions)
-  end
+  #def index
+  #  @subscriptions = Subscription.all
+  #  respond_with(@subscriptions)
+  #end
 
   def show
     respond_with(@subscription)
@@ -26,15 +26,36 @@ class SubscriptionsController < ApplicationController
     plan = params[:plan]
     name = current_user.first_name + " " + current_user.last_name
     if @subscription.save_with_payment(plan[0], current_user.email, name)
-      redirect_to @subscription, :notice => "Thank you for subscribing!"
+      redirect_to purchase_orders_path, :notice => "Subscription was successfully created!"
     else
-      render :new
+      render :new, :notice => "Error creating subscription"
     end
   end
 
   def update
-    @subscription.update(subscription_params)
-    respond_with(@subscription)
+    @subscription = current_user.subscription
+    respond_to do |format|
+      if params[:update_plan]
+          if @subscription.update_plan(params[:plan])
+            @subscription.update_attribute(:plan, params[:plan])
+            format.html {redirect_to purchase_orders_path, :notice => "Congratulations! Your plan has been changed to the #{current_user.subscription.plan.to_s} " }
+          else 
+            format.html { render :edit, :notice => "Unable to update plan" }
+          end
+      elsif params[:cancel_subscription]
+        if @subscription.cancel_plan
+          @subscription.destroy
+          format.html {redirect_to purchase_orders_path, :notice => "Plan successfully canceled" }
+        end
+      else
+        @subscription.update(subscription_params)
+        if @subscription.update_card(params[:subscription])
+          format.html {redirect_to purchase_orders_path, :notice => "Card was successfully updated" }
+        else 
+          format.html {redirect_to @subscription, :notice => "Error updating card" }
+        end
+      end
+    end
   end
 
   def destroy
@@ -50,6 +71,6 @@ class SubscriptionsController < ApplicationController
     def subscription_params
       # add all the fields you want to allow to be updated via your form... 
       # example below is just :name, :email but you get the idea.
-      params.require(:subscription).permit(:plan, :id) 
+      params.require(:subscription).permit(:plan, :stripe_card_token) 
     end
 end

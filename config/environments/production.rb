@@ -74,7 +74,7 @@ Rails.application.configure do
 
   #FOR STAGING ENVIRONMENT, USE CREDENTIALS BELOW: 
   config.action_mailer.default_url_options = { host: 'powerful-chamber-1551.herokuapp.com' }
-  config.action_mailer.default_options = {  :from => "no-reply@test.com" }
+  config.action_mailer.default_options = {  :from => "no-reply@swiftorders-staging.com" }
   config.action_mailer.smtp_settings = { 
     address:              'smtp.sendgrid.net',
     port:                 587,

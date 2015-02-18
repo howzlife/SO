@@ -1,0 +1,9 @@
+= simple_form_for @subscription, :html => {id: "update_plan"} do |f|
+  = f.error_notification
+  %br
+  .wrapper
+  .field 
+  = label_tag :plan, "Pick a Plan!"
+  = select :plan, nil, :options_for_select => ["basic_plan", "better_plan"]
+  = f.button :submit, "Update Plan", :name => "update_plan", :data => { :confirm => 'Are you sure? This will take effect at the start of the next billing cycle'}, class: "update_plan" 
+  %br

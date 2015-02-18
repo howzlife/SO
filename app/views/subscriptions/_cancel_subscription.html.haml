@@ -1,0 +1,4 @@
+= simple_form_for @subscription, :html => {id: "cancel_subscription"} do |f|
+  = f.error_notification
+  .field
+  = f.button :submit, "Cancel Subscription", :name => "cancel_subscription", :data => { :confirm => 'Are you sure? This will cancel your subscription and close your account.' }
