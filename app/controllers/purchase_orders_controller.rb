@@ -10,6 +10,7 @@ class PurchaseOrdersController < ApplicationController
   # GET /purchase_orders
   # GET /purchase_orders.json
   def index
+    @company = current_user.company
     if params["q"].blank? && params["status"].blank? && params["label"].blank? && params["archived"].blank? 
       @purchase_orders = @company.purchase_orders.active.page params[:page]
     else
