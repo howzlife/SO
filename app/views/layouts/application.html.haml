@@ -17,14 +17,14 @@
 		= yield
 	- else
 		%body
+		- if flash[:notice]
+			%p.notice
+				= notice
+		- if flash[:alert]
+			%p.alert
+				= alert
 		= render "layouts/header"
 		.wrapper.clear
-			- if flash[:notice]
-				%p.notice
-					= notice
-			- if flash[:alert]
-				%p.alert
-					= alert
 			= render "layouts/sidebar"
 			.content
 				.sheet

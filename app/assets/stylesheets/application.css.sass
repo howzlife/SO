@@ -78,28 +78,38 @@ h1,h2,h3,h4,h5,h6
 		display: inline-block
 
 .btn
-	color: #fff
-	background: #a7b2be
+	color: $default-blue
+	border: 1px solid $default-blue
+	background-color: #fff
 	position: relative
-	border-width: 0
-	font-weight: 500
+	font-weight: 400
 	font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B',sans-serif
 	font-size: 14px
 	text-decoration: none
 	padding: 7px 12px
 	margin: 0px
 	border-radius: $border-radius
+	cursor: pointer
+	&:hover
+		background-color: #f5f5f5
+		text-decoration: none
+	&:active
+		background-color: #ebebeb
+		text-decoration: none
 
-.btn-add
-	color: $default-blue
-	border: 1px solid $default-blue
-	background-color: #fff
+.btn-primary
+	background: $default-blue
+	color: #fff
+	&:hover
+		background: #466d9b
+	&:active
+		background: #39597f
 
+.btn-large
+	font-size: 17px
+	font-weight: 500
+	padding: 10px 14px
 
-.small-btn
-	display: none
-	border-radius: $border-radius
-	padding: 4px 5px 3px 5px
 
 .splash
 	.logo
@@ -193,19 +203,19 @@ h1,h2,h3,h4,h5,h6
 	padding: 0 30px
 
 .divider
-	border-bottom: 1px solid $default-grey
+	border-bottom: 1px solid $light-grey
 
 p.notice
 	position: absolute
 	opacity: 0.7
 	margin: 0px
-	bottom: 0
+	top: 42px
 	z-index: 99
 	width: 100%
 	text-align: center
 	font-size: 18px
 	font-weight: 300
-	padding: 20px
+	padding: 25px 20px
 	color: #fff
 	background: #000
 
@@ -293,13 +303,8 @@ h1
 
 	.button
 		margin: 0 0 15px 0
-		.btn
-			font-size: 17px
-			font-weight: 500
-			background: $default-blue
+		.btn-large
 			width: 100%
-			padding: 10px 14px
-			color: #fff
 	.search
 		margin: 0 0 35px 0
 		width: 100%
@@ -360,6 +365,8 @@ h1
 			margin: 0
 			div
 				display: inline-block
+			.btn
+				margin-left: 10px
 		h2
 			font-size: 24px
 			font-weight: 400
@@ -404,6 +411,7 @@ h1
 		position: relative
 		.contents
 			padding: 0px 30px
+			margin-bottom: 30px
 	.search-area
 		margin: 0 -10px 25px -10px
 		position: relative
@@ -473,10 +481,11 @@ h1
 
 	h3
 		font-size: 21px
+		font-weight: 500
 		margin: 0 0 6px 0
 	h4
 		font-size: 16px
-		font-weight: 600
+		font-weight: 500
 		margin: 0 0 30px 0
 	input, textarea, text_area
 		width: 100%
@@ -507,10 +516,10 @@ h1
 			font-size: 13px
 
 	.card
-		background: #f5f5f5  
+		background: #f7f7f7
 		padding: 25px  
 		outline: none  
-		border: 1px solid #e3e2e4  
+		border: 1px solid $light-grey
 		&.hastabs
 			padding: 0
 			.contents
@@ -691,7 +700,7 @@ h1
 	.sidebar, .page-header, .buttons, .no-print
 		display: none
 	.content
-		.wrapper, .card
+		.card
 			border: none
 			padding: 0
 			.text-label

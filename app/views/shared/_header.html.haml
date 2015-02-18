@@ -8,9 +8,31 @@
 	-if hasbutton
 		.buttons
 			-if button == "Create New PO"
-				= button_to new_purchase_order_path, method: 'get', class: 'btn btn-add' do
+				= button_to new_purchase_order_path, method: 'get', class: 'btn' do
 					%span.text Create New PO
+				%span < >
 			-if button == "Create New Vendor"
-				= button_to new_vendor_path, method: 'get', class: 'btn btn-add' do
+				= button_to new_vendor_path, method: 'get', class: 'btn' do
 					%span.text Create New Vendor
-			%span < >
+				%span < >
+			-if button == "Save Vendor"
+				= link_to vendors_path, class: 'btn' do
+					%span.text Cancel
+				- if action_name == "edit"
+					= link_to @vendor, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger' do
+						%span.text Delete Vendor
+				= button_tag(type: 'submit', class: "btn btn-primary") do
+					%span.text Save Vendor
+			-if button == "Save Address"
+				= link_to company_path(@company), class: 'btn' do
+					%span.text Cancel
+				- if action_name == "edit"
+					= link_to @address, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger' do
+						%span.text Delete Address
+				= button_tag(type: 'submit', class: "btn btn-primary") do
+					%span.text Save Address
+			-if button == "Save Settings"
+				= link_to company_path(@company), class: 'btn' do
+					%span.text Cancel
+				= button_tag(type: 'submit', class: "btn btn-primary") do
+					%span.text Save

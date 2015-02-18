@@ -88,7 +88,7 @@ $(function() {
     });
     
     if ($('p.notice').length) {
-    	$('p.notice').delay( 3000 ).fadeOut(100);
+    	$('p.notice').delay( 2500 ).fadeOut(250);
     }
     
     $('.sortable').tablesorter();
@@ -135,7 +135,7 @@ $(function() {
 								$('#searchable-table tbody').append('<tr><td><a href="' + url + '">' + item.number + '</a></td><td>' +  $.format.date(item.date, "MMMM D, yyyy") + '</td><td>' + item.vendor.name + '</td><td>' + label + '</td><td><span class="label status-' + item.status + '">' + item.status + '</span></td></tr>');
 							} else {
 								url += "/edit";
-								$('#searchable-table tbody').append('<tr><td><a href="' + url + '">' + item.name + '</a></td><td>' + item.email + '</td><td>' + item.contact + '</td><td>' + item.telephone + '</td></tr>');
+								$('#searchable-table tbody').append('<tr><td><a href="' + url + '">' + item.name + '</a></td><td>' + item.email + '</td><td>' + item.contact + '</td><td>' + item.telephone + '</td><td>' + item.fax + '</td></tr>');
 							}
 						});
 						$('.sortable').trigger("update");

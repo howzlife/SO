@@ -1,10 +1,14 @@
-.section.clear
-	.section-description
-		%h3 Address Details
-		%p Provide information about your address. These addresses will be available as Send To destinations.
-	.section-content
-		.card
-			= simple_form_for @address do |f|
+= simple_form_for @address do |f|
+	- if action_name == "edit"
+		= render :partial => "shared/header", :locals => {:title => "Edit Address",:icon => "fa-building", :hasbutton => true, :button => "Save Address" }
+	- else
+		= render :partial => "shared/header", :locals => {:title => "Add an Address",:icon => "fa-building", :hasbutton => true, :button => "Save Address" }
+	.contents.section.clear
+		.section-description
+			%h3 Address Details
+			%p Provide information about your address. These addresses will be available as Send To destinations.
+		.section-content
+			.card
 				- if @address.errors.any?
 					#error_explanation
 						%h2= "#{pluralize(@address.errors.count, "error")} prohibited this address from being saved:"
@@ -61,14 +65,3 @@
 						= f.input :agent, label: 'Receiving agent'
 					.half.phone
 						= f.input :telephone
-				.buttons
-					= link_to @company, class: 'btn btn-cancel' do
-						%i.fa.fa-undo.fa-fw
-						%span.text Cancel
-					- if action_name == "edit"
-						= link_to @address, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger' do
-							%i.fa.fa-trash.fa-fw
-							%span.text Delete Address
-					= button_tag(type: 'submit', class: "btn btn-add") do
-						%i.fa.fa-save.fa-fw
-						%span.text Save Address

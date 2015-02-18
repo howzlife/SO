@@ -1,13 +1,13 @@
 = render :partial => "shared/header", :locals => {:title => "Settings",:icon => "fa-cog"}
-- if @company.name.blank?
-	.firstrun
-		You haven't set up your company settings. You can't send a purchase order without setting this up. Click the button below to get started.
-		.buttons.centered
-			= button_to edit_company_path(@company), method: 'get', class: 'btn btn-add' do
-				%i.fa.fa-plus-circle.fa-fw
-				%span.text Start
-- else
-	.card
+.contents
+	- if @company.name.blank?
+		.firstrun
+			You haven't set up your company settings. You can't send a purchase order without setting this up. Click the button below to get started.
+			.buttons.centered
+				= button_to edit_company_path(@company), method: 'get', class: 'btn btn-add' do
+					%i.fa.fa-plus-circle.fa-fw
+					%span.text Start
+	- else
 		%h4 Send Purchase Orders From
 		%table
 			%tr
@@ -22,10 +22,8 @@
 				%td= @company.telephone
 		.buttons
 			= button_to edit_company_path(@company), method: 'get', class: 'btn btn-edit' do
-				%i.fa.fa-pencil.fa-fw
 				%span.text Edit
-	.divider
-	.card
+		.divider
 		%h4 Your Additional Addresses
 		- if @company.addresses.length == 0
 			No addresses found.
@@ -54,5 +52,4 @@
 							%td= a.telephone
 		.buttons
 			= button_to new_address_path, method: 'get', class: 'btn btn-add' do
-				%i.fa.fa-plus-circle.fa-fw
-				%span.text Add address
+				%span.text Add Address
