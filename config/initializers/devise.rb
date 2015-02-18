@@ -9,7 +9,6 @@ Devise.setup do |config|
 
   # Allow unconfirmed access
   config.allow_unconfirmed_access_for = 5.days
-  config.allow_insecure_sign_in_after_confirmation = true
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
