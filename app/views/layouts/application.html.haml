@@ -19,12 +19,6 @@
 		%body
 		= render "layouts/header"
 		.wrapper.clear
-			- if flash[:notice]
-				%p.notice
-					= notice
-			- if flash[:alert]
-				%p.alert
-					= alert
 			= render "layouts/sidebar"
 			.content
 				.sheet
@@ -36,3 +30,9 @@
 							Need Help? Go to the Swiftorders
 							= succeed "." do
 								%a{:href => "#"} Support Page
+		- if flash[:notice]
+			%p.notice
+				= notice
+		- if flash[:alert]
+			%p.alert
+				= alert

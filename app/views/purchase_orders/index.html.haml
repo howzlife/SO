@@ -46,7 +46,7 @@
 						%td= purchase_order.vendor.name
 						%td= purchase_order.label
 						%td
-							%span{class: "label status-#{purchase_order.status}"}= purchase_order.status
+							%span{class: "label status-#{purchase_order.status}"}= purchase_order.status.capitalize
 						-#= %td= link_to 'Show', purchase_order
 						-#= %td= link_to 'Edit', edit_purchase_order_path(purchase_order)
 						-#= %td= link_to 'Destroy', purchase_order, :method => :delete, :data => { :confirm => 'Are you sure?' }
