@@ -6,6 +6,7 @@ class PurchaseOrdersController < ApplicationController
   before_action :has_company_info, only: [:new]
   before_action :authenticate_user!
   include ActionView::Helpers::NumberHelper
+  include ActionController::Base::PurchaseOrdersHelper
 
   # GET /purchase_orders
   # GET /purchase_orders.json
@@ -70,7 +71,7 @@ class PurchaseOrdersController < ApplicationController
             format.html { redirect_to purchase_orders_path, notice: "Please set a fax number for this vendor before sending fax"}
             format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
           else
-            formatted_fax = PO_FAX.format_po_fax(@purchase_order, @company, current_user) #retrieve html formatted string 
+            formatted_fax = format_po_fax(@purchase_order, @company, current_user) #retrieve html formatted string 
             @number =  ("+1" + @purchase_order.vendor.fax.to_s.gsub(/[^0-9]/, "")).to_s #retrieve and format fax number for sending fax
             @sent_fax = Phaxio.send_fax(to: @number, string_data: "Test String", string_data_type: 'html')
             @purchase_order.save

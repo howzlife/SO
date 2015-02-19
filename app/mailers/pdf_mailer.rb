@@ -238,7 +238,7 @@ font-size: 11px;
 
 		#add attachment, renamed
 		attachments['purchase_order_'+@purchase_order.number.to_s+'.pdf'] = File.read(file_name)
-		#send email with pdf attachment
+		#send email with pdf 
 		mail(to: @purchase_order.vendor.email, subject: 'Purchase Order '+@purchase_order.number.to_s, from: @company.email, reply_to: @company.email)
 		#delete local file
 		File.delete(file_name)
