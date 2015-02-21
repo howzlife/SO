@@ -19,10 +19,10 @@
 			= link_to company_path(@company), class: cp(company_path(@company)) do
 				%span.text Settings
 				%i.fa.fa-cog.fa-fw
-		%li.fax
-			= link_to faxes_path, class: cp(faxes_path) do
-				%span.text Faxes
-				%i.fa.fa-fax.fa-fw
+		//%li.fax
+		//	= link_to faxes_path, class: cp(faxes_path) do
+		//		%span.text Faxes
+		//		%i.fa.fa-fax.fa-fw
 		- unless current_user.subscription.present? 
 			- if current_user.confirmed?
 				%li.sign_up

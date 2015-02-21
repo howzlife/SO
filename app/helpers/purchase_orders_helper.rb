@@ -4,7 +4,7 @@ module PurchaseOrdersHelper
 
 		#create instance variables
 		@purchase_order = purchase_order
-    @company = company
+    	@company = company
 
 		ponumber = @purchase_order.number
 		a = @purchase_order.address
@@ -176,10 +176,10 @@ font-size: 11px;
           </div>
           <div class='purchaseorder-number'>
             <div class='text-label'>Purchase Order</div>
-            <div class='number'>'+ponumber+'</div>
+            <div class='number'>#{ponumber}</div>
             <div class='section'>
               <div class='text-label'>Date</div>
-              <div class='date'>'+@purchase_order.date.strftime('%B #{@purchase_order.date.day.ordinalize}, %Y')</div>
+              <div class='date'>#{@purchase_order.date.strftime("%B #{@purchase_order.date.day.ordinalize}, %Y")}</div>
             </div>
           </div>
         </div>

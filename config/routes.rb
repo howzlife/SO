@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :faxes
+  
+  # Note: Resource "faxes" removed at the moment, may be reinserted later. 
+  # resources :faxes
 
   resources :subscriptions do
     get "create"

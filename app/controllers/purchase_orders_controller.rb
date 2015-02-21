@@ -80,7 +80,7 @@ class PurchaseOrdersController < ApplicationController
 
               if @sent_fax["success"]
                 @purchase_order.update_attribute(:status, "open")
-                format.html { redirect_to @purchase_order, notice: @sent_fax["message"] }
+                format.html { redirect_to @purchase_order, notice: "Success! Your PO has been sent by fax" }
               else 
                 format.html {render :new, notice: @sent_fax["message"]}
                 format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
@@ -136,7 +136,7 @@ class PurchaseOrdersController < ApplicationController
         elsif params[:status] == "fax"
           if @successful_send
             @purchase_order.update_attribute(:status, "open")
-            format.html { redirect_to @purchase_order, notice: @sent_fax["message"] }
+            format.html { redirect_to @purchase_order, notice: "Success! Your PO has been sent by fax" }
           else 
             format.html {redirect_to @purchase_order, notice: @sent_fax["message"] }
             format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
