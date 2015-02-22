@@ -71,16 +71,11 @@ class PurchaseOrdersController < ApplicationController
             format.html { redirect_to purchase_orders_path, notice: "Please set a fax number for this vendor before sending fax"}
             format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
           else
-            ponumber = @purchase_order.number
-            a = @purchase_order.address
-            formatted_fax = format_po_fax(@purchase_order, @company, current_user) #retrieve html formatted string 
-            @number =  ("+1" + @purchase_order.vendor.fax.to_s.gsub(/[^0-9]/, "")).to_s #retrieve and format fax number for sending fax
-            @sent_fax = Phaxio.send_fax(to: @number, string_data: formatted_fax, string_data_type: 'html')
+            @sent_fax = send_po_fax(@purchase_order) 
             @purchase_order.save
-
               if @sent_fax["success"]
                 @purchase_order.update_attribute(:status, "open")
-                format.html { redirect_to @purchase_order, notice: "Success! Your PO has been sent by fax" }
+                format.html { redirect_to @purchase_order, notice: "Success, Your PO has been sent by fax." }
               else 
                 format.html {render :new, notice: @sent_fax["message"]}
                 format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
@@ -110,9 +105,7 @@ class PurchaseOrdersController < ApplicationController
       @purchase_order.update_attributes(:status, "open")
 
     elsif params[:status] == "fax"
-      formatted_fax = PO_FAX.format_po_fax(@purchase_order, @company, current_user) #retrieve html formatted string 
-      @number =  ("+1" + @purchase_order.vendor.fax.to_s.gsub(/[^0-9]/, "")).to_s #retrieve and format fax number for sending fax
-      @sent_fax = Phaxio.send_fax(to: @number, string_data: formatted_fax, string_data_type: 'html')
+      @sent_fax = send_po_fax(@purchase_order)
       @successful_send = @sent_fax["success"]
       @purchase_order.save
 
