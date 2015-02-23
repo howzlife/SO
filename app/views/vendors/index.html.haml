@@ -7,7 +7,8 @@
 - else
 	.contents
 		= form_tag vendors_path, :class => "search-area", :method => :get do
-			= text_field_tag :q, nil, :class => "search-query", :placeholder => "Search for vendors..."
+			%i.fa.fa-search.fa-fw
+			= text_field_tag :q, nil, :class => "search-query", :placeholder => "Start typing to search for vendors..."
 		%table#searchable-table.sortable
 			%thead
 				%tr

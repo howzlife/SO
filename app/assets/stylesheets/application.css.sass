@@ -235,7 +235,7 @@ h1
 	display: none
 	position: absolute
 	background: $default-blue
-	z-index: 1
+	z-index: 2
 	text-align: left
 	padding: 10px
 	font-weight: 400
@@ -308,16 +308,35 @@ h1
 			width: 100%
 	.search
 		margin: 0 0 35px 0
-		width: 100%
-		font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B',sans-serif
-		font-size: 14px
-		border: 1px solid $default-grey
-		padding: 10px 14px
-		-webkit-box-sizing: border-box
-		-moz-box-sizing: border-box
-		box-sizing: border-box
-		text-align: left
-		border-radius: $border-radius
+		position: relative
+		i
+			position: absolute
+			z-index: 1
+			left: 8px
+			top: 12px
+			font-size: 20px
+			color: $default-grey
+		.search-query
+			width: 100%
+			background: #f9f9f9
+			font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B',sans-serif
+			font-size: 14px
+			border: 1px solid $default-grey
+			padding: 10px 14px 10px 40px
+			-webkit-box-sizing: border-box
+			-moz-box-sizing: border-box
+			box-sizing: border-box
+			text-align: left
+			border-radius: $border-radius
+			&:focus
+				border: 1px solid $default-blue
+				outline: none
+		.tool-tip
+			color: #fff
+			width: 220px
+			&:after
+				left: 25px
+				right: auto
 	ul
 		padding: 0px
 		margin: 0px -10px
