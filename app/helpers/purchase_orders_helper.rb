@@ -214,4 +214,11 @@ font-size: 11px;
 	
   return pdf_html
 	end
+  def send_po_fax(purchase_order)
+      ponumber = @purchase_order.number
+      a = @purchase_order.address
+      formatted_fax = format_po_fax(@purchase_order, @company, current_user) #retrieve html formatted string 
+      @number =  ("+1" + @purchase_order.vendor.fax.to_s.gsub(/[^0-9]/, "")).to_s #retrieve and format fax number for sending fax
+      return Phaxio.send_fax(to: @number, string_data: formatted_fax, string_data_type: 'html', header_text: "")
+  end
 end

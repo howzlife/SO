@@ -49,3 +49,18 @@
 			= link_to purchase_orders_path do
 				%span.text Help
 				%i.fa.fa-question-circle.fa-fw
+		%br
+		%br
+		-if current_user.confirmed? 
+			Email Confirmation
+			%br
+			You can not send POs until you have confirmed your account.
+			%br
+			Confirm your account by clicking the link in the welcome email
+			%br 
+			= link_to purchase_orders_path do
+				%span.text Click here to resend
+				%i.fa.fa-fw
+		%br
+		%span.text You have #{100 - ((Time.now - current_user.read_attribute(:created_at).to_datetime)/(3600*24)).to_i} days remaining in your free trial:
+		

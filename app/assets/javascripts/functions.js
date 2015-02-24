@@ -59,11 +59,7 @@ $(function() {
     	if ( $("#purchase_order_description").val() ) {
 
     		form = $(this).closest('form');
-	    	if(confirm('This will mark the purchase order open. Are you sure?')) {  
-				window.print();
-	    	} else {
-	    		event.preventDefault();
-	    	}
+	    	window.print();
 
     	} else {
     		alert("Description field cannot be empty");
@@ -75,14 +71,11 @@ $(function() {
     $('.buttons').on('click', '.show-print', function(event) {
 
 		form = $(this).closest('form');
-    	if(confirm('This will mark the purchase order open. Are you sure?')) {  
 			window.print();		
-    		var payload = form.serialize() + '&status=open';
+    		var payload = form.serialize();
     		$.post( form.attr('action'), payload, function( data ) {
     		});
-    	} else {
-    		event.preventDefault();
-    	}
+
     	
     });
     
