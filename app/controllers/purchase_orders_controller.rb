@@ -21,6 +21,8 @@ class PurchaseOrdersController < ApplicationController
 	      @purchase_orders = PurchaseOrder.label(@company.id, params["label"]).page params[:page]
       elsif params.has_key?("archived")
         @purchase_orders = PurchaseOrder.archived(@company.id).page params[:page]
+      elsif params.has_key?("was_deleted")
+        @purchase_orders = PurchaseOrder.was_deleted(@company.id).page params[:page]
       elsif params.has_key?("q")
         @purchase_orders = PurchaseOrder.search(@company.id, params["q"]).page params[:page]
 	    end
@@ -62,8 +64,7 @@ class PurchaseOrdersController < ApplicationController
      			PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
           @purchase_order.status = "open"
           @purchase_order.save
-
-          format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully emailed.' }
+          format.html { redirect_to @purchase_order, notice: 'Success, your PO has been sent by Email.' }
           format.json { render :show, status: :created, location: @purchase_order }
 
         elsif params[:status] == "fax"
@@ -72,10 +73,10 @@ class PurchaseOrdersController < ApplicationController
             format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
           else
             @sent_fax = send_po_fax(@purchase_order) 
-            @purchase_order.save
               if @sent_fax["success"]
                 @purchase_order.update_attribute(:status, "open")
-                format.html { redirect_to @purchase_order, notice: "Success, Your PO has been sent by fax." }
+                @purchase_order.save
+                format.html { redirect_to @purchase_order, notice: "Success, your PO has been sent by fax." }
               else 
                 format.html {render :new, notice: @sent_fax["message"]}
                 format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
@@ -107,6 +108,7 @@ class PurchaseOrdersController < ApplicationController
     elsif params[:status] == "fax"
       @sent_fax = send_po_fax(@purchase_order)
       @successful_send = @sent_fax["success"]
+      @purchase_order.update_attributes(:status, "open")
       @purchase_order.save
 
     elsif params[:status] == "closed"
@@ -117,26 +119,31 @@ class PurchaseOrdersController < ApplicationController
       @pop = organize_purchase_order_params(purchase_order_params) 
       @purchase_order.update(@pop.except(:number))
       @company.labels.find_or_create_by(name: @purchase_order.label)
+    elsif params[:status] == "deleted"
+      @purchase_order.write_attribute(:status, "deleted")
+      @purchase_order.write_attribute(:was_deleted, true)
+      @purchase_order.archived = true 
     elsif params[:archived] == "true"
+      @purchase_order.write_attribute(:status, "archived")
       @purchase_order.archived = true
     end
 
     respond_to do |format|
       if @purchase_order.save
         if params[:status] == "email"                   
-          format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully emailed.' }
+          format.html { redirect_to @purchase_order, notice: 'Success, your PO has been sent by Email.' }
           format.json { render :show, status: :ok, location: @purchase_order }    
         elsif params[:status] == "fax"
           if @successful_send
             @purchase_order.update_attribute(:status, "open")
-            format.html { redirect_to @purchase_order, notice: "Success! Your PO has been sent by fax" }
+            format.html { redirect_to @purchase_order, notice: "Success, your PO has been sent by Fax." }
           else 
             format.html {redirect_to @purchase_order, notice: @sent_fax["message"] }
             format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
           end 
         elsif params[:status] == "dummy"
           @purchase_order.status = "draft"
-          format.html { redirect_to purchase_orders_path, notice: "Please confirm email address via the email that was sent to you" }
+          format.html { redirect_to purchase_orders_path, notice: "Please confirm email address via the Email that was sent to you" }
 
         elsif @purchase_order.status == "draft"
           format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully saved.' }
@@ -163,7 +170,7 @@ class PurchaseOrdersController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { redirect_to @purchase_order, notice: 'Purchase order can\' be deleted.' }
+        format.html { redirect_to @purchase_order, notice: 'Purchase order can\'t be deleted.' }
         format.json { head :no_content }
       end
     end

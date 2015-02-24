@@ -10,6 +10,7 @@ class PurchaseOrder
   field :date_required, type: String
   field :label, type: String
   field :archived, type: Boolean
+  field :was_deleted, type: Boolean
 
   validates_presence_of :number, :date, :description, :vendor
 
@@ -41,5 +42,9 @@ class PurchaseOrder
 
   def self.archived(company_id)
     where(company_id: company_id, archived: true)
+  end
+
+  def self.was_deleted(company_id)
+    where(company_id: company_id, was_deleted: true)
   end
 end

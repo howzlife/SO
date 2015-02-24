@@ -1,21 +1,21 @@
 = render :partial => "shared/header", :locals => {:title => "Purchase Orders",:icon => "fa-pencil-square-o", :hasbutton => true, :button => "Create New PO" }
+%ul.tabs.clear
+	%li{class: sp('all')}
+		=link_to 'Active POs', purchase_orders_path
+	%li{class: sp('draft')}
+		=link_to 'Drafts', "?status=draft"
+	%li{class: sp('open')}
+		=link_to 'Open', "?status=open"
+	%li{class: sp('closed')}
+		=link_to 'Closed', "?status=closed"
+	%li{class: sp('archived')}
+		=link_to 'Archived', "?status=archived"
+	%li{class: sp('deleted')}
+		=link_to 'Deleted', "?status=deleted"
 - if @purchase_orders.length == 0
 	.firstrun
 		No purchase orders found. Click the button above to create a new one.
 - else
-	%ul.tabs.clear
-		%li{class: sp('all')}
-			=link_to 'All POs', purchase_orders_path
-		%li{class: sp('draft')}
-			=link_to 'Drafts', "?status=draft"
-		%li{class: sp('open')}
-			=link_to 'Open', "?status=open"
-		%li{class: sp('closed')}
-			=link_to 'Closed', "?status=closed"
-		%li{class: sp('archived')}
-			=link_to 'Archived', "?archived=true"
-		%li.deleted
-			=link_to 'Deleted', "?deleted=true"
 	.contents
 		= form_tag purchase_orders_path, :class => "search-area", :method => :get do
 			%i.fa.fa-search.fa-fw
@@ -47,9 +47,9 @@
 						%td= purchase_order.label
 						%td
 							%span{class: "label status-#{purchase_order.status}"}= purchase_order.status.capitalize
-						-#= %td= link_to 'Show', purchase_order
-						-#= %td= link_to 'Edit', edit_purchase_order_path(purchase_order)
-						-#= %td= link_to 'Destroy', purchase_order, :method => :delete, :data => { :confirm => 'Are you sure?' }
+					-#%td= link_to 'Destroy', purchase_order, :method => :delete, :data => { :confirm => 'Are you sure?' }
+					-#= %td= link_to 'Show', purchase_order
+					-#= %td= link_to 'Edit', edit_purchase_order_path(purchase_order)
 		= paginate @purchase_orders
 	.page-footer.clear
 		%span < >

@@ -116,6 +116,10 @@
 				= link_to purchase_order_path, method: 'delete', class: 'btn btn-danger left' do
 					%i.fa.fa-trash.fa-fw
 					%span.text Discard
+			- elsif @purchase_order.status == "open"
+				= link_to purchase_order_path, method: 'delete', class: 'btn btn-danger left' do
+					%i.fa.fa-trash.fa-fw
+					%span.text Delete
 			= button_tag(type: 'submit', :name => "status", :value => "draft", class: "btn btn-add") do
 				%i.fa.fa-save.fa-fw
 				%span.text Save As Draft
