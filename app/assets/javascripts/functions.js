@@ -101,6 +101,29 @@ $(function() {
 	var currReqObj = null;
     var searchTimeoutThrottle = 500;
     var searchTimeoutID = -1;
+	$('.search .search-query').bind('keyup change', function(){
+
+        if($(this).val() != $(this).data('oldval')) {
+        	$(this).data('oldval', $(this).val());
+        	if(currReqObj != null) currReqObj.abort();
+        	 clearTimeout(searchTimeoutID);
+        	 var term = $(this).val();
+        	 searchTimeoutID = setTimeout(function(){
+				currReqObj = $.get( "/purchase_orders.json?q=" + term, function( data ) {
+					currReqObj = null;
+					if (data.length == 0) {
+					} else {
+						$('#results-popup').show().html('<div class="title">Purchase Orders</div><div class="results"></div>');
+						$.each(data, function(index, item) {
+							$('#results-popup .results').append('<div class="row">' + item.number + '</div>');
+						});
+					}
+				});
+            }, searchTimeoutThrottle);
+        }
+    }).attr('autocomplete', 'off').data('oldval', '');
+
+
 	$('.search-area .search-query').bind('keyup change', function(){
 	    var searchAction = $('.search-area .search-query').parent().attr('action').substring(1, $('.search-area .search-query').parent().attr('action').length);
 	    console.log(searchAction);
@@ -113,7 +136,7 @@ $(function() {
         	 searchTimeoutID = setTimeout(function(){
 				 currReqObj = $.get( "/" + searchAction + ".json?q=" + term, function( data ) {
 					currReqObj = null;
-					if(data.length == 0) {
+					if (data.length == 0) {
 						$('#searchable-table').hide();
 						if (!$('#searchable-table-text').length) {
 							if (searchAction == "purchase_orders") {
