@@ -62,5 +62,7 @@
 				%span.text Click here to resend
 				%i.fa.fa-fw
 		%br
-		%span.text You have #{100 - ((Time.now - current_user.read_attribute(:created_at).to_datetime)/(3600*24)).to_i} days remaining in your free trial:
-		
+		// commented out becasue of this error
+		// undefined method 'to_datetime' for nil:NilClass
+		// %span.text You have #{100 - ((Time.now - current_user.read_attribute(:created_at).to_datetime)/(3600*24)).to_i} days remaining in your free trial:
+
