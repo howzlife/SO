@@ -5,7 +5,16 @@
 	.search
 		%i.fa.fa-search.fa-fw
 		%input.search-query{:autocomplete => "off", :name => "q", :placeholder => "Search...", :type => "text"}
-		#results-popup.tool-tip
+		#results-popup.tool-tip.below
+			.no-results
+			.purchase-orders
+				.title Purchase Orders
+				.divider
+				.results
+			.vendors
+				.title Vendors
+				.divider
+				.results
 	%ul
 		%li.orders
 			= link_to purchase_orders_path, class: cp(purchase_orders_path) do
@@ -53,5 +62,7 @@
 				%span.text Click here to resend
 				%i.fa.fa-fw
 		%br
-		%span.text You have #{100 - ((Time.now - current_user.read_attribute(:created_at).to_datetime)/(3600*24)).to_i} days remaining in your free trial:
-		
+		// commented out becasue of this error
+		// undefined method 'to_datetime' for nil:NilClass
+		// %span.text You have #{100 - ((Time.now - current_user.read_attribute(:created_at).to_datetime)/(3600*24)).to_i} days remaining in your free trial:
+
