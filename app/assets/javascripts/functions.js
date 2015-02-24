@@ -2,6 +2,7 @@ $(function() {
 	$('.purchaseorder-vendor .vendor-select').on('change','select',function() {
 		if ($(this).val() != "") {
         	var vendor = $(this);
+        	console.log("/vendors/" + vendor.val() + ".json");
 			$.get( "/vendors/" + vendor.val() + ".json", function( data ) {
 				$('.purchaseorder-vendor .vendor-select .vendor-details').empty().append(data.name +'<br>').show();
 				if (data.contact != "") {
@@ -39,8 +40,6 @@ $(function() {
 		$('.deliverto-change .small-btn, .vendor-change .small-btn').show();
         $('.purchaseorder-vendor .vendor-select select, .purchaseorder-deliverto .deliverto-select select').hide();
 	}
-
-
 
     $('.purchaseorder-deliverto .deliverto-select').on('click', '.small-btn', function() {
         $('.purchaseorder-deliverto .deliverto-select select').show();
@@ -88,7 +87,7 @@ $(function() {
     });
     
     if ($('p.notice').length) {
-    	$('p.notice').delay( 2500 ).fadeOut(250);
+    	$('p.notice').delay( 2750 ).fadeOut(250);
     }
     
     $('.sortable').tablesorter();
@@ -102,7 +101,7 @@ $(function() {
     var searchTimeoutThrottle = 500;
     var searchTimeoutID = -1;
 	$('.search .search-query').bind('keyup change', function(){
-
+		var results = false;
         if($(this).val() != $(this).data('oldval')) {
         	$(this).data('oldval', $(this).val());
         	if(currReqObj != null) currReqObj.abort();
@@ -112,13 +111,36 @@ $(function() {
 				currReqObj = $.get( "/purchase_orders.json?q=" + term, function( data ) {
 					currReqObj = null;
 					if (data.length == 0) {
+						$('#results-popup .purchase-orders').hide();
 					} else {
-						$('#results-popup').show().html('<div class="title">Purchase Orders</div><div class="results"></div>');
+						results = true;
+						$('#results-popup, #results-popup .purchase-orders').show();
+						$('#results-popup .purchase-orders .results, #results-popup .no-results').empty();
 						$.each(data, function(index, item) {
-							$('#results-popup .results').append('<div class="row">' + item.number + '</div>');
+							var url = item.url.slice(0, -5);
+							$('#results-popup .purchase-orders .results').append('<div class="row"><a href="' + url + '">' + item.number + '</a></div>');
 						});
 					}
 				});
+				currReqObj = $.get( "/vendors.json?q=" + term, function( data ) {
+					currReqObj = null;
+					if (data.length == 0) {
+						$('#results-popup .vendors').hide();
+					} else {
+						results = true;
+						$('#results-popup, #results-popup .vendors').show();
+						$('#results-popup .vendors .results, #results-popup .no-results').empty();
+						$.each(data, function(index, item) {
+							var url = "/edit" + item.url.slice(0, -5);
+							$('#results-popup .vendors .results').append('<div class="row"><a href="' + url + '">' + item.name + '</a></div>');
+						});
+					}
+				});
+				if (!results) {
+					$('#results-popup').show();
+					$('#results-popup .purchase-orders, #results-popup .vendors').hide();
+					$('#results-popup .no-results').html('No results found.');
+				}
             }, searchTimeoutThrottle);
         }
     }).attr('autocomplete', 'off').data('oldval', '');

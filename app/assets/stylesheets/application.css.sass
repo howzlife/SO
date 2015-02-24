@@ -208,7 +208,6 @@ h1,h2,h3,h4,h5,h6
 
 p.notice
 	position: absolute
-	opacity: 0.7
 	margin: 0px
 	top: 42px
 	z-index: 99
@@ -216,9 +215,9 @@ p.notice
 	text-align: center
 	font-size: 18px
 	font-weight: 300
-	padding: 25px 20px
+	padding: 15px 20px
 	color: #fff
-	background: #000
+	background: rgba(0,0,0,0.85)
 
 a
 	color: $dark-grey
@@ -235,6 +234,7 @@ h1
 	display: none
 	position: absolute
 	background: $default-blue
+	color: #fff
 	z-index: 2
 	text-align: left
 	padding: 10px
@@ -242,27 +242,54 @@ h1
 	font-size: 14px
 	line-height: 14px
 	box-shadow: $box-shadow
-	&:before
-		position: absolute
-		width: 100%
-		left: 0
-		top: -40px
-		height: 40px
-		content: " "
-	&:after
-		bottom: 100%
-		right: 25px
-		border: solid transparent
-		content: " "
-		height: 0
-		width: 0
-		position: absolute
-		border-bottom-color: $default-blue
-		border-width: 5px
-		margin-left: -5px
+	&.below
+		&:before
+			position: absolute
+			width: 100%
+			left: 0
+			top: -20px
+			height: 20px
+			content: " "
+		&:after
+			bottom: 100%
+			right: 25px
+			border: solid transparent
+			content: " "
+			height: 0
+			width: 0
+			position: absolute
+			border-bottom-color: $default-blue
+			border-width: 5px
+			margin-left: -5px
+	&.above
+		&:before
+			position: absolute
+			width: 100%
+			left: 0
+			bottom: -20px
+			height: 20px
+			content: " "
+		&:after
+			top: 100%
+			left: 25px
+			border: solid transparent
+			content: " "
+			height: 0
+			width: 0
+			position: absolute
+			border-top-color: $default-blue
+			border-width: 5px
+			margin-left: -5px
 	.divider
 		border-bottom: 1px solid #fff
 		margin: 10px 0
+	a
+		color: #fff
+	.title
+		font-weight: 500
+	.details
+		margin: 0 0 4px 0
+
 	
 .app-header
 	width: 100%
@@ -281,12 +308,17 @@ h1
 				font-weight: 500
 				font-size: 14px
 				position: relative
+				.tool-tip
+					top: 45px
+					right: -25px
+					width: 140px
+					&:before
+						top: -40px
+						height: 40px
+
 				&:hover
 					.tool-tip
 						display: block
-						top: 45px
-						right: -25px
-						width: 140px
 				a
 					color: #fff
 			.arrow-down
@@ -332,11 +364,16 @@ h1
 				border: 1px solid $default-blue
 				outline: none
 		.tool-tip
-			color: #fff
 			width: 220px
+			top: 50px
 			&:after
 				left: 25px
 				right: auto
+			.purchase-orders, .vendors
+				margin-bottom: 15px
+			.divider
+				margin: 10px 0
+
 	ul
 		padding: 0px
 		margin: 0px -10px
@@ -471,7 +508,7 @@ h1
 					background: $row-hover
 		th
 			text-align: left
-			padding: 0px 4px 5px 4px
+			padding: 8px 4px 5px 4px
 			color: #333333
 			.arrow
 				width: 0
@@ -479,6 +516,8 @@ h1
 				border-left: 5px solid transparent
 				border-right: 5px solid transparent
 				padding-bottom: 2px
+			&:hover
+				background: $light-blue
 			&.headerSortDown,&.headerSortUp
 				color: $default-blue
 			&.headerSortDown
@@ -492,6 +531,17 @@ h1
 			border-top: 1px solid $light-grey
 			font-size: 14px
 			vertical-align: top
+			&.vendor
+				position: relative
+				.tool-tip
+					bottom: 100%
+					width: 220px
+					left: -10px
+					.divider
+						margin: 10px 0
+				&:hover
+					.tool-tip
+						display: block
 			p
 				margin: 0
 		.right
@@ -570,6 +620,12 @@ h1
 		vertical-align: middle
 		font-size: 12px
 		font-weight: 500
+		text-align: center
+		display: inline-block
+		min-width: 84px
+		-webkit-box-sizing: border-box
+		-moz-box-sizing: border-box
+		box-sizing: border-box
 		&.status-open
 			color: $status-open
 			border: 1px solid $status-open
