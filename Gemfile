@@ -27,6 +27,8 @@ gem 'bson_ext'
 gem 'simple_form'
 # Add paranoia so we can recover things that are deleted
 gem 'mongoid_paranoia'
+# for testing and DB cleaner
+gem 'mongoid-tree'
 #Include 'rails_12factor' gem to enable all platform features
 #See https://devcenter.heroku.com/articles/rails-integration-gems for more information.
 gem 'rails_12factor'
