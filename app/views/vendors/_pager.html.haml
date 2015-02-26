@@ -1,0 +1,10 @@
+%nav.pager
+	- if @vendors.first_page?
+		%span <
+	- else
+		= link_to_previous_page @vendors, '<'
+	.vdivider
+	- if @vendors.last_page?
+		%span >
+	- else
+		= link_to_next_page @vendors, '>'

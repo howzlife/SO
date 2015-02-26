@@ -35,6 +35,5 @@
 						%td= vendor.contact
 						%td= vendor.telephone
 						%td= vendor.fax
-		= paginate @vendors
 	.page-footer.clear
-		%span < >
+		= render "pager"

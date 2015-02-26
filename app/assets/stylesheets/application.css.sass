@@ -152,8 +152,6 @@ h1,h2,h3,h4,h5,h6
 	.form-inputs
 		text-align: left
 		margin: 0 0 20px 0
-		abbr
-			color: #ea4e1b
 		&.hidereq
 			abbr
 				display: none
@@ -291,7 +289,30 @@ h1
 	.details
 		margin: 0 0 4px 0
 
-	
+.pager
+	float: right
+	margin-left: 20px
+	border: 1px solid $default-grey
+	.vdivider
+		float: left
+		border-left: 1px solid $default-grey
+		vertical-align: top
+		height: 31px
+	a, span
+		float: left
+		padding: 7px 12px
+	a
+		text-decoration: none
+		&:hover
+			background: $light-grey
+	&:after
+		content: "."
+		display: block
+		clear: both
+		visibility: hidden
+		line-height: 0
+		height: 0	
+
 .app-header
 	width: 100%
 	height: 42px
@@ -334,6 +355,11 @@ h1
 	-webkit-box-sizing: border-box
 	-moz-box-sizing: border-box
 	box-sizing: border-box
+	.logo
+		background: asset-url("logo.png", image)
+		width: 102px
+		height: 25px
+		margin: 50px  0px 0px auto
 
 	.button
 		margin: 0 0 15px 0
@@ -582,11 +608,22 @@ h1
 			float: left
 		.half.first
 			margin: 0 2% 0 0
-		abbr
-			color: #ea4e1b
-			border: none
 		label
 			font-size: 13px
+			display: block
+			margin: 0 0 4px 0
+			&:after
+				content: "."
+				display: block
+				clear: both
+				visibility: hidden
+				line-height: 0
+				height: 0
+		abbr
+			color: $default-blue
+			float: right
+			font-size: 11px
+
 
 	.card
 		background: #f7f7f7
@@ -740,8 +777,6 @@ h1
 		background-position: bottom left
 		background-repeat: repeat-x
 	.section
-		p
-			font-size: 15px
 		.section-description
 			float: left
 			width: 200px

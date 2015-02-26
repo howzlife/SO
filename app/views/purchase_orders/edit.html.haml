@@ -1,3 +1,2 @@
-= render :partial => "shared/header", :locals => {:title => "Editing Purchase Order "+@purchase_order.number,:icon => "fa-list-alt"}
+= render :partial => "shared/header", :locals => {:title => @purchase_order.number, :icon => "fa-pencil-square-o"}
 = render 'form'
-
