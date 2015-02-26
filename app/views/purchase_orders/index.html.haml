@@ -1,9 +1,9 @@
 = render :partial => "shared/header", :locals => {:title => "Purchase Orders",:icon => "fa-pencil-square-o", :hasbutton => true, :button => "Create New PO" }
 %ul.tabs.clear
 	%li{class: sp('all')}
-		=link_to 'Working POs', #purchase_orders_path
+		=link_to 'Working POs', purchase_orders_path
 	%li{class: sp('draft')}
-		=link_to 'Drafts', "?status=draft+open"
+		=link_to 'Drafts', "?status=working"
 	%li{class: sp('open')}
 		=link_to 'Open', "?status=open"
 	%li{class: sp('closed')}
@@ -61,5 +61,6 @@
 					-#= %td= link_to 'Show', purchase_order
 					-#= %td= link_to 'Destroy', purchase_order, :method => :delete, :data => { :confirm => 'Are you sure?' }
 					-#= %td= link_to 'Edit', edit_purchase_order_path(purchase_order)
+		= paginate @purchase_orders
 	.page-footer.clear
-		= render "pager"
+		%span < >
