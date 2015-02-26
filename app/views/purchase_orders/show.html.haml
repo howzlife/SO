@@ -1,7 +1,4 @@
-- if @purchase_order.status != "closed"
-	= render :partial => "shared/header", :locals => {:title => "Purchase Order "+@purchase_order.number,:icon => "fa-list-alt"}
-- else
-	= render :partial => "shared/header", :locals => {:title => "Purchase Order "+@purchase_order.number,:icon => "fa-list-alt"}
+= render :partial => "shared/header", :locals => {:title => @purchase_order.number, :icon => "fa-pencil-square-o"}
 .wrapper
 	#purchaseorder.card.purchaseorder
 		.purchaseorder-header.clear
