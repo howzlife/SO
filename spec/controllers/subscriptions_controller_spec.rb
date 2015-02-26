@@ -24,7 +24,7 @@ RSpec.describe SubscriptionsController, :type => :controller do
   # Subscription. As you add validations to Subscription, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    user = create(:user)
   }
 
   let(:invalid_attributes) {

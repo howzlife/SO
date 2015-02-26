@@ -17,17 +17,30 @@ describe "the sign in process" do
 		DatabaseCleaner.clean
 	end
 
-	user = FactoryGirl.create(:user)
+	user = create(:user)
 
-	it "signs me in" do
+	it "empty purchase orders page should have correct content" do
 		login_as(user)
 		visit "purchase_orders#index"
-		#within ('all') do
 		expect(page).to have_content("Active POs")
-		#end
-
+		expect(page).to have_content("Open")
+		expect(page).to have_content("Closed")
+		expect(page).to have_content("Archived")
+		expect(page).to have_content("Deleted")
+		expect(page).to have_css("i.fa.fa-search.fa-fw")
+		expect(page).to have_content("No purchase orders found. Click the button above to create a new one.")
 	end
 
+	it "new PO form should have correct elements" do
+		login_as(user)
+		visit "purchase_orders#index"
+		within (".button") do
+			click_button("Create New PO")
+		end
+		expect(page).to have_content("Please fill in company address information")
+		expect(page).to have_content("New Purchase Order")
+
+	end
 	# scenario "User arrives at site and logs in" do
 	# 	visit "purchase_orders#index"
 	# 	expect(page).to have_content("Email")

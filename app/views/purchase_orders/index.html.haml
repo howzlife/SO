@@ -1,9 +1,9 @@
 = render :partial => "shared/header", :locals => {:title => "Purchase Orders",:icon => "fa-pencil-square-o", :hasbutton => true, :button => "Create New PO" }
 %ul.tabs.clear
 	%li{class: sp('all')}
-		=link_to 'Active POs', purchase_orders_path
+		=link_to 'Working POs', #purchase_orders_path
 	%li{class: sp('draft')}
-		=link_to 'Drafts', "?status=draft"
+		=link_to 'Drafts', "?status=draft+open"
 	%li{class: sp('open')}
 		=link_to 'Open', "?status=open"
 	%li{class: sp('closed')}
@@ -13,7 +13,7 @@
 	%li{class: sp('deleted')}
 		=link_to 'Deleted', "?status=deleted"
 .contents
-	= form_tag purchase_orders_path, :class => "search-area", :method => :get do
+	= form_tag purchase_orders_path, :class => "search-area", :id => "PO-search-bar", :method => :get do
 		%i.fa.fa-search.fa-fw
 		= text_field_tag :q, nil, :class => "search-query", :placeholder => "Start typing to search for POs ..."
 
