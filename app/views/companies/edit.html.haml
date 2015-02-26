@@ -1,2 +1,66 @@
-= render 'form'
+= simple_form_for(@company) do |f|
+	- if action_name == "edit"
+		= render :partial => "shared/header", :locals => {:title => "Settings",:icon => "fa-cog", :hasbutton => true, :button => "Save Settings"}
+		.contents.section.clear
+			.section-description
+				%h3 Business name
+				%p Enter the name of your business or organization.
+			.section-content
+				.card
+					= f.error_notification
+					.form-inputs
+						= f.input :name, required: true, :label => 'Business Name'
+		.contents.section.clear
+			.divider
+			.section-description
+				%h3 Upload your logo
+				%p Upload your business’s logo. It will be displayed at the top of your POs.
+			.section-content
+				.card
+					.form-inputs
+		.contents.section.clear
+			.divider
+			.section-description
+				%h3 Send POs from
+				%p Enter the name and email address that you would like usto email your POs from. This could be a company or department name, and a shared email account.
+			.section-content
+				.card
+					.form-inputs
+						= f.input :sendfromname, required: true, :label => 'Send-From Name'
+					.form-inputs
+						= f.input :email, required: true, :label => 'Send-From Email Address'
+		.contents.section.clear
+			.divider
+			.section-description
+				%h3 Prefix
+				%p Enter a prefix to help vendors identity your POs. It will be added to the front of your PO numbers.
+			.section-content
+				.card
+					.form-inputs
+						= f.input :prefix, required: true
+		.contents.section.clear
+			.divider
+			.section-description
+				%h3 Bill-to address
+				%p This address will be displayed at the top of you POs, and marked as ‘Bill To:’. This could be your business address, a head office, or an accounts department.
+			.section-content
+				.card
+					.form-inputs
 
+		.contents.section.clear
+			.divider
+			.section-description
+				%h3 Ship-to address
+				%p This address will be displayed at the top of you POs as your Ship-to address.
+			.section-content
+				.card
+					.form-inputs
+
+		.contents.section.clear
+			.divider
+			.section-description
+				%h3 Alternate ship-to address
+				%p Click this button if you would like to set up an additional Ship-to address. Be sure to specify a default selection.
+			.section-content
+				.card
+					.form-inputs

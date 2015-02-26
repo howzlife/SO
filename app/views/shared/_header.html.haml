@@ -32,7 +32,7 @@
 				= button_tag(type: 'submit', class: "btn btn-primary") do
 					%span.text Save Address
 			-if button == "Save Settings"
-				= link_to company_path(@company), class: 'btn' do
-					%span.text Cancel
-				= button_tag(type: 'submit', class: "btn btn-primary") do
-					%span.text Save
+				-#= link_to company_path(@company), class: 'btn' do
+				-#	%span.text Cancel
+				= button_tag(type: 'submit', class: "btn") do
+					%span.text Save Settings

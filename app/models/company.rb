@@ -3,6 +3,7 @@ class Company
   include Mongoid::Timestamps
   include Mongoid::Paranoia
   field :name, type: String
+  field :sendfromname, type: String
   field :email, type: String
   field :fax, type: String
   field :telephone, type: String

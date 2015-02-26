@@ -152,8 +152,6 @@ h1,h2,h3,h4,h5,h6
 	.form-inputs
 		text-align: left
 		margin: 0 0 20px 0
-		abbr
-			color: #ea4e1b
 		&.hidereq
 			abbr
 				display: none
@@ -605,11 +603,22 @@ h1
 			float: left
 		.half.first
 			margin: 0 2% 0 0
-		abbr
-			color: #ea4e1b
-			border: none
 		label
 			font-size: 13px
+			display: block
+			margin: 0 0 4px 0
+			&:after
+				content: "."
+				display: block
+				clear: both
+				visibility: hidden
+				line-height: 0
+				height: 0
+		abbr
+			color: $default-blue
+			float: right
+			font-size: 11px
+
 
 	.card
 		background: #f7f7f7
@@ -763,8 +772,6 @@ h1
 		background-position: bottom left
 		background-repeat: repeat-x
 	.section
-		p
-			font-size: 15px
 		.section-description
 			float: left
 			width: 200px

@@ -1,5 +1,5 @@
 class CompaniesController < ApplicationController
-  before_action :set_company, only: [:show, :edit, :update]
+  before_action :set_company, only: [:edit, :update]
   before_action :authenticate_user!
 
   respond_to :html
@@ -9,8 +9,8 @@ class CompaniesController < ApplicationController
   #   respond_with(@companies)
   # end
 
-  def show
-  end
+  # def show
+  # end
 
   # def new
   #   @company = Company.new
