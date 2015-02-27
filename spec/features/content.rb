@@ -17,12 +17,12 @@ describe "the sign in process" do
 		DatabaseCleaner.clean
 	end
 
-	user = create(:user)
+	user = FactoryGirl.create(:user)
 
 	it "empty purchase orders page should have correct content" do
 		login_as(user)
 		visit "purchase_orders#index"
-		expect(page).to have_content("Active POs")
+		expect(page).to have_content("Working POs")
 		expect(page).to have_content("Open")
 		expect(page).to have_content("Closed")
 		expect(page).to have_content("Archived")
@@ -37,9 +37,10 @@ describe "the sign in process" do
 		within (".button") do
 			click_button("Create New PO")
 		end
-		expect(page).to have_content("Please fill in company address information")
-		expect(page).to have_content("New Purchase Order")
+		visit ("new_purchase_order_path")
+		expect(current_path).to eq "/purchase_orders/new_purchase_order_path"
 
+		expect(page).to have_content("New Purchase Order")
 	end
 	# scenario "User arrives at site and logs in" do
 	# 	visit "purchase_orders#index"
