@@ -5,6 +5,8 @@ class PurchaseOrdersController < ApplicationController
   before_action :set_purchase_order, only: [:show, :edit, :update, :destroy]
   before_action :has_company_info, only: [:new]
   before_action :authenticate_user!
+  respond_to :html, :json
+  responders :flash
   include ActionView::Helpers::NumberHelper
   include ActionController::Base::PurchaseOrdersHelper
 
@@ -52,135 +54,128 @@ class PurchaseOrdersController < ApplicationController
 
   # POST /purchase_orders
   # POST /purchase_orders.json
+  #NOTE - This action is only accessible from the Create New PO location. All others are in the UPDATE action. "
   def create
     @pop = organize_purchase_order_params(purchase_order_params)	
     @purchase_order = @company.purchase_orders.build(@pop)
-    @purchase_order.status = "draft" if params[:status] == "draft"
-    @purchase_order.status = "open" if params[:status] == "open"
     @company.labels.find_or_create_by(name: @purchase_order.label)
+    @purchase_order.save
 
-    respond_to do |format|
-      if @purchase_order.save
-        #send pdf
-        @purchase_order.update_attribute(:status, "draft")
-        if params[:status] == "email"
-     			PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
-          @purchase_order.status = "open"
-          @purchase_order.save
-          format.html { redirect_to @purchase_order, notice: 'Success, your PO has been sent by Email.' }
-          format.json { render :show, status: :created, location: @purchase_order }
-        elsif params[:status] == "open"
-          @purchase_order.status = "open"
-          @purchase_order.save
-          format.html { redirect_to @purchase_order, notice: 'Success, your PO has been Opened.' }
-          format.json { render :show, status: :created, location: @purchase_order }
-
-        elsif params[:status] == "fax"
-          if @purchase_order.vendor.fax.blank?
-            format.html { redirect_to purchase_orders_path, notice: "Please set a fax number for this vendor before sending fax"}
-            format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
-          else
-            @sent_fax = send_po_fax(@purchase_order) 
-              if @sent_fax["success"]
-                @purchase_order.update_attribute(:status, "open")
-                @purchase_order.save
-                format.html { redirect_to @purchase_order, notice: "Success, your PO has been sent by fax." }
-              else 
-                format.html {render :new, notice: @sent_fax["message"]}
-                format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
-              end
-          end
-        elsif params[:status] == "dummy"
-          @purchase_order.status = "draft"
-          format.html { redirect_to purchase_orders_path, notice: "Please confirm email address via the email that was sent to you" }
-        else
-          format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully saved.' }
-          format.json { render :show, status: :ok, location: @purchase_order } 
+      ## Response for send by Fax or Email 
+      if params[:status] == "email"
+   			PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
+        @purchase_order.status = "open"
+        flash[:notice] = 'Success, your PO has been sent by Email.' if @purchase_order.save
+        respond_with(@purchase_order)
+      elsif params[:status] == "fax"
+        @sent_fax = send_po_fax(@purchase_order) 
+        # If fax was successful, we get a successful response. 
+        if @sent_fax["success"]
+          @purchase_order.update_attribute(:status, "open")
+          flash[:notice] = 'Success, your PO has been sent by fax.' 
+          respond_with(@purchase_order)
+          # Otherwise, we get an error message. 
+        else 
+          format.html {render :new, notice: @sent_fax["message"]}
+          format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
         end
 
+        #State transitions without send -> Mark as Open, Save as Draft
+      elsif params[:status] == "open"
+        @purchase_order.status = "open"
+        flash[:notice] = 'Success, your PO has been Opened.' if @purchase_order.save
+        respond_with(@purchase_order)
+      elsif params[:status] == "draft"
+        @purchase_order.status = "draft" 
+        flash[:notice] = 'Success, your PO has been saved as draft.' if @purchase_order.save
+        respond_with(@purchase_order)
+
+      # Error Handling
       else
-        format.html { render :new }
+        format.html { render :show }
         format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
       end
-    end
+
   end
+
 
   # PATCH/PUT /purchase_orders/1
   # PATCH/PUT /purchase_orders/1.json
   def update
-    #send pdf
+    
+    #Email and Fax actions, to actually resend the information
     if params[:status] == "email"
       PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
-      @purchase_order.update_attribute(:status, "open")
+      @purchase_order.update_attribute(:status, "open")   
+      flash[:notice] = "Success, your PO has been sent by Email." if @purchase_order.save
+      respond_with(@purchase_order)            
     elsif params[:status] == "fax"
       @sent_fax = send_po_fax(@purchase_order)
       @successful_send = @sent_fax["success"]
-      @purchase_order.save
-    elsif params[:status] == "draft" 
-      @pop = organize_purchase_order_params(purchase_order_params) 
-      @purchase_order.update(@pop.except(:number))
-      @company.labels.find_or_create_by(name: @purchase_order.label)
-    elsif params[:archived] == true
-      @purchase_order.archived = true
-    elsif params[:unarchived] == true
-      @purchase_order.archived = false
-    end
-    respond_to do |format|
-      unless params[:status] == "cancel_changes"
-        if @purchase_order.save
-          if params[:status] == "email"                   
-            format.html { redirect_to @purchase_order, notice: 'Success, your PO has been sent by Email.' }
-            format.json { render :show, status: :ok, location: @purchase_order }    
-          elsif params[:status] == "fax"
-            if @successful_send
-              @purchase_order.update_attribute(:status, "open")
-              format.html { redirect_to @purchase_order, notice: "Success, your PO has been sent by Fax." }
-            else 
-              format.html {redirect_to @purchase_order, notice: @sent_fax["message"] }
-              format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
-            end 
-          elsif params[:status] == "open"
-            @purchase_order.update_attribute(:status, "open")
-            format.html { redirect_to purchase_orders_path, notice: "Purchase Order has been marked as open." }
-          elsif params[:status] == "closed"
-            @purchase_order.update_attribute(:status, "closed") 
-            format.html { redirect_to purchase_orders_path, notice: "Purchase Order has been closed." }
-          elsif params[:status] == "cancelled"
-            @purchase_order.update_attribute(:status, "cancelled")
-            format.html { redirect_to purchase_orders_path, notice: "Purchase Order has been cancelled." }
-          elsif params[:status] == "deleted"
-            @purchase_order.write_attribute(:was_deleted, true)
-            format.html { redirect_to purchase_orders_path, notice: "Purchase Order has been deleted." }
+      if @successful_send
+        @purchase_order.update_attribute(:status, "open")
+        flash[:notice] = "Success, your PO has been sent by Fax." if @purchase_order.save 
+        @purchase_order.save
+        respond_with(@purchase_order)
+      else 
+        flash[:notice] = @sent_fax["message"]
+        respond_with(@purchase_order)
+      end 
 
-          elsif params[:status] == "duplicate"
-            @new_po = @company.purchase_orders.new
-            @new_po.update_attribute(:status, "draft")
-            @new_po.update_attribute(:description, @purchase_order.description)
-            @new_po.update_attribute(:vendor, @purchase_order.vendor)
-            @new_po.update_attribute(:address, @purchase_order.address)
-            @new_po.save
-            format.html { redirect_to @new_po, notice: 'Rendering new PO.' }
-            format.json { render :create, status: :ok, location: @purchase_order }
-          elsif params[:status] == "draft"
-            format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully Saved.' }
-            format.json { render :show, status: :ok, location: @purchase_order }
-          elsif params[:archived] == true
-            format.html { redirect_to @purchase_order, notice: 'Purchase order was archived.' }
-            format.json { render :show, status: :ok, location: @purchase_order }
-          elsif params[:unarchived] == true
-            format.html { redirect_to @purchase_order, notice: 'Purchase order was un-archived.' }
-            format.json { render :show, status: :ok, location: @purchase_order }
-          elsif params[:status] == "print"
-            format.html { redirect_to purchase_orders_path }      
-          end
-        else
-          format.html { render :show }
-          format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
-        end
-      else
-        format.html { redirect_to @purchase_order, notice: 'Changes have been cancelled' }
-        format.json { render :show, status: :ok, location: @purchase_order }
+    #State transitions - Open, Closed, Cancelled, Deleted, Draft, Archived
+
+    elsif params[:status] == "open"
+      @purchase_order.update_attribute(:status, "open")
+      flash[:notice] = "Purchase Order was successfully Saved." if @purchase_order.save
+      format.html { redirect_to purchase_orders_path }
+
+    elsif params[:status] == "draft"
+      flash[:notice] = "Purchase Order was successfully Saved." if @purchase_order.save
+      respond_with(@purchase_order)
+
+    elsif params[:status] == "closed"
+      @purchase_order.update_attribute(:status, "closed") 
+      flash[:notice] = "Purchase Order has been Closed." if @purchase_order.save
+      respond_with(@purchase_order)
+    elsif params[:status] == "cancelled"
+      @purchase_order.update_attribute(:status, "cancelled")
+      flash[:notice] = "Purchase Order has been Cancelled" if @purchase_order.save
+      format.html { redirect_to purchase_orders_path }
+
+      # stowaway methods - archive, delete, and undo archive, undo delete
+    elsif params[:status] == "deleted"
+      @purchase_order.update_attribute(:was_deleted, true)
+      flash[:notice] = "Purchase Order has been Deleted." if @purchase_order.save
+      respond_to do |format|
+        format.html { redirect_to purchase_orders_path }
+        format.json
       end
+    elsif params[:status] == "undelete"
+      @purchase_order.update_attribute(:was_deleted, false)
+      flash[:notice] = "Purchase Order has been Un-Deleted." if @purchase_order.save
+      respond_with(@purchase_order)
+    elsif params[:status] == "archive"
+      @purchase_order.update_attribute(:archived, true)
+      flash[:notice] = "Purchase Order has been Archived." if @purchase_order.save
+      respond_with(@purchase_order)
+
+    elsif params[:status] == "unarchive"
+      @purchase_order.update_attribute(:archived, false)
+      flash[:notice] = "Purchase order has been Un-Archived." if @purchase_order.save
+      respond_with(@purchase_order)
+
+    elsif params[:status] == "print"
+      format.html { redirect_to purchase_orders_path } 
+
+    elsif params[:status] == "duplicate"
+      @new_po = @company.purchase_orders.new
+      @new_po.update_attribute(:status, "draft")
+      @new_po.update_attribute(:description, @purchase_order.description)
+      @new_po.update_attribute(:vendor, @purchase_order.vendor)
+      @new_po.update_attribute(:address, @purchase_order.address)
+      @new_po.save
+      format.html { redirect_to @new_po, notice: 'Rendering new PO.' }
+      format.json { render :create, status: :ok, location: @purchase_order }     
     end
   end
 
