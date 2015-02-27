@@ -120,11 +120,11 @@ class PurchaseOrdersController < ApplicationController
       @pop = organize_purchase_order_params(purchase_order_params) 
       @purchase_order.update(@pop.except(:number))
       @company.labels.find_or_create_by(name: @purchase_order.label)
-    elsif params[:archived] == "true"
-      @purchase_order.write_attribute(:status, "archived")
+    elsif params[:archived] == true
       @purchase_order.archived = true
+    elsif params[:unarchived] == true
+      @purchase_order.archived = false
     end
-
     respond_to do |format|
       unless params[:status] == "cancel_changes"
         if @purchase_order.save
@@ -140,24 +140,41 @@ class PurchaseOrdersController < ApplicationController
               format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
             end 
           elsif params[:status] == "open"
-            @purchase_order.status = "open"
+            @purchase_order.update_attribute(:status, "open")
             format.html { redirect_to purchase_orders_path, notice: "Purchase Order has been marked as open." }
           elsif params[:status] == "closed"
-            @purchase_order.status = "closed"
+            @purchase_order.update_attribute(:status, "closed") 
             format.html { redirect_to purchase_orders_path, notice: "Purchase Order has been closed." }
+          elsif params[:status] == "cancelled"
+            @purchase_order.update_attribute(:status, "cancelled")
+            format.html { redirect_to purchase_orders_path, notice: "Purchase Order has been cancelled." }
           elsif params[:status] == "deleted"
-            @purchase_order.write_attribute(:status, "deleted")
             @purchase_order.write_attribute(:was_deleted, true)
-            @purchase_order.archived = true 
             format.html { redirect_to purchase_orders_path, notice: "Purchase Order has been deleted." }
+
+          elsif params[:status] == "duplicate"
+            @new_po = @company.purchase_orders.new
+            @new_po.update_attribute(:status, "draft")
+            @new_po.update_attribute(:description, @purchase_order.description)
+            @new_po.update_attribute(:vendor, @purchase_order.vendor)
+            @new_po.update_attribute(:address, @purchase_order.address)
+            @new_po.save
+            format.html { redirect_to @new_po, notice: 'Rendering new PO.' }
+            format.json { render :create, status: :ok, location: @purchase_order }
           elsif params[:status] == "draft"
             format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully Saved.' }
+            format.json { render :show, status: :ok, location: @purchase_order }
+          elsif params[:archived] == true
+            format.html { redirect_to @purchase_order, notice: 'Purchase order was archived.' }
+            format.json { render :show, status: :ok, location: @purchase_order }
+          elsif params[:unarchived] == true
+            format.html { redirect_to @purchase_order, notice: 'Purchase order was un-archived.' }
             format.json { render :show, status: :ok, location: @purchase_order }
           elsif params[:status] == "print"
             format.html { redirect_to purchase_orders_path }      
           end
         else
-          format.html { render :edit }
+          format.html { render :show }
           format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
         end
       else

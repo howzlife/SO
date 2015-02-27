@@ -1,5 +1,11 @@
 module PurchaseOrdersHelper
 
+  def create_new_po(purchase_order) 
+    @purchase_order = @company.purchase_orders.new(:status => "draft", :description => purchase_order.description, :address => purchase_order.address, :vendor => purchase_order.vendor)
+    @vendors = @company.vendors.all
+    return @purchase_order
+  end
+
 	def format_po_fax(purchase_order, company, current_user)
 
 		#create instance variables
