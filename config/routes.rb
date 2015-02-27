@@ -41,8 +41,7 @@ Rails.application.routes.draw do
       get "/" => "users/sessions#new"
     end
   end
-
-
+  
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

@@ -21,6 +21,7 @@ require 'rspec/rails'
 # Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 RSpec.configure do |config|
+  request.env[“HTTP_REFERER”] = “/”
     #included so methods can be used
   config.include FactoryGirl::Syntax::Methods
   # RSpec Rails can automatically mix in different behaviours to your tests

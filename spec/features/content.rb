@@ -17,9 +17,9 @@ describe "the sign in process" do
 		DatabaseCleaner.clean
 	end
 
-	user = FactoryGirl.create(:user)
-
 	it "empty purchase orders page should have correct content" do
+		company = FactoryGirl.create(:company)
+		user = FactoryGirl.create(:user)
 		login_as(user)
 		visit "purchase_orders#index"
 		expect(page).to have_content("Working POs")
@@ -32,13 +32,15 @@ describe "the sign in process" do
 	end
 
 	it "new PO form should have correct elements" do
+		company = FactoryGirl.create(:company)
+		user = FactoryGirl.create(:user)
 		login_as(user)
 		visit "purchase_orders#index"
 		within (".button") do
 			click_button("Create New PO")
 		end
-		visit ("new_purchase_order_path")
-		expect(current_path).to eq "/purchase_orders/new_purchase_order_path"
+		visit ("/purchase_orders/new")
+		expect(current_path).to eq "/purchase_orders/new"
 
 		expect(page).to have_content("New Purchase Order")
 	end

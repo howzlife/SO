@@ -32,6 +32,9 @@ class PurchaseOrdersController < ApplicationController
   # GET /purchase_orders/1
   # GET /purchase_orders/1.json
   def show
+    if @purchase_order.status == "draft"
+      render :action => "edit"
+    end
   end
 
   # GET /purchase_orders/new
@@ -65,6 +68,11 @@ class PurchaseOrdersController < ApplicationController
           @purchase_order.status = "open"
           @purchase_order.save
           format.html { redirect_to @purchase_order, notice: 'Success, your PO has been sent by Email.' }
+          format.json { render :show, status: :created, location: @purchase_order }
+        elsif params[:status] == "open"
+          @purchase_order.status = "open"
+          @purchase_order.save
+          format.html { redirect_to @purchase_order, notice: 'Success, your PO has been Opened.' }
           format.json { render :show, status: :created, location: @purchase_order }
 
         elsif params[:status] == "fax"
@@ -104,7 +112,6 @@ class PurchaseOrdersController < ApplicationController
     if params[:status] == "email"
       PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
       @purchase_order.update_attribute(:status, "open")
-
     elsif params[:status] == "fax"
       @sent_fax = send_po_fax(@purchase_order)
       @successful_send = @sent_fax["success"]
@@ -119,41 +126,43 @@ class PurchaseOrdersController < ApplicationController
     end
 
     respond_to do |format|
-      if @purchase_order.save
-        if params[:status] == "email"                   
-          format.html { redirect_to @purchase_order, notice: 'Success, your PO has been sent by Email.' }
-          format.json { render :show, status: :ok, location: @purchase_order }    
-        elsif params[:status] == "fax"
-          if @successful_send
-            @purchase_order.update_attribute(:status, "open")
-            format.html { redirect_to @purchase_order, notice: "Success, your PO has been sent by Fax." }
-          else 
-            format.html {redirect_to @purchase_order, notice: @sent_fax["message"] }
-            format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
-          end 
-        elsif params[:status] == "open"
-          @purchase_order.status = "open"
-          format.html { redirect_to purchase_orders_path, notice: "Purchase Order has been re-opened." }
-        elsif params[:status] == "closed"
-          @purchase_order.status = "closed"
-          format.html { redirect_to purchase_orders_path, notice: "Purchase Order has been closed." }
-        elsif params[:status] == "deleted"
-          @purchase_order.write_attribute(:status, "deleted")
-          @purchase_order.write_attribute(:was_deleted, true)
-          @purchase_order.archived = true 
-          format.html { redirect_to purchase_orders_path, notice: "Purchase Order has been deleted." }
-        elsif params[:status] == "dummy"
-          @purchase_order.status = "draft"
-          format.html { redirect_to purchase_orders_path, notice: "Please confirm email address via the Email that was sent to you" }
-        elsif @purchase_order.status == "draft"
-          format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully saved.' }
-          format.json { render :show, status: :ok, location: @purchase_order }
-        elsif params[:status] == "print"
-          format.html { redirect_to purchase_orders_path }      
+      unless params[:status] == "cancel_changes"
+        if @purchase_order.save
+          if params[:status] == "email"                   
+            format.html { redirect_to @purchase_order, notice: 'Success, your PO has been sent by Email.' }
+            format.json { render :show, status: :ok, location: @purchase_order }    
+          elsif params[:status] == "fax"
+            if @successful_send
+              @purchase_order.update_attribute(:status, "open")
+              format.html { redirect_to @purchase_order, notice: "Success, your PO has been sent by Fax." }
+            else 
+              format.html {redirect_to @purchase_order, notice: @sent_fax["message"] }
+              format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
+            end 
+          elsif params[:status] == "open"
+            @purchase_order.status = "open"
+            format.html { redirect_to purchase_orders_path, notice: "Purchase Order has been marked as open." }
+          elsif params[:status] == "closed"
+            @purchase_order.status = "closed"
+            format.html { redirect_to purchase_orders_path, notice: "Purchase Order has been closed." }
+          elsif params[:status] == "deleted"
+            @purchase_order.write_attribute(:status, "deleted")
+            @purchase_order.write_attribute(:was_deleted, true)
+            @purchase_order.archived = true 
+            format.html { redirect_to purchase_orders_path, notice: "Purchase Order has been deleted." }
+          elsif params[:status] == "draft"
+            format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully Saved.' }
+            format.json { render :show, status: :ok, location: @purchase_order }
+          elsif params[:status] == "print"
+            format.html { redirect_to purchase_orders_path }      
+          end
+        else
+          format.html { render :edit }
+          format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
         end
       else
-        format.html { render :edit }
-        format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
+        format.html { redirect_to @purchase_order, notice: 'Changes have been cancelled' }
+        format.json { render :show, status: :ok, location: @purchase_order }
       end
     end
   end

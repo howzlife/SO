@@ -17,13 +17,17 @@ FactoryGirl.define do
     defaultflag true
   end
 
-  factory :company do
-  name "Vandelay"
-  sendfromname "David"
-  email "babycakes@email.com"
-  fax "613-725-7397"
-  telephone "613-725-7397"
-  prefix "VDL"
+  factory :company, class: Company do
+    name "Vandelay"
+    sendfromname "David"
+    email "babycakes@email.com"
+    fax "613-725-7397"
+    telephone "613-725-7397"
+    prefix "VDL"
+    after(:create) do 
+      FactoryGirl.build(:address)
+      FactoryGirl.build(:vendor)
+    end
   end
 
   factory :fax do
@@ -49,6 +53,13 @@ FactoryGirl.define do
   	last_name  "Doe"
   	email { "user-#{rand(10_000)}@example.com" }
   	password "TEST123TEST"
-   # address FactoryGirl.build(:address)
- end
+  end
+
+  factory :vendor, class: Vendor do
+  name "Test Vendor"
+  email "Nick@nick.com"
+  contact "Nick"
+  telephone "613-725-7397"
+  fax "613-725-7397"
+  end
 end

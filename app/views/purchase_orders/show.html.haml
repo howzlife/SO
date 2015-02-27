@@ -71,9 +71,9 @@
 			= link_to purchase_order_path, method: 'delete', class: 'btn btn-danger left' do
 				%i.fa.fa-trash.fa-fw
 				%span.text Discard
-			= link_to edit_purchase_order_path(@purchase_order), class: 'btn btn-cancel' do
-				%i.fa.fa-edit.fa-fw
-				%span.text Edit
+			/ = link_to edit_purchase_order_path(@purchase_order), class: 'btn btn-cancel' do
+			/ 	%i.fa.fa-edit.fa-fw
+			/ 	%span.text Edit
 		= simple_form_for @purchase_order, html: { class: "form-email form-print status-"+@purchase_order.status}, url: purchase_order_path do |f|
 			= button_tag(type: 'submit', :name => "status", :value => "print", class: "btn btn-edit show-print") do
 				%i.fa.fa-print.fa-fw
