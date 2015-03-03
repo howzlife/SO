@@ -19,9 +19,9 @@ describe "the sign in process" do
 
 	it "empty purchase orders page should have correct content" do
 		company = FactoryGirl.create(:company)
-		user = FactoryGirl.create(:user)
-		login_as(user)
-		visit "purchase_orders#index"
+		company.write_attribute(:user, FactoryGirl.create(:user))
+		login_as(company.read_attribute(:user))
+		visit purchase_orders_path
 		expect(page).to have_content("Working POs")
 		expect(page).to have_content("Open")
 		expect(page).to have_content("Closed")
@@ -33,16 +33,17 @@ describe "the sign in process" do
 
 	it "new PO form should have correct elements" do
 		company = FactoryGirl.create(:company)
-		user = FactoryGirl.create(:user)
-		login_as(user)
-		visit "purchase_orders#index"
+		company.write_attribute(:user, FactoryGirl.create(:user))
+		login_as(company.read_attribute(:user))
+		visit purchase_orders_path
 		within (".button") do
 			click_button("Create New PO")
 		end
-		visit ("/purchase_orders/new")
-		expect(current_path).to eq "/purchase_orders/new"
-
-		expect(page).to have_content("New Purchase Order")
+		 visit new_purchase_order_path
+		# @request.env['HTTP_REFERER'] = purchase_orders_path
+		 expect(current_path).to eq new_purchase_order_path
+		 puts page.html
+		 expect(page).to have_content("New Purchase Order")
 	end
 	# scenario "User arrives at site and logs in" do
 	# 	visit "purchase_orders#index"

@@ -80,7 +80,7 @@ class PurchaseOrdersController < ApplicationController
           format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
         end
 
-        #State transitions without send -> Mark as Open, Save as Draft
+      #State transitions without send -> Mark as Open, Save as Draft
       elsif params[:status] == "open"
         @purchase_order.status = "open"
         flash[:notice] = 'Success, your PO has been Opened.' if @purchase_order.save
@@ -89,7 +89,10 @@ class PurchaseOrdersController < ApplicationController
         @purchase_order.status = "draft" 
         flash[:notice] = 'Success, your PO has been saved as draft.' if @purchase_order.save
         respond_with(@purchase_order)
-
+      elsif params[:status] == "print"
+         @purchase_order.status = "draft" 
+         @purchase_order.save
+         respond_with(@purchase_order)
       # Error Handling
       else
         format.html { render :show }
@@ -174,8 +177,10 @@ class PurchaseOrdersController < ApplicationController
       @new_po.update_attribute(:vendor, @purchase_order.vendor)
       @new_po.update_attribute(:address, @purchase_order.address)
       @new_po.save
+      respond_to do |format|
       format.html { redirect_to @new_po, notice: 'Rendering new PO.' }
-      format.json { render :create, status: :ok, location: @purchase_order }     
+      format.json { render :create, status: :ok, location: @purchase_order } 
+      end    
     end
   end
 

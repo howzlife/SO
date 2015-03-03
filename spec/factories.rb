@@ -24,11 +24,14 @@ FactoryGirl.define do
     fax "613-725-7397"
     telephone "613-725-7397"
     prefix "VDL"
-    after(:create) do 
-      FactoryGirl.build(:address)
-      FactoryGirl.build(:vendor)
+    # association :address, strategy: :build
+    # association :vendor, strategy: :build
+    after(:create) do |c|
+    #   # byebug
+    c.vendors.build(FactoryGirl.attributes_for(:vendor)).save
+    c.addresses.build(FactoryGirl.attributes_for(:address)).save
     end
-  end
+  end 
 
   factory :fax do
     recipient_name "MyString"
