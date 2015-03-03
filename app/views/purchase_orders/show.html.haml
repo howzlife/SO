@@ -3,7 +3,7 @@
 	#purchaseorder.card.purchaseorder
 		.purchaseorder-header.clear
 			.purchaseorder-company
-				= @company.name
+				=@company.name
 			.purchaseorder-address
 				=@company.name
 				%br
@@ -96,7 +96,7 @@
 					%i.fa.fa-times.fa-fw
 					%span.text Cancel PO
 			- if @purchase_order.was_deleted != true 
-				= button_tag(type: 'submit', :name => "status", :value => "duplicate", :data => { :confirm => 'Are you sure?' }, class: "btn btn-close") do
+				= button_tag(type: 'submit', :name => "status", :value => "duplicate", :data => { :confirm => 'Are you sure?' }, class: "btn btn-duplicate", id: "duplicate-as-new-btn") do
 					%i.fa.fa-times.fa-fw
 					%span.text Duplicate As New
 			- if @purchase_order.status == "cancelled" && @purchase_order.archived != true && @purchase_order.was_deleted != true

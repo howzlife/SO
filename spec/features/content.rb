@@ -7,10 +7,14 @@ DatabaseCleaner[:mongoid, {:connection => :myorderboard_test}]
 include Warden::Test::Helpers
 Warden.test_mode!
 
-describe "the sign in process" do 
+describe "The Purchase Order Process" do 
 
 	before(:each) do
 		DatabaseCleaner.start
+		@company = FactoryGirl.create(:company)
+		@user = FactoryGirl.create(:user)
+		@company.write_attribute(:user, @user)
+		login_as(@company.read_attribute(:user))
 	end
 
 	after(:each) do 
@@ -18,9 +22,6 @@ describe "the sign in process" do
 	end
 
 	it "empty purchase orders page should have correct content" do
-		company = FactoryGirl.create(:company)
-		company.write_attribute(:user, FactoryGirl.create(:user))
-		login_as(company.read_attribute(:user))
 		visit purchase_orders_path
 		expect(page).to have_content("Working POs")
 		expect(page).to have_content("Open")
@@ -32,39 +33,29 @@ describe "the sign in process" do
 	end
 
 	it "new PO form should have correct elements" do
-		company = FactoryGirl.create(:company)
-		company.write_attribute(:user, FactoryGirl.create(:user))
-		login_as(company.read_attribute(:user))
 		visit purchase_orders_path
 		within (".button") do
 			click_button("Create New PO")
 		end
 		 visit new_purchase_order_path
-		# @request.env['HTTP_REFERER'] = purchase_orders_path
-		 expect(current_path).to eq new_purchase_order_path
-		 puts page.html
-		 expect(page).to have_content("New Purchase Order")
+		 expect(current_path).to eq new_address_path
+		 message = find "p.notice"
+		 expect(message).to be
+		 expect(message.text).to include("address")
 	end
-	# scenario "User arrives at site and logs in" do
-	# 	visit "purchase_orders#index"
-	# 	expect(page).to have_content("Email")
-	# 	expect(page).to have_content("Password")
-	# 	expect(page).to have_content("Log in")
-	# end
 
+	describe "Closed PO functionality" do 
+		it "Closed Purchase Order should duplicate as new" do 
+			visit purchase_orders_path
+			purchase_order = FactoryGirl.create(:purchase_order, :as_closed)
+			@company.write_attribute(:purchase_order, purchase_order)
+			purchase_order.write_attribute(:company, @company)
+			visit purchase_order_path(purchase_order.read_attribute(:id))
+			puts @company.inspect
+			puts page.html
+			button = find("#duplicate-as-new-btn")
+			expect(Purchase_Order.count).to change
+		end
+	end
 
-	# scenario "User arrives at main page" do 
-	# 	login_as(user, :scope => :user)
-	# 	visit "purchase_order#index"
-	# 	expect(page).to have_content("Active POs")
-	# 	expect(page).to have_content("Drafas")
-	# 	logout(:user)
-		#page.should have_content("VENDOR")
-		#page.should have_content("LABEL")
-		#page.should have_content("STATUS")
-		#page.should have_link("Purchase Orders", :href=>"purchase_orders#index")
-		#page.should have_link("vendors", :href=>"vendors#index")
-		#page.should have_link("settings", :href=>"settings#index")
-		#page.should have_link("account", :href=>"account#index")
-	# end
 end

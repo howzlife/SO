@@ -42,13 +42,25 @@ FactoryGirl.define do
   end
 
   factory :purchase_order do
-    number "WDC-021-021"
+    number { "WDC-021-#{rand(100..999)}" }
     date DateTime.current
     status "draft"
     description "test description"
     date_required "May 5th 2015"
     archived false
     was_deleted false
+    after (:build) do |po|
+      po.write_attribute(:vendor, (FactoryGirl.attributes_for(:vendor)))
+    end
+    trait :as_draft do
+      status "draft"
+    end
+   trait :as_open do
+      status "open"
+    end
+   trait :as_closed do
+      status "closed"
+    end
   end
 
 	factory :user, class: User do
@@ -56,6 +68,7 @@ FactoryGirl.define do
   	last_name  "Doe"
   	email { "user-#{rand(10_000)}@example.com" }
   	password "TEST123TEST"
+    confirmed_at Time.zone.now - 1.minute
   end
 
   factory :vendor, class: Vendor do
