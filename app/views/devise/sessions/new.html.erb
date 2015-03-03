@@ -1,0 +1,33 @@
+<div class="log-in">
+  <h2>Log in to manage your orders!</h2>
+  <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <div class="form-inputs hidereq">
+      <%= f.input :email, required: true, autofocus: true %>
+      <%= f.input :password, required: true %>
+      <div class="form-inputs forgot-password right">
+        <% if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+          <%= link_to "Forgot your password?", new_password_path(resource_name) %>
+        <% end %>
+      </div>
+    </div>
+    <div class="form-actions">
+      <%= f.button :submit, "Log in" %>
+    </div>
+    <div class="remember-me right">
+      <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+    </div>
+  <% end %>
+</div>
+<div class="log-in links">
+  <%= render "devise/shared/links" %>
+</div>
+<% if flash[:notice] %>
+  <p class="notice">
+    <%= notice %>
+  </p>
+<% end %>
+<% if flash[:alert] %>
+  <p class="alert">
+    <%= alert %>
+  </p>
+<% end %>
