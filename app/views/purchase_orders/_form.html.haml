@@ -3,7 +3,6 @@
 		= render :partial => "shared/header", :locals => {:title => @purchase_order.number, :icon => "fa-pencil-square-o", :hasbutton => true, :button => "Edit PO"}
 	- else
 		= render :partial => "shared/header", :locals => {:title => "New Purchase Order",:icon => "fa-pencil-square-o", :hasbutton => true, :button => "New PO"}
-
 	- if @purchase_order.errors.any?
 		#error_explanation
 			%h2= "#{pluralize(@purchase_order.errors.count, "error")} prohibited this purchase_order from being saved:"
@@ -113,18 +112,10 @@
 						= a['agent']
 
 		.buttons
-			-if @purchase_order.status == "draft" || @purchase_order.status == "closed"
-				= button_tag(type: 'submit', :name => "status", :value => "open", class: "btn btn-add") do
-					%span.text Mark As Open
-			= button_tag(type: 'submit', :name => "status", :value => "cancel_changes", class: "btn btn-edit edit-print") do
-				%span.text Print
 			= button_tag(type: 'submit', :name => "status", :value => "email", :data => { :confirm => 'Are you sure? Once you email this purchase order, you will not be able to edit its contents.' }, class: "btn") do
 				%span.text Send by Email
 			= button_tag(type: 'submit', :name => "status", :value => "fax", :data => { :confirm => 'Are you sure? Once you fax this purchase order, you will not be able to edit its contents.' }, class: "btn") do
 				%span.text Send by Fax
-			- if @purchase_order.status == "open"
-				= link_to purchase_order_path, method: 'delete', class: 'btn btn-danger left' do
-					%span.text Delete
 
 	.divider.no-print
 	.wrapper.section.clear.no-print
