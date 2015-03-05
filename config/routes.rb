@@ -25,6 +25,7 @@ Rails.application.routes.draw do
 
   
 	get ':pricing' => 'marketing#pricing'
+	get ':features' => 'marketing#features'
 
 
   # You can have the root of your site routed with "root"
