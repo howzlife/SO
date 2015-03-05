@@ -125,7 +125,7 @@
 					%i.fa.fa-save.fa-fw
 					%span.text Save As Draft
 			-elsif @purchase_order.status == "draft"
-				= button_tag(type: 'submit', :name => "status", :value => "draft", class: "btn btn-add") do
+				= button_tag(type: 'submit', :name => "status", :value => "save", class: "btn btn-add") do
 					%i.fa.fa-save.fa-fw
 					%span.text Save Changes
 			- if @purchase_order.status == "draft"

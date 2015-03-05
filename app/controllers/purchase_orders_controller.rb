@@ -116,7 +116,8 @@ class PurchaseOrdersController < ApplicationController
       PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
       @purchase_order.update_attribute(:status, "open")   
       flash[:notice] = "Success, your PO has been sent by Email." if @purchase_order.save
-      respond_with(@purchase_order)            
+      respond_with(@purchase_order)  
+
     elsif params[:status] == "fax"
       @sent_fax = send_po_fax(@purchase_order)
       @successful_send = @sent_fax["success"]
@@ -137,15 +138,20 @@ class PurchaseOrdersController < ApplicationController
       flash[:notice] = "Purchase Order was successfully Saved." if @purchase_order.save
       respond_with(@purchase_order)
 
-    elsif params[:status] == "draft"
+    elsif params[:status] == "save"
+      @pop = organize_purchase_order_params(purchase_order_params)  
+      @updated_po = @company.purchase_orders.build(@pop)
+      @company.labels.find_or_create_by(name: @purchase_order.label)
+      @purchase_order.destroy!
+      @purchase_order = @updated_po
+      @purchase_order.status = "draft"
       @purchase_order.save
-      flash[:notice] = "Purchase Order was successfully Saved." if @purchase_order.save
+      flash[:notice] = 'Success, your PO has been saved as draft' if @purchase_order.save
       respond_with(@purchase_order)
 
     elsif params[:status] == "cancel_changes"
-          byebug
-    flash[:notice] = 'Changes have been discarded.'
-    respond_with(@purchase_order)
+      flash[:notice] = "Changes have been discarded."
+      respond_with(@purchase_order)
 
     elsif params[:status] == "closed"
       @purchase_order.update_attribute(:status, "closed") 
@@ -246,10 +252,10 @@ class PurchaseOrdersController < ApplicationController
         redirect_to new_address_path
       elsif !@company.vendors.first.try(:name)
         flash[:notice] = "Please have at least one Vendor before making a PO"
-        redirect_to new_vendors_path
+        redirect_to new_vendor_path
       elsif !@company.try(:prefix)
         flash[:notice] = "Please fill in prefix information"
-        redirect_to :back
+        redirect_to settings_path
       end
     end
 

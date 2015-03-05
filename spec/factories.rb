@@ -24,15 +24,20 @@ FactoryGirl.define do
     fax "613-725-7397"
     telephone "613-725-7397"
     prefix "VDL"
+
+    trait :has_address do
+      addresses{[FactoryGirl.build(:address)]}
+    end
+
+    trait :has_vendor do
+      vendors{[FactoryGirl.build(:vendor)]}
+    end
     # association :address, strategy: :build
     # association :vendor, strategy: :build
-    after(:create) do |c|
-    #   # byebug
-    c.vendors.build(FactoryGirl.attributes_for(:vendor)).save
-    c.addresses.build { attributes_for(:address)}.save
-    #c.addresses.build(FactoryGirl.attributes_for(:address)).save
-    end
-  end 
+    # after(:create) do |c|
+    # # c.update_attribute(:addresses, [FactoryGirl.build(:address)])
+    # end
+  end
 
   factory :fax do
     recipient_name "MyString"

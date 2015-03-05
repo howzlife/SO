@@ -48,15 +48,44 @@ describe "The Purchase Order Process" do
 
 		it "Attempting to create a new PO without setting a vendor should redirect to vendors page" do
 			visit purchase_orders_path
-			@company.addresses.create(FactoryGirl.attributes_for(:address)).save
 			within (".button") do
 				click_button("Create New PO")
 			end
+			 @user.company.update_attribute(:addresses, [FactoryGirl.build(:address)])
 			 visit new_purchase_order_path
 			 expect(current_path).to eq new_vendor_path
 			 message = find "p.notice"
-			 expect(message.text).to include("boobs")
+			 expect(message.text).to include("Vendor")
+			 expect(page).to have_content("Add a Vendor")
 		end
+
+		it "Attempting to create a new PO with no prefix should redirect to Prefix page" do
+			visit purchase_orders_path
+			within (".button") do
+				click_button("Create New PO")
+			end
+			 @user.company.update_attribute(:addresses, [FactoryGirl.build(:address)])
+			 @user.company.update_attribute(:vendors, [FactoryGirl.build(:address)])
+			 visit new_purchase_order_path
+			 expect(current_path).to eq settings_path
+			 message = find "p.notice"
+			 expect(message.text).to include("prefix")
+		end
+	end
+
+	describe "Sending a new PO" do
+		it "Should not create a new PO if fields are left blank" do
+			visit purchase_orders_path
+			@user.company.update_attribute(:addresses, [FactoryGirl.build(:address)])
+			@user.company.update_attribute(:vendors, [FactoryGirl.build(:address)])
+			@user.company.update_attribute(:prefix, "WDB")
+			visit new_purchase_order_path
+			expect(current_path).to eq purchase_orders_path
+
+		end		
+
+
+
 	end
 
 	describe "Closed PO functionality" do 
@@ -69,7 +98,7 @@ describe "The Purchase Order Process" do
 			puts @company.inspect
 			puts page.html
 			
-			#expect{find("#duplicate-as-new-btn").click}.to change{PurchaseOrder.count}.by 1
+			expect{find("#duplicate-as-new-btn").click}.to change{PurchaseOrder.count}.by 1
 		end
 	end
 
