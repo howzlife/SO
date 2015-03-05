@@ -65,4 +65,4 @@
 					-#= %td= link_to 'Edit', edit_purchase_order_path(purchase_order)
 		= paginate @purchase_orders
 	.page-footer.clear
-		%span < >
+		= render :partial => "purchase_orders/pager"

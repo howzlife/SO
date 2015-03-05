@@ -23,6 +23,15 @@
 					%span.text Cancel Changes
 				= button_tag(type: 'submit', class: "btn btn-save") do
 					%span.text Save Changes
+			-elsif button == "Open PO"
+				- if @purchase_order.was_deleted != true 
+					= button_tag(type: 'submit', :name => "status", :value => "duplicate", :data => { :confirm => 'Are you sure?' }, class: "btn btn-close") do
+						%span.text Duplicate as New
+				- if @purchase_order.status == "open" && @purchase_order.archived != true && @purchase_order.was_deleted != true
+					= button_tag(type: 'submit', :name => "status", :value => "cancelled", :data => { :confirm => 'Are you sure?' }, class: "btn btn-close") do
+						%span.text Cancel PO
+				= button_tag(type: 'submit', :name => "status", :value => "closed", :data => { :confirm => 'Are you sure?' }, class: "btn btn-close") do
+					%span.text Mark as Closed
 			-elsif button == "Create New Vendor"
 				= button_to new_vendor_path, method: 'get', class: 'btn btn-primary' do
 					%span.text Create New Vendor
