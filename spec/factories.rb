@@ -29,7 +29,8 @@ FactoryGirl.define do
     after(:create) do |c|
     #   # byebug
     c.vendors.build(FactoryGirl.attributes_for(:vendor)).save
-    c.addresses.build(FactoryGirl.attributes_for(:address)).save
+    c.addresses.build { attributes_for(:address)}.save
+    #c.addresses.build(FactoryGirl.attributes_for(:address)).save
     end
   end 
 
@@ -52,15 +53,38 @@ FactoryGirl.define do
     after (:build) do |po|
       po.write_attribute(:vendor, (FactoryGirl.attributes_for(:vendor)))
     end
+
     trait :as_draft do
       status "draft"
     end
+
    trait :as_open do
       status "open"
     end
+
    trait :as_closed do
       status "closed"
     end
+
+    trait :as_cancelled do
+      status "cancelled"
+    end
+
+   trait :as_archived do
+      was_archived true
+   end
+
+   trait :unarchive do
+      was_archived false
+   end
+
+   trait :was_deleted do
+      was_deleted true
+   end
+
+   trait :undelete do
+     was_deleted false
+   end
   end
 
 	factory :user, class: User do

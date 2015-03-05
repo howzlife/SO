@@ -87,10 +87,12 @@ class PurchaseOrdersController < ApplicationController
           @purchase_order.status = "open"
           flash[:notice] = 'Success, your PO has been Opened.' if @purchase_order.save
           respond_with(@purchase_order)
+
         elsif params[:status] == "draft"
           @purchase_order.status = "draft" 
           flash[:notice] = 'Success, your PO has been saved as draft.' if @purchase_order.save
           respond_with(@purchase_order)
+
         elsif params[:status] == "print"
            @purchase_order.status = "draft" 
            @purchase_order.save
@@ -136,8 +138,14 @@ class PurchaseOrdersController < ApplicationController
       respond_with(@purchase_order)
 
     elsif params[:status] == "draft"
+      @purchase_order.save
       flash[:notice] = "Purchase Order was successfully Saved." if @purchase_order.save
       respond_with(@purchase_order)
+
+    elsif params[:status] == "cancel_changes"
+          byebug
+    flash[:notice] = 'Changes have been discarded.'
+    respond_with(@purchase_order)
 
     elsif params[:status] == "closed"
       @purchase_order.update_attribute(:status, "closed") 
@@ -183,7 +191,7 @@ class PurchaseOrdersController < ApplicationController
       @po.number = generate_po_number
       @po.address = @purchase_order.read_attribute(:address)
       @po.update_attribute(:date_required, "ASAP")
-      byebug
+      @po.label = @purchase_order.read_attribute(:label)
       @purchase_order = @po
       flash[:notice] = "Purchase Order Duplicated as New" if @purchase_order.save
       respond_with(@purchase_order)
