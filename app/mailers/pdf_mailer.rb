@@ -17,6 +17,7 @@ class PDFMailer < ActionMailer::Base
 		a = @purchase_order.address
 
   	#create PDFS
+    byebug
 	  pdf_html = '<!DOCTYPE html>
 <html>
   <head>

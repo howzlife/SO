@@ -70,7 +70,7 @@
 			.purchaseorder-description
 				.text-label Description
 			.purchaseorder-input
-				= f.label :description
+				= f.label :description, :name => "description"
 				= f.text_area :description, :placeholder => "enter your order information..."
 			.purchaseorder-deliverto.clear
 				.to
@@ -135,10 +135,10 @@
 			= button_tag(type: 'submit', :name => "status", :value => "print", class: "btn btn-edit edit-print") do
 				%i.fa.fa-print.fa-fw
 				%span.text Print
-			= button_tag(type: 'submit', :name => "status", :value => "email", :data => { :confirm => 'Are you sure? Once you email this purchase order, you will not be able to edit its contents.' }, class: "btn") do
+			= button_tag(type: 'submit', :name => "status", :value => "email", :data => { :confirm => 'Are you sure? Once you email this purchase order, you will not be able to edit its contents.' }, class: "btn", id: "btn-send-email") do
 				%i.fa.fa-envelope-o.fa-fw
 				%span.text Send As Email
-			= button_tag(type: 'submit', :name => "status", :value => "fax", :data => { :confirm => 'Are you sure? Once you fax this purchase order, you will not be able to edit its contents.' }, class: "btn") do
+			= button_tag(type: 'submit', :name => "status", :value => "fax", :data => { :confirm => 'Are you sure? Once you fax this purchase order, you will not be able to edit its contents.' }, class: "btn", id: "btn-send-fax") do
 				%i.fa.fa-fax.fa-fw
 				%span.text Send As Fax
 			- if @purchase_order.status == "open"

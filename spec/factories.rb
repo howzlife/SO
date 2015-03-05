@@ -47,12 +47,14 @@ FactoryGirl.define do
     content "MyText"
   end
 
+  # FFaker
   factory :purchase_order do
     number { "WDC-021-#{rand(100..999)}" }
     date DateTime.current
     status "draft"
     description "test description"
-    date_required "May 5th 2015"
+    # description { FFaker::Lorem.sentence }
+    date_required { Time.zone.today + rand(1..900).days }
     archived false
     was_deleted false
     after (:build) do |po|
