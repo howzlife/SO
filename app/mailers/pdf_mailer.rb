@@ -10,7 +10,7 @@ class PDFMailer < ActionMailer::Base
   def send_pdf(purchase_order, company, current_user)
 
 		#create instance variables
-		@purchase_order = purchase_order
+		@purchaComse_order = purchase_order
     @company = company
 
 		ponumber = @purchase_order.number
