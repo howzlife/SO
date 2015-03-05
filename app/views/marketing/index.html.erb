@@ -13,10 +13,12 @@
   <link type="text/css" rel="stylesheet" href="http://fast.fonts.net/cssapi/064d369a-c717-4ea9-95f5-2158eabd48f8.css"/>
   <!-- JQUERY -->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <!-- Stylesheet -->
+  <%= stylesheet_link_tag "marketing" %> 
 </head>
 <body>
   <nav class="clearfix">
-    <h1><img src="swiftordersLogo.jpg" height="84" width="300" alt=""></h1>
+    <h1><%= image_tag "swiftordersLogo.jpg" %></h1>
     <ul>
       <li>Features</li>
       <li>Pricing</li>
@@ -39,13 +41,13 @@
         <h4>Much Better POs</h4>
         <p>Swiftorders makes it simple to order goods and coordinate with suppliers. Manage purchase orders with ease. Delight your customers by delivering on time, and with no costly mistakes.</p>
       </div> <!-- end betterPOs -->
-      <img src="computer.jpg" height="-1" width="-1" alt="">
+      <%= image_tag "computer.jpg" %>
     </div> <!-- end headerSection -->
   </header>
   <main>
     <h2>Say goodbye to painful purchasing.</h2>
     <h3>If you're using a PO book, sending orders by fax, or managing a folder full of PDF attachments, you're going to love Swiftorders. We make business purchasing easy. Send POs in moments. Managing orders is a breeze. </h3>
-    <img src="happyCustomer.jpg" height="366" width="727" alt="">
+   <%= image_tag "happyCustomer.jpg" %>
   </main>
 
   <footer>

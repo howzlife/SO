@@ -1,4 +1,12 @@
-= render :partial => "shared/header", :locals => {:title => @purchase_order.number, :icon => "fa-pencil-square-o"}
+- if @purchase_order.archived != true
+	- if @purchase_order.status == "closed"
+		= render :partial => "shared/header", :locals => {:title => @purchase_order.number, :icon => "fa-pencil-square-o", :hasbutton => true, :button => "Closed PO"}
+	- elsif @purchase_order.status == "open"
+		= render :partial => "shared/header", :locals => {:title => @purchase_order.number, :icon => "fa-pencil-square-o", :hasbutton => true, :button => "Open PO"}
+	- else @purchase_order.status == "cancelled"
+		= render :partial => "shared/header", :locals => {:title => @purchase_order.number, :icon => "fa-pencil-square-o", :hasbutton => true, :button => "Cancelled PO"}
+- else
+	= render :partial => "shared/header", :locals => {:title => @purchase_order.number, :icon => "fa-pencil-square-o", :hasbutton => true, :button => "Archived PO"}
 .wrapper
 	#purchaseorder.card.purchaseorder
 		.purchaseorder-header.clear
@@ -66,26 +74,7 @@
 				- if !@purchase_order.address.name.blank?
 					= a['agent']
 					
-	.buttons.clear.purchaseorder-buttons
-		- if @purchase_order.status == "draft"
-			= link_to purchase_order_path, method: 'delete', class: 'btn btn-danger left' do
-				%i.fa.fa-trash.fa-fw
-				%span.text Discard
-				
-		= simple_form_for @purchase_order, html: { class: "form-email form-print status-"+@purchase_order.status}, url: purchase_order_path do |f|
-			= button_tag(type: 'submit', :name => "status", :value => "print", class: "btn btn-edit show-print") do
-				%i.fa.fa-print.fa-fw
-				%span.text Print
-			- if @purchase_order.status != "closed" && @purchase_order.archived != true && !@purchase_order.vendor.email.blank? && @purchase_order.was_deleted != true
-				= button_tag(type: 'submit', :name => "status", :value => "email", :data => { :confirm => 'Are you sure?' }, class: "btn btn-edit email") do
-					%i.fa.fa-envelope-o.fa-fw
-					%span.text Resend As Email
-			- if @purchase_order.status != "closed" && @purchase_order.archived != true && !@purchase_order.vendor.fax.blank? && @purchase_order.was_deleted != true
-				= button_tag(type: 'submit', :name => "status", :value => "fax", :data => { :confirm => 'Are you sure?' }, class: "btn btn-edit email") do
-					%i.fa.fa-fax.fa-fw
-					%span.text Resend As Fax
-
-
+	.buttons
 		= simple_form_for @purchase_order, url: purchase_order_path do |f|
 
 			- if @purchase_order.status == "open" && @purchase_order.archived != true && @purchase_order.was_deleted != true
@@ -122,3 +111,16 @@
 
 	.credits
 		%p= 'Created with Swiftorders -- swiftorders.com'
+
+			- if @purchase_order.archived != true && @purchase_order.was_deleted != true
+				- if @purchase_order.status == "open"
+					= button_tag(type: 'submit', :name => "status", :value => "fax", :data => { :confirm => 'Are you sure?' }, class: "btn") do
+						%span.text Resend by Fax
+					= button_tag(type: 'submit', :name => "status", :value => "email", :data => { :confirm => 'Are you sure?' }, class: "btn") do
+						%span.text Resend by Email
+				- elsif @purchase_order.status == "cancelled"
+					= button_tag(type: 'submit', :name => "status", :value => "fax", :data => { :confirm => 'Are you sure?' }, class: "btn") do
+						%span.text Resend Cancellation Fax
+					= button_tag(type: 'submit', :name => "status", :value => "email", :data => { :confirm => 'Are you sure?' }, class: "btn") do
+						%span.text Resend Cancellation Email
+

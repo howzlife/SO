@@ -46,7 +46,7 @@
 			%tbody
 				- @purchase_orders.each do |purchase_order|
 					%tr{class: "status-#{purchase_order.status}"}
-						%td= link_to purchase_order.number, purchase_order
+						%td= link_to purchase_order.number, purchase_order, :class=>"inverted-link"
 						%td= purchase_order.date.strftime("%B #{purchase_order.date.day.ordinalize}, %Y")
 						%td.vendor
 							= purchase_order.vendor.name
@@ -65,4 +65,4 @@
 					-#= %td= link_to 'Edit', edit_purchase_order_path(purchase_order)
 		= paginate @purchase_orders
 	.page-footer.clear
-		%span < >
+		= render :partial => "purchase_orders/pager"

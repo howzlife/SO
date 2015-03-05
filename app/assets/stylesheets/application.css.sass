@@ -10,7 +10,6 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_tree .
  *= require jquery-ui
  *= require jquery-ui/datepicker
  *= require_self
@@ -30,7 +29,7 @@ $status-open: #00a777
 $status-closed: #797979
 $status-draft: #e0b86e
 $status-archived: #b3b3b3
-$status-deleted: #cb3332
+$status-cancelled: #7f0640
 
 $row-hover: #fcfae9
 
@@ -71,6 +70,8 @@ h1,h2,h3,h4,h5,h6
 .buttons
 	text-align: right
 	margin: 15px 0 0 0
+	.btn
+		margin-left: 10px
 	form
 		display: inline
 	.loading
@@ -92,6 +93,7 @@ h1,h2,h3,h4,h5,h6
 	margin: 0px
 	border-radius: $border-radius
 	cursor: pointer
+	outline: none
 	&:hover
 		background-color: #f5f5f5
 		text-decoration: none
@@ -224,6 +226,8 @@ a
 	&:hover
 		color: $default-blue
 		text-decoration: underline
+	&.inverted-link
+		color: $default-blue
 
 h1
 	font-weight: 500
@@ -451,8 +455,6 @@ h1
 			margin: 0
 			div
 				display: inline-block
-			.btn
-				margin-left: 10px
 		h2
 			font-size: 24px
 			font-weight: 400
@@ -620,7 +622,7 @@ h1
 				line-height: 0
 				height: 0
 		abbr
-			color: $default-blue
+			color: $default-orange
 			float: right
 			font-size: 11px
 
@@ -658,7 +660,7 @@ h1
 		border-radius: $border-radius
 		padding: 4px 15px 3px 15px
 		vertical-align: middle
-		font-size: 12px
+		font-size: 11px
 		font-weight: 500
 		text-align: center
 		display: inline-block
@@ -678,9 +680,9 @@ h1
 		&.status-archived
 			color: $status-archived
 			border: 1px solid $status-archived
-		&.status-deleted
-			color: $status-deleted
-			border: 1px solid $status-deleted
+		&.status-cancelled
+			color: $status-cancelled
+			border: 1px solid $status-cancelled
 
 	.purchaseorder
 		background: #fafcfc
