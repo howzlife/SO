@@ -8,31 +8,43 @@
 	-if hasbutton
 		.buttons
 			-if button == "Create New PO"
-				= button_to new_purchase_order_path, method: 'get', class: 'btn' do
+				= button_to new_purchase_order_path, method: 'get', class: 'btn btn-primary' do
 					%span.text Create New PO
 				= render :partial => "purchase_orders/pager"
-			-if button == "Create New Vendor"
-				= button_to new_vendor_path, method: 'get', class: 'btn' do
+			-elsif button == "New PO"
+				= link_to purchase_orders_path, class: 'btn btn-danger' do
+					%span.text Discard
+				= button_tag(type: 'submit', class: "btn btn-save") do
+					%span.text Save as Draft
+			-elsif button == "Edit PO"
+				= link_to @purchase_orders, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger' do
+					%span.text Discard Draft
+				= link_to purchase_orders_path, class: 'btn btn-danger' do
+					%span.text Cancel Changes
+				= button_tag(type: 'submit', class: "btn btn-save") do
+					%span.text Save Changes
+			-elsif button == "Create New Vendor"
+				= button_to new_vendor_path, method: 'get', class: 'btn btn-primary' do
 					%span.text Create New Vendor
 				= render :partial => "vendors/pager"
-			-if button == "Save Vendor"
+			-elsif button == "Save Vendor"
 				= link_to vendors_path, class: 'btn' do
 					%span.text Cancel
 				- if action_name == "edit"
 					= link_to @vendor, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger' do
 						%span.text Delete Vendor
-				= button_tag(type: 'submit', class: "btn btn-primary") do
+				= button_tag(type: 'submit', class: "btn btn-save") do
 					%span.text Save Vendor
-			-if button == "Save Address"
+			-elsif button == "Save Address"
 				= link_to company_path(@company), class: 'btn' do
 					%span.text Cancel
 				- if action_name == "edit"
 					= link_to @address, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger' do
 						%span.text Delete Address
-				= button_tag(type: 'submit', class: "btn btn-primary") do
+				= button_tag(type: 'submit', class: "btn btn-save") do
 					%span.text Save Address
-			-if button == "Save Settings"
+			-elsif button == "Save Settings"
 				-#= link_to company_path(@company), class: 'btn' do
 				-#	%span.text Cancel
-				= button_tag(type: 'submit', class: "btn") do
+				= button_tag(type: 'submit', class: "btn btn-save") do
 					%span.text Save Settings

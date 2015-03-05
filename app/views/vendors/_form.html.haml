@@ -1,8 +1,8 @@
 = simple_form_for @vendor do |f|
 	- if action_name == "edit"
-		= render :partial => "shared/header", :locals => {:title => "Edit Vendor",:icon => "fa-bus", :hasbutton => true, :button => "Save Vendor" }
+		= render :partial => "shared/header", :locals => {:title => @vendor.name,:icon => "fa-bus", :hasbutton => true, :button => "Save Vendor" }
 	- else
-		= render :partial => "shared/header", :locals => {:title => "Add a Vendor",:icon => "fa-bus", :hasbutton => true, :button => "Save Vendor" }
+		= render :partial => "shared/header", :locals => {:title => "Create New Vendor",:icon => "fa-bus", :hasbutton => true, :button => "Save Vendor" }
 	.wrapper.section.clear
 		.section-description
 			%h3 Vendor Details
