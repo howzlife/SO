@@ -21,7 +21,7 @@ describe "The Purchase Order Process" do
 		DatabaseCleaner.clean
 	end
 
-	it "empty purchase orders page should have correct content" do
+	it "PO Index page should have correct content" do
 		visit purchase_orders_path
 		expect(page).to have_content("Working POs")
 		expect(page).to have_content("Open")
@@ -32,7 +32,7 @@ describe "The Purchase Order Process" do
 		expect(page).to have_content("No purchase orders found. Click the button above to create a new one.")
 	end
 
-	it "new PO form should have correct elements" do
+	it "Attempting to create a new PO without setting an address should redirect to address path" do
 		visit purchase_orders_path
 		within (".button") do
 			click_button("Create New PO")
@@ -53,8 +53,8 @@ describe "The Purchase Order Process" do
 			visit purchase_order_path(purchase_order.read_attribute(:id))
 			puts @company.inspect
 			puts page.html
-			button = find("#duplicate-as-new-btn")
-			expect(Purchase_Order.count).to change
+			
+			expect{find("#duplicate-as-new-btn").click}.to change{PurchaseOrder.count}.by 1
 		end
 	end
 

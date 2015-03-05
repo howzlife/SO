@@ -130,7 +130,7 @@ class PurchaseOrdersController < ApplicationController
     elsif params[:status] == "open"
       @purchase_order.update_attribute(:status, "open")
       flash[:notice] = "Purchase Order was successfully Saved." if @purchase_order.save
-      format.html { redirect_to purchase_orders_path }
+      respond_with(@purchase_order)
 
     elsif params[:status] == "draft"
       flash[:notice] = "Purchase Order was successfully Saved." if @purchase_order.save
@@ -171,16 +171,23 @@ class PurchaseOrdersController < ApplicationController
       format.html { redirect_to purchase_orders_path } 
 
     elsif params[:status] == "duplicate"
-      @new_po = @company.purchase_orders.new
-      @new_po.update_attribute(:status, "draft")
-      @new_po.update_attribute(:description, @purchase_order.description)
-      @new_po.update_attribute(:vendor, @purchase_order.vendor)
-      @new_po.update_attribute(:address, @purchase_order.address)
-      @new_po.save
-      respond_to do |format|
-      format.html { redirect_to @new_po, notice: 'Rendering new PO.' }
-      format.json { render :create, status: :ok, location: @purchase_order } 
-      end    
+      @po = @company.purchase_orders.new
+      @po.status = "draft"
+      @po.description = @purchase_order.read_attribute(:description)
+      @po.vendor = @purchase_order.read_attribute(:vendor)
+      @po.number = generate_po_number
+      @po.address = @purchase_order.read_attribute(:address)
+      @purchase_order = @po
+      flash[:notice] = "Purchase Order Duplicated as New" if @purchase_order.save
+      respond_with(@purchase_order)
+      # @new_po = @company.purchase_orders.new
+      # @new_po.write_attribute(:vendor, @purchase_order.read_attribute(:vendor))
+      # @new_po.write_attribute(:address, @purchase_order.read_attribute(:address))
+      # @purchase_order = @company.purchase_orders.build(@new_po)
+      # @company.labels.find_or_create_by(name: @purchase_order.label)
+      # @purchase_order.status = "draft"
+      # flash[:notice] = "Purchase Order was duplicated as new." if @purchase_order.save
+      # respond_with(@purchase_order)
     end
   end
 
@@ -224,7 +231,7 @@ class PurchaseOrdersController < ApplicationController
         redirect_to new_address_path
       elsif !@company.vendors.first.try(:name)
         flash[:notice] = "Please have at least one Vendor before making a PO"
-        redirect_to :back
+        redirect_to new_vendors_path
       elsif !@company.try(:prefix)
         flash[:notice] = "Please fill in prefix information"
         redirect_to :back
@@ -249,5 +256,8 @@ class PurchaseOrdersController < ApplicationController
       purchase_order_params["address"] = address
 
       return purchase_order_params
+    end
+    def generate_po_number
+      @company.read_attribute(:prefix) + ".#{Random.rand(100..999)}.#{Random.rand(100..999)}" 
     end
 end
