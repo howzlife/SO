@@ -61,44 +61,47 @@ class PurchaseOrdersController < ApplicationController
     @company.labels.find_or_create_by(name: @purchase_order.label)
     @purchase_order.save
 
-      ## Response for send by Fax or Email 
-      if params[:status] == "email"
-   			PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
-        @purchase_order.status = "open"
-        flash[:notice] = 'Success, your PO has been sent by Email.' if @purchase_order.save
-        respond_with(@purchase_order)
-      elsif params[:status] == "fax"
-        @sent_fax = send_po_fax(@purchase_order) 
-        # If fax was successful, we get a successful response. 
-        if @sent_fax["success"]
-          @purchase_order.update_attribute(:status, "open")
-          flash[:notice] = 'Success, your PO has been sent by fax.' 
+        ## Response for send by Fax or Email 
+        if params[:status] == "email"
+     			PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
+          @purchase_order.status = "open"
+          flash[:notice] = 'Success, your PO has been sent by Email.' if @purchase_order.save
           respond_with(@purchase_order)
-          # Otherwise, we get an error message. 
-        else 
-          format.html {render :new, notice: @sent_fax["message"]}
-          format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
+        elsif params[:status] == "fax"
+          @sent_fax = send_po_fax(@purchase_order) 
+          # If fax was successful, we get a successful response. 
+          if @sent_fax["success"]
+            @purchase_order.update_attribute(:status, "open")
+            flash[:notice] = 'Success, your PO has been sent by fax.' 
+            respond_with(@purchase_order)
+            # Otherwise, we get an error message. 
+          else 
+            respond_to do |format|
+              format.html {render :new, notice: @sent_fax["message"]}
+              format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
+            end
+          end
+
+        #State transitions without send -> Mark as Open, Save as Draft
+        elsif params[:status] == "open"
+          @purchase_order.status = "open"
+          flash[:notice] = 'Success, your PO has been Opened.' if @purchase_order.save
+          respond_with(@purchase_order)
+        elsif params[:status] == "draft"
+          @purchase_order.status = "draft" 
+          flash[:notice] = 'Success, your PO has been saved as draft.' if @purchase_order.save
+          respond_with(@purchase_order)
+        elsif params[:status] == "print"
+           @purchase_order.status = "draft" 
+           @purchase_order.save
+           respond_with(@purchase_order)
+        # Error Handling
+        else
+          respond_to do |format|
+            format.html { render :new }
+            format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
+          end
         end
-
-      #State transitions without send -> Mark as Open, Save as Draft
-      elsif params[:status] == "open"
-        @purchase_order.status = "open"
-        flash[:notice] = 'Success, your PO has been Opened.' if @purchase_order.save
-        respond_with(@purchase_order)
-      elsif params[:status] == "draft"
-        @purchase_order.status = "draft" 
-        flash[:notice] = 'Success, your PO has been saved as draft.' if @purchase_order.save
-        respond_with(@purchase_order)
-      elsif params[:status] == "print"
-         @purchase_order.status = "draft" 
-         @purchase_order.save
-         respond_with(@purchase_order)
-      # Error Handling
-      else
-        format.html { render :show }
-        format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
-      end
-
   end
 
 
@@ -143,7 +146,9 @@ class PurchaseOrdersController < ApplicationController
     elsif params[:status] == "cancelled"
       @purchase_order.update_attribute(:status, "cancelled")
       flash[:notice] = "Purchase Order has been Cancelled" if @purchase_order.save
-      format.html { redirect_to purchase_orders_path }
+      respond_to do |format|
+        format.html { redirect_to purchase_orders_path }
+      end
 
       # stowaway methods - archive, delete, and undo archive, undo delete
     elsif params[:status] == "deleted"
@@ -168,7 +173,7 @@ class PurchaseOrdersController < ApplicationController
       respond_with(@purchase_order)
 
     elsif params[:status] == "print"
-      format.html { redirect_to purchase_orders_path } 
+      respond_with(@purchase_order)
 
     elsif params[:status] == "duplicate"
       @po = @company.purchase_orders.new
@@ -177,6 +182,8 @@ class PurchaseOrdersController < ApplicationController
       @po.vendor = @purchase_order.read_attribute(:vendor)
       @po.number = generate_po_number
       @po.address = @purchase_order.read_attribute(:address)
+      @po.update_attribute(:date_required, "ASAP")
+      byebug
       @purchase_order = @po
       flash[:notice] = "Purchase Order Duplicated as New" if @purchase_order.save
       respond_with(@purchase_order)
