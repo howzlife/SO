@@ -27,52 +27,13 @@ $grey: #5e5e5e;
 $orange: #cc6011;
 $red: #800000;
 
-
 //TYPOGRAPHY
 $pacifico: 'Pacifico', cursive;
 $helvetica: 'Helvetica W01 Italic';
 
-// IDEAL SANS LIGHT
-// font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';
-// font-weight: 300;
-// font-style: normal;
-
-// IDEAL SANS BOOK
-// font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';
-// font-weight: 400;
-// font-style: normal;
-
-// IDEAL SANS BOLD
-// font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';
-// font-weight: 700;
-// font-style: normal;
-
-@font-face {
-    font-family: ISB;
-    src: url(fonts/IdealSans-Book-Pro.otf);
-}
-
-@font-face {
-	font-family: ISL;
-	src: url(fonts/IdealSans-Light-Pro.otf);
-}
-
-@font-face {
-	font-family: ISBold;
-	src: url(ftons/IdealSans-Bold-Pro.otf);
-}
-
-@font-face {
-    font-family: 'mercury';
-    src: url('mercury-display-italic-1361532336-webfont.ttf');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
 //Global 
 	body {
-		font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B', 'ISL';
+		font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';
 		font-style: normal;
 	}
 
@@ -81,13 +42,13 @@ $helvetica: 'Helvetica W01 Italic';
     }
     
     h2 {
-        font-family: ISL;
+        font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';;
         font-size: 4.8rem;
         font-weight: normal;
     }
 
     h3 {
-            font-family: ISL;
+            font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';;
             color: black;
             font-size: 2.4rem;
             margin: auto;
@@ -104,7 +65,7 @@ $helvetica: 'Helvetica W01 Italic';
             float: right;
             width: 60%;
             color: $ltblue;
-            font-family: ISB;
+            font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';
             font-size: 2rem;
             text-align: right;
 
@@ -143,7 +104,7 @@ $helvetica: 'Helvetica W01 Italic';
         padding: 2rem;
         margin: auto;
         text-align: center;
-        width: 1173px;
+        width: 100%;
 
         h2 {
             color: black;
@@ -157,7 +118,7 @@ $helvetica: 'Helvetica W01 Italic';
         }
 
         h3 {
-            font-family: ISL;
+            font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';;
             color: black;
             font-size: 2.4rem;
             max-width: 661px;
@@ -167,7 +128,7 @@ $helvetica: 'Helvetica W01 Italic';
         p {
             color: $orange;
             font-size: 1.4rem;
-            font-family: ISL;
+            font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';;
         }
 
         .headerSection {
@@ -179,7 +140,7 @@ $helvetica: 'Helvetica W01 Italic';
 
         input {
             padding: 1.3rem;
-            font-family: ISL;
+            font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';;
             color: black;
             font-size: 2rem;
             margin-right: 1rem;
@@ -233,7 +194,7 @@ $helvetica: 'Helvetica W01 Italic';
 
             p {
                 color: black;
-                font-family: ISL;
+                font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';;
                 font-size: 1.8rem;
                 line-height: 2.4rem;
             }  
@@ -291,14 +252,14 @@ body.startPageBody {
         h2 {
             color: white;
             font-size: 4.8rem;
-            font-family: ISB;
+            font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';
             margin-bottom: 2rem;
         }
 
         h3 {
             color: white;
             font-size: 2rem;
-            font-family: ISL;
+            font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';;
         }
 
         form {
@@ -309,7 +270,7 @@ body.startPageBody {
 
             input {
                 padding: 1.3rem 1.3rem 1.3rem 3rem;
-                font-family: ISL;
+                font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';;
                 color: black;
                 font-size: 2rem;
                 margin-right: 1rem;
