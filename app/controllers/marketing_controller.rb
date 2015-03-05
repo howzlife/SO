@@ -8,5 +8,11 @@ class MarketingController < ApplicationController
 
   def contact
   end
+
+  def pricing
+  end
+
+  def features
+  end
 end
 
