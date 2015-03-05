@@ -19,17 +19,13 @@ Rails.application.routes.draw do
 
   resources :marketing
 
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   
-  get ':copyright' => 'static#:copyright'
-  get ':licenses' => 'static#:licenses'
-  get ':privacy' => 'static#:privacy'
-  get ':terms' => 'static#:terms'
-  get ':about' => 'static#:about'
-  get ':legal' => 'static#:legal'
-  get ':contact' => 'static#:contact'
+	get ':pricing' => 'marketing#pricing'
+	get ':features' => 'marketing#features'
 
 
   # You can have the root of your site routed with "root"

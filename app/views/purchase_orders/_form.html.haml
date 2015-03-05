@@ -1,4 +1,9 @@
 = simple_form_for @purchase_order do |f|
+	- if action_name == "edit"
+		= render :partial => "shared/header", :locals => {:title => @purchase_order.number, :icon => "fa-pencil-square-o", :hasbutton => true, :button => "Edit PO"}
+	- else
+		= render :partial => "shared/header", :locals => {:title => "New Purchase Order",:icon => "fa-pencil-square-o", :hasbutton => true, :button => "New PO"}
+
 	- if @purchase_order.errors.any?
 		#error_explanation
 			%h2= "#{pluralize(@purchase_order.errors.count, "error")} prohibited this purchase_order from being saved:"
@@ -6,7 +11,7 @@
 				- @purchase_order.errors.full_messages.each do |msg|
 					%li= msg
 	- if @purchase_order.number.blank? 
-		-ponumber = @company.prefix + '.' + number_with_delimiter([*100000..999999].sample, :delimiter => '.')
+		- ponumber = @company.prefix + '.' + number_with_delimiter([*100000..999999].sample, :delimiter => '.')
 	- else
 		- ponumber = @purchase_order.number
 	.wrapper
@@ -49,20 +54,20 @@
 								%br
 							- if !@purchase_order.vendor.email.blank?
 								=@purchase_order.vendor.email
+					-# the instance variable below isn't the vendor document that embedded in the purchase order. It's the one embedded in the company. We use the vendors created there in this form. The data from them is then saved to the purchase order's embedded vendor document. We allow vendor information to be changed for the company but not on the purchase orders. This way, if the Company's vendor data changes, the already saved purchase orders' vendor data doesn't. This vendor data is being passed as a hash string. 
+					- if @purchase_order.vendor.name.blank? 
+						= f.select :vendor, @company.vendors.all.map { |r| [r.name, r.id] }
+					- else
+						- id_of_vendor = @company.vendors.where(name: @purchase_order.vendor.name).first.id
+						%select{:name => 'purchase_order[vendor]', :id => 'purchase_order_vendor' }
+							- @company.vendors.each do |v|
+								%option{:value => "#{v.id}", :selected => id_of_vendor == v.id}
+									= v.name
 					.vendor-change
 						%button.small-btn.btn.btn-edit{:type => "button"}
 							%i.fa.fa-undo
 							%span.text Change
-						-# the instance variable below isn't the vendor document that embedded in the purchase order. It's the one embedded in the company. We use the vendors created there in this form. The data from them is then saved to the purchase order's embedded vendor document. We allow vendor information to be changed for the company but not on the purchase orders. This way, if the Company's vendor data changes, the already saved purchase orders' vendor data doesn't. This vendor data is being passed as a hash string. 
-						- if @purchase_order.vendor.name.blank? 
-							= f.select :vendor, @company.vendors.all.map { |r| [r.name, r.id] }, :include_blank => "Select Vendor"
-						- else
-							- id_of_vendor = @company.vendors.where(name: @purchase_order.vendor.name).first.id
-							%select{:name => 'purchase_order[vendor]', :id => 'purchase_order_vendor' }
-								%option Select Vendor
-								- @company.vendors.each do |v|
-									%option{:value => "#{v.id}", :selected => id_of_vendor == v.id}
-										= v.name
+
 				.date-required
 					.text-label Date Required
 					.date-field
