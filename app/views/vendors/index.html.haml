@@ -1,4 +1,4 @@
-= render :partial => "shared/header", :locals => {:title => "Your Vendors",:icon => "fa-bus", :hasbutton => true, :button => "Create New Vendor" }
+= render :partial => "shared/header", :locals => {:title => "Vendors",:icon => "fa-bus", :hasbutton => true, :button => "Create New Vendor" }
 - if @vendors.length == 0
 	.firstrun
 		You have yet to added any vendors. Click the button below to create your first one.
@@ -30,10 +30,12 @@
 			%tbody
 				- @vendors.each do |vendor|
 					%tr
-						%td= link_to vendor.name, edit_vendor_path(vendor)
-						%td= vendor.email
+						%td= link_to vendor.name, edit_vendor_path(vendor), :class=>"inverted-link"
+						%td
+							%a{:href => "mailto:#{vendor.email}"} #{vendor.email}
 						%td= vendor.contact
-						%td= vendor.telephone
+						%td
+							%a{:href => "tel:#{vendor.telephone}"} #{vendor.telephone}
 						%td= vendor.fax
 	.page-footer.clear
 		= render "pager"
