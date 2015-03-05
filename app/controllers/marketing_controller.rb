@@ -8,12 +8,15 @@ class MarketingController < ApplicationController
   end
 
   def contact
+  	render layout: false
   end
 
   def pricing
+  	render layout: false
   end
 
   def features
+  	render layout: false
   end
 end
 

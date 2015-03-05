@@ -26,6 +26,7 @@ $ltgrey: #eeeeee;
 $grey: #5e5e5e;
 $orange: #cc6011;
 $red: #800000;
+$medgrey: #c0c0c0;
 
 //TYPOGRAPHY
 $pacifico: 'Pacifico', cursive;
@@ -126,7 +127,6 @@ $helvetica: 'Helvetica W01 Italic';
             font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';;
             color: black;
             font-size: 2.4rem;
-            max-width: 661px;
             margin: auto;
         }
 
@@ -358,3 +358,59 @@ body.startPageBody {
         padding-right: 5rem;
     }
 }
+
+//PRICING PAGE
+    table.pricing {
+        font-size: 2rem;
+        margin: auto;
+        tr {
+            th {
+                padding: 1rem;
+
+            }
+            td {
+                padding: 2rem;
+                ul {
+                    list-style-type: none;
+                    padding: 0;
+
+                    li {
+                        padding: 0.7rem;
+                    }
+                }
+                span {
+                    color: $orange;
+                }
+            }
+        }
+
+        th.popular {
+            background: $orange;
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 300;
+        }
+
+        tr.pricing1 {
+            font-style: italic;
+        }
+
+        tr.pricing2 {
+            text-transform: uppercase;
+            background: $grey;
+            color: white;
+        }
+
+        tr.pricing3 {
+            background: $medgrey;
+            color: black;
+        }
+
+        tr.pricing4 {
+            background: white;
+
+            td {
+                vertical-align: top;
+            }
+        }
+    }
