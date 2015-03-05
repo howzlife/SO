@@ -21,7 +21,7 @@ $(function() {
 	});
     $('.purchaseorder-vendor .vendor-select').on('click', '.small-btn', function() {
         $('.purchaseorder-vendor .vendor-select select').show();
-        $('.purchaseorder-vendor .vendor-change .small-btn, .purchaseorder-vendor .vendor-select .vendor-details, .purchaseorder .buttons .btn-email').hide();
+        $('.purchaseorder-vendor .vendor-select .vendor-details').hide();
     });
 
 	var formChanged = false;
