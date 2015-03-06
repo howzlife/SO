@@ -1,8 +1,8 @@
 = simple_form_for @purchase_order do |f|
-	- if action_name == "edit"
-		= render :partial => "shared/header", :locals => {:title => @purchase_order.number, :icon => "fa-pencil-square-o", :hasbutton => true, :button => "Edit PO"}
+	- if @purchase_order.status == "draft"
+		= render :partial => "shared/header", :locals => {:title => @purchase_order.number, :icon => "fa-pencil-square-o", :hasbutton => true, :button => "Edit PO", :hasstatus => true, :status => @purchase_order.status }
 	- else
-		= render :partial => "shared/header", :locals => {:title => "New Purchase Order",:icon => "fa-pencil-square-o", :hasbutton => true, :button => "New PO"}
+		= render :partial => "shared/header", :locals => {:title => "New Purchase Order",:icon => "fa-pencil-square-o", :hasbutton => true, :button => "New PO" }
 	- if @purchase_order.errors.any?
 		#error_explanation
 			%h2= "#{pluralize(@purchase_order.errors.count, "error")} prohibited this purchase_order from being saved:"

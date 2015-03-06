@@ -67,11 +67,59 @@ h1,h2,h3,h4,h5,h6
 .credits
 	display: none
 
+
+
 .buttons
 	text-align: right
 	margin: 15px 0 0 0
 	.btn
 		margin-left: 10px
+		-webkit-box-sizing: border-box
+		-moz-box-sizing: border-box
+		box-sizing: border-box
+		vertical-align: top
+	.link
+		-webkit-display: none
+		background: none
+		outline: none
+		border: none
+		color: #fff
+		font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B',sans-serif
+		padding: 0
+		margin: 0
+		font-size: 14px
+		line-height: 21px
+		cursor: pointer
+		display: block
+		&:hover
+			span
+				text-decoration: underline
+	.elipsis
+		padding: 7px 10px 7px 12px
+		font-size: 21px
+		line-height: 21px
+		border-radius: 0
+		letter-spacing: 2px
+		color: $default-blue
+		border: 1px solid $default-blue
+		height: 33px
+		.tool-tip
+			width: 140px
+			&.left-align
+				left: -2px
+				&:after
+					left: 25px
+					right: auto
+			&.right-align
+				right: -2px
+				&:after
+					right: 20px
+					left: auto
+
+		&:hover
+			.tool-tip
+				display: block
+				top: 40px
 	form
 		display: inline
 	.loading
@@ -233,6 +281,30 @@ h1
 	font-weight: 500
 	font-size: 20px
 
+.pager
+	float: right
+	margin-left: 20px
+	border: 1px solid $default-grey
+	.vdivider
+		float: left
+		border-left: 1px solid $default-grey
+		vertical-align: top
+		height: 31px
+	a, span
+		float: left
+		padding: 7px 12px
+	a
+		text-decoration: none
+		&:hover
+			background: $light-grey
+	&:after
+		content: "."
+		display: block
+		clear: both
+		visibility: hidden
+		line-height: 0
+		height: 0	
+
 .tool-tip
 	display: none
 	position: absolute
@@ -292,30 +364,6 @@ h1
 		font-weight: 500
 	.details
 		margin: 0 0 4px 0
-
-.pager
-	float: right
-	margin-left: 20px
-	border: 1px solid $default-grey
-	.vdivider
-		float: left
-		border-left: 1px solid $default-grey
-		vertical-align: top
-		height: 31px
-	a, span
-		float: left
-		padding: 7px 12px
-	a
-		text-decoration: none
-		&:hover
-			background: $light-grey
-	&:after
-		content: "."
-		display: block
-		clear: both
-		visibility: hidden
-		line-height: 0
-		height: 0	
 
 .app-header
 	width: 100%
@@ -453,8 +501,11 @@ h1
 		.buttons
 			float: right
 			margin: 0
-			div
+			.btn, .pager
 				display: inline-block
+			.button_to
+				div
+					display: inline-block
 		h2
 			font-size: 24px
 			font-weight: 400
@@ -774,10 +825,24 @@ h1
 				border-left: 1px solid #dedfe3
 			.section
 				margin: 10px 0 0 0
-	.purchaseorder.saved
-		background-image: asset-url("po-sent.png", image)
-		background-position: bottom left
-		background-repeat: repeat-x
+		&.cancelled
+			.purchaseorder-description
+				position: relative
+				&:after
+					content: 'This Order is Cancelled'
+					font-weight: 700
+					font-size: 60px
+					text-align: center
+					position: absolute
+					top: 165px
+					color: $status-cancelled
+					opacity: .1
+					width: 100%
+					margin-left: -25px
+					-ms-transform: rotate(-15deg)
+					-webkit-transform: rotate(-15deg)
+					transform: rotate(-15deg)
+
 	.section
 		.section-description
 			float: left
