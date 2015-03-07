@@ -10,15 +10,15 @@ class PDFMailer < ActionMailer::Base
   def send_pdf(purchase_order, company, current_user)
 
 		#create instance variables
-		@purchaComse_order = purchase_order
-    @company = company
+		@purchase_order = purchase_order
+		@company = company
 
 		ponumber = @purchase_order.number
 		a = @purchase_order.address
 
   	#create PDFS
-    byebug
-	  pdf_html = '<!DOCTYPE html>
+		byebug
+		pdf_html = '<!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -184,7 +184,7 @@ font-size: 11px;
           </div>
           <div class="purchaseorder-number">
             <div class="text-label">Purchase Order</div>
-            <div class="number">'+ponumber+'</div>
+            <div class="number">'+@purchase_order.number.to_s+'</div>
             <div class="section">
               <div class="text-label">Date</div>
               <div class="date">'+@purchase_order.date.strftime("%B #{@purchase_order.date.day.ordinalize}, %Y")+'</div>
