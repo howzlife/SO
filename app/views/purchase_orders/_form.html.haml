@@ -74,7 +74,7 @@
 			.purchaseorder-description
 				.text-label Description
 			.purchaseorder-input
-				= f.label :description
+				= f.label :description, :name => "description"
 				= f.text_area :description, :placeholder => "enter your order information..."
 			.purchaseorder-deliverto.clear
 				.to
@@ -112,10 +112,43 @@
 						= a['agent']
 
 		.buttons
-			= button_tag(type: 'submit', :name => "status", :value => "email", :data => { :confirm => 'Are you sure? Once you email this purchase order, you will not be able to edit its contents.' }, class: "btn") do
-				%span.text Send by Email
-			= button_tag(type: 'submit', :name => "status", :value => "fax", :data => { :confirm => 'Are you sure? Once you fax this purchase order, you will not be able to edit its contents.' }, class: "btn") do
-				%span.text Send by Fax
+			- if @purchase_order.status == nil || @purchase_order.status == "draft" || @purchase_order.status == "closed"
+				= button_tag(type: 'submit', :name => "status", :value => "open", class: "btn btn-add") do
+					%i.fa.fa-save.fa-fw
+					%span.text Mark As Open
+			- if @purchase_order.status == nil
+				= link_to purchase_orders_path, method: 'get', class: 'btn btn-danger' do
+					%i.fa.fa-undo.fa-fw
+					%span.text Discard
+			- elsif @purchase_order.status == "draft"
+				= link_to purchase_order_path, method: 'delete', class: 'btn btn-danger left' do
+					%i.fa.fa-trash.fa-fw
+					%span.text Discard
+			-if @purchase_order.status == nil
+				= button_tag(type: 'submit', :name => "status", :value => "draft", class: "btn btn-add") do
+					%i.fa.fa-save.fa-fw
+					%span.text Save As Draft
+			-elsif @purchase_order.status == "draft"
+				= button_tag(type: 'submit', :name => "status", :value => "save", class: "btn btn-add") do
+					%i.fa.fa-save.fa-fw
+					%span.text Save Changes
+			- if @purchase_order.status == "draft"
+				= button_tag(type: 'submit', :name => "status", :value => "cancel_changes", class: "btn btn-add") do
+					%i.fa.fa-save.fa-fw
+					%span.text Cancel Changes
+			= button_tag(type: 'submit', :name => "status", :value => "print", class: "btn btn-edit edit-print") do
+				%i.fa.fa-print.fa-fw
+				%span.text Print
+			= button_tag(type: 'submit', :name => "status", :value => "email", :data => { :confirm => 'Are you sure? Once you email this purchase order, you will not be able to edit its contents.' }, class: "btn", id: "btn-send-email") do
+				%i.fa.fa-envelope-o.fa-fw
+				%span.text Send As Email
+			= button_tag(type: 'submit', :name => "status", :value => "fax", :data => { :confirm => 'Are you sure? Once you fax this purchase order, you will not be able to edit its contents.' }, class: "btn", id: "btn-send-fax") do
+				%i.fa.fa-fax.fa-fw
+				%span.text Send As Fax
+			- if @purchase_order.status == "open"
+				= link_to purchase_order_path, method: 'delete', class: 'btn btn-danger left' do
+					%i.fa.fa-trash.fa-fw
+					%span.text Delete
 
 	.divider.no-print
 	.wrapper.section.clear.no-print

@@ -44,6 +44,5 @@ class User
 
   belongs_to :company
   has_one :subscription
-  has_many :faxes
 
 end

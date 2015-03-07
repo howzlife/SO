@@ -12,7 +12,7 @@ class PurchaseOrder
   field :archived, type: Boolean
   field :was_deleted, type: Boolean
 
-  validates_presence_of :number, :date, :description, :vendor
+  validates_presence_of :number, :date, :description, :vendor, :status
 
   embeds_one :vendor, as: :vendorable, autobuild: true
   embeds_many :comments

@@ -11,7 +11,7 @@
 	#purchaseorder.card.purchaseorder{class: "#{@purchase_order.status}"}
 		.purchaseorder-header.clear
 			.purchaseorder-company
-				= @company.name
+				=@company.name
 			.purchaseorder-address
 				=@company.name
 				%br
@@ -76,6 +76,42 @@
 					
 	.buttons
 		= simple_form_for @purchase_order, url: purchase_order_path do |f|
+
+			- if @purchase_order.status == "open" && @purchase_order.archived != true && @purchase_order.was_deleted != true
+				= button_tag(type: 'submit', :name => "status", :value => "closed", :data => { :confirm => 'Are you sure?' }, class: "btn btn-close") do
+					%i.fa.fa-times.fa-fw
+					%span.text Mark as Closed
+				= button_tag(type: 'submit', :name => "status", :value => "cancelled", :data => { :confirm => 'Are you sure?' }, class: "btn btn-close") do
+					%i.fa.fa-times.fa-fw
+					%span.text Cancel PO
+			- if @purchase_order.was_deleted != true 
+				= button_tag(type: 'submit', :name => "status", :value => "duplicate", :data => { :confirm => 'Are you sure?' }, class: "btn btn-duplicate", id: "duplicate-as-new-btn") do
+					%i.fa.fa-times.fa-fw
+					%span.text Duplicate As New
+			- if @purchase_order.status == "cancelled" && @purchase_order.archived != true && @purchase_order.was_deleted != true
+				= button_tag(type: 'submit', :name => "status", :value => "deleted", :data => { :confirm => 'Are you sure?' }, class: "btn btn-close") do
+					%i.fa.fa-minus-circle.fa-fw
+					%span.text Delete
+			- if @purchase_order.status == "closed" && @purchase_order.archived != true			
+				= button_tag(type: 'submit', :name => "status", :value => "open", :data => { :confirm => 'Are you sure?' }, class: "btn") do
+					%i.fa.fa-times.fa-fw
+					%span.text Mark as Open
+			- if @purchase_order.archived != true && @purchase_order.was_deleted != true && (@purchase_order.status == "closed" || @purchase_order.status == "cancelled")
+				= button_tag(type: 'submit', :name => "status", :value => "archive", :data => { :confirm => 'Are you sure?' }, class: "btn btn-cancel") do
+					%i.fa.fa-trash.fa-fw
+					%span.text Archive
+			- if @purchase_order.archived == true
+				= button_tag(type: 'submit', :name => "status", :value => "unarchive", :data => { :confirm => 'Are you sure?' }, class: "btn btn-cancel") do
+					%i.fa.fa-trash.fa-fw
+					%span.text UnArchive
+			-if @purchase_order.was_deleted == true
+				= button_tag(type: 'submit', :name => "status", :value => "undelete", class: "btn btn-cancel") do
+					%i.fa.fa-trash.fa-fw
+					%span.text UnDelete
+
+	.credits
+		%p= 'Created with Swiftorders -- swiftorders.com'
+
 			- if @purchase_order.archived != true && @purchase_order.was_deleted != true
 				- if @purchase_order.status == "open"
 					= button_tag(type: 'submit', :name => "status", :value => "fax", :data => { :confirm => 'Are you sure?' }, class: "btn") do
@@ -87,3 +123,4 @@
 						%span.text Resend Cancellation Fax
 					= button_tag(type: 'submit', :name => "status", :value => "email", :data => { :confirm => 'Are you sure?' }, class: "btn") do
 						%span.text Resend Cancellation Email
+

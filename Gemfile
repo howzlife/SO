@@ -77,6 +77,10 @@ gem 'phaxio'
 
 # responder gem to set response message, and clean up my controllers!
 gem 'responders'
+
+# spring gem to speed up rspec tests
+gem 'spring-commands-rspec', group: :development
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -101,6 +105,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'better_errors'
   gem 'capybara'
+  gem 'byebug'
 end
 
 group :test do
