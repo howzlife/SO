@@ -1,10 +1,13 @@
 -hasbutton = false if local_assigns[:hasbutton].nil?
+-hasstatus = false if local_assigns[:hasstatus].nil?
 
 .page-header.clear
 	.title
 		%h2
 			%i{:class => "fa #{icon} fa-fw"}
 			= title
+			-if hasstatus
+				%span{class: "label status-#{status}"}= status.capitalize
 	-if hasbutton
 		.buttons
 			-if button == "Create New PO"
@@ -12,19 +15,27 @@
 					%span.text Create New PO
 				= render :partial => "purchase_orders/pager"
 			-elsif button == "New PO"
-				= button_tag(type: 'submit', :name => "status", :value => "open", class: "btn btn-add") do
-					%span.text Mark As Open
-				= button_tag(type: 'submit', :name => "status", :value => "cancel_changes", class: "btn btn-print") do
-					%span.text Print
+				.elipsis.btn
+					%span.text
+						&middot;&middot;&middot;
+					.tool-tip.below.left-align
+						= button_tag(type: 'submit', :name => "status", :value => "open", class: "link") do
+							%span.text Mark As Open
+						= button_tag(type: 'submit', :name => "status", :value => "cancel_changes", class: "link btn-print") do
+							%span.text Print
 				= link_to purchase_orders_path, class: 'btn btn-danger' do
 					%span.text Discard
 				= button_tag(type: 'submit', :name => "status", :value => "draft", class: "btn btn-save") do
 					%span.text Save as Draft
 			-elsif button == "Edit PO"
-				= button_tag(type: 'submit', :name => "status", :value => "open", class: "btn btn-add") do
-					%span.text Mark As Open
-				= button_tag(type: 'submit', :name => "status", :value => "cancel_changes", class: "btn btn-print") do
-					%span.text Print
+				.elipsis.btn
+					%span.text
+						&middot;&middot;&middot;
+					.tool-tip.below.left-align
+						= button_tag(type: 'submit', :name => "status", :value => "open", class: "link") do
+							%span.text Mark As Open
+						= button_tag(type: 'submit', :name => "status", :value => "cancel_changes", class: "link btn-print") do
+							%span.text Print
 				= link_to @purchase_orders, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger' do
 					%span.text Discard
 				= link_to purchase_orders_path, class: 'btn btn-danger' do
@@ -33,44 +44,60 @@
 					%span.text Save Changes
 			-elsif button == "Open PO"
 				= simple_form_for @purchase_order, url: purchase_order_path do |f|
-					- if @purchase_order.status == "open" && @purchase_order.archived != true && @purchase_order.was_deleted != true
-						= button_tag(type: 'submit', :name => "status", :value => "cancelled", :data => { :confirm => 'Are you sure?' }, class: "btn") do
-							%span.text Cancel PO
-					- if @purchase_order.was_deleted != true 
-						= button_tag(type: 'submit', :name => "status", :value => "duplicate", :data => { :confirm => 'Are you sure?' }, class: "btn") do
-							%span.text Duplicate as New
-					= button_tag(type: 'submit', :name => "status", :value => "cancel_changes", class: "btn btn-print") do
-						%span.text Print
+					.elipsis.btn
+						%span.text
+							&middot;&middot;&middot;
+						.tool-tip.below.left-align
+							- if @purchase_order.status == "open" && @purchase_order.archived != true && @purchase_order.was_deleted != true
+								= button_tag(type: 'submit', :name => "status", :value => "cancelled", :data => { :confirm => 'Are you sure?' }, class: "link") do
+									%span.text Cancel this PO
+							- if @purchase_order.was_deleted != true 
+								= button_tag(type: 'submit', :name => "status", :value => "duplicate", :data => { :confirm => 'Are you sure?' }, class: "link") do
+									%span.text Duplicate as New
+							= button_tag(type: 'submit', :name => "status", :value => "cancel_changes", class: "link btn-print") do
+								%span.text Print
 					= button_tag(type: 'submit', :name => "status", :value => "closed", :data => { :confirm => 'Are you sure?' }, class: "btn btn-primary") do
 						%span.text Mark as Closed
 			-elsif button == "Closed PO"
 				= simple_form_for @purchase_order, url: purchase_order_path do |f|
-					= button_tag(type: 'submit', :name => "status", :value => "open", class: "btn btn-add") do
-						%span.text Mark As Open
-					= button_tag(type: 'submit', :name => "status", :value => "duplicate", :data => { :confirm => 'Are you sure?' }, class: "btn") do
-						%span.text Duplicate as New
-					= button_tag(type: 'submit', :name => "status", :value => "cancel_changes", class: "btn btn-print") do
-						%span.text Print
+					.elipsis.btn
+						%span.text
+							&middot;&middot;&middot;
+						.tool-tip.below.left-align
+							= button_tag(type: 'submit', :name => "status", :value => "open", class: "link") do
+								%span.text Mark As Open
+							= button_tag(type: 'submit', :name => "status", :value => "duplicate", :data => { :confirm => 'Are you sure?' }, class: "link") do
+								%span.text Duplicate as New
+							= button_tag(type: 'submit', :name => "status", :value => "cancel_changes", class: "link btn-print") do
+								%span.text Print
 					= button_tag(type: 'submit', :name => "status", :value => "archive", :data => { :confirm => 'Are you sure?' }, class: "btn btn-primary") do
 						%span.text Archive
 			-elsif button == "Cancelled PO"
 				= simple_form_for @purchase_order, url: purchase_order_path do |f|
-					= button_tag(type: 'submit', :name => "status", :value => "deleted", :data => { :confirm => 'Are you sure?' }, class: "btn btn-close") do
-						%span.text Delete PO
-					= button_tag(type: 'submit', :name => "status", :value => "duplicate", :data => { :confirm => 'Are you sure?' }, class: "btn") do
-						%span.text Duplicate as New
-					= button_tag(type: 'submit', :name => "status", :value => "cancel_changes", class: "btn") do
-						%span.text Print
+					.elipsis.btn
+						%span.text
+							&middot;&middot;&middot;
+						.tool-tip.below.left-align
+							= button_tag(type: 'submit', :name => "status", :value => "deleted", :data => { :confirm => 'Are you sure?' }, class: "link") do
+								%span.text Delete PO
+							= button_tag(type: 'submit', :name => "status", :value => "duplicate", :data => { :confirm => 'Are you sure?' }, class: "link") do
+								%span.text Duplicate as New
+							= button_tag(type: 'submit', :name => "status", :value => "cancel_changes", class: "link btn-print") do
+								%span.text Print
 					= button_tag(type: 'submit', :name => "status", :value => "archive", :data => { :confirm => 'Are you sure?' }, class: "btn btn-primary") do
 						%span.text Archive
 			-elsif button == "Archived PO"
 				= simple_form_for @purchase_order, url: purchase_order_path do |f|
-					= button_tag(type: 'submit', :name => "status", :value => "unarchive", :data => { :confirm => 'Are you sure?' }, class: "btn") do
-						%span.text Unarchive
-					= button_tag(type: 'submit', :name => "status", :value => "duplicate", :data => { :confirm => 'Are you sure?' }, class: "btn") do
-						%span.text Duplicate as New
-					= button_tag(type: 'submit', :name => "status", :value => "cancel_changes", class: "btn") do
-						%span.text Print
+					.elipsis.btn
+						%span.text
+							&middot;&middot;&middot;
+						.tool-tip.below.right-align
+							= button_tag(type: 'submit', :name => "status", :value => "unarchive", :data => { :confirm => 'Are you sure?' }, class: "link") do
+								%span.text Unarchive
+							= button_tag(type: 'submit', :name => "status", :value => "duplicate", :data => { :confirm => 'Are you sure?' }, class: "link") do
+								%span.text Duplicate as New
+							= button_tag(type: 'submit', :name => "status", :value => "cancel_changes", class: "link btn-print") do
+								%span.text Print
 			-elsif button == "Create New Vendor"
 				= button_to new_vendor_path, method: 'get', class: 'btn btn-primary' do
 					%span.text Create New Vendor

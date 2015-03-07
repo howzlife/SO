@@ -1,14 +1,14 @@
 - if @purchase_order.archived != true
 	- if @purchase_order.status == "closed"
-		= render :partial => "shared/header", :locals => {:title => @purchase_order.number, :icon => "fa-pencil-square-o", :hasbutton => true, :button => "Closed PO"}
+		= render :partial => "shared/header", :locals => {:title => @purchase_order.number, :icon => "fa-pencil-square-o", :hasbutton => true, :button => "Closed PO", :hasstatus => true, :status => @purchase_order.status }
 	- elsif @purchase_order.status == "open"
-		= render :partial => "shared/header", :locals => {:title => @purchase_order.number, :icon => "fa-pencil-square-o", :hasbutton => true, :button => "Open PO"}
+		= render :partial => "shared/header", :locals => {:title => @purchase_order.number, :icon => "fa-pencil-square-o", :hasbutton => true, :button => "Open PO", :hasstatus => true, :status => @purchase_order.status }
 	- else @purchase_order.status == "cancelled"
-		= render :partial => "shared/header", :locals => {:title => @purchase_order.number, :icon => "fa-pencil-square-o", :hasbutton => true, :button => "Cancelled PO"}
+		= render :partial => "shared/header", :locals => {:title => @purchase_order.number, :icon => "fa-pencil-square-o", :hasbutton => true, :button => "Cancelled PO", :hasstatus => true, :status => @purchase_order.status }
 - else
-	= render :partial => "shared/header", :locals => {:title => @purchase_order.number, :icon => "fa-pencil-square-o", :hasbutton => true, :button => "Archived PO"}
+	= render :partial => "shared/header", :locals => {:title => @purchase_order.number, :icon => "fa-pencil-square-o", :hasbutton => true, :button => "Archived PO", :hasstatus => true, :status => @purchase_order.status }
 .wrapper
-	#purchaseorder.card.purchaseorder
+	#purchaseorder.card.purchaseorder{class: "#{@purchase_order.status}"}
 		.purchaseorder-header.clear
 			.purchaseorder-company
 				=@company.name
