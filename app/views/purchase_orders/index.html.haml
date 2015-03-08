@@ -55,7 +55,7 @@
 								.divider
 								.details.contact= purchase_order.vendor.contact
 								.details.email= link_to purchase_order.vendor.email, "mailto:#{purchase_order.vendor.email}"
-								.details.telephone= purchase_order.vendor.telephone
+								.details.telephone= link_to purchase_order.vendor.telephone, "tel:#{purchase_order.vendor.telephone}"
 								.details.fax= purchase_order.vendor.fax
 						%td= purchase_order.label
 						%td
