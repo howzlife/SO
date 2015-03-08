@@ -22,20 +22,28 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
 $blue: #5883b4;
 $ltblue: #d5e1f1;
 $yellow: #fcf9f0;
+$ltyellow: #fbf7eb;
 $ltgrey: #eeeeee;
 $grey: #5e5e5e;
-$orange: #cc6011;
+$orange: #ee8132;
 $red: #800000;
 $medgrey: #c0c0c0;
+$dkgrey: #333333;
+
 
 //TYPOGRAPHY
 $pacifico: 'Pacifico', cursive;
 $helvetica: 'Helvetica W01 Italic';
 
 //Global 
+
+    html {
+        font-size: 62.5%;
+    }
 	body {
 		font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';
 		font-style: normal;
+        color: $dkgrey;
 	}
 
     html {
@@ -113,7 +121,7 @@ $helvetica: 'Helvetica W01 Italic';
         width: 100%;
 
         h2 {
-            color: black;
+            color: $dkgrey;
             span {
                 display: block;
                 font-family: 'mercury';
@@ -125,7 +133,7 @@ $helvetica: 'Helvetica W01 Italic';
 
         h3 {
             font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';;
-            color: black;
+            color: $dkgrey;
             font-size: 2.4rem;
             margin: auto;
         }
@@ -360,16 +368,23 @@ body.startPageBody {
 }
 
 //PRICING PAGE
+    .pricingHeaderSection {
+        margin: 2rem;
+    }
+
     table.pricing {
-        font-size: 2rem;
+        font-size: 1.8rem;
         margin: auto;
+        font-weight: 400;
+        
         tr {
             th {
                 padding: 1rem;
+                min-width: 26rem;
 
             }
             td {
-                padding: 2rem;
+                padding: 1.5rem 2rem;
                 ul {
                     list-style-type: none;
                     padding: 0;
@@ -387,8 +402,9 @@ body.startPageBody {
         th.popular {
             background: $orange;
             color: white;
-            font-size: 1.4rem;
-            font-weight: 300;
+            font-size: 1.27rem;
+            font-weight: 100;
+            letter-spacing: 0.05rem;
         }
 
         tr.pricing1 {
@@ -399,11 +415,30 @@ body.startPageBody {
             text-transform: uppercase;
             background: $grey;
             color: white;
+
+            th {
+                font-weight: 300;
+                font-size: 1.8rem;
+                letter-spacing: 0.08rem;
+                color: $ltyellow;
+                padding: 2.4rem;
+                padding-bottom: 1.2rem;
+            }
         }
 
         tr.pricing3 {
             background: $medgrey;
-            color: black;
+
+            td {
+                padding: 2.5rem;
+                font-weight: 100;
+
+                span {
+                    font-size: 6rem;
+                    color: $dkgrey;
+                    font-weight: 100;
+                }
+            }
         }
 
         tr.pricing4 {
@@ -412,5 +447,26 @@ body.startPageBody {
             td {
                 vertical-align: top;
             }
+        }
+
+        tr.pricing5 {
+            background: white;
+        }
+
+        th.middle, td.middle  {
+            border-right: 2.5px solid $ltgrey;
+            border-left: 2.5px solid $ltgrey;
+        }
+        th.top {
+            border-top: 2.5px solid $ltgrey;
+        }
+
+        button {
+            background: white;
+            border: 1px solid $orange;
+            padding: 1rem 3rem;
+            color: $orange;
+            font-size: 1.6rem;
+            margin-bottom: 2rem;
         }
     }
