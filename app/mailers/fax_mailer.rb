@@ -22,7 +22,7 @@ class FAXMailer < ActionMailer::Base
     @page {
     	margin: 30px; background: #ffffff;
 			@bottom { 
-          content: 'SwiftOrders takes the pain out of business purchasing. • SwiftOrders.com • Try it free for 18 days.';
+          content: 'Swiftorders takes the pain out of business purchasing. • Swiftorders.com • Try it free for 30 days.';
           font-size: 7px; color: #3895d9; font-family: sans-serif;
         }
     }
