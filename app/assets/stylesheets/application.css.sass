@@ -545,6 +545,10 @@ h1
 		li
 			display: inline-block
 			margin: 0
+			&.current
+				a
+					color: $default-blue
+					background: $light-blue
 			&.deleted
 				float: right
 				a
@@ -593,9 +597,11 @@ h1
 		padding: 0   
 		width: calc(100% - 20px)
 		tr
-			&.status-archived
+			&.archived
 				td
-					color: #ccc
+					color: $medium-grey
+					a
+						color: $medium-grey
 			&:hover
 				td
 					background: $row-hover
@@ -694,26 +700,7 @@ h1
 		padding: 25px  
 		outline: none  
 		border: 1px solid $light-grey
-		&.hastabs
-			padding: 0
-			.contents
-				padding: 25px
-			ul.tabs
-				outline: none  
-				margin: 0
-				padding: 0
-				background-color: #f5f6f7
-				list-style: none
-				li
-					display: block
-					float: left
-					border-right: 1px solid #e7e7e7
-					padding: 15px
-					&.current
-						background-color: #fff
-					a
-						text-decoration: none
-						color: #411051
+
 	.text-label
 		font-size: 13px
 		color: #333333

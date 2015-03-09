@@ -1,7 +1,7 @@
 = render :partial => "shared/header", :locals => {:title => "Purchase Orders",:icon => "fa-pencil-square-o", :hasbutton => true, :button => "Create New PO" }
 %ul.tabs.clear
-	%li{class: sp('working')}
-		=link_to 'Working POs', "?status=open"
+	%li{class: sp('all')}
+		=link_to 'Working POs'
 	%li{class: sp('draft')}
 		=link_to 'Drafts', "?status=draft"
 	%li{class: sp('open')}
@@ -45,7 +45,8 @@
 						.arrow
 			%tbody
 				- @purchase_orders.each do |purchase_order|
-					%tr{class: "status-#{purchase_order.status}"}
+					- classes = ["status-#{purchase_order.status}", ("archived" if purchase_order.archived?)]
+					%tr{class: classes}
 						%td= link_to purchase_order.number, purchase_order, :class=>"inverted-link"
 						%td= purchase_order.date.strftime("%B #{purchase_order.date.day.ordinalize}, %Y")
 						%td.vendor
@@ -60,6 +61,8 @@
 						%td= purchase_order.label
 						%td
 							%span{class: "label status-#{purchase_order.status}"}= purchase_order.status.capitalize
+
+
 					-#= %td= link_to 'Show', purchase_order
 					-#= %td= link_to 'Destroy', purchase_order, :method => :delete, :data => { :confirm => 'Are you sure?' }
 					-#= %td= link_to 'Edit', edit_purchase_order_path(purchase_order)
