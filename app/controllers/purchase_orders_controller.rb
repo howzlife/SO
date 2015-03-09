@@ -146,7 +146,7 @@ class PurchaseOrdersController < ApplicationController
       @purchase_order = @updated_po
       @purchase_order.status = "draft"
       @purchase_order.save
-      flash[:notice] = 'Success, your PO has been saved as draft' if @purchase_order.save
+      flash[:notice] = 'Success, your changes have been Saved.' if @purchase_order.save
       respond_with(@purchase_order)
 
     elsif params[:status] == "cancel_changes"
@@ -157,6 +157,7 @@ class PurchaseOrdersController < ApplicationController
       @purchase_order.update_attribute(:status, "closed") 
       flash[:notice] = "Purchase Order has been Closed." if @purchase_order.save
       respond_with(@purchase_order)
+
     elsif params[:status] == "cancelled"
       @purchase_order.update_attribute(:status, "cancelled")
       flash[:notice] = "Purchase Order has been Cancelled" if @purchase_order.save
