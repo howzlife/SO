@@ -1,6 +1,5 @@
 class PurchaseOrdersController < ApplicationController
   require 'pdf_mailer'
-  require 'send_pdf'
   require 'format_po_fax'
   before_action :set_purchase_order, only: [:show, :edit, :update, :destroy]
   before_action :has_company_info, only: [:new]
@@ -63,6 +62,7 @@ class PurchaseOrdersController < ApplicationController
 
         ## Response for send by Fax or Email 
         if params[:status] == "email"
+          byebug
      			PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
           @purchase_order.status = "open"
           flash[:notice] = 'Success, your PO has been sent by Email.' if @purchase_order.save
@@ -113,6 +113,7 @@ class PurchaseOrdersController < ApplicationController
     
     #Email and Fax actions, to actually resend the information
     if params[:status] == "email"
+      byebug
       PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
       @purchase_order.update_attribute(:status, "open")   
       flash[:notice] = "Success, your PO has been sent by Email." if @purchase_order.save

@@ -110,8 +110,8 @@
 					%span.text UnDelete
 
 	.credits
-		%p= 'Created with Swiftorders -- swiftorders.com'
-
+		%p=# 'Created with Swiftorders -- swiftorders.com'
+		%p
 			- if @purchase_order.archived != true && @purchase_order.was_deleted != true
 				- if @purchase_order.status == "open"
 					= button_tag(type: 'submit', :name => "status", :value => "fax", :data => { :confirm => 'Are you sure?' }, class: "btn") do

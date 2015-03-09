@@ -8,16 +8,14 @@ class PDFMailer < ActionMailer::Base
   default from: "from@example.com"
 
   def send_pdf(purchase_order, company, current_user)
-
+    
 		#create instance variables
-		@purchaComse_order = purchase_order
+    @purchase_order = purchase_order
     @company = company
-
-		ponumber = @purchase_order.number
-		a = @purchase_order.address
+    ponumber = @purchase_order.number
+    a = @purchase_order.address
 
   	#create PDFS
-    byebug
 	  pdf_html = '<!DOCTYPE html>
 <html>
   <head>
