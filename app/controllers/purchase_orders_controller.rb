@@ -58,6 +58,7 @@ class PurchaseOrdersController < ApplicationController
     @pop = organize_purchase_order_params(purchase_order_params)	
     @purchase_order = @company.purchase_orders.build(@pop)
     @company.labels.find_or_create_by(name: @purchase_order.label)
+    @purchase_order.status = "draft"
     @purchase_order.save
 
         ## Response for send by Fax or Email 
