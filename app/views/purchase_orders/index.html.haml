@@ -1,7 +1,7 @@
 = render :partial => "shared/header", :locals => {:title => "Purchase Orders",:icon => "fa-pencil-square-o", :hasbutton => true, :button => "Create New PO" }
 %ul.tabs.clear
-	%li{class: sp('all')}
-		=link_to 'Working POs'
+	%li{class: sp('working')}
+		=link_to 'All POs', "?all=true"
 	%li{class: sp('draft')}
 		=link_to 'Drafts', "?status=draft"
 	%li{class: sp('open')}
