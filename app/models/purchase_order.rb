@@ -28,6 +28,20 @@ class PurchaseOrder
     end
   end
 
+  def self.search2(company_id, status:, label:, search: '', archived: nil, was_deleted: nil)
+    if search
+      # status(company_id, status).label(company_id, label)
+      # was_deleted = false if status == "cancelled"
+      # where(company_id: company_id, status: status, label: label, archived: archived, was_deleted: was_deleted)
+      if was_deleted == true
+        where(company_id: company_id, status: status) #, label: label, archived: archived, was_deleted: was_deleted)
+      else 
+        where(company_id: company_id, status: status, label: label, archived: archived, was_deleted: was_deleted)
+      end
+    end
+    
+  end
+
   def self.status(company_id, status)
     if status
       where(company_id: company_id, status: status)
@@ -45,6 +59,6 @@ class PurchaseOrder
   end
 
   def self.was_deleted(company_id)
-    where(company_id: company_id, was_deleted: true)
+    where(company_id: company_id, status: "cancelled", was_deleted: true)
   end
 end

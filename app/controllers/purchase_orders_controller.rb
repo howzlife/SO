@@ -11,22 +11,46 @@ class PurchaseOrdersController < ApplicationController
 
   # GET /purchase_orders
   # GET /purchase_orders.json
+  # def index
+  #   @company = current_user.company
+  #   if params["q"].blank? && params["status"].blank? && params["label"].blank? && params["archived"].blank? 
+  #     @purchase_orders = @company.purchase_orders.active.page params[:page]
+  #   else
+  #   	if params.has_key?("status")
+	 #      @purchase_orders = PurchaseOrder.status(@company.id, params["status"]).page params[:page]
+	 #    elsif params.has_key?("label")
+	 #      @purchase_orders = PurchaseOrder.label(@company.id, params["label"]).page params[:page]
+  #     elsif params.has_key?("archived")
+  #       @purchase_orders = PurchaseOrder.archived(@company.id).page params[:page]
+  #     elsif params.has_key?("was_deleted")
+  #       @purchase_orders = PurchaseOrder.was_deleted(@company.id).page params[:page]
+  #     elsif params.has_key?("q")
+  #       @purchase_orders = PurchaseOrder.search(@company.id, params["q"]).page params[:page]
+	 #    end
+  #   end
+  # end
+
+  # purchase_orders?status=open&archived=true
   def index
+    puts "params = #{params.inspect}"
     @company = current_user.company
-    if params["q"].blank? && params["status"].blank? && params["label"].blank? && params["archived"].blank? 
+    if params["q"].blank? && params["status"].blank? && params["label"].blank? && params["archived"].blank? && params['was_deleted'].blank?
       @purchase_orders = @company.purchase_orders.active.page params[:page]
     else
-    	if params.has_key?("status")
-	      @purchase_orders = PurchaseOrder.status(@company.id, params["status"]).page params[:page]
-	    elsif params.has_key?("label")
-	      @purchase_orders = PurchaseOrder.label(@company.id, params["label"]).page params[:page]
+      if params.has_key?("all")
+        # @purchase_orders = PurchaseOrder.status(@company.id, params["status"]).page params[:page]
+        @purchase_orders = PurchaseOrder.search2(@company.id, status: params["status"], label: params.fetch(:label, ''), archived: params.fetch(:archived, nil), was_deleted: params.fetch(:was_deleted, nil)).page(params[:page])
+      elsif params.has_key?("status")
+        @purchase_orders = PurchaseOrder.status(@company.id, params["status"]).page params[:page]
+      elsif params.has_key?("label")
+        @purchase_orders = PurchaseOrder.label(@company.id, params["label"]).page params[:page]
       elsif params.has_key?("archived")
         @purchase_orders = PurchaseOrder.archived(@company.id).page params[:page]
       elsif params.has_key?("was_deleted")
         @purchase_orders = PurchaseOrder.was_deleted(@company.id).page params[:page]
       elsif params.has_key?("q")
         @purchase_orders = PurchaseOrder.search(@company.id, params["q"]).page params[:page]
-	    end
+      end
     end
   end
 
@@ -177,6 +201,7 @@ class PurchaseOrdersController < ApplicationController
       @purchase_order.update_attribute(:was_deleted, false)
       flash[:notice] = "Purchase Order has been Un-Deleted." if @purchase_order.save
       respond_with(@purchase_order)
+
     elsif params[:status] == "archive"
       @purchase_order.update_attribute(:archived, true)
       flash[:notice] = "Purchase Order has been Archived." if @purchase_order.save
