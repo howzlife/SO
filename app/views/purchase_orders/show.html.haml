@@ -8,6 +8,12 @@
 - else
 	= render :partial => "shared/header", :locals => {:title => @purchase_order.number, :icon => "fa-pencil-square-o", :hasbutton => true, :button => "Archived PO", :hasstatus => true, :status => @purchase_order.status }
 .wrapper
+	- if @purchase_order.archived == true
+		.archived.message
+			This PO was archived on March 9, 2015.
+	- elsif @purchase_order.was_deleted == true
+		.deleted.message
+			This PO was deleted on March 9, 2015.
 	#purchaseorder.card.purchaseorder{class: "#{@purchase_order.status}"}
 		.purchaseorder-header.clear
 			.purchaseorder-company

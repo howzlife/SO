@@ -47,6 +47,7 @@ body
 	color: #5e5e5e
 	text-rendering: optimizeLegibility
 	-webkit-font-smoothing: antialiased
+	min-width: 1120px
 body.splash
 	height: auto
 	background: #ebeef0
@@ -482,6 +483,16 @@ h1
 	.divider
 		margin: 20px 10px
 
+
+.message
+	text-align: center
+	border: 1px solid $medium-grey
+	background: $light-grey
+	padding: 8px
+	margin: 0 -15px 10px 0
+	&.deleted
+		color: $status-cancelled
+	
 
 .content
 	float: left
