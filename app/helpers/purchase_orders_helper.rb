@@ -220,6 +220,7 @@ font-size: 11px;
 	
   return pdf_html
 	end
+  
   def send_po_fax(purchase_order)
       ponumber = @purchase_order.number
       a = @purchase_order.address

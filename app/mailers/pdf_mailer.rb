@@ -202,7 +202,7 @@ font-size: 11px;
         <div class="purchaseorder-description">
           <div class="text-label">Description</div>
         </div>
-        <div class="purchaseorder-input">'+simple_format(@purchase_order.description)+'</div>
+        <div class="purchaseorder-input">'+ simple_format(@purchase_order.description)+'</div>
         <div class="purchaseorder-deliverto clear">
           <div class="to">
             <div class="text-label">Ship To</div>
