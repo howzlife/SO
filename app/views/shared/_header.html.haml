@@ -21,7 +21,7 @@
 					.tool-tip.below.left-align
 						= button_tag(type: 'submit', :name => "status", :value => "open", class: "link") do
 							%span.text Mark As Open
-						= button_tag(type: 'submit', :name => "status", :value => "cancel_changes", class: "link btn-print") do
+						= button_tag(type: 'submit', :name => "status", :value => "print", class: "link btn-print edit-print") do
 							%span.text Print
 				= link_to purchase_orders_path, class: 'btn btn-danger' do
 					%span.text Discard
@@ -34,13 +34,13 @@
 					.tool-tip.below.left-align
 						= button_tag(type: 'submit', :name => "status", :value => "open", class: "link") do
 							%span.text Mark As Open
-						= button_tag(type: 'submit', :name => "status", :value => "cancel_changes", class: "link btn-print") do
+						= button_tag(type: 'submit', :name => "status", :value => "print", class: "link btn-print show-print") do
 							%span.text Print
 				= link_to @purchase_orders, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger' do
 					%span.text Discard
-				= link_to purchase_orders_path, class: 'btn btn-danger' do
+				= button_tag(type: 'submit', :name => 'status', :value => 'cancel_changes', class: 'btn btn-danger') do
 					%span.text Cancel Changes
-				= button_tag(type: 'submit', class: "btn btn-save") do
+				= button_tag(type: 'submit', :name => "status", :value => "save", class: "btn btn-save") do
 					%span.text Save Changes
 			-elsif button == "Open PO"
 				= simple_form_for @purchase_order, url: purchase_order_path do |f|
@@ -54,7 +54,7 @@
 							- if @purchase_order.was_deleted != true 
 								= button_tag(type: 'submit', :name => "status", :value => "duplicate", :data => { :confirm => 'Are you sure?' }, class: "link") do
 									%span.text Duplicate as New
-							= button_tag(type: 'submit', :name => "status", :value => "cancel_changes", class: "link btn-print") do
+							= button_tag(type: 'submit', :name => "status", :value => "print", class: "link btn-print show-print") do
 								%span.text Print
 					= button_tag(type: 'submit', :name => "status", :value => "closed", :data => { :confirm => 'Are you sure?' }, class: "btn btn-primary") do
 						%span.text Mark as Closed
@@ -68,7 +68,7 @@
 								%span.text Mark As Open
 							= button_tag(type: 'submit', :name => "status", :value => "duplicate", :data => { :confirm => 'Are you sure?' }, class: "link") do
 								%span.text Duplicate as New
-							= button_tag(type: 'submit', :name => "status", :value => "cancel_changes", class: "link btn-print") do
+							= button_tag(type: 'submit', :name => "status", :value => "print", class: "link btn-print show-print") do
 								%span.text Print
 					= button_tag(type: 'submit', :name => "status", :value => "archive", :data => { :confirm => 'Are you sure?' }, class: "btn btn-primary") do
 						%span.text Archive
@@ -82,7 +82,7 @@
 								%span.text Delete PO
 							= button_tag(type: 'submit', :name => "status", :value => "duplicate", :data => { :confirm => 'Are you sure?' }, class: "link") do
 								%span.text Duplicate as New
-							= button_tag(type: 'submit', :name => "status", :value => "cancel_changes", class: "link btn-print") do
+							= button_tag(type: 'submit', :name => "status", :value => "print", class: "link btn-print show-print") do
 								%span.text Print
 					= button_tag(type: 'submit', :name => "status", :value => "archive", :data => { :confirm => 'Are you sure?' }, class: "btn btn-primary") do
 						%span.text Archive
@@ -96,7 +96,7 @@
 								%span.text Unarchive
 							= button_tag(type: 'submit', :name => "status", :value => "duplicate", :data => { :confirm => 'Are you sure?' }, class: "link") do
 								%span.text Duplicate as New
-							= button_tag(type: 'submit', :name => "status", :value => "cancel_changes", class: "link btn-print") do
+							= button_tag(type: 'submit', :name => "status", :value => "print", class: "link btn-print show-print") do
 								%span.text Print
 			-elsif button == "Create New Vendor"
 				= button_to new_vendor_path, method: 'get', class: 'btn btn-primary' do
