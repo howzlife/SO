@@ -28,7 +28,8 @@ class CompaniesController < ApplicationController
 
   def update
     @company.update(company_params)
-    respond_with(@company)
+    #respond_with(@company)
+    redirect_to action: "edit"
   end
 
   # def destroy
@@ -42,6 +43,6 @@ class CompaniesController < ApplicationController
     end
 
     def company_params
-      params.require(:company).permit(:name, :email, :fax, :telephone, :prefix, addresses_attributes: [:name, :address, :telephone, :agent])
+      params.require(:company).permit(:name, :email, :fax, :telephone, :prefix, :sendfromname, addresses_attributes: [:name, :address, :telephone, :agent])
     end
 end

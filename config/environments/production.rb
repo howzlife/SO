@@ -76,7 +76,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'powerful-chamber-1551.herokuapp.com' }
   config.action_mailer.default_options = {  :from => "no-reply@swiftorders-staging.com" }
   config.action_mailer.smtp_settings = { 
-    address:              'smtp.sendgrid.net',
+    address:              'smtp.mandrillapp.com',
     port:                 587,
     domain:               'powerful-chamber-1551.heroku.com',
     user_name:            ENV['MANDRILL_USERNAME'],
