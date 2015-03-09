@@ -126,5 +126,12 @@
 						%span.text Resend Cancellation Fax
 					= button_tag(type: 'submit', :name => "status", :value => "email", :data => { :confirm => 'Are you sure?' }, class: "btn") do
 						%span.text Resend Cancellation Email
-	.credits
-		%p= 'Created with Swiftorders -- swiftorders.com'
+= simple_form_for @purchase_order do |f|
+	.divider.no-print
+	.wrapper.section.clear.no-print
+		.section-description
+			%h3 Internal Use
+			%p Use this area to add additional information about this purchase order.
+		.section-content
+			.card
+				= f.input :label, label: 'Label', :placeholder => "enter a label..."
