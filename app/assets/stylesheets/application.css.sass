@@ -376,6 +376,9 @@ h1
 		.title
 			float: left
 			margin: 0 0 0 180px
+			a
+				color: #fff
+				text-decoration: none
 		.user
 			float: right
 			text-align: right
@@ -600,7 +603,7 @@ h1
 			&.archived
 				td
 					color: $medium-grey
-					a
+					a.inverted-link
 						color: $medium-grey
 			&:hover
 				td
@@ -717,6 +720,7 @@ h1
 		-webkit-box-sizing: border-box
 		-moz-box-sizing: border-box
 		box-sizing: border-box
+		text-transform: capitalize
 		&.status-open
 			color: $status-open
 			border: 1px solid $status-open

@@ -2,7 +2,8 @@
 	.wrapper
 		.title
 			%h1
-				= @company.name
+				= link_to purchase_orders_path do
+					= @company.name
 		.user
 			%span.name
 				= link_to edit_user_registration_path do

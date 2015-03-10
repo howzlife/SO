@@ -1,6 +1,6 @@
 = render :partial => "shared/header", :locals => {:title => "Purchase Orders",:icon => "fa-pencil-square-o", :hasbutton => true, :button => "Create New PO" }
 %ul.tabs.clear
-	%li{class: sp('working')}
+	%li{class: sp('all')}
 		=link_to 'All POs', "?all=true"
 	%li{class: sp('draft')}
 		=link_to 'Drafts', "?status=draft"
@@ -58,7 +58,7 @@
 								.details.fax= purchase_order.vendor.fax
 						%td= purchase_order.label
 						%td
-							%span{class: "label status-#{purchase_order.status}"}= purchase_order.status.capitalize
+							%span{class: "label status-#{purchase_order.status}"}= purchase_order.status
 
 
 					-#= %td= link_to 'Show', purchase_order
