@@ -106,10 +106,10 @@
 			/ 	= button_tag(type: 'submit', :name => "status", :value => "archive", :data => { :confirm => 'Are you sure?' }, class: "btn btn-cancel") do
 			/ 		%i.fa.fa-trash.fa-fw
 			/ 		%span.text Archive
-			- if @purchase_order.archived == true
-				= button_tag(type: 'submit', :name => "status", :value => "unarchive", :data => { :confirm => 'Are you sure?' }, class: "btn btn-cancel") do
-					%i.fa.fa-trash.fa-fw
-					%span.text UnArchive
+			/- if @purchase_order.archived == true
+			/	= button_tag(type: 'submit', :name => "status", :value => "unarchive", :data => { :confirm => 'Are you sure?' }, class: "btn btn-cancel") do
+			/		%i.fa.fa-trash.fa-fw
+			/		%span.text UnArchive
 			-if @purchase_order.was_deleted == true
 				= button_tag(type: 'submit', :name => "status", :value => "undelete", class: "btn btn-cancel") do
 					%i.fa.fa-trash.fa-fw
