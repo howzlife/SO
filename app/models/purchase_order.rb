@@ -29,14 +29,17 @@ class PurchaseOrder
   end
 
   def self.search2(company_id, status:, label:, search: '', archived: nil, was_deleted: nil)
+    puts "[#search2] status = #{status}, label = #{label}, search = #{search}, archived = #{archived}, was_deleted = #{was_deleted}"
     if search
       # status(company_id, status).label(company_id, label)
       # was_deleted = false if status == "cancelled"
       # where(company_id: company_id, status: status, label: label, archived: archived, was_deleted: was_deleted)
       if was_deleted == true
-        where(company_id: company_id, status: status) #, label: label, archived: archived, was_deleted: was_deleted)
+        all(company_id: company_id, status: status) #, label: label, archived: archived, was_deleted: was_deleted)
       else 
-        where(company_id: company_id, status: status, label: label, archived: archived, was_deleted: was_deleted)
+        # where(company_id: company_id, status: status, label: label, archived: archived, was_deleted: was_deleted)
+        # Searches for all of these keys at the same time.. so some statuses will be missing some results.
+        all(company_id: company_id, status: status, label: label, archived: archived, was_deleted: was_deleted)
       end
     end
     

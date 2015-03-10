@@ -31,10 +31,26 @@ class PurchaseOrdersController < ApplicationController
   # end
 
   # purchase_orders?status=open&archived=true
+  # def index
+  #   puts "params = #{params.inspect}"
+  #   @company = current_user.company
+  #   if params["q"].blank? && params["status"].blank? && params["label"].blank? && params["archived"].blank? && params['was_deleted'].blank?
+  #     @purchase_orders = @company.purchase_orders.active.page params[:page]
+  #   elsif params["all"]
+  #     @purchase_orders = @company.purchase_orders.active.page params[:page]
+  #   else
+  #     # @purchase_orders = @company.purchase_orders.active.page params[:page]
+  #     # @purchase_orders = PurchaseOrder.status(@company.id, params["status"]).page params[:page]
+  #     @purchase_orders = PurchaseOrder.search2(@company.id, status: params["status"], label: params.fetch(:label, ''), archived: params.fetch(:archived, nil), was_deleted: params.fetch(:was_deleted, nil)).page(params[:page])
+  #   end
+  # end
+
   def index
     puts "params = #{params.inspect}"
     @company = current_user.company
     if params["q"].blank? && params["status"].blank? && params["label"].blank? && params["archived"].blank? && params['was_deleted'].blank?
+      @purchase_orders = @company.purchase_orders.active.page params[:page]
+    elsif params["all"]
       @purchase_orders = @company.purchase_orders.active.page params[:page]
     else
       if params.has_key?("all")
@@ -83,6 +99,7 @@ class PurchaseOrdersController < ApplicationController
     @purchase_order = @company.purchase_orders.build(@pop)
     @company.labels.find_or_create_by(name: @purchase_order.label)
     @purchase_order.status = "draft"
+    @purchase_order.was_deleted = false
     @purchase_order.save
 
         ## Response for send by Fax or Email 
