@@ -13,7 +13,7 @@
 	%li{class: sp('archived')}
 		=link_to 'Archived', "?archived=true"
 	%li{class: sp('deleted')}
-		=link_to 'Deleted', "?was_deleted=true"
+		=link_to 'Deleted', "?status=deleted"
 .contents
 	= form_tag purchase_orders_path, :class => "search-area", :id => "PO-search-bar", :method => :get do
 		%i.fa.fa-search.fa-fw

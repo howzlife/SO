@@ -209,6 +209,7 @@ class PurchaseOrdersController < ApplicationController
       # stowaway methods - archive, delete, and undo archive, undo delete
     elsif params[:status] == "deleted"
       @purchase_order.update_attribute(:was_deleted, true)
+      @purchase_order.update_attribute(:status, "deleted")
       flash[:notice] = "Purchase Order has been Deleted." if @purchase_order.save
       respond_to do |format|
         format.html { redirect_to purchase_orders_path }
@@ -216,6 +217,7 @@ class PurchaseOrdersController < ApplicationController
       end
     elsif params[:status] == "undelete"
       @purchase_order.update_attribute(:was_deleted, false)
+      @purchase_order.update_attribute(:status, "cancelled")
       flash[:notice] = "Purchase Order has been Un-Deleted." if @purchase_order.save
       respond_with(@purchase_order)
 
@@ -261,7 +263,7 @@ class PurchaseOrdersController < ApplicationController
     if @purchase_order.status == "draft"
       @purchase_order.destroy
       respond_to do |format|
-        format.html { redirect_to purchase_orders_path, notice: 'Purchase order was successfully deleted.' }
+        format.html { redirect_to purchase_orders_path, notice: 'Purchase order was successfully discarded.' }
         format.json { head :no_content }
       end
     else
