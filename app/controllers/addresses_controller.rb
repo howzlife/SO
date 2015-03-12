@@ -6,7 +6,6 @@ class AddressesController < ApplicationController
     @address = @company.addresses.new
   end
 
-  # GET /vendors/1
   # GET /vendors/1.json
   def show
   end
@@ -18,7 +17,7 @@ class AddressesController < ApplicationController
 
     respond_to do |format|
       if @address.save
-        format.html { redirect_to @company, notice: 'Address was successfully created.' }
+        format.html { redirect_to edit_company_path(@company), notice: 'Address was successfully created.' }
         format.json { render :show, status: :created, location: @address }
       else
         format.html { render :new }
@@ -36,7 +35,7 @@ class AddressesController < ApplicationController
   def update
     respond_to do |format|
       if @address.update(address_params)
-        format.html { redirect_to @company, notice: 'Address was successfully updated.' }
+        format.html { redirect_to edit_company_path(@company), notice: 'Address was successfully updated.' }
         format.json { render :show, status: :ok, location: @address }
       else
         format.html { render :edit }
@@ -50,7 +49,7 @@ class AddressesController < ApplicationController
   def destroy
     @address.destroy
     respond_to do |format|
-      format.html { redirect_to @company, notice: 'Address was successfully destroyed.' }
+      format.html { redirect_to edit_company_path(@company), notice: 'Address was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -65,7 +64,7 @@ class AddressesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def address_params
       #funky strong params block taken from https://github.com/rails/rails/issues/9454#issuecomment-14167664
-      params.require(:address).permit(:name, :telephone, :agent, :defaultflag).tap do |whitelisted|
+      params.require(:address).permit(:name, :telephone, :agent).tap do |whitelisted|
         whitelisted[:address] = params[:address][:address]
       end
     end

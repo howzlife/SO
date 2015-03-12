@@ -17,6 +17,7 @@
 								%li= msg
 				.form-inputs
 					= f.input :name, label: 'Name'
+
 				= f.simple_fields_for :address do |af|
 					- if @address.address.blank?
 						.form-inputs
@@ -60,6 +61,7 @@
 							.half
 								= af.label 'Zip / Postal Code'
 								= af.text_field :zip, class: 'string', :value => @address.address[:zip]
+
 				.form-inputs.clear
 					.half.first
 						= f.input :agent, label: 'Receiving agent'

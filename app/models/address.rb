@@ -7,10 +7,10 @@ class Address
   field :telephone, type: String
   field :fax, type: String
   field :agent, type: String
-  field :state, type: String
-  field :defaultflag, type: Boolean
 
   validates_presence_of :name
+
+  belongs_to :company
 
   embedded_in :addressable, polymorphic: true
 end
