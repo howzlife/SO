@@ -56,8 +56,9 @@
 		You can not send POs until you have confirmed your account.
 		%br
 		Confirm your account by clicking the link in the welcome email
-		%br 
-		= link_to('Resend', user_confirmation_path(user: {:Email => current_user.email}), :method => :post)   
+		%br
+		= link_to('Resend A'), "users/confirmations#resend_confirmation_email"
+		= link_to('Resend B', user_confirmation_path(user: {:email => current_user.email}), :method => :post)   
 	%br
 	// commented out because of this error
 	// undefined method 'to_datetime' for nil:NilClass
