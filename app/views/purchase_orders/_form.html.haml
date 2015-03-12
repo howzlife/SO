@@ -41,13 +41,13 @@
 						.date
 							=@purchase_order.date.strftime("%B #{@purchase_order.date.day.ordinalize}, %Y")
 			.purchaseorder-vendor.clear
-				.to
+				.to.vendor
 					.text-label Send To
 				.vendor-select
 					-# the instance variable below isn't the vendor document that embedded in the purchase order. It's the one embedded in the company. We use the vendors created there in this form. The data from them is then saved to the purchase order's embedded vendor document. We allow vendor information to be changed for the company but not on the purchase orders. This way, if the Company's vendor data changes, the already saved purchase orders' vendor data doesn't. This vendor data is being passed as a hash string. 
 					= f.select :vendor, @company.vendors.all.map { |r| [r.name, r.id] }, :include_blank => "Select Vendor"
-					.vendor-select-text.search-query
-						.vendor-selected
+					.dynamic-select-text.search-query
+						.dynamic-selected{ :class => @purchase_order.vendor.name.blank? ? 'hidden' : '' }
 							- if !@purchase_order.vendor.name.blank?
 								.name= @purchase_order.vendor.name
 								- if !@purchase_order.vendor.email.blank?
@@ -60,17 +60,17 @@
 									.fax=  "Fax: #{@purchase_order.vendor.fax}"
 								%span.change &times;
 						- if !@purchase_order.vendor.name.blank?
-							%input.vendor-select-input{:type => "text",:placeholder => "Vendor name", class: "hidden"}
+							%input.dynamic-select-input{:type => "text",:placeholder => "Vendor name", class: "hidden"}
 						- else
-							%input.vendor-select-input{:type => "text",:placeholder => "Vendor name"}
-					.vendor-select-list
+							%input.dynamic-select-input{:type => "text",:placeholder => "Vendor name"}
+					.dynamic-select-list
 						.list-body
 						.list-footer
 							= link_to new_vendor_path do
 								%span.text Create New Vendor						
 							= link_to vendors_path do
 								%span.text Manage Vendors			
-					.vendor-details
+					.dynamic-details
 				.date-required
 					.text-label Date Required
 					.date-field
@@ -81,23 +81,22 @@
 				= f.label :description
 				= f.text_area :description, :placeholder => "enter your order information..."
 			.purchaseorder-deliverto.clear
-				.to
+				.to.deliverto
 					.text-label Ship To
 
 				.deliverto-select
-					= @company.shipaddress
 					= f.select :address, @company.addresses.all.map { |r| [r.name, r.id] }, :include_blank => "Select Address"
-					.deliverto-select-text.search-query
-						.deliverto-selected
-						%input.deliverto-select-input{:type => "text",:placeholder => "Address"}/
-					.deliverto-select-list
+					.dynamic-select-text.search-query
+						.dynamic-selected{ :class => @purchase_order.vendor.name.blank? ? 'hidden' : '' }
+						%input.dynamic-select-input{:type => "text",:placeholder => "Address"}/
+					.dynamic-select-list
 						.list-body
 						.list-footer
 							= link_to new_address_path do
 								%span.text Create New Address						
 							= link_to edit_company_path(@company) do
 								%span.text Manage Addresses			
-					.deliverto-details
+					.dynamic-details
 
 		.buttons
 			= button_tag(type: 'submit', :disabled => @purchase_order.vendor.email.blank?, :name => "status", :value => "email", :data => { :confirm => 'Are you sure? Once you email this purchase order, you will not be able to edit its contents.' }, class: "btn btn-email") do

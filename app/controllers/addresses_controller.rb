@@ -2,17 +2,17 @@ class AddressesController < ApplicationController
   before_action :set_address, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
 
-  def new
-    @address = @company.addresses.new
-  end
-
   # GET /addresses.json
   def index
     if params["q"].blank?
       @addresses = @company.addresses.all.page params[:page]
     else
-      @addresses = @company.addresses.search(params["q"]).page params[:page]
+      @addresses = @company.addresses.search(@company.id, params["q"]).page params[:page]
     end
+  end
+
+  def new
+    @address = @company.addresses.new
   end
 
   # POST /addresses
@@ -64,7 +64,6 @@ class AddressesController < ApplicationController
     def set_address
       @address = @company.addresses.find(params[:id])
     end
-
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def address_params

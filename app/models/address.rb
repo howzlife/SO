@@ -13,4 +13,12 @@ class Address
   belongs_to :company
 
   embedded_in :addressable, polymorphic: true
+
+
+  def self.search(company_id, search)
+    if search
+      where(company_id: company_id).any_of({name: /#{search}/i}, {address: /#{search}/i}, {agent: /#{search}/i})
+    end
+  end
+
 end
