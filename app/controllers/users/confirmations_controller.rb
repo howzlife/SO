@@ -11,7 +11,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
   # end
 
   def resend_confirmation_email
-    @current_user.resend_confirmation_instructions
+    current_user.resend_confirmation_instructions
     flash[:notice] = "Confirmation Email has been re-sent"
     redirect_to purchase_orders_path
   end
