@@ -58,7 +58,7 @@
 									.telephone= "Tel: #{@purchase_order.vendor.telephone}"
 								- if !@purchase_order.vendor.fax.blank?
 									.fax=  "Fax: #{@purchase_order.vendor.fax}"
-								%span.change x
+								%span.change &times;
 						- if !@purchase_order.vendor.name.blank?
 							%input.vendor-select-input{:type => "text",:placeholder => "Vendor name", class: "hidden"}
 						- else
@@ -74,7 +74,7 @@
 				.date-required
 					.text-label Date Required
 					.date-field
-						= f.input :date_required, :placeholder => "ASAP", :input_html => { :value => 'ASAP' }, :id => "datepicker"
+						= f.input :date_required, :placeholder => "ASAP", :defaults => { :input_html => { :class => "text" } }, :id => "datepicker"
 			.purchaseorder-description
 				.text-label Description
 			.purchaseorder-input
@@ -85,6 +85,7 @@
 					.text-label Ship To
 
 				.deliverto-select
+					= @company.shipaddress
 					= f.select :address, @company.addresses.all.map { |r| [r.name, r.id] }, :include_blank => "Select Address"
 					.deliverto-select-text.search-query
 						.deliverto-selected

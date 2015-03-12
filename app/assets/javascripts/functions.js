@@ -223,7 +223,7 @@ $(function() {
 					}
 				}
 			});
-			$('.purchaseorder-vendor .vendor-select-text .vendor-selected').append('<span class="change">x</span>');
+			$('.purchaseorder-vendor .vendor-select-text .vendor-selected').append('<span class="change">&times;</span>');
 			if (vendorFax) {
 				$('.buttons .btn-fax').prop("disabled", false);
 			}
