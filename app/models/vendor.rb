@@ -22,5 +22,4 @@ class Vendor
 
   embedded_in :vendorable, polymorphic: true
 
-
 end

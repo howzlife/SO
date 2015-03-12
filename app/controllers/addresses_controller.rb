@@ -6,8 +6,13 @@ class AddressesController < ApplicationController
     @address = @company.addresses.new
   end
 
-  # GET /vendors/1.json
-  def show
+  # GET /addresses.json
+  def index
+    if params["q"].blank?
+      @addresses = @company.addresses.all.page params[:page]
+    else
+      @addresses = @company.addresses.search(params["q"]).page params[:page]
+    end
   end
 
   # POST /addresses
@@ -69,4 +74,3 @@ class AddressesController < ApplicationController
       end
     end
 end
-
