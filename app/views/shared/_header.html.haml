@@ -36,7 +36,7 @@
 							%span.text Mark As Open
 						= button_tag(type: 'submit', :name => "status", :value => "print", class: "link btn-print show-print") do
 							%span.text Print
-				= link_to @purchase_orders, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger' do
+				= button_tag(type: 'submit', :name => 'status', :value => 'discard', :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger') do
 					%span.text Discard
 				= button_tag(type: 'submit', :name => 'status', :value => 'cancel_changes', class: 'btn btn-danger') do
 					%span.text Cancel Changes
