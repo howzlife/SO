@@ -149,6 +149,12 @@ h1,h2,h3,h4,h5,h6
 	&:active
 		background-color: #ebebeb
 		text-decoration: none
+	&[disabled=disabled], &:disabled
+		color: $light-grey
+		border-color: $light-grey
+		background-color: #fff
+		cursor: default
+		
 
 .btn-primary
 	background: $default-blue
@@ -496,7 +502,6 @@ h1
 	&.deleted
 		color: $status-cancelled
 	
-
 .content
 	float: left
 	margin: 20px 0
@@ -504,6 +509,21 @@ h1
 	-webkit-box-sizing: border-box
 	-moz-box-sizing: border-box
 	box-sizing: border-box
+
+	.search-query
+		width: 100%
+		font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B',sans-serif
+		font-size: 14px
+		border: 1px solid $default-grey
+		padding: 10px 14px
+		margin: 0px
+		-webkit-box-sizing: border-box
+		-moz-box-sizing: border-box
+		box-sizing: border-box
+		&:focus
+			border: 1px solid $default-blue
+			outline: none
+
 
 	.page-header
 		margin: 0 0 15px 0
@@ -580,18 +600,7 @@ h1
 			font-size: 20px
 			color: $default-grey
 		.search-query
-			width: 100%
-			font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B',sans-serif
-			font-size: 14px
-			border: 1px solid $default-grey
 			padding: 10px 14px 10px 40px
-			margin: 0px
-			-webkit-box-sizing: border-box
-			-moz-box-sizing: border-box
-			box-sizing: border-box
-			&:focus
-				border: 1px solid $default-blue
-				outline: none
 	.divider
 		margin: 30px 0
 	table
@@ -756,6 +765,8 @@ h1
 			.to
 				float: left
 				margin: 0 10px 0 0
+				&.vendor
+					padding: 10px 0 0 0
 			.date-required
 				min-width: 225px
 				float: right
@@ -763,6 +774,56 @@ h1
 				border-left: 1px solid #dedfe3
 			.vendor-select, .deliverto-select, .deliverto-agent
 				float: left
+				select
+					display: none
+			.vendor-select
+				position: relative
+				width: 320px
+				.vendor-select-text
+					background: #fff
+				.vendor-select-input
+					border: none
+					background: none
+					outline: none
+					font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B',sans-serif
+					font-size: 14px
+					padding: 0
+					margin: 0
+				.vendor-select-list
+					display: none
+					position: absolute
+					background: #fff
+					border: 1px solid $default-grey
+					border-top: none
+					width: 100%
+					-webkit-box-sizing: border-box
+					-moz-box-sizing: border-box
+					box-sizing: border-box
+
+					.vendor-name
+						padding: 5px 14px
+						&:hover
+							background: $light-grey
+							cursor: pointer
+							text-decoration: underline
+					.empty
+						padding: 5px 14px
+					.list-footer
+						border-top: 1px solid $default-grey
+						a
+							display: block
+							padding: 5px 14px
+							&:hover
+								background: $light-blue
+								cursor: pointer
+				.vendor-selected
+					line-height: 21px
+				.change
+					cursor: pointer
+					position: absolute
+					top: 10px
+					right: 10px
+
 			.deliverto-select
 				margin: 0 25px 0 0
 			.date-field
