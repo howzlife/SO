@@ -1,93 +1,32 @@
 $(function() {
-	$('.purchaseorder-vendor .vendor-select').on('change','select',function() {
-		if ($(this).val() != "") {
-        	var vendor = $(this);
-        	console.log("/vendors/" + vendor.val() + ".json");
-			$.get( "/vendors/" + vendor.val() + ".json", function( data ) {
-				$('.purchaseorder-vendor .vendor-select .vendor-details').empty().append(data.name +'<br>').show();
-				if (data.contact != "") {
-					$('.purchaseorder-vendor .vendor-select .vendor-details').append('Attention: '+data.contact +'<br>');
-				}
-				if (data.email != "") {
-					$('.purchaseorder-vendor .vendor-select .vendor-details').append(data.email);
-					$('.buttons .btn-email').show();
-				} else {
-					$('.buttons .btn-email').hide();
-				}
-				$('.vendor-change .small-btn').show();
-				vendor.hide();
-			});
-		}
-	});
-    $('.purchaseorder-vendor .vendor-select').on('click', '.small-btn', function() {
-        $('.purchaseorder-vendor .vendor-select select').show();
-        $('.purchaseorder-vendor .vendor-select .vendor-details').hide();
-    });
 
 	var formChanged = false;
 	$('.form-inputs input').each(function () {
 		$(this).data('data-initial-value', $(this).val());
 	});
 
-	$('.form-inputs input').keypress(function() {
+	$('.form-inputs input, #purchase_order_description').keypress(function() {
+		console.log('x');
 		if (!formChanged) {
 			$('.page-header .btn-save').addClass('btn-primary');
 			formChanged = true;
 		}
 	});
 
-	$('.purchaseorder-deliverto .deliverto-select').on('change','select',function() {
-		if ($(this).val() != "") {
-        	var address = $(this);
-			$.get( "/addresses/" + address.val() + ".json", function( data ) {
-				$('.purchaseorder-deliverto .deliverto-select .deliverto-details').html(data.name +'<br>'+ data.address.address_line_1 +', '+ data.address.address_line_2 +'<br>'+ data.address.city +', '+ data.address.state +', '+ data.address.zip +'<br>Tel. '+ data.telephone).show();
-				$('.purchaseorder-deliverto .deliverto-agent').html(data.agent);
-				$('.deliverto-change .small-btn').show();
-				address.hide();
-			});
-		}
-	});
-	
-	if ($('form').hasClass('edit_purchase_order')) {
-		$('.deliverto-change .small-btn, .vendor-change .small-btn').show();
-        $('.purchaseorder-vendor .vendor-select select, .purchaseorder-deliverto .deliverto-select select').hide();
-	}
-
-    $('.purchaseorder-deliverto .deliverto-select').on('click', '.small-btn', function() {
-        $('.purchaseorder-deliverto .deliverto-select select').show();
-        $('.purchaseorder-deliverto .deliverto-change .small-btn, .purchaseorder-deliverto .deliverto-select .deliverto-details').hide();
-    });
 
 	$('.purchaseorder .purchaseorder-input textarea').css('overflow', 'hidden').autogrow();
-	$('.buttons .btn-email').hide();
-
-	$('.buttons').on('click','.btn.email', function(event) {
-		$('.buttons .btn').hide();
-		$('.buttons').append('<div class="loading" />');
-	});
 
     $('.buttons').on('click', '.edit-print', function(event) {
-    	if ( $("#purchase_order_description").val() ) {
-
-    		form = $(this).closest('form');
-	    	window.print();
-
-    	} else {
-    		alert("Description field cannot be empty");
-    		event.preventDefault();
-    	}
-    	
+		form = $(this).closest('form');
+		window.print();
     });
 
     $('.buttons').on('click', '.show-print', function(event) {
-
 		form = $(this).closest('form');
 			window.print();		
     		var payload = form.serialize();
     		$.post( form.attr('action'), payload, function( data ) {
     		});
-
-    	
     });
     
     if ($('p.notice').length) {
@@ -95,7 +34,6 @@ $(function() {
     }
     
     $('.sortable').tablesorter();
-
 
 	$('.phone input').formatter({
 	  'pattern': '({{999}}) {{999}}-{{9999}}'
@@ -192,7 +130,76 @@ $(function() {
             }, searchTimeoutThrottle);
         }
     }).attr('autocomplete', 'off').data('oldval', '');
-    
+
+	$('.purchaseorder-vendor .vendor-select-input').bind('keyup change', function(){
+        if($(this).val() != $(this).data('oldval')) {
+        	$(this).data('oldval', $(this).val());
+        	if(currReqObj != null) currReqObj.abort();
+        	 clearTimeout(searchTimeoutID);
+        	 var term = $(this).val();
+        	 searchTimeoutID = setTimeout(function(){
+				 currReqObj = $.get( "/vendors.json?q=" + term, function( data ) {
+					currReqObj = null;
+					$('.purchaseorder-vendor .vendor-select-list').show();
+					$('.purchaseorder-vendor .vendor-select-list .list-body').empty();
+					if (data.length > 0) {
+						$.each(data, function(index, item) {
+							$('.purchaseorder-vendor .vendor-select-list .list-body').append('<div class="vendor-name" data-id="' + item.id + '">' + item.name + '</div>');
+						});
+					} else {
+						$('.purchaseorder-vendor .vendor-select-list .list-body').append('<div class="empty">No results found.</div>');
+					}
+				});
+            }, searchTimeoutThrottle);
+        }
+    }).attr('autocomplete', 'off').data('oldval', '');
+	
+	$('.purchaseorder-vendor .vendor-select-list').on('click', '.vendor-name', function(event) {
+		var vendorEmail = false;
+		var vendorFax = false;
+
+		$('#purchase_order_vendor option[value="' + $(this).data('id') + '"]').prop('selected', true);
+		$('.purchaseorder-vendor .vendor-select-list, .purchaseorder-vendor .vendor-select-input').hide();
+		$.get( "/vendors/"+ $(this).data('id') +".json", function( data ) {
+			$('.purchaseorder-vendor .vendor-select-text .vendor-selected').empty();
+			$.each(data, function(index, name) {
+				if (index != "id") {
+					if (name != "") {
+						if (index == "name") {
+							$('.purchaseorder-vendor .vendor-select-text .vendor-selected').append('<div class="' + index + '">' + name + '</div>').show();
+						} else {
+							var label = index;
+							if (index == "contact") {
+								label = "Attn";
+							} else if (index == "telephone") {
+								label = "Tel";
+							} else if (index == "fax") {
+								label = "Fax";
+							} else if (index == "email") {
+								label = "Email";
+							}
+							$('.purchaseorder-vendor .vendor-select-text .vendor-selected').append('<div class="' + index + '">' + label + ': ' + name + '</div>').show();
+						}						
+						if (index == "email") {
+							vendorEmail = true;
+						} else if (index == "fax") {
+							vendorFax = true;
+						}
+					}
+				}
+			});
+			$('.purchaseorder-vendor .vendor-select-text .vendor-selected').append('<span class="change">x</span>');
+			if (vendorFax) { $('.buttons .btn-fax').prop("disabled", false); }
+			if (vendorEmail) { $('.buttons .btn-email').prop("disabled", false); }
+		});
+	});
+
+	$('.purchaseorder-vendor .vendor-selected').on('click', '.change', function(event) {
+		$('.purchaseorder-vendor .vendor-select-text .vendor-selected').empty().hide();
+		$('.purchaseorder-vendor .vendor-select-input').show().val('');
+		$('.buttons .btn-fax, .buttons .btn-email').prop("disabled", "disabled");
+	});
+
 });
 
 $(document).mouseup(function (e)

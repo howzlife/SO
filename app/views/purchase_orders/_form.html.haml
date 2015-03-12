@@ -41,32 +41,30 @@
 						.date
 							=@purchase_order.date.strftime("%B #{@purchase_order.date.day.ordinalize}, %Y")
 			.purchaseorder-vendor.clear
-				.to
+				.to.vendor
 					.text-label Send To
 				.vendor-select
-					.vendor-details
-						- if !@purchase_order.vendor.name.blank?
-							=@purchase_order.vendor.name
+					.vendor-select-text.search-query
+						.vendor-selected
+						%input.vendor-select-input{:type => "text",:placeholder => "Vendor name"}/
+					.vendor-select-list
+						.list-body
+						.list-footer
+							= link_to new_vendor_path do
+								%span.text Create New Vendor						
+							= link_to vendors_path do
+								%span.text Manage Vendors			
+					- if !@purchase_order.vendor.name.blank?
+						=@purchase_order.vendor.name
+						%br
+						- if !@purchase_order.vendor.contact.blank?
+							Attention: #{@purchase_order.vendor.contact}
 							%br
-							- if !@purchase_order.vendor.contact.blank?
-								Attention: #{@purchase_order.vendor.contact}
-								%br
-							- if !@purchase_order.vendor.email.blank?
-								=@purchase_order.vendor.email
-					-# the instance variable below isn't the vendor document that embedded in the purchase order. It's the one embedded in the company. We use the vendors created there in this form. The data from them is then saved to the purchase order's embedded vendor document. We allow vendor information to be changed for the company but not on the purchase orders. This way, if the Company's vendor data changes, the already saved purchase orders' vendor data doesn't. This vendor data is being passed as a hash string. 
-					- if @purchase_order.vendor.name.blank? 
+						- if !@purchase_order.vendor.email.blank?
+							=@purchase_order.vendor.email
+						-# the instance variable below isn't the vendor document that embedded in the purchase order. It's the one embedded in the company. We use the vendors created there in this form. The data from them is then saved to the purchase order's embedded vendor document. We allow vendor information to be changed for the company but not on the purchase orders. This way, if the Company's vendor data changes, the already saved purchase orders' vendor data doesn't. This vendor data is being passed as a hash string. 
 						= f.select :vendor, @company.vendors.all.map { |r| [r.name, r.id] }
-					- else
-						- id_of_vendor = @company.vendors.where(name: @purchase_order.vendor.name).first.id
-						%select{:name => 'purchase_order[vendor]', :id => 'purchase_order_vendor' }
-							- @company.vendors.each do |v|
-								%option{:value => "#{v.id}", :selected => id_of_vendor == v.id}
-									= v.name
-					.vendor-change
-						%button.small-btn.btn.btn-edit{:type => "button"}
-							%i.fa.fa-undo
-							%span.text Change
-
+					.vendor-details
 				.date-required
 					.text-label Date Required
 					.date-field
@@ -112,9 +110,9 @@
 						= a['agent']
 
 		.buttons
-			= button_tag(type: 'submit', :name => "status", :value => "email", :data => { :confirm => 'Are you sure? Once you email this purchase order, you will not be able to edit its contents.' }, class: "btn") do
+			= button_tag(type: 'submit', :disabled => true, :name => "status", :value => "email", :data => { :confirm => 'Are you sure? Once you email this purchase order, you will not be able to edit its contents.' }, class: "btn btn-email") do
 				%span.text Send by Email
-			= button_tag(type: 'submit', :name => "status", :value => "fax", :data => { :confirm => 'Are you sure? Once you fax this purchase order, you will not be able to edit its contents.' }, class: "btn") do
+			= button_tag(type: 'submit', :disabled => true, :name => "status", :value => "fax", :data => { :confirm => 'Are you sure? Once you fax this purchase order, you will not be able to edit its contents.' }, class: "btn btn-fax") do
 				%span.text Send by Fax
 
 	.divider.no-print
