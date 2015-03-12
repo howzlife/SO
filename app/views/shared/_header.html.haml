@@ -94,6 +94,9 @@
 						.tool-tip.below.right-align
 							= button_tag(type: 'submit', :name => "status", :value => "unarchive", :data => { :confirm => 'Are you sure?' }, class: "link") do
 								%span.text Unarchive
+							- if @purchase_order.read_attribute(:status) == "cancelled"
+								= button_tag(type: 'submit', :name => "status", :value => "deleted", :data => { :confirm => 'Are you sure?' }, class: "link") do
+									%span.text Delete PO
 							= button_tag(type: 'submit', :name => "status", :value => "duplicate", :data => { :confirm => 'Are you sure?' }, class: "link") do
 								%span.text Duplicate as New
 							= button_tag(type: 'submit', :name => "status", :value => "print", class: "link btn-print show-print") do

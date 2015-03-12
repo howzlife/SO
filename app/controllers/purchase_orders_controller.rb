@@ -147,7 +147,6 @@ class PurchaseOrdersController < ApplicationController
         format.html { redirect_to purchase_orders_path, notice: 'Purchase order was successfully discarded.' }
         format.json { head :no_content }
     end
-
     else
       respond_to do |format|
         format.html { render :new }
@@ -217,6 +216,7 @@ class PurchaseOrdersController < ApplicationController
 
       # stowaway methods - archive, delete, and undo archive, undo delete
     elsif params[:status] == "deleted"
+      @purchase_order.update_attribute(:archived, false)
       @purchase_order.update_attribute(:was_deleted, true)
       @purchase_order.update_attribute(:status, "deleted")
       flash[:notice] = "Purchase Order has been Deleted." if @purchase_order.save
@@ -262,6 +262,10 @@ class PurchaseOrdersController < ApplicationController
         format.html { redirect_to purchase_orders_path, notice: 'Purchase order was successfully discarded.' }
         format.json { head :no_content }
       end
+    elsif params[:status] == "label"
+      @purchase_order.update_attribute(:label, params[:label])
+      flash[:notice] = "Label was added to purchase order" if @purchase_order.save
+      respond_with(@purchase_order)
     end
   end
 

@@ -57,11 +57,11 @@
 		%br
 		Confirm your account by clicking the link in the welcome email
 		%br 
-		= link_to purchase_orders_path do
+		= button_tag :type => 'submit', :name => 'status', :value => 'resend_instructions' do
 			%span.text Click here to resend
 			%i.fa.fa-fw
 	%br
-	// commented out becasue of this error
+	// commented out because of this error
 	// undefined method 'to_datetime' for nil:NilClass
 	// %span.text You have #{100 - ((Time.now - current_user.read_attribute(:created_at).to_datetime)/(3600*24)).to_i} days remaining in your free trial:
 
