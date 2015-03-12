@@ -44,6 +44,8 @@
 				.to.vendor
 					.text-label Send To
 				.vendor-select
+					-# the instance variable below isn't the vendor document that embedded in the purchase order. It's the one embedded in the company. We use the vendors created there in this form. The data from them is then saved to the purchase order's embedded vendor document. We allow vendor information to be changed for the company but not on the purchase orders. This way, if the Company's vendor data changes, the already saved purchase orders' vendor data doesn't. This vendor data is being passed as a hash string. 
+					= f.select :vendor, @company.vendors.all.map { |r| [r.name, r.id] }, :include_blank => "Select Vendor"
 					.vendor-select-text.search-query
 						.vendor-selected
 						%input.vendor-select-input{:type => "text",:placeholder => "Vendor name"}/
@@ -62,8 +64,6 @@
 							%br
 						- if !@purchase_order.vendor.email.blank?
 							=@purchase_order.vendor.email
-						-# the instance variable below isn't the vendor document that embedded in the purchase order. It's the one embedded in the company. We use the vendors created there in this form. The data from them is then saved to the purchase order's embedded vendor document. We allow vendor information to be changed for the company but not on the purchase orders. This way, if the Company's vendor data changes, the already saved purchase orders' vendor data doesn't. This vendor data is being passed as a hash string. 
-						= f.select :vendor, @company.vendors.all.map { |r| [r.name, r.id] }, :include_blank => "Select Vendor"
 					.vendor-details
 				.date-required
 					.text-label Date Required
@@ -79,6 +79,7 @@
 					.text-label Ship To
 
 				.deliverto-select
+					= f.select :address, @company.addresses.all.map { |r| [r.name, r.id] }, :include_blank => "Select Address"
 					.deliverto-select-text.search-query
 						.deliverto-selected
 						%input.deliverto-select-input{:type => "text",:placeholder => "Address"}/
@@ -89,7 +90,6 @@
 								%span.text Create New Address						
 							= link_to edit_company_path(@company) do
 								%span.text Manage Addresses			
-						= f.select :address, @company.addresses.all.map { |r| [r.name, r.id] }, :include_blank => "Select Address"
 					.deliverto-details
 
 		.buttons
