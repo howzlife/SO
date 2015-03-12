@@ -8,9 +8,12 @@ class Company
   field :fax, type: String
   field :telephone, type: String
   field :prefix, type: String
-
-
+  field :shipaddress
+  field :billaddress
+  
   has_many :users
+  has_many :addresses
+
   has_many :purchase_orders do
     def active()
       excludes(was_deleted: true)

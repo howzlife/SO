@@ -41,27 +41,41 @@
 		.contents.section.clear
 			.divider
 			.section-description
-				%h3 Bill-to address
+				%h3 Your addresses
 				%p This address will be displayed at the top of you POs, and marked as ‘Bill To:’. This could be your business address, a head office, or an accounts department.
+				= link_to new_address_path, class: 'btn btn-primary' do
+					%span.text Create New Address
+
 			.section-content
 				.card
 					.form-inputs
 
+						%table#searchable-table.sortable
+							%thead
+								%tr
+									%th.text-label
+										Name
+										.arrow
+									%th.text-label
+										Address
+										.arrow
+									%th.text-label
+										Default	Ship-to							
+									%th.text-label
+										Bill-to
+							%tbody
+								- @company.addresses.each do |a|
+									%tr
+										%td= link_to a.name, edit_address_path(a), :class=>"inverted-link"
+										%td
+											- a.address.each_pair do |key, value|
+												= value
+										%td
+											= f.radio_button :shipaddress, a.id, class: "radio-buttons required"
+										%td
+											= f.radio_button :billaddress, a.id, class: "radio-buttons required"
 
 		.contents.section.clear
-			.divider
-			.section-description
-				%h3 Ship-to address
-				%p This address will be displayed at the top of you POs as your Ship-to address.
-			.section-content
-				.card
-					.form-inputs
-
-		.contents.section.clear
-			.divider
-			.section-description
-				%h3 Alternate ship-to address
-				%p Click this button if you would like to set up an additional Ship-to address. Be sure to specify a default selection.
-			.section-content
-				.card
-					.form-inputs
+			.buttons
+				= button_tag(type: 'submit', class: "btn btn-save") do
+					%span.text Save Settings

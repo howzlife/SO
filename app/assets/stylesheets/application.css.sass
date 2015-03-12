@@ -150,6 +150,16 @@ h1,h2,h3,h4,h5,h6
 		background-color: #ebebeb
 		text-decoration: none
 
+	&[disabled=disabled], &:disabled
+		color: $light-grey
+		border-color: $light-grey
+		background-color: #fff
+		cursor: default
+
+a.btn-primary
+	&:hover
+		color: #fff
+
 .btn-primary
 	background: $default-blue
 	color: #fff
@@ -259,7 +269,7 @@ h1,h2,h3,h4,h5,h6
 p.notice
 	position: absolute
 	margin: 0px
-	top: 42px
+	bottom: 0px
 	z-index: 99
 	width: 100%
 	text-align: center

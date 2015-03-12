@@ -44,29 +44,27 @@
 				.to
 					.text-label Send To
 				.vendor-select
-					.vendor-details
-						- if !@purchase_order.vendor.name.blank?
-							=@purchase_order.vendor.name
-							%br
-							- if !@purchase_order.vendor.contact.blank?
-								Attention: #{@purchase_order.vendor.contact}
-								%br
-							- if !@purchase_order.vendor.email.blank?
-								=@purchase_order.vendor.email
 					-# the instance variable below isn't the vendor document that embedded in the purchase order. It's the one embedded in the company. We use the vendors created there in this form. The data from them is then saved to the purchase order's embedded vendor document. We allow vendor information to be changed for the company but not on the purchase orders. This way, if the Company's vendor data changes, the already saved purchase orders' vendor data doesn't. This vendor data is being passed as a hash string. 
-					- if @purchase_order.vendor.name.blank? 
-						= f.select :vendor, @company.vendors.all.map { |r| [r.name, r.id] }
-					- else
-						- id_of_vendor = @company.vendors.where(name: @purchase_order.vendor.name).first.id
-						%select{:name => 'purchase_order[vendor]', :id => 'purchase_order_vendor' }
-							- @company.vendors.each do |v|
-								%option{:value => "#{v.id}", :selected => id_of_vendor == v.id}
-									= v.name
-					.vendor-change
-						%button.small-btn.btn.btn-edit{:type => "button"}
-							%i.fa.fa-undo
-							%span.text Change
-
+					= f.select :vendor, @company.vendors.all.map { |r| [r.name, r.id] }, :include_blank => "Select Vendor"
+					.vendor-select-text.search-query
+						.vendor-selected
+						%input.vendor-select-input{:type => "text",:placeholder => "Vendor name"}/
+					.vendor-select-list
+						.list-body
+						.list-footer
+							= link_to new_vendor_path do
+								%span.text Create New Vendor						
+							= link_to vendors_path do
+								%span.text Manage Vendors			
+					- if !@purchase_order.vendor.name.blank?
+						=@purchase_order.vendor.name
+						%br
+						- if !@purchase_order.vendor.contact.blank?
+							Attention: #{@purchase_order.vendor.contact}
+							%br
+						- if !@purchase_order.vendor.email.blank?
+							=@purchase_order.vendor.email
+					.vendor-details
 				.date-required
 					.text-label Date Required
 					.date-field
@@ -79,44 +77,26 @@
 			.purchaseorder-deliverto.clear
 				.to
 					.text-label Ship To
+
 				.deliverto-select
+					= f.select :address, @company.addresses.all.map { |r| [r.name, r.id] }, :include_blank => "Select Address"
+					.deliverto-select-text.search-query
+						.deliverto-selected
+						%input.deliverto-select-input{:type => "text",:placeholder => "Address"}/
+					.deliverto-select-list
+						.list-body
+						.list-footer
+							= link_to new_address_path do
+								%span.text Create New Address						
+							= link_to edit_company_path(@company) do
+								%span.text Manage Addresses			
 					.deliverto-details
-						- if !@purchase_order.address.name.blank?
-							-a = @purchase_order.address
-							=a['name']
-							%br
-							= a["address"]["address_line_1"]
-							%br
-							- if a["address"]["address_line_2"] != ""
-								= a["address"]["address_line_2"]
-								%br
-							= "#{a["address"]["city"]}, #{a["address"]["state"]}, #{a["address"]["zip"]}"
-							%br
-							Tel. #{a["telephone"]}
-					.deliverto-change
-						%button.small-btn.btn.btn-edit{:type => "button"}
-							%i.fa.fa-undo
-							%span.text Change
-					- if @purchase_order.address.name.blank? 
-						= f.select :address, @company.addresses.all.map { |r| [r.name, r.id] }, :include_blank => "Select Address"
-					- else
-						- id_of_address = @company.addresses.where(name: @purchase_order.address.name).first.id
-						%select{ :name => 'purchase_order[address]', :id => 'purchase_order_address' } 
-							- @company.addresses.each do |a|
-								%option{:value => "#{a.id}", :selected => id_of_address == a.id}
-									= a.name
-				.to
-					.text-label Attention
-				.deliverto-agent
-					- if !@purchase_order.address.name.blank?
-						= a['agent']
 
 		.buttons
 			= button_tag(type: 'submit', :name => "status", :value => "email", :data => { :confirm => 'Are you sure? Once you email this purchase order, you will not be able to edit its contents.' }, class: "btn") do
 				%span.text Send by Email
 			= button_tag(type: 'submit', :name => "status", :value => "fax", :data => { :confirm => 'Are you sure? Once you fax this purchase order, you will not be able to edit its contents.' }, class: "btn") do
 				%span.text Send by Fax
-
 	.divider.no-print
 	.wrapper.section.clear.no-print
 		.section-description

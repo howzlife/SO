@@ -102,7 +102,7 @@ $(function() {
 	});
 
 	var currReqObj = null;
-    var searchTimeoutThrottle = 500;
+    var searchTimeoutThrottle = 100;
     var searchTimeoutID = -1;
 	$('.search .search-query').bind('keyup change', function(){
 		var results = false;
@@ -192,12 +192,119 @@ $(function() {
             }, searchTimeoutThrottle);
         }
     }).attr('autocomplete', 'off').data('oldval', '');
-    
+
+	$('.purchaseorder-vendor .vendor-select-input').bind('keyup change', function(){
+        if($(this).val() != $(this).data('oldval') && $(this).val() != "") {
+        	$(this).data('oldval', $(this).val());
+        	if(currReqObj != null) currReqObj.abort();
+        	 clearTimeout(searchTimeoutID);
+        	 var term = $(this).val();
+        	 searchTimeoutID = setTimeout(function(){
+				 currReqObj = $.get( "/vendors.json?q=" + term, function( data ) {
+					currReqObj = null;
+					$('.purchaseorder-vendor .vendor-select-list').show();
+					$('.purchaseorder-vendor .vendor-select-list .list-body').empty();
+					if (data.length > 0) {
+						$.each(data, function(index, item) {
+							$('.purchaseorder-vendor .vendor-select-list .list-body').append('<div class="vendor-name" data-id="' + item.id + '">' + item.name + '</div>');
+						});
+					} else {
+						$('.purchaseorder-vendor .vendor-select-list .list-body').append('<div class="empty">No results found.</div>');
+					}
+				});
+            }, searchTimeoutThrottle);
+        }
+		if($(this).val() == "") {
+			$('.purchaseorder-vendor .vendor-select-list').hide();
+		}
+    }).attr('autocomplete', 'off').data('oldval', '');
+
+	$('.purchaseorder-deliverto .deliverto-select-input').bind('keyup change', function(){
+        if($(this).val() != $(this).data('oldval') && $(this).val() != "") {
+        	$(this).data('oldval', $(this).val());
+        	if(currReqObj != null) currReqObj.abort();
+        	 clearTimeout(searchTimeoutID);
+        	 var term = $(this).val();
+        	 searchTimeoutID = setTimeout(function(){
+				 currReqObj = $.get( "/addresses.json?q=" + term, function( data ) {
+					currReqObj = null;
+					$('.purchaseorder-deliverto .deliverto-select-list').show();
+					$('.purchaseorder-deliverto .deliverto-select-list .list-body').empty();
+					if (data.length > 0) {
+						$.each(data, function(index, item) {
+							$('.purchaseorder-deliverto .deliverto-select-list .list-body').append('<div class="deliverto-name" data-id="' + item.id + '">' + item.name + '</div>');
+						});
+					} else {
+						$('.purchaseorder-deliverto .deliverto-select-list .list-body').append('<div class="empty">No results found.</div>');
+					}
+				});
+            }, searchTimeoutThrottle);
+        }
+		if($(this).val() == "") {
+			$('.purchaseorder-deliverto .deliverto-select-list').hide();
+		}
+    }).attr('autocomplete', 'off').data('oldval', '');
+
+
+
+	$('.purchaseorder-vendor .deliverto-select-list').on('click', '.vendor-name', function(event) {
+		$('#purchase_order_address option[value="' + $(this).data('id') + '"]').prop('selected', true);
+	});
+	
+	$('.purchaseorder-vendor .vendor-select-list').on('click', '.vendor-name', function(event) {
+		var vendorEmail = false;
+		var vendorFax = false;
+
+		$('#purchase_order_vendor option[value="' + $(this).data('id') + '"]').prop('selected', true);
+		$('.purchaseorder-vendor .vendor-select-list, .purchaseorder-vendor .vendor-select-input').hide();
+		$.get( "/vendors/"+ $(this).data('id') +".json", function( data ) {
+			$('.purchaseorder-vendor .vendor-select-text .vendor-selected').empty();
+			$.each(data, function(index, name) {
+				if (index != "id") {
+					if (name != "") {
+						if (index == "name") {
+							$('.purchaseorder-vendor .vendor-select-text .vendor-selected').append('<div class="' + index + '">' + name + '</div>').show();
+						} else {
+							var label = index;
+							if (index == "contact") {
+								label = "Attn";
+							} else if (index == "telephone") {
+								label = "Tel";
+							} else if (index == "fax") {
+								label = "Fax";
+							} else if (index == "email") {
+								label = "Email";
+							}
+							$('.purchaseorder-vendor .vendor-select-text .vendor-selected').append('<div class="' + index + '">' + label + ': ' + name + '</div>').show();
+						}						
+						if (index == "email") {
+							vendorEmail = true;
+						} else if (index == "fax") {
+							vendorFax = true;
+						}
+					}
+				}
+			});
+			$('.purchaseorder-vendor .vendor-select-text .vendor-selected').append('<span class="change">x</span>');
+			if (vendorFax) {
+				$('.buttons .btn-fax').prop("disabled", false);
+			}
+			if (vendorEmail) {
+				$('.buttons .btn-email').prop("disabled", false);
+			}
+		});
+	});
+
+	$('.purchaseorder-vendor .vendor-selected').on('click', '.change', function(event) {
+		$('.purchaseorder-vendor .vendor-select-text .vendor-selected').empty().hide();
+		$('.purchaseorder-vendor .vendor-select-input').show().val('');
+		$('.buttons .btn-fax, .buttons .btn-email').prop("disabled", "disabled");
+	});
+
 });
 
-$(document).mouseup(function (e)
-{
-    var container = $("#results-popup");
+$(document).mouseup(function (e) {
+    var container = $("#results-popup, .purchaseorder-vendor .vendor-select-list");
 
     if (!container.is(e.target) // if the target of the click isn't the container...
         && container.has(e.target).length === 0) // ... nor a descendant of the container

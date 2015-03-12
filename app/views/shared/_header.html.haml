@@ -114,7 +114,7 @@
 				= button_tag(type: 'submit', class: "btn btn-save") do
 					%span.text Save Vendor
 			-elsif button == "Save Address"
-				= link_to company_path(@company), class: 'btn' do
+				= link_to edit_company_path(@company), class: 'btn' do
 					%span.text Cancel
 				- if action_name == "edit"
 					= link_to @address, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger' do
@@ -122,7 +122,7 @@
 				= button_tag(type: 'submit', class: "btn btn-save") do
 					%span.text Save Address
 			-elsif button == "Save Settings"
-				-#= link_to company_path(@company), class: 'btn' do
+				-#= link_to edit_company_path(@company), class: 'btn' do
 				-#	%span.text Cancel
 				= button_tag(type: 'submit', class: "btn btn-save") do
 					%span.text Save Settings
