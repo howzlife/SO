@@ -48,7 +48,21 @@
 					= f.select :vendor, @company.vendors.all.map { |r| [r.name, r.id] }, :include_blank => "Select Vendor"
 					.vendor-select-text.search-query
 						.vendor-selected
-						%input.vendor-select-input{:type => "text",:placeholder => "Vendor name"}/
+							- if !@purchase_order.vendor.name.blank?
+								.name= @purchase_order.vendor.name
+								- if !@purchase_order.vendor.email.blank?
+									.email= "Email: #{@purchase_order.vendor.email}"
+								- if !@purchase_order.vendor.contact.blank?
+									.contact= "Attn: #{@purchase_order.vendor.contact}"
+								- if !@purchase_order.vendor.telephone.blank?
+									.telephone= "Tel: #{@purchase_order.vendor.telephone}"
+								- if !@purchase_order.vendor.fax.blank?
+									.fax=  "Fax: #{@purchase_order.vendor.fax}"
+								%span.change x
+						- if !@purchase_order.vendor.name.blank?
+							%input.vendor-select-input{:type => "text",:placeholder => "Vendor name", class: "hidden"}
+						- else
+							%input.vendor-select-input{:type => "text",:placeholder => "Vendor name"}
 					.vendor-select-list
 						.list-body
 						.list-footer
@@ -56,14 +70,6 @@
 								%span.text Create New Vendor						
 							= link_to vendors_path do
 								%span.text Manage Vendors			
-					- if !@purchase_order.vendor.name.blank?
-						=@purchase_order.vendor.name
-						%br
-						- if !@purchase_order.vendor.contact.blank?
-							Attention: #{@purchase_order.vendor.contact}
-							%br
-						- if !@purchase_order.vendor.email.blank?
-							=@purchase_order.vendor.email
 					.vendor-details
 				.date-required
 					.text-label Date Required
@@ -93,9 +99,9 @@
 					.deliverto-details
 
 		.buttons
-			= button_tag(type: 'submit', :disabled => true, :name => "status", :value => "email", :data => { :confirm => 'Are you sure? Once you email this purchase order, you will not be able to edit its contents.' }, class: "btn btn-email") do
+			= button_tag(type: 'submit', :disabled => @purchase_order.vendor.email.blank?, :name => "status", :value => "email", :data => { :confirm => 'Are you sure? Once you email this purchase order, you will not be able to edit its contents.' }, class: "btn btn-email") do
 				%span.text Send by Email
-			= button_tag(type: 'submit', :disabled => true, :name => "status", :value => "fax", :data => { :confirm => 'Are you sure? Once you fax this purchase order, you will not be able to edit its contents.' }, class: "btn btn-fax") do
+			= button_tag(type: 'submit', :disabled => @purchase_order.vendor.fax.blank?, :name => "status", :value => "fax", :data => { :confirm => 'Are you sure? Once you fax this purchase order, you will not be able to edit its contents.' }, class: "btn btn-fax") do
 				%span.text Send by Fax
 	.divider.no-print
 	.wrapper.section.clear.no-print
