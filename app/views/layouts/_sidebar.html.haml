@@ -50,7 +50,7 @@
 				%span.text Help
 				%i.fa.fa-question-circle.fa-fw
 	%br
-	-if current_user.confirmed? 
+	-if !current_user.confirmed? 
 		Email Confirmation
 		%br
 		You can not send POs until you have confirmed your account.

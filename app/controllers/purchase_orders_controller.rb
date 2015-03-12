@@ -100,8 +100,9 @@ class PurchaseOrdersController < ApplicationController
     @company.labels.find_or_create_by(name: @purchase_order.label)
     @purchase_order.status = "draft"
     @purchase_order.was_deleted = false
-    @purchase_order.save
+    # @purchase_order.save
 
+    if @purchase_order.save
         ## Response for send by Fax or Email 
         if params[:status] == "email"
      			PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
@@ -137,14 +138,21 @@ class PurchaseOrdersController < ApplicationController
         elsif params[:status] == "print"
            @purchase_order.status = "draft" 
            @purchase_order.save
-           respond_with(@purchase_order)
-        # Error Handling
-        else
-          respond_to do |format|
-            format.html { render :new }
-            format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
-          end
+           respond_with(@purchase_order)    
         end
+    # Error Handling
+    elsif params[:status] == "discard"
+      @purchase_order.destroy
+      respond_to do |format|
+        format.html { redirect_to purchase_orders_path, notice: 'Purchase order was successfully discarded.' }
+        format.json { head :no_content }
+    end
+    else
+      respond_to do |format|
+        format.html { render :new }
+        format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
 
@@ -208,6 +216,7 @@ class PurchaseOrdersController < ApplicationController
 
       # stowaway methods - archive, delete, and undo archive, undo delete
     elsif params[:status] == "deleted"
+      @purchase_order.update_attribute(:archived, false)
       @purchase_order.update_attribute(:was_deleted, true)
       @purchase_order.update_attribute(:status, "deleted")
       flash[:notice] = "Purchase Order has been Deleted." if @purchase_order.save
@@ -246,14 +255,17 @@ class PurchaseOrdersController < ApplicationController
       @purchase_order = @po
       flash[:notice] = "Purchase Order Duplicated as New" if @purchase_order.save
       respond_with(@purchase_order)
-      # @new_po = @company.purchase_orders.new
-      # @new_po.write_attribute(:vendor, @purchase_order.read_attribute(:vendor))
-      # @new_po.write_attribute(:address, @purchase_order.read_attribute(:address))
-      # @purchase_order = @company.purchase_orders.build(@new_po)
-      # @company.labels.find_or_create_by(name: @purchase_order.label)
-      # @purchase_order.status = "draft"
-      # flash[:notice] = "Purchase Order was duplicated as new." if @purchase_order.save
-      # respond_with(@purchase_order)
+
+    elsif params[:status] == "discard"
+      @purchase_order.destroy
+      respond_to do |format|
+        format.html { redirect_to purchase_orders_path, notice: 'Purchase order was successfully discarded.' }
+        format.json { head :no_content }
+      end
+    elsif params[:status] == "label"
+      @purchase_order.update_attribute(:label, params[:label])
+      flash[:notice] = "Label was added to purchase order" if @purchase_order.save
+      respond_with(@purchase_order)
     end
   end
 
@@ -272,6 +284,10 @@ class PurchaseOrdersController < ApplicationController
         format.json { head :no_content }
       end
     end
+  end
+
+  def resend_confirmation
+    current_user.resend_confirmation_instructions
   end
 
   private

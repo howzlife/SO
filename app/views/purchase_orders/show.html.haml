@@ -135,3 +135,6 @@
 		.section-content
 			.card
 				= f.input :label, label: 'Label', :placeholder => "enter a label..."
+				= button_tag(type: 'submit', :name => "status", :value => "label", class: "btn btn-label") do
+					%span.text Add Label
+
