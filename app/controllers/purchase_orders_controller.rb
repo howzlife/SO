@@ -286,6 +286,10 @@ class PurchaseOrdersController < ApplicationController
     end
   end
 
+  def resend_confirmation
+    current_user.resend_confirmation_instructions
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_purchase_order
