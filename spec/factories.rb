@@ -34,9 +34,9 @@ FactoryGirl.define do
     end
     # association :address, strategy: :build
     # association :vendor, strategy: :build
-    # after(:create) do |c|
-    # # c.update_attribute(:addresses, [FactoryGirl.build(:address)])
-    # end
+    #  after(:create) do |c|
+    #  c.update_attribute(:addresses, [FactoryGirl.build(:address)])
+    #  end
   end
 
   factory :fax do
