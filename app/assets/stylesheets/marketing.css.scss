@@ -53,15 +53,17 @@ $helvetica: 'Helvetica W01 Italic';
     h2 {
         font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';;
         font-size: 4.8rem;
-        font-weight: normal;
+        font-weight: 100;
+        line-height: 8rem;
+        margin-bottom: 1.5rem;
     }
 
     h3 {
             font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';;
-            color: black;
+            color: $dkgrey;
             font-size: 2.4rem;
             margin: auto;
-            font-weight: normal;
+            font-weight: 100;
         }
 // Nav
 
@@ -75,12 +77,15 @@ $helvetica: 'Helvetica W01 Italic';
             width: 60%;
             color: $ltblue;
             font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';
-            font-size: 2rem;
+            font-size: 1.8rem;
             text-align: right;
+            font-weight: 100;
+            margin-top: 2.5rem;
 
             li {
                 display: inline-block;
                 padding-right: 2rem;
+                letter-spacing: 0.06rem;
 
                 button {
                     border: 1px solid $ltblue;
@@ -136,6 +141,7 @@ $helvetica: 'Helvetica W01 Italic';
             color: $dkgrey;
             font-size: 2.4rem;
             margin: auto;
+            line-height: 4rem;
         }
 
         p {
@@ -223,10 +229,12 @@ main {
 
     h2 {
         color: $orange;
+        line-height: 6.5rem;
     }
 
     h3 {
         max-width: 720px;
+        font-size: 1.8rem;
     }
 
     img {
@@ -368,15 +376,32 @@ body.startPageBody {
 }
 
 //PRICING PAGE
+
+    header {
+        button.getStarted {
+            background: white;
+            border: 1px solid $blue;
+            color: $blue;
+            padding: 1.5rem 3rem;
+            font-size: 1.8rem;
+            margin-top: 2.5rem;
+            margin-bottom: 3rem;
+        }
+    }
     .pricingHeaderSection {
         margin: 2rem;
+
+        p {
+            font-weight:100;
+        }
     }
 
     table.pricing {
         font-size: 1.8rem;
         margin: auto;
         font-weight: 400;
-        
+        margin-bottom: 3rem;
+
         tr {
             th {
                 padding: 1rem;
@@ -468,5 +493,14 @@ body.startPageBody {
             color: $orange;
             font-size: 1.6rem;
             margin-bottom: 2rem;
+        }
+    }
+
+    main {
+        h3.allPlans {
+            border-bottom: 1px solid darkgrey;
+            width: 142px;
+            padding-bottom: 0.2rem;
+            margin-top: 4rem;
         }
     }
