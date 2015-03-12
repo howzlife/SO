@@ -10,13 +10,6 @@ class ApplicationController < ActionController::Base
   before_action :set_var
   before_action :configure_permitted_parameters, if: :devise_controller?
 
-  def index
-    if params[:resend_instructions]
-      current_user.resend_confirmation_instructions
-      flash[:notice] = "Confirmation instructions were re-sent"
-    end
-  end
-
   protected
     def configure_permitted_parameters
         devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:first_name, :last_name, :email, :password, :password_confirmation) }

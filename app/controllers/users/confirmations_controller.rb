@@ -10,6 +10,12 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
   #   super
   # end
 
+  def resend_confirmation_email
+    current_user.resend_confirmation_instructions
+    flash[:notice] = "Confirmation Email has been re-sent"
+    redirect_to purchase_orders_path
+  end
+
   # GET /resource/confirmation?confirmation_token=abcdef
   # def show
   #   super
@@ -18,9 +24,9 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
   # protected
 
   # The path used after resending confirmation instructions.
-  # def after_resending_confirmation_instructions_path_for(resource_name)
-  #   super(resource_name)
-  # end
+   def after_resending_confirmation_instructions_path_for(resource_name)
+     root_path
+   end
 
   # The path used after confirmation.
   def after_confirmation_path_for(resource_name, resource)  

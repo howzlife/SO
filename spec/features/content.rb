@@ -12,15 +12,10 @@ describe "The Purchase Order Process" do
 	before(:each) do
 		DatabaseCleaner.start
 		@user = FactoryGirl.create(:user)
-		@user.write_attribute(:company, FactoryGirl.create(:company))
+		@company = FactoryGirl.create(:company)
+		@company.update_attribute(:users, @user) 		
 
-		@company = @user.read_attribute(:company)  #FactoryGirl.create(:company)
-		#@user_attributes = FactoryGirl.attributes_for(:user)
-		# @company.write_attribute(:user, @user)
-		@company.write_attribute(:users, [@user]) 		
-
-		login_as(@company.read_attribute(:user))
-		#login_as(@company.read_attribute(:user))
+		login_as(@user)
 	end
 
 	# before(:each) do
@@ -126,17 +121,20 @@ describe "The Purchase Order Process" do
 	describe "Closed PO functionality" do 
 		it "Closed Purchase Order should duplicate as new" do 
 			visit purchase_orders_path
+			expect(current_path).to eq purchase_orders_path
 			purchase_order = FactoryGirl.create(:purchase_order, :as_closed)
 			@company.write_attribute(:purchase_order, purchase_order)
 			purchase_order.write_attribute(:company, @company)
 			visit purchase_order_path(purchase_order.read_attribute(:id))
 			expect(current_path).to eq purchase_order_path(purchase_order.read_attribute(:id))
 			puts @company.inspect
-			puts page.html
-			
-			expect{find("#duplicate-as-new-btn").click}.to change{PurchaseOrder.count}.by(1)
+			within (".elipsis.btn") do
+				puts page.html
+				expect{find(".link-duplicate").click}.to change{PurchaseOrder.count}.by(1)
+			end
 			new_purchase_order = PurchaseOrder.last
-			expect(new_purchase_order.read_attribute(:date_required)).to equal(purchase_order.read_attribute(:date_required))
+			expect(new_purchase_order.read_attribute(:date_required)).to eq(purchase_order.read_attribute(:date_required))
+			expect(new_purchase_order.read_attribute(:number)).not_to eq(purchase_order.read_attribute(:number))
 		end
 	end
 
