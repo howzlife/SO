@@ -18,5 +18,10 @@ class MarketingController < ApplicationController
   def features
   	render layout: false
   end
+
+  def signup
+  	render layout: false
+  end
+
 end
 
