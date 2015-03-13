@@ -17,7 +17,7 @@ class Address
 
   def self.search(company_id, search)
     if search
-      where(company_id: company_id).any_of({name: /#{search}/i}, {address: /#{search}/i}, {agent: /#{search}/i})
+      where(name: /#{search}/i)
     end
   end
 

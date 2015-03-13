@@ -239,7 +239,44 @@ $(function() {
 		}
     }).attr('autocomplete', 'off').data('oldval', '');
 
+	// deliover to select search select
+	$('.purchaseorder-deliverto .dynamic-select-list').on('click', '.dynamic-name', function(event) {
+		$('#purchase_order_address option[value="' + $(this).data('id') + '"]').prop('selected', true);
+		$('.purchaseorder-deliverto .dynamic-select-list, .purchaseorder-deliverto .dynamic-select-input').hide();
+		$.get( "/addresses/"+ $(this).data('id') +".json", function( data ) {
+			$('.purchaseorder-deliverto .dynamic-select-text .dynamic-selected').empty().show();
+			console.log(data);
+			$.each(data, function(index, name) {
+				if (index != "id") {
+					if (name != "") {
+						if (index == "name") {
+							$('.purchaseorder-deliverto .dynamic-select-text .dynamic-selected').append('<div class="' + index + '">' + name + '</div>');
+						} else if (index == "address") {
+							$('.purchaseorder-deliverto .dynamic-select-text .dynamic-selected').append('<div class="' + index + '">' + name.address_line_1 +', '+ name.address_line_2 +'<br>'+ name.city +', '+ name.state +', '+ name.zip + '</div>');
+						} else {
+							var label = index;
+							if (index == "agent") {
+								label = "Attn"
+							} else if (label == "telephone") {
+								label = "Tel"
+							} else if (index == "fax") {
+								label = "Fax";
+							}
+							$('.purchaseorder-deliverto .dynamic-select-text .dynamic-selected').append('<div class="' + index + '">' + label + ': ' + name + '</div>').show();
+						}
+					}
+				}
+			});
+			$('.purchaseorder-deliverto .dynamic-select-text .dynamic-selected').append('<span class="change">&times;</span>');
+		});
+	});
 
+	// vendor select change
+	$('.purchaseorder-deliverto .dynamic-selected').on('click', '.change', function(event) {
+		$('.purchaseorder-deliverto .dynamic-select-text .dynamic-selected').empty().hide();
+		$('.purchaseorder-deliverto .dynamic-select-input').show().val('');
+	});
+	
 });
 
 $(document).mouseup(function (e) {

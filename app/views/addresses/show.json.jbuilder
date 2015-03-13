@@ -1,1 +1,1 @@
-json.extract! @address, :id, :name, :address, :telephone, :agent, :defaultflag
+json.extract! @address, :id, :name, :address, :telephone, :agent
