@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Swiftorders, Absolutely Easy Purchase Orders for Your Business</title>
+  <link rel="icon" type="image/x-icon" href="favicon.gif">
+  <!-- TYPOGRAPHY -->
+  <!-- ideal sans -->
+  <link rel="stylesheet" type="text/css" href="//cloud.typography.com/6317272/712246/css/fonts.css" />
+  <!-- pacifico -->
+  <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+  <!-- helvetica -->
+  <link type="text/css" rel="stylesheet" href="http://fast.fonts.net/cssapi/064d369a-c717-4ea9-95f5-2158eabd48f8.css"/>
+  <!-- JQUERY -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <!-- Stylesheet -->
+  <%= stylesheet_link_tag "marketing" %> 
+</head>
+<body>
+  <nav class="clearfix">
+    <h1><%= image_tag "swiftordersLogo.jpg" %></h1>
+    <ul>
+      <li>Features</li>
+      <li>Pricing</li>
+      <li>Help</li>
+      <li><a href="http://swiftorders.com">Log In</a></li>
+      <li><button><a href="users/sign_up">Sign Up Free</a></button></li>
+    </ul>
+  </nav>
+  <header class="clearfix">
+    <h2>Sign Up</h2>
+  </header>
+  <main>
+
+<div class="log-in">
+  <h2>Sign up</h2>
+  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= f.error_notification %>
+    <div class="form-inputs">
+      <%= f.input :first_name, required: true, autofocus: true %>
+      <%= f.input :last_name, required: true, autofocus: true %>
+      <%= f.input :email, required: true, autofocus: true %>
+      <%= f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @validatable) %>
+    </div>
+    <div class="form-actions">
+      <%= f.button :submit, "Sign up" %>
+    </div>
+  <% end %>
+</div>
+<div class="log-in links">
+  <%= render "devise/shared/links" %>
+</div>
+
+
+  </main>
+
+  <footer>
+    <p>Copyright 2015 Swiftorders<p>
+  </footer>
+</body>
+</html>
