@@ -57,7 +57,7 @@
 		%br
 		Confirm your account by clicking the link in the welcome email
 		%br
-	//	= link_to('Resend A'), "users/confirmations#resend_confirmation_email"
+		= link_to('Resend A', "users/confirmations#resend_confirmation_email", :method => :post)
 	//	= link_to('Resend B', user_confirmation_path(user: {:email => current_user.email}), :method => :post)   
 	%br
 	// commented out because of this error

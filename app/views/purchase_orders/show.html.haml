@@ -134,6 +134,6 @@
 			%p Use this area to add additional information about this purchase order.
 		.section-content
 			.card
+			.card
 				= f.input :label, label: 'Label', :placeholder => "enter a label..."
-				= button_tag(type: 'submit', :name => "status", :value => "label", class: "btn btn-label") do
-					%span.text Add Label
+				= button_to "Update Label", @purchase_order, :method => :post, class: "btn btn-label"
