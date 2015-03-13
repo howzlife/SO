@@ -85,7 +85,7 @@
 					.text-label Ship To
 
 				.deliverto-select
-					= @company.shipaddress
+					= @company.addresses.find(@company.shipaddress).name
 					= f.select :address, @company.addresses.all.map { |r| [r.name, r.id] }, :include_blank => "Select Address"
 					.deliverto-select-text.search-query
 						.deliverto-selected
