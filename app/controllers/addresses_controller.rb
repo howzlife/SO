@@ -2,12 +2,17 @@ class AddressesController < ApplicationController
   before_action :set_address, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
 
-  def new
-    @address = @company.addresses.new
+  # GET /addresses.json
+  def index
+    if params["q"].blank?
+      @addresses = @company.addresses.all.page params[:page]
+    else
+      @addresses = @company.addresses.search(@company.id, params["q"]).page params[:page]
+    end
   end
 
-  # GET /vendors/1.json
-  def show
+  def new
+    @address = @company.addresses.new
   end
 
   # POST /addresses
@@ -60,7 +65,6 @@ class AddressesController < ApplicationController
       @address = @company.addresses.find(params[:id])
     end
 
-
     # Never trust parameters from the scary internet, only allow the white list through.
     def address_params
       #funky strong params block taken from https://github.com/rails/rails/issues/9454#issuecomment-14167664
@@ -69,4 +73,3 @@ class AddressesController < ApplicationController
       end
     end
 end
-
