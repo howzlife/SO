@@ -49,6 +49,7 @@
 			.section-content
 				.card
 					.form-inputs
+
 						%table#searchable-table.sortable
 							%thead
 								%tr
@@ -73,6 +74,7 @@
 											= f.radio_button :shipaddress, a.id, class: "radio-buttons required"
 										%td
 											= f.radio_button :billaddress, a.id, class: "radio-buttons required"
+
 		.contents.section.clear
 			.buttons
 				= button_tag(type: 'submit', class: "btn btn-save") do

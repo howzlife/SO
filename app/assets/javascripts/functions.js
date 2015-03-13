@@ -1,5 +1,9 @@
 $(function() {
 
+	var currReqObj = null;
+    var searchTimeoutThrottle = 100; // speed of search
+    var searchTimeoutID = -1;
+
 	var formChanged = false;
 	$('.form-inputs input').each(function () {
 		$(this).data('data-initial-value', $(this).val());
@@ -39,9 +43,6 @@ $(function() {
 	  'pattern': '({{999}}) {{999}}-{{9999}}'
 	});
 
-	var currReqObj = null;
-    var searchTimeoutThrottle = 100;
-    var searchTimeoutID = -1;
 	$('.search .search-query').bind('keyup change', function(){
 		var results = false;
         if($(this).val() != $(this).data('oldval')) {
@@ -131,7 +132,8 @@ $(function() {
         }
     }).attr('autocomplete', 'off').data('oldval', '');
 
-	$('.purchaseorder-vendor .vendor-select-input').bind('keyup change', function(){
+	// vendor select search
+	$('.purchaseorder-vendor .dynamic-select-input').bind('keyup change', function(){
         if($(this).val() != $(this).data('oldval') && $(this).val() != "") {
         	$(this).data('oldval', $(this).val());
         	if(currReqObj != null) currReqObj.abort();
@@ -140,68 +142,37 @@ $(function() {
         	 searchTimeoutID = setTimeout(function(){
 				 currReqObj = $.get( "/vendors.json?q=" + term, function( data ) {
 					currReqObj = null;
-					$('.purchaseorder-vendor .vendor-select-list').show();
-					$('.purchaseorder-vendor .vendor-select-list .list-body').empty();
+					$('.purchaseorder-vendor .dynamic-select-list').show();
+					$('.purchaseorder-vendor .dynamic-select-list .list-body').empty();
 					if (data.length > 0) {
 						$.each(data, function(index, item) {
-							$('.purchaseorder-vendor .vendor-select-list .list-body').append('<div class="vendor-name" data-id="' + item.id + '">' + item.name + '</div>');
+							$('.purchaseorder-vendor .dynamic-select-list .list-body').append('<div class="dynamic-name" data-id="' + item.id + '">' + item.name + '</div>');
 						});
 					} else {
-						$('.purchaseorder-vendor .vendor-select-list .list-body').append('<div class="empty">No results found.</div>');
+						$('.purchaseorder-vendor .dynamic-select-list .list-body').append('<div class="empty">No results found.</div>');
 					}
 				});
             }, searchTimeoutThrottle);
         }
 		if($(this).val() == "") {
-			$('.purchaseorder-vendor .vendor-select-list').hide();
+			$('.purchaseorder-vendor .dynamic-select-list').hide();
 		}
     }).attr('autocomplete', 'off').data('oldval', '');
 
-	$('.purchaseorder-deliverto .deliverto-select-input').bind('keyup change', function(){
-        if($(this).val() != $(this).data('oldval') && $(this).val() != "") {
-        	$(this).data('oldval', $(this).val());
-        	if(currReqObj != null) currReqObj.abort();
-        	 clearTimeout(searchTimeoutID);
-        	 var term = $(this).val();
-        	 searchTimeoutID = setTimeout(function(){
-				 currReqObj = $.get( "/addresses.json?q=" + term, function( data ) {
-					currReqObj = null;
-					$('.purchaseorder-deliverto .deliverto-select-list').show();
-					$('.purchaseorder-deliverto .deliverto-select-list .list-body').empty();
-					if (data.length > 0) {
-						$.each(data, function(index, item) {
-							$('.purchaseorder-deliverto .deliverto-select-list .list-body').append('<div class="deliverto-name" data-id="' + item.id + '">' + item.name + '</div>');
-						});
-					} else {
-						$('.purchaseorder-deliverto .deliverto-select-list .list-body').append('<div class="empty">No results found.</div>');
-					}
-				});
-            }, searchTimeoutThrottle);
-        }
-		if($(this).val() == "") {
-			$('.purchaseorder-deliverto .deliverto-select-list').hide();
-		}
-    }).attr('autocomplete', 'off').data('oldval', '');
-
-
-
-	$('.purchaseorder-vendor .deliverto-select-list').on('click', '.vendor-name', function(event) {
-		$('#purchase_order_address option[value="' + $(this).data('id') + '"]').prop('selected', true);
-	});
-	
-	$('.purchaseorder-vendor .vendor-select-list').on('click', '.vendor-name', function(event) {
+	// vendor select select
+	$('.purchaseorder-vendor .dynamic-select-list').on('click', '.dynamic-name', function(event) {
 		var vendorEmail = false;
 		var vendorFax = false;
 
 		$('#purchase_order_vendor option[value="' + $(this).data('id') + '"]').prop('selected', true);
-		$('.purchaseorder-vendor .vendor-select-list, .purchaseorder-vendor .vendor-select-input').hide();
+		$('.purchaseorder-vendor .dynamic-select-list, .purchaseorder-vendor .dynamic-select-input').hide();
 		$.get( "/vendors/"+ $(this).data('id') +".json", function( data ) {
-			$('.purchaseorder-vendor .vendor-select-text .vendor-selected').empty();
+			$('.purchaseorder-vendor .dynamic-select-text .dynamic-selected').empty();
 			$.each(data, function(index, name) {
 				if (index != "id") {
 					if (name != "") {
 						if (index == "name") {
-							$('.purchaseorder-vendor .vendor-select-text .vendor-selected').append('<div class="' + index + '">' + name + '</div>').show();
+							$('.purchaseorder-vendor .dynamic-select-text .dynamic-selected').append('<div class="' + index + '">' + name + '</div>').show();
 						} else {
 							var label = index;
 							if (index == "contact") {
@@ -213,7 +184,7 @@ $(function() {
 							} else if (index == "email") {
 								label = "Email";
 							}
-							$('.purchaseorder-vendor .vendor-select-text .vendor-selected').append('<div class="' + index + '">' + label + ': ' + name + '</div>').show();
+							$('.purchaseorder-vendor .dynamic-select-text .dynamic-selected').append('<div class="' + index + '">' + label + ': ' + name + '</div>').show();
 						}						
 						if (index == "email") {
 							vendorEmail = true;
@@ -223,7 +194,7 @@ $(function() {
 					}
 				}
 			});
-			$('.purchaseorder-vendor .vendor-select-text .vendor-selected').append('<span class="change">x</span>');
+			$('.purchaseorder-vendor .dynamic-select-text .dynamic-selected').append('<span class="change">&times;</span>');
 			if (vendorFax) {
 				$('.buttons .btn-fax').prop("disabled", false);
 			}
@@ -233,12 +204,79 @@ $(function() {
 		});
 	});
 
-	$('.purchaseorder-vendor .vendor-selected').on('click', '.change', function(event) {
-		$('.purchaseorder-vendor .vendor-select-text .vendor-selected').empty().hide();
-		$('.purchaseorder-vendor .vendor-select-input').show().val('');
+	// vendor select change
+	$('.purchaseorder-vendor .dynamic-selected').on('click', '.change', function(event) {
+		$('.purchaseorder-vendor .dynamic-select-text .dynamic-selected').empty().hide();
+		$('.purchaseorder-vendor .dynamic-select-input').show().val('');
 		$('.buttons .btn-fax, .buttons .btn-email').prop("disabled", "disabled");
 	});
 
+
+	// deliover to select search
+	$('.purchaseorder-deliverto .dynamic-select-input').bind('keyup change', function(){
+        if($(this).val() != $(this).data('oldval') && $(this).val() != "") {
+        	$(this).data('oldval', $(this).val());
+        	if(currReqObj != null) currReqObj.abort();
+        	 clearTimeout(searchTimeoutID);
+        	 var term = $(this).val();
+        	 searchTimeoutID = setTimeout(function(){
+				 currReqObj = $.get( "/addresses.json?q=" + term, function( data ) {
+					currReqObj = null;
+					$('.purchaseorder-deliverto .dynamic-select-list').show();
+					$('.purchaseorder-deliverto .dynamic-select-list .list-body').empty();
+					if (data.length > 0) {
+						$.each(data, function(index, item) {
+							$('.purchaseorder-deliverto .dynamic-select-list .list-body').append('<div class="dynamic-name" data-id="' + item.id + '">' + item.name + '</div>');
+						});
+					} else {
+						$('.purchaseorder-deliverto .dynamic-select-list .list-body').append('<div class="empty">No results found.</div>');
+					}
+				});
+            }, searchTimeoutThrottle);
+        }
+		if($(this).val() == "") {
+			$('.purchaseorder-deliverto .dynamic-select-list').hide();
+		}
+    }).attr('autocomplete', 'off').data('oldval', '');
+
+	// deliover to select search select
+	$('.purchaseorder-deliverto .dynamic-select-list').on('click', '.dynamic-name', function(event) {
+		$('#purchase_order_address option[value="' + $(this).data('id') + '"]').prop('selected', true);
+		$('.purchaseorder-deliverto .dynamic-select-list, .purchaseorder-deliverto .dynamic-select-input').hide();
+		$.get( "/addresses/"+ $(this).data('id') +".json", function( data ) {
+			$('.purchaseorder-deliverto .dynamic-select-text .dynamic-selected').empty().show();
+			console.log(data);
+			$.each(data, function(index, name) {
+				if (index != "id") {
+					if (name != "") {
+						if (index == "name") {
+							$('.purchaseorder-deliverto .dynamic-select-text .dynamic-selected').append('<div class="' + index + '">' + name + '</div>');
+						} else if (index == "address") {
+							$('.purchaseorder-deliverto .dynamic-select-text .dynamic-selected').append('<div class="' + index + '">' + name.address_line_1 +', '+ name.address_line_2 +'<br>'+ name.city +', '+ name.state +', '+ name.zip + '</div>');
+						} else {
+							var label = index;
+							if (index == "agent") {
+								label = "Attn"
+							} else if (label == "telephone") {
+								label = "Tel"
+							} else if (index == "fax") {
+								label = "Fax";
+							}
+							$('.purchaseorder-deliverto .dynamic-select-text .dynamic-selected').append('<div class="' + index + '">' + label + ': ' + name + '</div>').show();
+						}
+					}
+				}
+			});
+			$('.purchaseorder-deliverto .dynamic-select-text .dynamic-selected').append('<span class="change">&times;</span>');
+		});
+	});
+
+	// vendor select change
+	$('.purchaseorder-deliverto .dynamic-selected').on('click', '.change', function(event) {
+		$('.purchaseorder-deliverto .dynamic-select-text .dynamic-selected').empty().hide();
+		$('.purchaseorder-deliverto .dynamic-select-input').show().val('');
+	});
+	
 });
 
 $(document).mouseup(function (e) {
