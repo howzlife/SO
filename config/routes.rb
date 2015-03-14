@@ -7,13 +7,13 @@ Rails.application.routes.draw do
     get "create"
   end
 
-  devise_scope :user do
-    post "/users/confirmations" => "users/confirmations#resend_confirmation_email"
-  end
-
   resources :companies, only: [:show, :edit, :update]
 
   devise_for :users, controllers: { sessions: 'users/sessions',  registrations: 'users/registrations', confirmations: 'users/confirmations' }
+
+  devise_scope :user do
+    post "/users/confirmations" => "users/confirmations#resend_confirmation_email"
+  end
 
   resources :purchase_orders
   resources :vendors

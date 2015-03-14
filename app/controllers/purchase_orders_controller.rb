@@ -262,10 +262,12 @@ class PurchaseOrdersController < ApplicationController
         format.html { redirect_to purchase_orders_path, notice: 'Purchase order was successfully discarded.' }
         format.json { head :no_content }
       end
-    elsif params[:status] == "label"
-      @purchase_order.update_attribute(:label, params[:label])
-      flash[:notice] = "Label was added to purchase order" if @purchase_order.save
-      respond_with(@purchase_order)
+    else #NOTE - this is where label updates are handled
+      @purchase_order.update(purchase_order_params)
+        respond_to do |format|
+          format.html { respond_with @purchase_order, notice: 'Label information was successfully updated' }
+          format.json { head :no_content }
+        end
     end
   end
 

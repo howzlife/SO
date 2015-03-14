@@ -13,7 +13,6 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
   def resend_confirmation_email
     current_user.resend_confirmation_instructions
     flash[:notice] = "Confirmation Email has been re-sent"
-    redirect_to purchase_orders_path
   end
 
   # GET /resource/confirmation?confirmation_token=abcdef
