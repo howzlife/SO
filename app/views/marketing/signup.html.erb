@@ -34,13 +34,17 @@
       <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
         <%= f.error_notification %>
         <div class="form-inputs">
-          <p class="label">First name</p><%= f.input :first_name, required: true, autofocus: true, placeholder: 'Your First Name' %>
+          <div class="firstNameSection">
+          <p class="label fNameLabel">First name</p><%= f.input :first_name, required: true, placeholder: 'Your First Name' %>
           <p class="inputHint fNameHint"> Will be displayed on outbound POs.</p>
-          <p class="label">Last name</p><%= f.input :last_name, required: true, autofocus: true, placeholder: 'Your Last Name' %>
+          </div>
+          <div class="lastNameSection">
+          <p class="label lNameLabel">Last name</p><%= f.input :last_name, required: true, placeholder: 'Your Last Name' %>
           <p class="inputHint lNameHint">Will be displayed on outbound POs.</p>
-          <p class="label emailLabel">Email</p><%= f.input :email, required: true, autofocus: true, placeholder: 'Your Email Address' %>
+          </div>
+          <p class="label emailLabel">Email</p><%= f.input :email, required: true, placeholder: 'Your Email Address' %>
           <p class="inputHint emailHint">You will use this to sign into your stores.</p>
-          <p class="label">Password</p><%= f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @validatable), placeholder: 'Your Password' %>
+          <p class="label passLabel">Password</p><%= f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @validatable), placeholder: 'Your Password' %>
           <p class="inputHint passHint">Easy to remember, hard to guess. Minimum 8 characters please.</p>
         </div> <!-- end form-inputs -->
         <div class="form-actions">
@@ -83,5 +87,39 @@
     </div> <!-- end footerContainer -->
     <p class="copyright">Copyright &copy; 2015 Swiftorders<p>
   </footer>
+
+  <script>
+    // INPUT HINTS
+    $( "#user_first_name").focus(function() {
+      $( ".fNameHint").css( "color", "white" );
+      $( ".lNameHint").css( "color", "#5883b4" );
+      $( ".emailHint").css( "color", "#5883b4" );
+      $( ".passHint").css( "color", "#5883b4" );
+    });
+    $( "#user_last_name").focus(function() {
+      $( ".fNameHint").css( "color", "#5883b4" );
+      $( ".lNameHint").css( "color", "white" );
+      $( ".emailHint").css( "color", "#5883b4" );
+      $( ".passHint").css( "color", "#5883b4" );
+      $( ".lNameLabel").css( "color", "white");
+    });
+    $( "#user_email").focus(function() {
+      $( ".fNameHint").css( "color", "#5883b4" );
+      $( ".lNameHint").css( "color", "#5883b4" );
+      $( ".emailHint").css( "color", "white" );
+      $( ".passHint").css( "color", "#5883b4" );
+      $( ".emailLabel").css( "color", "white");
+    });
+    $( "#user_password").focus(function() {
+      $( ".fNameHint").css( "color", "#5883b4" );
+      $( ".lNameHint").css( "color", "#5883b4" );
+      $( ".emailHint").css( "color", "#5883b4" );
+      $( ".passHint").css( "color", "white" );
+      $( ".passLabel").css( "color", "white");
+    });
+
+    //INPUT LABELS
+
+    </script>
 </body>
 </html>
