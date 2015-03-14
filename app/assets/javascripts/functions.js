@@ -43,6 +43,7 @@ $(function() {
 	  'pattern': '({{999}}) {{999}}-{{9999}}'
 	});
 
+	// sidebar search
 	$('.search .search-query').bind('keyup change', function(){
 		var results = false;
         if($(this).val() != $(this).data('oldval')) {
@@ -60,8 +61,7 @@ $(function() {
 						$('#results-popup, #results-popup .purchase-orders').show();
 						$('#results-popup .purchase-orders .results, #results-popup .no-results').empty();
 						$.each(data, function(index, item) {
-							var url = item.url.slice(0, -5);
-							$('#results-popup .purchase-orders .results').append('<div class="row"><a href="' + url + '">' + item.number + '</a></div>');
+							$('#results-popup .purchase-orders .results').append('<div class="row"><a href="/purchase_orders/' + item.id + '">' + item.number + '</a></div>');
 						});
 					}
 				});
@@ -74,8 +74,7 @@ $(function() {
 						$('#results-popup, #results-popup .vendors').show();
 						$('#results-popup .vendors .results, #results-popup .no-results').empty();
 						$.each(data, function(index, item) {
-							var url = "/edit" + item.url.slice(0, -5);
-							$('#results-popup .vendors .results').append('<div class="row"><a href="' + url + '">' + item.name + '</a></div>');
+							$('#results-popup .vendors .results').append('<div class="row"><a href="/vendors/' + item.id + '/edit">' + item.name + '</a></div>');
 						});
 					}
 				});
@@ -88,6 +87,7 @@ $(function() {
         }
     }).attr('autocomplete', 'off').data('oldval', '');
 
+	// vendor and purchase order search
 	$('.search-area .search-query').bind('keyup change', function(){
 	    var searchAction = $('.search-area .search-query').parent().attr('action').substring(1, $('.search-area .search-query').parent().attr('action').length);
 	    console.log(searchAction);
@@ -116,13 +116,12 @@ $(function() {
 						$('#searchable-table tbody').empty();
 						$.each(data, function(index, item) {
 							console.log(item);
-							var url = item.url.slice(0, -5);
-							var label = item.tags != null ? item.tags : '';
 							if (searchAction == "purchase_orders") {
-								$('#searchable-table tbody').append('<tr><td><a href="' + url + '" class="inverted-link">' + item.number + '</a></td><td>' +  $.format.date(item.date, "MMMM D, yyyy") + '</td><td>' + item.vendor.name + '</td><td>' + label + '</td><td><span class="label status-' + item.status + '">' + item.status + '</span></td></tr>');
+								var trclass = item.archived ? ' class="archived"' : '';
+								var label = item.label != "" ? item.label : '&ndash;';
+								$('#searchable-table tbody').append('<tr' + trclass + '><td><a href="/purchase_orders/' + item.id + '" class="inverted-link">' + item.number + '</a></td><td>' +  $.format.date(item.date, "MMMM D, yyyy") + '</td><td>' + item.vendor.name + '</td><td>' + label + '</td><td><span class="label status-' + item.status + '">' + item.status + '</span></td></tr>');
 							} else {
-								url += "/edit";
-								$('#searchable-table tbody').append('<tr><td><a href="' + url + '" class="inverted-link">' + item.name + '</a></td><td>' + item.email + '</td><td>' + item.contact + '</td><td>' + item.telephone + '</td><td>' + item.fax + '</td></tr>');
+								$('#searchable-table tbody').append('<tr><td><a href="/vendors/' + item.id + '/edit" class="inverted-link">' + item.name + '</a></td><td>' + item.email + '</td><td>' + item.contact + '</td><td>' + item.telephone + '</td><td>' + item.fax + '</td></tr>');
 							}
 						});
 						$('.sortable').trigger("update");

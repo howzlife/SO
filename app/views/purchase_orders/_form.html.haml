@@ -103,11 +103,4 @@
 				%span.text Send by Email
 			= button_tag(type: 'submit', :disabled => @purchase_order.vendor.fax.blank?, :name => "status", :value => "fax", :data => { :confirm => 'Are you sure? Once you fax this purchase order, you will not be able to edit its contents.' }, class: "btn btn-fax") do
 				%span.text Send by Fax
-	.divider.no-print
-	.wrapper.section.clear.no-print
-		.section-description
-			%h3 Internal Use
-			%p Use this area to add additional information about this purchase order.
-		.section-content
-			.card
-				= f.input :label, label: 'Label', :placeholder => "enter a label..."
+= render 'internal'

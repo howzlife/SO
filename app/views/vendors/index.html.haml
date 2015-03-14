@@ -6,9 +6,10 @@
 			= button_to new_vendor_path, method: 'get', class: 'btn btn-add' do
 				%span.text New Vendor
 	- else
-		= form_tag vendors_path, :class => "search-area", :method => :get do
-			%i.fa.fa-search.fa-fw
-			= text_field_tag :q, nil, :class => "search-query", :placeholder => "Start typing to search for vendors..."
+		.search-area
+			= form_tag vendors_path, :method => :get do
+				%i.fa.fa-search.fa-fw
+				= text_field_tag :q, nil, :class => "search-query", :placeholder => "Start typing to search for vendors...", :value => params.has_key?(:q) ? params['q'] : ''
 		%table#searchable-table.sortable
 			%thead
 				%tr
