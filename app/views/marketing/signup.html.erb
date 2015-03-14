@@ -18,14 +18,14 @@
 </head>
 <body class="signUpBody">
   <nav class="clearfix">
-    <h1><%= image_tag "swiftordersLogo.jpg" %></h1>
-    <ul>
-      <li>Features</li>
-      <li>Pricing</li>
-      <li>Help</li>
-      <li><a href="http://swiftorders.com">Log In</a></li>
-      <li><button><a href="users/sign_up">Sign Up Free</a></button></li>
-    </ul>
+    <h1><a href="/marketing"><%= image_tag "swiftordersLogo.jpg" %></a></h1>
+    <div class="navButtons">
+      <a href=""><button>Features</button></a>
+      <a href="/pricing"><button>Pricing</button></a>
+      <a href=""><button>Help</button></a>
+      <a href="/login"><button>Log In</button></a>
+      <a href="/signup"><button class="signUpButton">Sign Up Free</button></a>
+    </div> <!-- end navButtons -->
   </nav>
   <main class="signUpMain">
     <div class="log-in">

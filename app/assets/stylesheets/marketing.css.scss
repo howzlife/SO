@@ -21,6 +21,7 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
 //COLOURS
 $blue: #5883b4;
 $ltblue: #d5e1f1;
+$medblue: #81a5d0;
 $yellow: #fcf9f0;
 $ltyellow: #fbf7eb;
 $ltgrey: #eeeeee;
@@ -74,53 +75,38 @@ $helvetica: 'Helvetica W01 Italic';
     nav {
         background: $blue;
         padding: 0 2rem;
-    
+        margin: 0;
 
-        ul {
-            float: right;
-            color: $ltblue;
-            font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';
+        button {
+            background: $blue;
+            border: none;
+            padding: 3rem 2rem;
             font-size: 1.8rem;
-            text-align: right;
+            font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';
             font-weight: 100;
-            margin-top: 2.2rem;
+            color: $ltblue;
 
-            li {
-                display: inline-block;
-                padding-right: 3.5rem;
-                letter-spacing: 0.06rem;
-
-                button {
-                    border: 1px solid $ltblue;
-                    background: none;
-                    padding: 1rem 2rem;
-
-                    &:hover {
-                        background: $ltblue;
-                        color: $blue;
-                    }
-
-                    a {
-                        color: $ltblue;
-                        text-decoration: none;
-                    }
-                }
-
-                a {
-                    color: $ltblue;
-                    text-decoration: none;
-                }
+            &:hover {
+                background: $medblue;
+                color: white;
             }
-
-            li:last-child {
-                padding-right: 0;
-            }
-
-
         }
 
+        button.signUpButton {
+          padding: 1.5rem 2rem;
+          border: 1px solid $ltblue;
+          margin-left: 1rem;
+        }
+
+
+        .navButtons {
+          text-align: right;
+        }
+    
         h1 {
             float: left;
+            padding-top: 1rem;
+            margin: 0;
         }
 
         img {
@@ -181,7 +167,7 @@ $helvetica: 'Helvetica W01 Italic';
             padding: 1.3rem;
             font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';;
             color: $dkgrey;
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-right: 1rem;
             width: 23rem;
             font-weight: 100;
@@ -192,10 +178,24 @@ $helvetica: 'Helvetica W01 Italic';
             }
         }
 
+        label {
+            display: none;
+        }
+
+        .control-group {
+            display: inline-block;
+        }
+
         input[type="submit"] {
             background: $blue;
             color: white;
-            border: 1.7px solid $blue;
+            border: 1px solid $blue;
+              padding: 1.35rem;
+
+            &:hover {
+                background: white;
+                color: $blue;
+            }
         }
 
         ::-webkit-input-placeholder {
