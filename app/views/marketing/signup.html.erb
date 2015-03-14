@@ -35,13 +35,13 @@
         <%= f.error_notification %>
         <div class="form-inputs">
           <p class="label">First name</p><%= f.input :first_name, required: true, autofocus: true, placeholder: 'Your First Name' %>
-          <p class="inputHint"> Will be displayed on outbound POs.</p>
+          <p class="inputHint fNameHint"> Will be displayed on outbound POs.</p>
           <p class="label">Last name</p><%= f.input :last_name, required: true, autofocus: true, placeholder: 'Your Last Name' %>
-          <p class="inputHint">Will be displayed on outbound POs.</p>
+          <p class="inputHint lNameHint">Will be displayed on outbound POs.</p>
           <p class="label emailLabel">Email</p><%= f.input :email, required: true, autofocus: true, placeholder: 'Your Email Address' %>
-          <p class="inputHint">You will use this to sign into your stores.</p>
+          <p class="inputHint emailHint">You will use this to sign into your stores.</p>
           <p class="label">Password</p><%= f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @validatable), placeholder: 'Your Password' %>
-          <p class="inputHint">Easy to remember, hard to guess. Minimum 8 characters please.</p>
+          <p class="inputHint passHint">Easy to remember, hard to guess. Minimum 8 characters please.</p>
         </div> <!-- end form-inputs -->
         <div class="form-actions">
           <%= f.button :submit, "NEXT" %>
