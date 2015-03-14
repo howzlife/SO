@@ -23,5 +23,9 @@ class MarketingController < ApplicationController
   	render layout: false
   end
 
+  def login
+    render layout: false
+  end
+
 end
 

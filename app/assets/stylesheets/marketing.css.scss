@@ -26,7 +26,7 @@ $yellow: #fcf9f0;
 $ltyellow: #fbf7eb;
 $ltgrey: #eeeeee;
 $grey: #5e5e5e;
-$orange: #DB7123;
+$orange: #F58C3F;
 $red: #800000;
 $medgrey: #c0c0c0;
 $dkgrey: #333333;
@@ -174,7 +174,6 @@ $helvetica: 'Helvetica W01 Italic';
 
             &:focus {
                 outline: none;
-                border: 2px solid $red;
             }
         }
 
@@ -373,7 +372,6 @@ body.startPageBody {
 
                 &:focus {
                     outline: none;
-                    border: 2px solid $red;
                 }
             }
 
@@ -738,6 +736,10 @@ main.signUpMain {
             font-size: 2rem;
             width: 44rem;
             margin: 3rem 1rem 0rem -6rem;
+
+            &:focus {
+                outline: none;
+            }
         }  
 
         ::-webkit-input-placeholder {
@@ -763,3 +765,166 @@ main.signUpMain {
 
     }
 }
+
+// LOGIN PAGE
+
+body.logInBody {
+    background: $blue;
+}
+
+main.logInMain {
+    background: $blue;
+    padding: 1rem;
+    margin: 0 auto;
+    max-width: 650px;
+
+    .links {
+        p.copy {
+            display: none;
+        }
+    }
+
+    h2, h3 {
+        color: white;
+    }
+
+    .log-in {
+      margin-top: 4rem;
+
+      h2 {
+        font-size: 3.8rem;
+      }
+    }
+
+    .lNameHint, .emailHint, .passHint {
+            color: $blue;
+        }
+
+    .fNameHint {
+        color: white;
+    }
+
+    form {
+        margin-top: 0rem;
+
+        p.label {
+            float: left;
+            font-size: 1.5rem;
+            color: white;
+            margin-top: 4.8rem;
+        }
+        
+        p.label.fNameLabel {
+            color: white;
+        }
+
+       
+
+        input.btn {
+            background: $orange;
+            border: none;
+            font-size: 2.4rem;
+            color: white;
+            width: 44rem;
+            padding: 1.3rem 1.3rem 1.3rem 3rem;
+            margin: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        p.inputHint {
+          text-align: left;
+          margin-left: 12.6rem;
+          font-size: 1.3rem;
+          font-weight: 100;
+          margin-bottom: -1rem;
+          margin-top: 0.9rem;
+          letter-spacing: 0.02rem;
+        }
+
+    }
+
+    .form-inputs {
+        label, abbr {
+            display: none;
+        }
+        input {
+            padding: 1.3rem 1.3rem 1.3rem 3rem;
+            font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';
+            color: $dkgrey;
+            font-size: 2rem;
+            width: 44rem;
+            margin: 3rem 1rem 0rem -6rem;
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        p.label.emailLabel {
+            margin-right: 3rem;
+        }
+
+        .form-inputs.forgot-password.right {
+          text-align: right;
+          width: 534px;
+          color: white;
+          margin-top: 1rem;
+
+          a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            letter-spacing: 0.02rem;
+          }
+        }  
+
+        ::-webkit-input-placeholder {
+           color: $dkgrey;
+           font-weight: 100;
+
+        }
+
+        :-moz-placeholder { /* Firefox 18- */
+           color: $dkgrey; 
+           font-weight: 100;
+        }
+
+        ::-moz-placeholder {  /* Firefox 19+ */
+           color: $dkgrey; 
+           font-weight: 100; 
+        }
+
+        :-ms-input-placeholder {  
+           color: $dkgrey;  
+           font-weight: 100;
+        }
+
+    }
+
+    label.boolean.optional.control-label {
+        float: right;
+        margin-right: 9.5rem;
+        color: white;
+        font-size: 1.2rem;
+        letter-spacing: 0.02rem;
+    }
+
+    label.checkbox {
+        float: right;
+        margin-right: 1rem;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
