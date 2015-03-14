@@ -10,14 +10,21 @@
 		=link_to 'Closed', "?status=closed"
 	%li{class: sp('cancelled')}
 		=link_to 'Cancelled', "?status=cancelled"
-	%li{class: sp('archived')}
-		=link_to 'Archived', "?archived=true"
-	%li{class: sp('deleted')}
-		=link_to 'Deleted', "?status=deleted"
+/	%li{class: sp('archived')}
+/		=link_to 'Archived', "?archived=true"
+/	%li{class: sp('deleted')}
+/		=link_to 'Deleted', "?status=deleted"
 .contents
-	= form_tag purchase_orders_path, :class => "search-area", :id => "PO-search-bar", :method => :get do
-		%i.fa.fa-search.fa-fw
-		= text_field_tag :q, nil, :class => "search-query", :placeholder => "Start typing to search for POs ..."
+	.search-area.with-button.clear
+		.elipsis.btn
+			%span.text
+				&middot;&middot;&middot;
+			.tool-tip.below.left-align
+				=link_to 'Archived', "?archived=true"
+				=link_to 'Deleted', "?status=deleted"
+		= form_tag purchase_orders_path, :id => "PO-search-bar", :method => :get do
+			%i.fa.fa-search.fa-fw
+			= text_field_tag :q, nil, :class => "search-query", :placeholder => "Start typing to search for POs ..."
 
 	- if @purchase_orders.length == 0
 		.firstrun
