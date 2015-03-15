@@ -312,13 +312,13 @@ class PurchaseOrdersController < ApplicationController
       elsif !@company.addresses.first.try(:name)
         flash[:notice] = "Please fill in company address information"
         #redirect_to :back
-        redirect_to new_address_path
+        redirect_to edit_company_path(@company)
       elsif !@company.vendors.first.try(:name)
         flash[:notice] = "Please have at least one Vendor before making a PO"
         redirect_to new_vendor_path
       elsif !@company.try(:prefix)
         flash[:notice] = "Please fill in prefix information"
-        redirect_to settings_path
+        redirect_to edit_company_path(@company)
       end
     end
 

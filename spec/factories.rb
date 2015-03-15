@@ -14,7 +14,6 @@ FactoryGirl.define do
     telephone = "555-555-5555"
     fax "613-725-7397"
     agent "Dave"
-    defaultflag true
   end
 
   factory :company, class: Company do
@@ -94,12 +93,19 @@ FactoryGirl.define do
    end
   end
 
-	factory :user, class: User do
+	factory :confirmed_user, class: User do
   	first_name "John"
   	last_name  "Doe"
   	email { "user-#{rand(10_000)}@example.com" }
   	password "TEST123TEST"
     confirmed_at Time.zone.now - 1.minute
+  end
+
+  factory :unconfirmed_user, class: User do
+    first_name "John"
+    last_name  "Doe"
+    email { "user-#{rand(10_000)}@example.com" }
+    password "TEST123TEST"
   end
 
   factory :vendor, class: Vendor do

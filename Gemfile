@@ -81,6 +81,9 @@ gem 'responders'
 # spring gem to speed up rspec tests
 gem 'spring-commands-rspec', group: :development
 
+# for mongoid enums, for plans and max amount of po's
+gem 'mongoid-enum'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
