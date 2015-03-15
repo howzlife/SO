@@ -1,9 +1,10 @@
-.divider.no-print
-.wrapper.section.clear.no-print
-	.section-description
-		%h3 For Internal Use
-		%p Use this area to add additional information about this purchase order.
-	.section-content
-		.card
-			%h4 Refrence Label
-			%input{:class => "string" }
+= simple_form_for @purchase_order do |f|
+	.divider.no-print
+	.wrapper.section.clear.no-print
+		.section-description
+			%h3 Internal Use
+			%p Use this area to add additional information about this purchase order.
+		.section-content
+			.card
+				= f.input :label, label: 'Label', :placeholder => "enter a label..."
+				= button_to "Update Label", @purchase_order, :method => :post, class: "btn btn-label"

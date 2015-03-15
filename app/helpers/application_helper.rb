@@ -7,7 +7,7 @@ module ApplicationHelper
 
 	#add a current class if the search path is the current path
 	def sp(path)
-		"current" if request.url.include?(path) || (!params.has_key?(:status) && path == "all" && !params.has_key?(:label))
+		"current" if request.url.include?(path) || (!params.has_key?(:status) && path == "all" && !params.has_key?(:archived))
 	end
 
 end

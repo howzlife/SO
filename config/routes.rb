@@ -31,6 +31,7 @@ Rails.application.routes.draw do
 	get '/pricing' => 'marketing#pricing'
 	get '/features' => 'marketing#features'
 	get '/signup' => 'marketing#signup'
+  get '/login' => 'marketing#login'
 
 
   # You can have the root of your site routed with "root"

@@ -8,16 +8,27 @@
 		=link_to 'Open', "?status=open"
 	%li{class: sp('closed')}
 		=link_to 'Closed', "?status=closed"
-	%li{class: sp('cancelled')}
-		=link_to 'Cancelled', "?status=cancelled"
-	%li{class: sp('archived')}
-		=link_to 'Archived', "?archived=true"
-	%li{class: sp('deleted')}
-		=link_to 'Deleted', "?status=deleted"
+	-if sp('archived') == "current"
+		%li{class: sp('archived')}
+			=link_to 'Archived', "?archived=true"
+	-if sp('cancelled') == "current"
+		%li{class: sp('cancelled')}
+			=link_to 'Cancelled', "?status=cancelled"
+	-if sp('deleted') == "current"
+		%li{class: sp('deleted')}
+			=link_to 'Deleted', "?status=deleted"
 .contents
-	= form_tag purchase_orders_path, :class => "search-area", :id => "PO-search-bar", :method => :get do
-		%i.fa.fa-search.fa-fw
-		= text_field_tag :q, nil, :class => "search-query", :placeholder => "Start typing to search for POs ..."
+	.search-area.with-button.clear
+		.elipsis.btn
+			%span.text
+				&middot;&middot;&middot;
+			.tool-tip.below.left-align
+				=link_to 'Archived', "?archived=true"
+				=link_to 'Deleted', "?status=deleted"
+				=link_to 'Cancelled', "?status=cancelled"
+		= form_tag purchase_orders_path, :id => "PO-search-bar", :method => :get do
+			%i.fa.fa-search.fa-fw
+			= text_field_tag :q, nil, :class => "search-query", :placeholder => "Start typing to search for POs ...", :value => params.has_key?(:q) ? params['q'] : ''
 
 	- if @purchase_orders.length == 0
 		.firstrun
@@ -56,7 +67,8 @@
 								.details.email= link_to purchase_order.vendor.email, "mailto:#{purchase_order.vendor.email}"
 								.details.telephone= link_to purchase_order.vendor.telephone, "tel:#{purchase_order.vendor.telephone}"
 								.details.fax= purchase_order.vendor.fax
-						%td= purchase_order.label
+						%td
+							= purchase_order.label != "" ? purchase_order.label : raw("&ndash;")
 						%td
 							%span{class: "label status-#{purchase_order.status}"}= purchase_order.status
 

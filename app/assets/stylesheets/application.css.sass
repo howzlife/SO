@@ -30,6 +30,7 @@ $status-closed: #797979
 $status-draft: #e0b86e
 $status-archived: #b3b3b3
 $status-cancelled: #7f0640
+$status-deleted: #cb3332
 
 $row-hover: #fcfae9
 
@@ -95,32 +96,6 @@ h1,h2,h3,h4,h5,h6
 		&:hover
 			span
 				text-decoration: underline
-	.elipsis
-		padding: 7px 10px 7px 12px
-		font-size: 21px
-		line-height: 21px
-		border-radius: 0
-		letter-spacing: 2px
-		color: $default-blue
-		border: 1px solid $default-blue
-		height: 33px
-		.tool-tip
-			width: 140px
-			&.left-align
-				left: -2px
-				&:after
-					left: 25px
-					right: auto
-			&.right-align
-				right: -2px
-				&:after
-					right: 20px
-					left: auto
-
-		&:hover
-			.tool-tip
-				display: block
-				top: 40px
 	form
 		display: inline
 	.loading
@@ -171,6 +146,37 @@ a.btn-primary
 	font-size: 17px
 	font-weight: 500
 	padding: 10px 14px
+
+.elipsis
+	padding: 7px 10px 7px 12px
+	font-size: 21px
+	line-height: 21px
+	border-radius: 0
+	letter-spacing: 2px
+	color: $default-blue
+	border: 1px solid $default-blue
+	height: 33px
+	-webkit-box-sizing: border-box
+	-moz-box-sizing: border-box
+	box-sizing: border-box
+	.tool-tip
+		width: 140px
+		letter-spacing: 0px
+		&.left-align
+			left: -2px
+			&:after
+				left: 25px
+				right: auto
+		&.right-align
+			right: -2px
+			&:after
+				right: 20px
+				left: auto
+
+	&:hover
+		.tool-tip
+			display: block
+			top: 40px
 
 
 .splash
@@ -466,7 +472,7 @@ h1
 			.divider
 				margin: 10px 0
 			.row
-				margin-bottom: 3px
+				line-height: 21px
 
 	ul
 		padding: 0px
@@ -594,16 +600,33 @@ h1
 			margin-bottom: 90px
 	.search-area
 		margin: 0 -10px 25px -10px
-		position: relative
-		i
-			position: absolute
-			z-index: 1
-			left: 8px
-			top: 8px
-			font-size: 20px
-			color: $default-grey
-		.search-query
-			padding: 10px 14px 10px 40px
+		form
+			position: relative
+			i
+				position: absolute
+				z-index: 1
+				left: 8px
+				top: 8px
+				font-size: 20px
+				color: $default-grey
+			.search-query
+				padding: 10px 14px 10px 40px
+		&.with-button
+			.elipsis
+				float: left
+				border: 1px solid $default-grey
+				border-right: none
+				height: 39px
+				padding: 9px 10px 7px 12px
+				width: 46px
+				.tool-tip
+					a
+						display: block
+						line-height: 21px
+			form
+				float: left
+				width: calc(100% - 46px)
+			
 	.divider
 		margin: 30px 0
 	table
@@ -617,6 +640,9 @@ h1
 					color: $medium-grey
 					a.inverted-link
 						color: $medium-grey
+					.label
+						color: $medium-grey
+						border-color: $medium-grey
 			&:hover
 				td
 					background: $row-hover
@@ -748,6 +774,9 @@ h1
 		&.status-cancelled
 			color: $status-cancelled
 			border: 1px solid $status-cancelled
+		&.status-deleted
+			color: $status-deleted
+			border: 1px solid $status-deleted
 
 	.purchaseorder
 		background: #fafcfc

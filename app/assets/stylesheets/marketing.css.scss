@@ -21,11 +21,12 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
 //COLOURS
 $blue: #5883b4;
 $ltblue: #d5e1f1;
+$medblue: #81a5d0;
 $yellow: #fcf9f0;
 $ltyellow: #fbf7eb;
 $ltgrey: #eeeeee;
 $grey: #5e5e5e;
-$orange: #DB7123;
+$orange: #F58C3F;
 $red: #800000;
 $medgrey: #c0c0c0;
 $dkgrey: #333333;
@@ -65,53 +66,47 @@ $helvetica: 'Helvetica W01 Italic';
             margin: auto;
             font-weight: 100;
         }
+
+    button:focus {
+        outline: none;
+    }
 // Nav
 
     nav {
         background: $blue;
         padding: 0 2rem;
-    
+        margin: 0;
 
-        ul {
-            float: right;
-            color: $ltblue;
-            font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';
+        button {
+            background: $blue;
+            border: none;
+            padding: 3rem 2rem;
             font-size: 1.8rem;
-            text-align: right;
+            font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';
             font-weight: 100;
-            margin-top: 2.2rem;
+            color: $ltblue;
 
-            li {
-                display: inline-block;
-                padding-right: 3.5rem;
-                letter-spacing: 0.06rem;
-
-                button {
-                    border: 1px solid $ltblue;
-                    background: none;
-                    padding: 1rem 2rem;
-
-                    a {
-                        color: $ltblue;
-                        text-decoration: none;
-                    }
-                }
-
-                a {
-                    color: $ltblue;
-                    text-decoration: none;
-                }
+            &:hover {
+                background: $medblue;
+                color: white;
             }
-
-            li:last-child {
-                padding-right: 0;
-            }
-
-
         }
 
+        button.signUpButton {
+          padding: 1.5rem 2rem;
+          border: 1px solid $ltblue;
+          margin-left: 1rem;
+        }
+
+
+        .navButtons {
+          text-align: right;
+        }
+    
         h1 {
             float: left;
+            padding-top: 1rem;
+            margin: 0;
         }
 
         img {
@@ -172,21 +167,34 @@ $helvetica: 'Helvetica W01 Italic';
             padding: 1.3rem;
             font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';;
             color: $dkgrey;
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-right: 1rem;
             width: 23rem;
             font-weight: 100;
 
             &:focus {
                 outline: none;
-                border: 2px solid $red;
             }
+        }
+
+        label {
+            display: none;
+        }
+
+        .control-group {
+            display: inline-block;
         }
 
         input[type="submit"] {
             background: $blue;
             color: white;
-            border: 1.7px solid $blue;
+            border: 1px solid $blue;
+              padding: 1.35rem;
+
+            &:hover {
+                background: white;
+                color: $blue;
+            }
         }
 
         ::-webkit-input-placeholder {
@@ -364,7 +372,6 @@ body.startPageBody {
 
                 &:focus {
                     outline: none;
-                    border: 2px solid $red;
                 }
             }
 
@@ -451,6 +458,11 @@ body.startPageBody {
             font-size: 1.8rem;
             margin-top: 2.5rem;
             margin-bottom: 3rem;
+
+            &:hover {
+                background: $blue;
+                color: white;
+            }
         }
     }
     .pricingHeaderSection {
@@ -485,6 +497,11 @@ body.startPageBody {
                 }
                 span {
                     color: $orange;
+                    font-family: 'Ideal Sans SSm OLD A', 'Ideal Sans SSm OLD B';
+                }
+
+                span.unlimited {
+                    font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';
                 }
             }
         }
@@ -530,7 +547,10 @@ body.startPageBody {
                     font-size: 6rem;
                     color: $dkgrey;
                     font-weight: 100;
+                    font-family: 'Ideal Sans SSm OLD A', 'Ideal Sans SSm OLD B';
                 }
+
+
             }
         }
 
@@ -539,6 +559,8 @@ body.startPageBody {
 
             td {
                 vertical-align: top;
+
+
             }
         }
 
@@ -561,6 +583,11 @@ body.startPageBody {
             color: $orange;
             font-size: 1.6rem;
             margin-bottom: 2rem;
+
+            &:hover {
+                background: $orange;
+                color: white;
+            }
         }
     }
 
@@ -610,9 +637,294 @@ body.startPageBody {
             font-size: 1.8rem;
             background: $blue;
             color: white;
-            border: none;
+            border: 1px solid $blue;
             font-weight: 300;
-         }
 
-        
+            &:hover {
+                color: $blue;
+                background: white;
+            }
+         }
     }
+
+//SIGN UP PAGE
+
+body.signUpBody {
+    background: $blue;
+}
+
+.startCustomer {
+  text-align: right;
+  padding-right: 13rem;
+  margin-top: -3.5rem;
+
+  img {
+    width: 300px;
+  }
+}
+
+main.signUpMain {
+    background: $blue;
+    padding: 1rem;
+    margin: 0 auto;
+    max-width: 650px;
+
+    h2, h3 {
+        color: white;
+    }
+
+    .log-in {
+      margin-top: 4rem;
+    }
+
+    .lNameHint, .emailHint, .passHint {
+            color: $blue;
+        }
+
+    .fNameHint {
+        color: white;
+    }
+
+    form {
+        margin-top: 0rem;
+
+        p.label {
+            float: left;
+            font-size: 1.5rem;
+            color: $blue;
+            margin-top: 4.8rem;
+        }
+        
+        p.label.fNameLabel {
+            color: white;
+        }
+
+        .emailLabel {
+            margin-right: 3rem;
+        }
+
+        input.btn {
+            background: $orange;
+            border: none;
+            font-size: 2.4rem;
+            color: white;
+            width: 25rem;
+            padding: 1.3rem 1.3rem 1.3rem 3rem;
+            margin: 5rem;
+        }
+
+        p.inputHint {
+          text-align: left;
+          margin-left: 12.6rem;
+          font-size: 1.3rem;
+          font-weight: 100;
+          margin-bottom: -1rem;
+          margin-top: 0.9rem;
+          letter-spacing: 0.02rem;
+        }
+
+    }
+
+    .form-inputs {
+        abbr, label {
+            display: none;
+        }
+        input {
+            padding: 1.3rem 1.3rem 1.3rem 3rem;
+            font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';
+            color: $dkgrey;
+            font-size: 2rem;
+            width: 44rem;
+            margin: 3rem 1rem 0rem -6rem;
+
+            &:focus {
+                outline: none;
+            }
+        }  
+
+        ::-webkit-input-placeholder {
+           color: $dkgrey;
+           font-weight: 100;
+
+        }
+
+        :-moz-placeholder { /* Firefox 18- */
+           color: $dkgrey; 
+           font-weight: 100;
+        }
+
+        ::-moz-placeholder {  /* Firefox 19+ */
+           color: $dkgrey; 
+           font-weight: 100; 
+        }
+
+        :-ms-input-placeholder {  
+           color: $dkgrey;  
+           font-weight: 100;
+        }
+
+    }
+}
+
+// LOGIN PAGE
+
+body.logInBody {
+    background: $blue;
+}
+
+main.logInMain {
+    background: $blue;
+    padding: 1rem;
+    margin: 0 auto;
+    max-width: 650px;
+
+    .links {
+        p.copy {
+            display: none;
+        }
+    }
+
+    h2, h3 {
+        color: white;
+    }
+
+    .log-in {
+      margin-top: 4rem;
+
+      h2 {
+        font-size: 3.8rem;
+      }
+    }
+
+    .lNameHint, .emailHint, .passHint {
+            color: $blue;
+        }
+
+    .fNameHint {
+        color: white;
+    }
+
+    form {
+        margin-top: 0rem;
+
+        p.label {
+            float: left;
+            font-size: 1.5rem;
+            color: white;
+            margin-top: 4.8rem;
+        }
+        
+        p.label.fNameLabel {
+            color: white;
+        }
+
+       
+
+        input.btn {
+            background: $orange;
+            border: none;
+            font-size: 2.4rem;
+            color: white;
+            width: 44rem;
+            padding: 1.3rem 1.3rem 1.3rem 3rem;
+            margin: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        p.inputHint {
+          text-align: left;
+          margin-left: 12.6rem;
+          font-size: 1.3rem;
+          font-weight: 100;
+          margin-bottom: -1rem;
+          margin-top: 0.9rem;
+          letter-spacing: 0.02rem;
+        }
+
+    }
+
+    .form-inputs {
+        label, abbr {
+            display: none;
+        }
+        input {
+            padding: 1.3rem 1.3rem 1.3rem 3rem;
+            font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B';
+            color: $dkgrey;
+            font-size: 2rem;
+            width: 44rem;
+            margin: 3rem 1rem 0rem -6rem;
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        p.label.emailLabel {
+            margin-right: 3rem;
+        }
+
+        .form-inputs.forgot-password.right {
+          text-align: right;
+          width: 534px;
+          color: white;
+          margin-top: 1rem;
+
+          a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            letter-spacing: 0.02rem;
+          }
+        }  
+
+        ::-webkit-input-placeholder {
+           color: $dkgrey;
+           font-weight: 100;
+
+        }
+
+        :-moz-placeholder { /* Firefox 18- */
+           color: $dkgrey; 
+           font-weight: 100;
+        }
+
+        ::-moz-placeholder {  /* Firefox 19+ */
+           color: $dkgrey; 
+           font-weight: 100; 
+        }
+
+        :-ms-input-placeholder {  
+           color: $dkgrey;  
+           font-weight: 100;
+        }
+
+    }
+
+    label.boolean.optional.control-label {
+        float: right;
+        margin-right: 9.5rem;
+        color: white;
+        font-size: 1.2rem;
+        letter-spacing: 0.02rem;
+    }
+
+    label.checkbox {
+        float: right;
+        margin-right: 1rem;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
