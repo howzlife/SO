@@ -1,4 +1,5 @@
-# This is a user factory, to simulate a user object
+
+
 FactoryGirl.define do  
 
   factory :address, class: Address do
@@ -114,5 +115,22 @@ FactoryGirl.define do
   contact "Nick"
   telephone "613-725-7397"
   fax "613-725-7397"
+  end
+
+  factory :subscription, class: Subscription do
+    stripe_customer_token "not_really_a_token"
+  end
+
+  factory :plan, class: Plan do
+  type :trial
+  effective_date Date.today
+  max_po 2
+  remaining_po 2
+    trait :basic do
+      type :basic_plan
+    end
+    trait :better do
+      type :better_plan
+    end
   end
 end

@@ -130,7 +130,71 @@ describe "The unconfirmed user process" do
 			ActionMailer::Base.deliveries.clear
 			click_link('Resend Confirmation Email')
 			expect(ActionMailer::Base.deliveries.count).to eq (1)
-
 		end
 	end
+end
+
+describe "The subscription and plan logic" do 
+
+	before(:each) do
+		DatabaseCleaner.start
+		@user = FactoryGirl.create(:confirmed_user)
+		@company = FactoryGirl.create(:company)
+		@company.update_attribute(:users, [@user]) 		
+		# @subscription = FactoryGirl.create(:subscription)
+		# @plan = FactoryGirl.create(:plan)
+		# @user.update_attribute(:subscription, @subscription)
+		# @user.subscription.update_attribute(:plan, @plan)
+		login_as(@user)
+	end
+
+	after(:each) do 
+		DatabaseCleaner.clean
+	end
+
+	it "A new user should automatically get a subscription, and that subscription should get a plan" do
+		expect(@user.subscription).to_not eq nil
+		expect(@user.subscription.plan).to_not eq nil
+	end
+	
+	it "A trial plan should have an expiry date" do
+		expect(@user.subscription.plan.expires_at).to eq(Date.today + 18)
+	end
+
+	it "A subscription should have a maximum number of POs it can send" do
+		expect(@user.subscription.monthly_po_count).to eq 0
+	end
+
+	it "A plan should have a max PO count" do
+		expect(@user.subscription.plan.max_po_trial).to eq 50
+	end
+
+	it "when a User sends a PO, the monthly po count should increase" do
+		visit purchase_orders_path
+		@user.company.update_attribute(:addresses, [FactoryGirl.build(:address)])
+		@user.company.update_attribute(:vendors, [FactoryGirl.build(:vendor)])
+		visit new_purchase_order_path
+		expect(current_path).to eq new_purchase_order_path
+		page.select('Test Vendor', from: "purchase_order[vendor]")
+		fill_in("purchase_order[description]", with: "test PO 123")
+		button = find(".btn-email")
+
+		page.select("Home Base", from: "purchase_order[address]")
+		expect{find(".btn-fax").click}.to change{@user.subscription.monthly_po_count}.by(1)
+	end
+
+	it "sending a PO should reduce available amount" do
+		# visit purchase_orders_path
+		# @user.company.update_attribute(:addresses, [FactoryGirl.build(:address)])
+		# @user.company.update_attribute(:vendors, [FactoryGirl.build(:vendor)])
+		# visit new_purchase_order_path
+		# expect(current_path).to eq new_purchase_order_path
+		# page.select('Test Vendor', from: "purchase_order[vendor]")
+		# fill_in("purchase_order[description]", with: "test PO 123")
+		# button = find(".btn-email")
+
+		# page.select("Home Base", from: "purchase_order[address]")
+		# expect{find(".btn-fax").click}.to change{@plan.remaining_po}.to(1)
+	end
+
 end

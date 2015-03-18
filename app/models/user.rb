@@ -2,6 +2,7 @@ class User
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::Paranoia
+  after_create :add_subscription_to_user
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -37,10 +38,22 @@ class User
   field :confirmation_sent_at, type: Time
   field :unconfirmed_email,    type: String # Only if using reconfirmable
 
+  ## for Metrics
+  field :sent_pos, type: Integer
+
   ## Lockable
   # field :failed_attempts, type: Integer, default: 0 # Only if lock strategy is :failed_attempts
   # field :unlock_token,    type: String # Only if unlock strategy is :email or :both
   # field :locked_at,       type: Time
+
+
+
+  def add_subscription_to_user(selected_plan = :trial)
+    subscription = Subscription.new(user_id: id, plan: selected_plan)
+    subscription.save_without_payment(selected_plan, email, last_name)
+    update_attribute(:subscription, subscription)
+  end
+
 
   belongs_to :company
   has_one :subscription
