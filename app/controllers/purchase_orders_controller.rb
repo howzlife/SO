@@ -108,11 +108,15 @@ class PurchaseOrdersController < ApplicationController
      			PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
           @purchase_order.status = "open"
           flash[:notice] = 'Success, your PO has been sent by Email.' if @purchase_order.save
+          current_user.subscription.update_attribute(:monthly_po_count, current_user.subscription.monthly_po_count + 1)
           respond_with(@purchase_order)
         elsif params[:status] == "fax"
           @sent_fax = send_po_fax(@purchase_order) 
           # If fax was successful, we get a successful response. 
           if @sent_fax["success"]
+            current_user.subscription.update_attribute(:monthly_po_count, current_user.subscription.monthly_po_count + 1)
+            puts "check here 101"
+            puts current_user.subscription.monthly_po_count
             @purchase_order.update_attribute(:status, "open")
             flash[:notice] = 'Success, your PO has been sent by fax.' 
             respond_with(@purchase_order)
@@ -165,12 +169,14 @@ class PurchaseOrdersController < ApplicationController
       PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
       @purchase_order.update_attribute(:status, "open")   
       flash[:notice] = "Success, your PO has been sent by Email." if @purchase_order.save
+      current_user.subscription.update_attribute(:monthly_po_count, current_user.subscription.monthly_po_count + 1)
       respond_with(@purchase_order)  
 
     elsif params[:status] == "fax"
       @sent_fax = send_po_fax(@purchase_order)
       @successful_send = @sent_fax["success"]
       if @successful_send
+        current_user.subscription.update_attribute(:monthly_po_count, current_user.subscription.monthly_po_count + 1)
         @purchase_order.update_attribute(:status, "open")
         flash[:notice] = "Success, your PO has been sent by Fax." if @purchase_order.save 
         @purchase_order.save

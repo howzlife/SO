@@ -180,7 +180,10 @@ describe "The subscription and plan logic" do
 		button = find(".btn-email")
 
 		page.select("Home Base", from: "purchase_order[address]")
-		expect{find(".btn-fax").click}.to change{@user.subscription.monthly_po_count}.by(1)
+		old_count = @user.subscription.monthly_po_count
+		find(".btn-fax").click
+		@user.subscription.reload
+		expect(@user.subscription.monthly_po_count).to eq 1
 	end
 
 	it "sending a PO should reduce available amount" do
