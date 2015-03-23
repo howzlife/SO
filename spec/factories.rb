@@ -32,11 +32,6 @@ FactoryGirl.define do
     trait :has_vendor do
       vendors{[FactoryGirl.build(:vendor)]}
     end
-    # association :address, strategy: :build
-    # association :vendor, strategy: :build
-    #  after(:create) do |c|
-    #  c.update_attribute(:addresses, [FactoryGirl.build(:address)])
-    #  end
   end
 
   factory :fax do
@@ -122,15 +117,19 @@ FactoryGirl.define do
   end
 
   factory :plan, class: Plan do
-  type :trial
-  effective_date Date.today
-  max_po 2
-  remaining_po 2
-    trait :basic do
-      type :basic_plan
+    name "trial"
+    max_monthly_po_count 2
+    max_vendor_count 2
+      trait :basic do
+        name "Basic Plan"
+        max_monthly_po_count 10
+        max_vendor_count 5
+      end
+
+      trait :better do
+        name "Better Plan"
+        max_monthly_po_count 20
+        max_vendor_count 10
+      end
     end
-    trait :better do
-      type :better_plan
-    end
-  end
 end

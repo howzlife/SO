@@ -1,5 +1,6 @@
 class Users::ConfirmationsController < Devise::ConfirmationsController
   require 'mail_chimp.rb'
+
   # GET /resource/confirmation/new
   # def new
   #   super
@@ -12,7 +13,9 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
 
   def resend_confirmation_email
     current_user.resend_confirmation_instructions
-    flash[:notice] = "Confirmation Email has been re-sent"
+      respond_to do |format|
+        format.html {redirect_to purchase_orders_path, notice: "Confirmation Email has been re-sent"}
+      end
   end
 
   # GET /resource/confirmation?confirmation_token=abcdef

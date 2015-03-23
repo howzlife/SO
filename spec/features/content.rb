@@ -11,10 +11,10 @@ describe "The Purchase Order Process" do
 
 	before(:each) do
 		DatabaseCleaner.start
+		FactoryGirl.create(:plan)	
 		@user = FactoryGirl.create(:confirmed_user)
 		@company = FactoryGirl.create(:company)
 		@company.update_attribute(:users, [@user]) 		
-
 		login_as(@user)
 	end
 
@@ -112,10 +112,10 @@ describe "The unconfirmed user process" do
 
 	before(:each) do
 		DatabaseCleaner.start
+		FactoryGirl.create(:plan)	
 		@user = FactoryGirl.create(:unconfirmed_user)
 		@company = FactoryGirl.create(:company)
 		@company.update_attribute(:users, [@user]) 		
-
 		login_as(@user)
 	end
 
@@ -138,6 +138,7 @@ describe "The subscription and plan logic" do
 
 	before(:each) do
 		DatabaseCleaner.start
+		FactoryGirl.create(:plan)
 		@user = FactoryGirl.create(:confirmed_user)
 		@company = FactoryGirl.create(:company)
 		@company.update_attribute(:users, [@user]) 		
@@ -158,7 +159,7 @@ describe "The subscription and plan logic" do
 	end
 	
 	it "A trial plan should have an expiry date" do
-		expect(@user.subscription.plan.expires_at).to eq(Date.today + 18)
+		expect(@user.subscription.expires_at).to eq(Date.today + 18)
 	end
 
 	it "A subscription should have a maximum number of POs it can send" do
@@ -166,7 +167,7 @@ describe "The subscription and plan logic" do
 	end
 
 	it "A plan should have a max PO count" do
-		expect(@user.subscription.plan.max_po_trial).to eq 50
+		expect(@user.subscription.plan.max_monthly_po_count).to eq 2
 	end
 
 	it "when a User sends a PO, the monthly po count should increase" do
@@ -186,18 +187,26 @@ describe "The subscription and plan logic" do
 		expect(@user.subscription.monthly_po_count).to eq 1
 	end
 
-	it "sending a PO should reduce available amount" do
-		# visit purchase_orders_path
-		# @user.company.update_attribute(:addresses, [FactoryGirl.build(:address)])
-		# @user.company.update_attribute(:vendors, [FactoryGirl.build(:vendor)])
-		# visit new_purchase_order_path
-		# expect(current_path).to eq new_purchase_order_path
-		# page.select('Test Vendor', from: "purchase_order[vendor]")
-		# fill_in("purchase_order[description]", with: "test PO 123")
-		# button = find(".btn-email")
+	it "After sending the maximum amount of PO's for the month, a user should not be able to send any more PO's" do
+		visit purchase_orders_path
+		@user.company.update_attribute(:addresses, [FactoryGirl.build(:address)])
+		@user.company.update_attribute(:vendors, [FactoryGirl.build(:vendor)])
+		visit new_purchase_order_path
+		expect(current_path).to eq new_purchase_order_path
+		page.select('Test Vendor', from: "purchase_order[vendor]")
+		fill_in("purchase_order[description]", with: "test PO 123")
+		page.select("Home Base", from: "purchase_order[address]")
+		find(".btn-fax").click
+		@user.subscription.reload
+		expect(@user.subscription.monthly_po_count).to eq 1
+		expect(current_path).to eq purchase_order_path(PurchaseOrder.last)
+		find(".btn-fax").click
+		@user.subscription.reload
+		expect(@user.subscription.monthly_po_count).to eq 2
+		expect{find(".btn-fax").click}.to change{ActionMailer::Base.deliveries.count}.by 0
+		@user.subscription.reload
+		expect(@user.subscription.monthly_po_count).to eq 2
 
-		# page.select("Home Base", from: "purchase_order[address]")
-		# expect{find(".btn-fax").click}.to change{@plan.remaining_po}.to(1)
 	end
 
 end
