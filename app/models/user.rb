@@ -51,7 +51,8 @@ class User
   def add_subscription_to_user(selected_plan = :trial)
     subscription = Subscription.new(user_id: id)
     subscription.save_without_payment(selected_plan, email, last_name)
-    update_attribute(:subscription, subscription)
+    update_attributes!(subscription: subscription)
+    save
   end
 
 

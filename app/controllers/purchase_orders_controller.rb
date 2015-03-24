@@ -9,42 +9,6 @@ class PurchaseOrdersController < ApplicationController
   include ActionView::Helpers::NumberHelper
   include ActionController::Base::PurchaseOrdersHelper
 
-  # GET /purchase_orders
-  # GET /purchase_orders.json
-  # def index
-  #   @company = current_user.company
-  #   if params["q"].blank? && params["status"].blank? && params["label"].blank? && params["archived"].blank? 
-  #     @purchase_orders = @company.purchase_orders.active.page params[:page]
-  #   else
-  #   	if params.has_key?("status")
-	 #      @purchase_orders = PurchaseOrder.status(@company.id, params["status"]).page params[:page]
-	 #    elsif params.has_key?("label")
-	 #      @purchase_orders = PurchaseOrder.label(@company.id, params["label"]).page params[:page]
-  #     elsif params.has_key?("archived")
-  #       @purchase_orders = PurchaseOrder.archived(@company.id).page params[:page]
-  #     elsif params.has_key?("was_deleted")
-  #       @purchase_orders = PurchaseOrder.was_deleted(@company.id).page params[:page]
-  #     elsif params.has_key?("q")
-  #       @purchase_orders = PurchaseOrder.search(@company.id, params["q"]).page params[:page]
-	 #    end
-  #   end
-  # end
-
-  # purchase_orders?status=open&archived=true
-  # def index
-  #   puts "params = #{params.inspect}"
-  #   @company = current_user.company
-  #   if params["q"].blank? && params["status"].blank? && params["label"].blank? && params["archived"].blank? && params['was_deleted'].blank?
-  #     @purchase_orders = @company.purchase_orders.active.page params[:page]
-  #   elsif params["all"]
-  #     @purchase_orders = @company.purchase_orders.active.page params[:page]
-  #   else
-  #     # @purchase_orders = @company.purchase_orders.active.page params[:page]
-  #     # @purchase_orders = PurchaseOrder.status(@company.id, params["status"]).page params[:page]
-  #     @purchase_orders = PurchaseOrder.search2(@company.id, status: params["status"], label: params.fetch(:label, ''), archived: params.fetch(:archived, nil), was_deleted: params.fetch(:was_deleted, nil)).page(params[:page])
-  #   end
-  # end
-
   def index
     puts "params = #{params.inspect}"
     @company = current_user.company
@@ -104,28 +68,39 @@ class PurchaseOrdersController < ApplicationController
 
     if @purchase_order.save
         ## Response for send by Fax or Email 
-        if params[:status] == "email"
-     			PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
-          @purchase_order.status = "open"
-          flash[:notice] = 'Success, your PO has been sent by Email.' if @purchase_order.save
-          current_user.subscription.update_attribute(:monthly_po_count, current_user.subscription.monthly_po_count + 1)
-          respond_with(@purchase_order)
-        elsif params[:status] == "fax"
-          @sent_fax = send_po_fax(@purchase_order) 
-          # If fax was successful, we get a successful response. 
-          if @sent_fax["success"]
+        if params[:status] == "email" 
+          if current_user.subscription.can_send_po 
+       			PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
+            @purchase_order.status = "open"
+            flash[:notice] = 'Success, your PO has been sent by Email.' if @purchase_order.save
             current_user.subscription.update_attribute(:monthly_po_count, current_user.subscription.monthly_po_count + 1)
-            puts "check here 101"
-            puts current_user.subscription.monthly_po_count
-            @purchase_order.update_attribute(:status, "open")
-            flash[:notice] = 'Success, your PO has been sent by fax.' 
             respond_with(@purchase_order)
-            # Otherwise, we get an error message. 
-          else 
-            respond_to do |format|
-              format.html {render :new, notice: @sent_fax["message"]}
-              format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
+          else
+            flash[:notice] = 'You have reached your monthly PO limit. Please purchase more or upgrade to send more POs'
+            respond_with(@purchase_order)
+          end
+
+        elsif params[:status] == "fax"
+          if current_user.subscription.can_send_po 
+            @sent_fax = send_po_fax(@purchase_order) 
+            # If fax was successful, we get a successful response. 
+            if @sent_fax["success"]
+              current_user.subscription.update_attribute(:monthly_po_count, current_user.subscription.monthly_po_count + 1)
+              puts "check here 101"
+              puts current_user.subscription.monthly_po_count
+              @purchase_order.update_attribute(:status, "open")
+              flash[:notice] = 'Success, your PO has been sent by fax.' 
+              respond_with(@purchase_order)
+              # Otherwise, we get an error message. 
+            else 
+              respond_to do |format|
+                format.html {render :new, notice: @sent_fax["message"]}
+                format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
+              end
             end
+          else
+            flash[:notice] = 'You have reached your monthly PO limit. Please purchase more or upgrade to send more POs'
+            respond_with(@purchase_order)
           end
 
         #State transitions without send -> Mark as Open, Save as Draft
@@ -166,25 +141,34 @@ class PurchaseOrdersController < ApplicationController
     
     #Email and Fax actions, to actually resend the information
     if params[:status] == "email"
-      PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
-      @purchase_order.update_attribute(:status, "open")   
-      flash[:notice] = "Success, your PO has been sent by Email." if @purchase_order.save
-      current_user.subscription.update_attribute(:monthly_po_count, current_user.subscription.monthly_po_count + 1)
-      respond_with(@purchase_order)  
-
-    elsif params[:status] == "fax"
-      @sent_fax = send_po_fax(@purchase_order)
-      @successful_send = @sent_fax["success"]
-      if @successful_send
+          if current_user.subscription.can_send_po 
+        PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
+        @purchase_order.update_attribute(:status, "open")   
+        flash[:notice] = "Success, your PO has been sent by Email." if @purchase_order.save
         current_user.subscription.update_attribute(:monthly_po_count, current_user.subscription.monthly_po_count + 1)
-        @purchase_order.update_attribute(:status, "open")
-        flash[:notice] = "Success, your PO has been sent by Fax." if @purchase_order.save 
-        @purchase_order.save
+        respond_with(@purchase_order)  
+      else
+        flash[:notice] = 'You have reached your monthly PO limit. Please purchase more or upgrade to send more POs'
         respond_with(@purchase_order)
-      else 
-        flash[:notice] = @sent_fax["message"]
+      end
+    elsif params[:status] == "fax"
+     if current_user.subscription.can_send_po 
+        @sent_fax = send_po_fax(@purchase_order)
+        @successful_send = @sent_fax["success"]
+        if @successful_send
+          current_user.subscription.update_attribute(:monthly_po_count, current_user.subscription.monthly_po_count + 1)
+          @purchase_order.update_attribute(:status, "open")
+          flash[:notice] = "Success, your PO has been sent by Fax." if @purchase_order.save 
+          @purchase_order.save
+          respond_with(@purchase_order)
+        else 
+          flash[:notice] = @sent_fax["message"]
+          respond_with(@purchase_order)
+        end
+      else
+        flash[:notice] = 'You have reached your monthly PO limit. Please purchase more or upgrade to send more POs'
         respond_with(@purchase_order)
-      end 
+      end
 
     #State transitions - Open, Closed, Cancelled, Deleted, Draft, Archived
 
@@ -347,6 +331,7 @@ class PurchaseOrdersController < ApplicationController
 
       return purchase_order_params
     end
+
     def generate_po_number
       @company.read_attribute(:prefix) + ".#{Random.rand(100..999)}.#{Random.rand(100..999)}" 
     end

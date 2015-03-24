@@ -2,11 +2,10 @@ class Subscription
   include Mongoid::Document
   include Mongoid::Enum
   belongs_to :user
-  embeds_one :plan
+  field :plan_type, type: String
   field :stripe_customer_token, type: String
   field :monthly_po_count, type: Integer
   field :expires_at, type: Date
-  accepts_nested_attributes_for :plan
 
   attr_accessor :stripe_card_token
 
@@ -67,9 +66,14 @@ class Subscription
   end
 
   def add_plan_to_subscription(current_plan)
-    update_attribute(:plan, Plan.find_by(name: "trial"))
+    update_attributes!(plan_type: current_plan.to_s)
     if (current_plan == :trial)
-       update_attribute(:expires_at, Date.today + 18)
+       update_attributes!(expires_at: Date.today + 18)
     end
+    save!
+  end
+
+  def can_send_po
+    return monthly_po_count < Plan.find_by(name: read_attribute(:plan_type)).max_monthly_po_count
   end
 end
