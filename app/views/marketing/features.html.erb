@@ -17,16 +17,7 @@
   <%= stylesheet_link_tag "marketing" %> 
 </head>
 <body>
-  <nav class="clearfix">
-    <h1><%= image_tag "swiftordersLogo.jpg" %></h1>
-    <ul>
-      <li>Features</li>
-      <li>Pricing</li>
-      <li>Help</li>
-      <li><a href="http://swiftorders.com">Log In</a></li>
-      <li><button><a href="users/sign_up">Sign Up Free</a></button></li>
-    </ul>
-  </nav>
+  <%= render 'navigation' %>
   <header class="clearfix">
     <h2>Features</h2>
   </header>

@@ -7,7 +7,6 @@ DatabaseCleaner[:mongoid, {:connection => :myorderboard_test}]
 include Warden::Test::Helpers
 Warden.test_mode!
 
-
 describe "The unconfirmed user process" do 
 
 	before(:each) do
@@ -108,8 +107,6 @@ describe "The subscription and plan logic" do
 		@user.subscription.reload
 		expect(@user.subscription.monthly_po_count).to eq 2
 		expect(page).to have_content('monthly PO limit')
-
-
 	end
 
 end

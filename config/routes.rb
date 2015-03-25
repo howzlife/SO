@@ -42,7 +42,7 @@ Rails.application.routes.draw do
 
   unauthenticated :user do
     devise_scope :user do 
-      get "/" => "users/sessions#new"
+      get "/" => "marketing#index"
     end
   end
   

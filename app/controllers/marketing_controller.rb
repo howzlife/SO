@@ -1,6 +1,6 @@
 class MarketingController < ApplicationController
   def index
-  	render layout: false
+  	#render layout: false
   end
 
   def about
@@ -24,7 +24,7 @@ class MarketingController < ApplicationController
   end
 
   def login
-    render layout: false
+    #render layout: false
   end
 
 end
