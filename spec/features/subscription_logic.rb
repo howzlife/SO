@@ -62,8 +62,11 @@ describe "The subscription and plan logic" do
 		expect(@user.subscription.expires_at).to eq(Date.today + 18)
 	end
 
-	it "A subscription should have a maximum number of POs it can send" do
+	it "A subscription should have a maximum number of POs it can send, and whether or not it can duplicate" do
 		expect(@user.subscription.monthly_po_count).to eq 0
+		expect(@user.subscription.monthly_email_po_count).to eq 0
+		expect(@user.subscription.monthly_fax_po_count).to eq 0
+		expect(@user.subscription.can_duplicate).to_not eq nil
 	end
 
 	it "A plan should have a max PO count" do

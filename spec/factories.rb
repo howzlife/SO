@@ -119,7 +119,10 @@ FactoryGirl.define do
   factory :plan, class: Plan do
     name "trial"
     max_monthly_po_count 2
+    max_email_po 2
+    max_fax_po 2
     max_vendor_count 2
+    can_duplicate true
       trait :basic do
         name "Basic Plan"
         max_monthly_po_count 10

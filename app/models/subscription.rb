@@ -5,7 +5,10 @@ class Subscription
   field :plan_type, type: String
   field :stripe_customer_token, type: String
   field :monthly_po_count, type: Integer
+  field :monthly_email_po_count, type: Integer
+  field :monthly_fax_po_count, type: Integer
   field :expires_at, type: Date
+  field :can_duplicate, type: Boolean
 
   attr_accessor :stripe_card_token
 
@@ -16,8 +19,7 @@ class Subscription
 
   def save_without_payment(plan, email, name)
       customer = Stripe::Customer.create(description: name, email: email, plan: plan)
-      update_attribute(:stripe_customer_token, customer.id)
-      update_attribute(:monthly_po_count, 0)
+      update_attributes!(stripe_customer_token: customer.id, monthly_po_count: 0, monthly_email_po_count: 0, monthly_fax_po_count: 0)
       add_plan_to_subscription(plan) if save!
     rescue Stripe::InvalidRequestError => e
       logger.error "Stripe error while creating customer: #{e.message}"
@@ -67,6 +69,7 @@ class Subscription
 
   def add_plan_to_subscription(current_plan)
     update_attributes!(plan_type: current_plan.to_s)
+    update_attributes!(can_duplicate: Plan.find_by(name: current_plan).can_duplicate)
     if (current_plan == :trial)
        update_attributes!(expires_at: Date.today + 18)
     end

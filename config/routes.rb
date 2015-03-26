@@ -30,8 +30,12 @@ Rails.application.routes.draw do
   
 	get '/pricing' => 'marketing#pricing'
 	get '/features' => 'marketing#features'
-	get '/signup' => 'marketing#signup'
-  get '/login' => 'marketing#login'
+  get '/' => 'marketing#index'
+
+  devise_scope :user do
+    get '/login' => 'users/sessions#new'
+    get '/signup' => 'users/registrations#new'
+  end
 
 
   # You can have the root of your site routed with "root"
