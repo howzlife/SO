@@ -104,6 +104,7 @@ describe "The Purchase Order Process" do
 			new_purchase_order = PurchaseOrder.last
 			expect(new_purchase_order.read_attribute(:description)).to eq(purchase_order.read_attribute(:description))
 			expect(new_purchase_order.read_attribute(:number)).not_to eq(purchase_order.read_attribute(:number))
+			
 		end
 	end
 end
