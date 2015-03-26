@@ -1,122 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Log In to Swiftorders, Absolutely Easy Purchase Orders for Your Business</title>
-  <link rel="icon" type="image/x-icon" href="favicon.gif">
-  <!-- TYPOGRAPHY -->
-  <!-- ideal sans -->
-  <link rel="stylesheet" type="text/css" href="//cloud.typography.com/6317272/712246/css/fonts.css" />
-  <!-- pacifico -->
-  <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
-  <!-- helvetica -->
-  <link type="text/css" rel="stylesheet" href="http://fast.fonts.net/cssapi/064d369a-c717-4ea9-95f5-2158eabd48f8.css"/>
-  <!-- JQUERY -->
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  <!-- Stylesheet -->
-  <%= stylesheet_link_tag "marketing" %> 
-</head>
-<body class="logInBody">
-  <%= render 'navigation' %>
-  <main class="logInMain">
-    <div class="log-in">
-      <h2>Log in to manage your orders</h2>
-      <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-        <div class="form-inputs hidereq">
-          <p class="label emailLabel">Email</p><%= f.input :email, required: true, autofocus: true %>
-          <p class="label passLabel">Password</p><%= f.input :password, required: true %>
-          <div class="form-inputs forgot-password right">
-            <% if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-              <%= link_to "Forgot your password?", new_password_path(resource_name) %>
-            <% end %>
-          </div>
-        </div>
-        <div class="form-actions">
-          <%= f.button :submit, "Log in" %>
-        </div>
-        <div class="remember-me right">
-          <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
-        </div>
-      <% end %>
+<div class="log-in">
+  <h2>Log in to manage your orders!</h2>
+  <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <div class="form-inputs hidereq">
+      <%= f.input :email, required: true, autofocus: true %>
+      <%= f.input :password, required: true %>
+      <div class="form-inputs forgot-password right">
+        <% if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+          <%= link_to "Forgot your password?", new_password_path(resource_name) %>
+        <% end %>
+      </div>
     </div>
-    <div class="log-in links">
-      <%= render "devise/shared/links" %>
+    <div class="form-actions">
+      <%= f.button :submit, "Log in" %>
     </div>
-    <% if flash[:notice] %>
-      <p class="notice">
-        <%= notice %>
-      </p>
-    <% end %>
-    <% if flash[:alert] %>
-      <p class="alert">
-        <%= alert %>
-      </p>
-    <% end %>
-   </main>
-
- <footer>
-    <div class="footerContainer clearfix">
-      <ul class="description">
-        <li><%= image_tag "swiftordersLogo.jpg" %></li>
-        <li>Swiftorders is cloud based software for better business purchasing. We are engineers, designers, merchants and professional purchasers. Swiftorders makes it easy to create and send numbered POs in moments. Manage your orders with sort and fast search. Check status, add tags, and star important orders. Pain-free POs.</li>
-      </ul>
-      <ul class="product">
-        <li class="title">Product</li>
-        <li>Features</li>
-        <li>Pricing</li>
-        <li>Security</li>
-      </ul>
-      <ul class="community">
-          <li class="title">Community</li>
-          <li>Customers</li>
-          <li>Help & Support</li>
-          <li>Resources</li>
-          <li>Blog</li>
-      </ul>
-      <ul class="company">
-        <li class="title">Company</li>
-        <li>About Us</li>
-        <li>Press</li>
-        <li>Careers</li>
-        <li>Legal</li>
-        <li>Contact</li>
-      </ul>
-    </div> <!-- end footerContainer -->
-    <p class="copyright">Copyright &copy; 2015 Swiftorders<p>
-  </footer>
-
-  <script>
-    // INPUT HINTS
-    $( "#user_first_name").focus(function() {
-      $( ".fNameHint").css( "color", "white" );
-      $( ".lNameHint").css( "color", "#5883b4" );
-      $( ".emailHint").css( "color", "#5883b4" );
-      $( ".passHint").css( "color", "#5883b4" );
-    });
-    $( "#user_last_name").focus(function() {
-      $( ".fNameHint").css( "color", "#5883b4" );
-      $( ".lNameHint").css( "color", "white" );
-      $( ".emailHint").css( "color", "#5883b4" );
-      $( ".passHint").css( "color", "#5883b4" );
-      $( ".lNameLabel").css( "color", "white");
-    });
-    $( "#user_email").focus(function() {
-      $( ".fNameHint").css( "color", "#5883b4" );
-      $( ".lNameHint").css( "color", "#5883b4" );
-      $( ".emailHint").css( "color", "white" );
-      $( ".passHint").css( "color", "#5883b4" );
-      $( ".emailLabel").css( "color", "white");
-    });
-    $( "#user_password").focus(function() {
-      $( ".fNameHint").css( "color", "#5883b4" );
-      $( ".lNameHint").css( "color", "#5883b4" );
-      $( ".emailHint").css( "color", "#5883b4" );
-      $( ".passHint").css( "color", "white" );
-      $( ".passLabel").css( "color", "white");
-    });
-
-    //INPUT LABELS
-
-    </script>
-</body>
-</html>
+    <div class="remember-me right">
+      <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+    </div>
+  <% end %>
+</div>
+<div class="log-in links">
+  <%= render "devise/shared/links" %>
+</div>
+<% if flash[:notice] %>
+  <p class="notice">
+    <%= notice %>
+  </p>
+<% end %>
+<% if flash[:alert] %>
+  <p class="alert">
+    <%= alert %>
+  </p>
+<% end %>

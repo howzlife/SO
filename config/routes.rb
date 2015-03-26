@@ -11,10 +11,6 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { sessions: 'users/sessions',  registrations: 'users/registrations', confirmations: 'users/confirmations' }
 
-  devise_scope :user do
-    post "/users/confirmations" => "users/confirmations#resend_confirmation_email"
-  end
-
   resources :purchase_orders
   resources :vendors
   resources :addresses
@@ -30,12 +26,8 @@ Rails.application.routes.draw do
   
 	get '/pricing' => 'marketing#pricing'
 	get '/features' => 'marketing#features'
-  get '/' => 'marketing#index'
-
-  devise_scope :user do
-    get '/login' => 'users/sessions#new'
-    get '/signup' => 'users/registrations#new'
-  end
+  get '/login' => 'marketing#login'
+  get '/signup' => 'marketing#signup'
 
 
   # You can have the root of your site routed with "root"
@@ -44,9 +36,14 @@ Rails.application.routes.draw do
     root 'purchase_orders#index', as: :authenticated_root
   end
 
+  devise_scope :user do
+    post "/users/confirmations" => "users/confirmations#resend_confirmation_email"
+  end
+
+
   unauthenticated :user do
     devise_scope :user do 
-      get "/" => "marketing#index"
+      get '/' => 'marketing#index'
     end
   end
   
