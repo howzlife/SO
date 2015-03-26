@@ -24,8 +24,8 @@
 							= af.label 'Address Line 1'
 							= af.text_field :address_line_1, class: 'string'
 						.form-inputs
-							= af.label 'Address Line 2'
-							= af.text_field :address_line_2, class: 'string'
+							= af.label 'Address Line 2', required: false
+							= af.text_field :address_line_2, class: 'string', required: false
 						.form-inputs.clear
 							.half.first
 								= af.label 'City'
@@ -45,8 +45,8 @@
 							= af.label 'Address Line 1'
 							= af.text_field :address_line_1, class: 'string', :value => @address.address[:address_line_1]
 						.form-inputs
-							= af.label 'Address Line 2'
-							= af.text_field :address_line_2, class: 'string', :value => @address.address[:address_line_2]
+							= af.label 'Address Line 2', required: false
+							= af.text_field :address_line_2, required: false, class: 'string', :value => @address.address[:address_line_2]
 						.form-inputs.clear
 							.half.first
 								= af.label 'City'

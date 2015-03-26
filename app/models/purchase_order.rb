@@ -11,6 +11,8 @@ class PurchaseOrder
   field :label, type: String
   field :archived, type: Boolean
   field :was_deleted, type: Boolean
+  field :last_archived_on, type: DateTime
+  field :last_deleted_on, type: DateTime
 
   validates_presence_of :number, :date, :description, :vendor, :status
 

@@ -8,12 +8,11 @@ class User
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
-
   ## Database authenticatable
-  field :first_name,              type: String, default: ""
-  field :last_name,              type: String, default: ""
-  field :email,              type: String, default: ""
-  field :encrypted_password, type: String, default: ""
+  field :first_name,              type: String
+  field :last_name,              type: String
+  field :email,              type: String
+  field :encrypted_password, type: String
 
   #for mailchimp
   field :euid, type: String, default: ""
@@ -54,7 +53,8 @@ class User
     update_attributes!(subscription: subscription)
     save
   end
-
+  
+  validates_presence_of :first_name, :last_name
 
   belongs_to :company
   has_one :subscription
