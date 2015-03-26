@@ -54,6 +54,7 @@ FactoryGirl.define do
     was_deleted false
     after (:build) do |po|
       po.write_attribute(:vendor, (FactoryGirl.attributes_for(:vendor)))
+      po.write_attribute(:address, (FactoryGirl.attributes_for(:address)))
     end
 
     trait :as_draft do

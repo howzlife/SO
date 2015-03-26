@@ -68,7 +68,7 @@ class AddressesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def address_params
       #funky strong params block taken from https://github.com/rails/rails/issues/9454#issuecomment-14167664
-      params.require(:address).permit(:id, :name, :telephone, :agent).tap do |whitelisted|
+      params.require(:address).permit(:id, :name, :address, :telephone, :agent).tap do |whitelisted|
         whitelisted[:address] = params[:address][:address]
       end
     end

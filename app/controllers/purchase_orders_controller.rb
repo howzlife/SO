@@ -236,12 +236,9 @@ class PurchaseOrdersController < ApplicationController
     elsif params[:status] == "duplicate"
       @po = @company.purchase_orders.new
       @po.status = "draft"
-      @po.description = @purchase_order.read_attribute(:description)
-      @po.vendor = @purchase_order.read_attribute(:vendor)
-      @po.number = generate_po_number
-      @po.address = @purchase_order.read_attribute(:address)
-      @po.update_attribute(:date_required, "ASAP")
-      @po.label = @purchase_order.read_attribute(:label)
+      # @po.update_attributes!(description: @purchase_order.read_attribute(:description), vendor: @purchase_order.read_attribute(:vendor), address: @purchase_order.read_attribute(:address), number: generate_po_number, date_required: "ASAP", label: @purchase_order.read_attribute(:label))
+      new_po_params = organize_purchase_order_params(:vendor => @purchase_order.read_attribute(:vendor), :address => @purchase_order.read_attribute(:address))
+      @po.update_attributes!(vendor: new_po_params[:vendor], address: new_po_params[:address], description: @purchase_order.read_attribute(:description), number: generate_po_number, date_required: "ASAP", label: @purchase_order.read_attribute(:label))
       @purchase_order = @po
       flash[:notice] = "Purchase Order Duplicated as New" if @purchase_order.save
       respond_with(@purchase_order)

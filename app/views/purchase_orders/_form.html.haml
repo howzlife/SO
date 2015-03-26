@@ -87,8 +87,14 @@
 				.deliverto-select
 					= f.select :address, @company.addresses.all.map { |r| [r.name, r.id] }, :include_blank => "Select Address"
 					.dynamic-select-text.search-query
-						.dynamic-selected{ :class => @purchase_order.vendor.name.blank? ? 'hidden' : '' }
-						%input.dynamic-select-input{:type => "text",:placeholder => "Address"}/
+						.dynamic-selected{ :class => @purchase_order.address.name.blank? ? 'hidden' : '' }
+						- if !@purchase_order.address.name.blank?
+							.name= @purchase_order.address.name
+							.line_1= "#{@purchase_order.address.read_attribute(:address)["address_line_1"]}"
+							.city= "#{@purchase_order.address.read_attribute(:address)["city"]}, #{@purchase_order.address.read_attribute(:address)["state"]}, #{@purchase_order.address.read_attribute(:address)["country"]}"
+							.postal="#{@purchase_order.address.read_attribute(:address)["zip"]}"
+						- else 
+							%input.dynamic-select-input{:type => "text",:placeholder => "Address"}/
 					.dynamic-select-list
 						.list-body
 						.list-footer
