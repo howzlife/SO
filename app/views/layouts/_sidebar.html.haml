@@ -58,6 +58,9 @@
 		Confirm your account by clicking the link in the welcome email
 		%br
 		= link_to('Resend Confirmation Email', "/users/confirmations#resend_confirmation_email", :method => :post)
+	-else 
+		%p You have #{Plan.find_by(name: current_user.subscription.plan_type).max_monthly_email_count - current_user.subscription.monthly_po_count} Email POs and #{Plan.find_by(name: current_user.subscription.plan_type).max_monthly_fax_count - current_user.subscription.monthly_po_count} Fax POs left
+		
 	//	= link_to('Resend B', user_confirmation_path(user: {:email => current_user.email}), :method => :post)   
 	%br
 	// commented out because of this error
