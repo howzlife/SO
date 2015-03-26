@@ -15,7 +15,6 @@ class PDFMailer < ActionMailer::Base
     @company = company
     ponumber = @purchase_order.number
     a = @purchase_order.address
-    byebug
   	#create PDFS
 	  pdf_html = "<!DOCTYPE html>
 

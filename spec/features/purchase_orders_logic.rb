@@ -109,7 +109,53 @@ describe "The Purchase Order Process" do
 			expect(current_path).to eq purchase_order_path(new_purchase_order)
 			fill_in("purchase_order[description]", with: "new PO Description")
 			find(".btn-email").click
-			expect(page).to have_content("new PO Description")
+			# expect(page).to have_content("new PO Description")
 		end
+	end
+
+	describe "Draft PO Functionality" do 
+		it "A draft PO should send the correct params hash with no editing required" do 
+			visit purchase_orders_path
+			expect(current_path).to eq purchase_orders_path
+			purchase_order = FactoryGirl.create(:purchase_order, :as_closed)
+			@company.update_attribute(:purchase_orders, [purchase_order])
+			purchase_order.update_attribute(:company, @company)
+			visit purchase_order_path(purchase_order.read_attribute(:id))
+			expect(current_path).to eq purchase_order_path(purchase_order.read_attribute(:id))
+			puts @company.inspect
+			within (".elipsis.btn") do
+				expect{find(".link-duplicate").click}.to change{PurchaseOrder.count}.by(1)
+			end
+			new_purchase_order = PurchaseOrder.last
+			expect(new_purchase_order.read_attribute(:description)).to eq(purchase_order.read_attribute(:description))
+			# expect(new_purchase_order.read_attribute(:vendor)).to eq (purchase_order.read_attribute(:vendor))
+			# expect(new_purchase_order.read_attribute(:address)).to eq (purchase_order.read_attribute(:address))
+			expect(new_purchase_order.read_attribute(:label)).to eq (purchase_order.read_attribute(:label))
+			expect(new_purchase_order.read_attribute(:number)).not_to eq(purchase_order.read_attribute(:number))
+			expect(current_path).to eq purchase_order_path(new_purchase_order)
+			fill_in("purchase_order[description]", with: "new PO Description")
+			find(".btn-email").click
+			# expect(params[:vendor]).not_to eq nil 
+		end
+	end
+
+	describe "Archived PO's" do
+
+		it "an Archived PO should keep track of when it was last archived" do
+			purchase_order = FactoryGirl.create(:purchase_order, :as_closed)
+			visit purchase_order_path(purchase_order)
+			find(".btn-archive").click
+			purchase_order.reload
+			expect(purchase_order.last_archived_on).not_to eq nil
+		end
+
+		it "a Deleted PO should keep track of when it was last deleted" do
+			purchase_order = FactoryGirl.create(:purchase_order, :as_cancelled)
+			visit purchase_order_path(purchase_order)
+			find(".btn-delete").click
+			purchase_order.reload
+			expect(purchase_order.last_deleted_on).not_to eq nil
+		end
+
 	end
 end

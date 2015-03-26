@@ -208,6 +208,7 @@ class PurchaseOrdersController < ApplicationController
     elsif params[:status] == "deleted"
       @purchase_order.update_attribute(:archived, false)
       @purchase_order.update_attribute(:was_deleted, true)
+      @purchase_order.update_attribute(:last_deleted_on, DateTime.now)
       @purchase_order.update_attribute(:status, "deleted")
       flash[:notice] = "Purchase Order has been Deleted." if @purchase_order.save
       respond_to do |format|
@@ -222,6 +223,7 @@ class PurchaseOrdersController < ApplicationController
 
     elsif params[:status] == "archive"
       @purchase_order.update_attribute(:archived, true)
+      @purchase_order.update_attribute(:last_archived_on, DateTime.now)
       flash[:notice] = "Purchase Order has been Archived." if @purchase_order.save
       respond_with(@purchase_order)
 

@@ -70,7 +70,7 @@
 								%span.text Duplicate as New
 							= button_tag(type: 'submit', :name => "status", :value => "print", class: "link btn-print show-print") do
 								%span.text Print
-					= button_tag(type: 'submit', :name => "status", :value => "archive", :data => { :confirm => 'Are you sure?' }, class: "btn btn-primary") do
+					= button_tag(type: 'submit', :name => "status", :value => "archive", :data => { :confirm => 'Are you sure?' }, class: "btn btn-primary btn-archive") do
 						%span.text Archive
 			-elsif button == "Cancelled PO"
 				= simple_form_for @purchase_order, url: purchase_order_path do |f|
@@ -78,13 +78,13 @@
 						%span.text
 							&middot;&middot;&middot;
 						.tool-tip.below.left-align
-							= button_tag(type: 'submit', :name => "status", :value => "deleted", :data => { :confirm => 'Are you sure?' }, class: "link") do
+							= button_tag(type: 'submit', :name => "status", :value => "deleted", :data => { :confirm => 'Are you sure?' }, class: "link btn-delete") do
 								%span.text Delete PO
 							= button_tag(type: 'submit', :name => "status", :value => "duplicate", :data => { :confirm => 'Are you sure?' }, class: "link link-duplicate", id: "duplicate-as-new") do
 								%span.text Duplicate as New
 							= button_tag(type: 'submit', :name => "status", :value => "print", class: "link btn-print show-print") do
 								%span.text Print
-					= button_tag(type: 'submit', :name => "status", :value => "archive", :data => { :confirm => 'Are you sure?' }, class: "btn btn-primary") do
+					= button_tag(type: 'submit', :name => "status", :value => "archive", :data => { :confirm => 'Are you sure?' }, class: "btn btn-primary btn-archive") do
 						%span.text Archive
 			-elsif button == "Archived PO"
 				= simple_form_for @purchase_order, url: purchase_order_path do |f|
@@ -95,7 +95,7 @@
 							= button_tag(type: 'submit', :name => "status", :value => "unarchive", :data => { :confirm => 'Are you sure?' }, class: "link") do
 								%span.text Unarchive
 							- if @purchase_order.read_attribute(:status) == "cancelled"
-								= button_tag(type: 'submit', :name => "status", :value => "deleted", :data => { :confirm => 'Are you sure?' }, class: "link") do
+								= button_tag(type: 'submit', :name => "status", :value => "deleted", :data => { :confirm => 'Are you sure?' }, class: "link btn-delete") do
 									%span.text Delete PO
 							= button_tag(type: 'submit', :name => "status", :value => "duplicate", :data => { :confirm => 'Are you sure?' }, class: "link link-duplicate", id: "duplicate-as-new") do
 								%span.text Duplicate as New
