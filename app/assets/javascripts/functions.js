@@ -43,6 +43,9 @@ $(function() {
 	  'pattern': '({{999}}) {{999}}-{{9999}}'
 	});
 
+	$('#tagsinput').tagsinput({
+	  maxTags: 1
+	});
 	// sidebar search
 	$('.search .search-query').bind('keyup change', function(){
 		var results = false;

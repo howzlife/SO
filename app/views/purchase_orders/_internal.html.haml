@@ -6,8 +6,8 @@
 			%p Use this area to add additional information about this purchase order.
 		.section-content
 			.card
-				= f.input :label, label: 'Label', :placeholder => "enter a label..."
-				= f.input :note, as: :text, label: 'Note', :placeholder => "enter a note..."
+				= f.input :label, label: 'Label', :input_html => { 'id' => 'tagsinput' }, :placeholder => "Add a label..."
+				= f.input :note, as: :text, label: 'Note', :placeholder => "Add a note..."
 				.buttons
 					= button_to "Update", @purchase_order, :method => :post, class: "btn btn-label"
 - if @purchase_order.purchase_order_history.length > 0
@@ -30,4 +30,4 @@
 								%td
 									= h.action
 								%td
-									= h.date.in_time_zone.strftime("%B #{h.date.day.ordinalize}, %Y %H:%M:%S")
+									= h.date.in_time_zone.strftime("%B #{h.date.in_time_zone.day.ordinalize}, %Y %H:%M:%S")

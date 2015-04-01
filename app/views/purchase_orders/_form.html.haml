@@ -39,7 +39,7 @@
 					.section
 						.text-label Date
 						.date
-							=@purchase_order.date.strftime("%B #{@purchase_order.date.day}, %Y")
+							=@purchase_order.date.in_time_zone.strftime("%B #{@purchase_order.date.in_time_zone.day}, %Y")
 			.purchaseorder-vendor.clear
 				.to.vendor
 					.text-label Send To
@@ -79,7 +79,7 @@
 				.date-required
 					.text-label Date Required
 					.date-field
-						= f.input :date_required, :placeholder => "ASAP", :input_html => { :class => 'date-picker' }
+						= f.input :date_required, :placeholder => "Select a date", :input_html => { :class => 'date-picker' }
 			.purchaseorder-description
 				.text-label Description
 			.purchaseorder-input

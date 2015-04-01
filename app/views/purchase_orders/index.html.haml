@@ -53,7 +53,7 @@
 						Status
 						.arrow
 			%tbody
-				- @purchase_orders.each do |purchase_order|
+				- @purchase_orders.order('created_at DESC').each do |purchase_order|
 					- classes = ["status-#{purchase_order.status}", ("archived" if purchase_order.archived?)]
 					%tr{class: classes}
 						%td= link_to purchase_order.number, purchase_order, :class=>"inverted-link"
@@ -61,7 +61,7 @@
 							- if purchase_order.status == "draft"
 								= raw("&ndash;")
 							- else
-								= purchase_order.date.strftime("%B #{purchase_order.date.day.ordinalize}, %Y")
+								= purchase_order.date.in_time_zone.strftime("%B #{purchase_order.date.in_time_zone.day.ordinalize}, %Y")
 						%td.vendor
 							= purchase_order.vendor.name
 							.tool-tip.above
@@ -72,7 +72,7 @@
 								.details.telephone= link_to purchase_order.vendor.telephone, "tel:#{purchase_order.vendor.telephone}"
 								.details.fax= purchase_order.vendor.fax
 						%td
-							= purchase_order.label != "" ? purchase_order.label : raw("&ndash;")
+							= !purchase_order.label.blank? ? purchase_order.label : raw("&ndash;")
 						%td
 							%span{class: "label status-#{purchase_order.status}"}= purchase_order.status
 
