@@ -7,7 +7,7 @@ class PDFMailer < ActionMailer::Base
 
   default from: "from@example.com"
 
-  def send_pdf(purchase_order, company, current_user)
+  def send_pdf(purchase_order, company, current_user, bcc)
     
 		#create instance variables
 
@@ -241,7 +241,12 @@ font-size: 11px;
 		attachments['purchase_order_'+@purchase_order.number.to_s+'.pdf'] = File.read(file_name)
 		#send email with pdf 
 		mail(to: @purchase_order.vendor.email, subject: 'Purchase Order '+@purchase_order.number.to_s, from: @company.email, reply_to: @company.email)
-		#delete local file
+		
+    #bcc if checkbox is selected
+    if bcc
+      mail(to: current_user.email, subject: 'Purchase Order '+@purchase_order.number.to_s, from: @company.email, reply_to: @company.email)
+    end
+    #delete local file
 		File.delete(file_name)
 	end
 

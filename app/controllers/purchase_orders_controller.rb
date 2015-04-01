@@ -13,9 +13,9 @@ class PurchaseOrdersController < ApplicationController
     puts "params = #{params.inspect}"
     @company = current_user.company
     if params["q"].blank? && params["status"].blank? && params["label"].blank? && params["archived"].blank? && params['was_deleted'].blank?
-      @purchase_orders = @company.purchase_orders.active.page params[:page]
+      @purchase_orders = @company.purchase_orders.active.page(params[:page]).per(25)
     elsif params["all"]
-      @purchase_orders = @company.purchase_orders.active.page params[:page]
+      @purchase_orders = @company.purchase_orders.active.page(params[:page]).per(25)
     else
       if params.has_key?("all")
         # @purchase_orders = PurchaseOrder.status(@company.id, params["status"]).page params[:page]
@@ -70,7 +70,7 @@ class PurchaseOrdersController < ApplicationController
         ## Response for send by Fax or Email 
         if params[:status] == "email" 
           if current_user.subscription.can_send_po 
-       			PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
+       			PDFMailer.send_pdf(@purchase_order, @company, current_user, params["bcc"]).deliver
             @purchase_order.status = "open"
             flash[:notice] = 'Success, your PO has been sent by Email.' if @purchase_order.save
             current_user.subscription.update_attribute(:monthly_po_count, current_user.subscription.monthly_po_count + 1)

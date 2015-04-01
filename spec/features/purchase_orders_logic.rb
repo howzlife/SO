@@ -87,75 +87,106 @@ describe "The Purchase Order Process" do
 	# 	end
 	# end
 
-	describe "Duplicate as new functionality" do 
-		it "Duplicate as new should function as expected" do 
-			visit purchase_orders_path
-			expect(current_path).to eq purchase_orders_path
-			purchase_order = FactoryGirl.create(:purchase_order, :as_closed)
-			@company.update_attribute(:purchase_orders, [purchase_order])
-			purchase_order.update_attribute(:company, @company)
-			visit purchase_order_path(purchase_order.read_attribute(:id))
-			expect(current_path).to eq purchase_order_path(purchase_order.read_attribute(:id))
-			puts @company.inspect
-			within (".elipsis.btn") do
-				expect{find(".link-duplicate").click}.to change{PurchaseOrder.count}.by(1)
-			end
-			new_purchase_order = PurchaseOrder.last
-			expect(new_purchase_order.read_attribute(:description)).to eq(purchase_order.read_attribute(:description))
-			# expect(new_purchase_order.read_attribute(:vendor)).to eq (purchase_order.read_attribute(:vendor))
-			# expect(new_purchase_order.read_attribute(:address)).to eq (purchase_order.read_attribute(:address))
-			expect(new_purchase_order.read_attribute(:label)).to eq (purchase_order.read_attribute(:label))
-			expect(new_purchase_order.read_attribute(:number)).not_to eq(purchase_order.read_attribute(:number))
-			expect(current_path).to eq purchase_order_path(new_purchase_order)
-			fill_in("purchase_order[description]", with: "new PO Description")
-			find(".btn-email").click
-			# expect(page).to have_content("new PO Description")
-		end
-	end
+	# describe "Duplicate as new functionality" do 
+	# 	it "Duplicate as new should function as expected" do 
+	# 		visit purchase_orders_path
+	# 		expect(current_path).to eq purchase_orders_path
+	# 		purchase_order = FactoryGirl.create(:purchase_order, :as_closed)
+	# 		@company.update_attribute(:purchase_orders, [purchase_order])
+	# 		purchase_order.update_attribute(:company, @company)
+	# 		visit purchase_order_path(purchase_order.read_attribute(:id))
+	# 		expect(current_path).to eq purchase_order_path(purchase_order.read_attribute(:id))
+	# 		puts @company.inspect
+	# 		within (".elipsis.btn") do
+	# 			expect{find(".link-duplicate").click}.to change{PurchaseOrder.count}.by(1)
+	# 		end
+	# 		new_purchase_order = PurchaseOrder.last
+	# 		expect(new_purchase_order.read_attribute(:description)).to eq(purchase_order.read_attribute(:description))
+	# 		# expect(new_purchase_order.read_attribute(:vendor)).to eq (purchase_order.read_attribute(:vendor))
+	# 		# expect(new_purchase_order.read_attribute(:address)).to eq (purchase_order.read_attribute(:address))
+	# 		expect(new_purchase_order.read_attribute(:label)).to eq (purchase_order.read_attribute(:label))
+	# 		expect(new_purchase_order.read_attribute(:number)).not_to eq(purchase_order.read_attribute(:number))
+	# 		expect(current_path).to eq purchase_order_path(new_purchase_order)
+	# 		fill_in("purchase_order[description]", with: "new PO Description")
+	# 		find(".btn-email").click
+	# 		# expect(page).to have_content("new PO Description")
+	# 	end
+	# end
 
 	describe "Draft PO Functionality" do 
-		it "A draft PO should send the correct params hash with no editing required" do 
+		# it "A draft PO should send the correct params hash with no editing required" do 
+		# 	visit purchase_orders_path
+		# 	expect(current_path).to eq purchase_orders_path
+		# 	purchase_order = FactoryGirl.create(:purchase_order, :as_closed)
+		# 	@company.update_attribute(:purchase_orders, [purchase_order])
+		# 	purchase_order.update_attribute(:company, @company)
+		# 	visit purchase_order_path(purchase_order.read_attribute(:id))
+		# 	expect(current_path).to eq purchase_order_path(purchase_order.read_attribute(:id))
+		# 	puts @company.inspect
+		# 	within (".elipsis.btn") do
+		# 		expect{find(".link-duplicate").click}.to change{PurchaseOrder.count}.by(1)
+		# 	end
+		# 	new_purchase_order = PurchaseOrder.last
+		# 	expect(new_purchase_order.read_attribute(:description)).to eq(purchase_order.read_attribute(:description))
+		# 	# expect(new_purchase_order.read_attribute(:vendor)).to eq (purchase_order.read_attribute(:vendor))
+		# 	# expect(new_purchase_order.read_attribute(:address)).to eq (purchase_order.read_attribute(:address))
+		# 	expect(new_purchase_order.read_attribute(:label)).to eq (purchase_order.read_attribute(:label))
+		# 	expect(new_purchase_order.read_attribute(:number)).not_to eq(purchase_order.read_attribute(:number))
+		# 	expect(current_path).to eq purchase_order_path(new_purchase_order)
+		# 	fill_in("purchase_order[description]", with: "new PO Description")
+		# 	find(".btn-email").click
+		# 	# expect(params[:vendor]).not_to eq nil 
+		# end
+
+		it "clicking the bcc box should send the user a copy via email, when he is emailing" do
 			visit purchase_orders_path
-			expect(current_path).to eq purchase_orders_path
-			purchase_order = FactoryGirl.create(:purchase_order, :as_closed)
-			@company.update_attribute(:purchase_orders, [purchase_order])
-			purchase_order.update_attribute(:company, @company)
-			visit purchase_order_path(purchase_order.read_attribute(:id))
-			expect(current_path).to eq purchase_order_path(purchase_order.read_attribute(:id))
-			puts @company.inspect
-			within (".elipsis.btn") do
-				expect{find(".link-duplicate").click}.to change{PurchaseOrder.count}.by(1)
-			end
-			new_purchase_order = PurchaseOrder.last
-			expect(new_purchase_order.read_attribute(:description)).to eq(purchase_order.read_attribute(:description))
-			# expect(new_purchase_order.read_attribute(:vendor)).to eq (purchase_order.read_attribute(:vendor))
-			# expect(new_purchase_order.read_attribute(:address)).to eq (purchase_order.read_attribute(:address))
-			expect(new_purchase_order.read_attribute(:label)).to eq (purchase_order.read_attribute(:label))
-			expect(new_purchase_order.read_attribute(:number)).not_to eq(purchase_order.read_attribute(:number))
-			expect(current_path).to eq purchase_order_path(new_purchase_order)
-			fill_in("purchase_order[description]", with: "new PO Description")
-			find(".btn-email").click
-			# expect(params[:vendor]).not_to eq nil 
+			@user.company.update_attribute(:addresses, [FactoryGirl.build(:address)])
+			@user.company.update_attribute(:vendors, [FactoryGirl.build(:vendor)])
+			visit new_purchase_order_path
+			expect(current_path).to eq new_purchase_order_path
+			page.select('Test Vendor', from: "purchase_order[vendor]")
+			fill_in("purchase_order[description]", with: "test PO 123")
+			button = find(".btn-email")
+
+			page.select("Home Base", from: "purchase_order[address]")
+			
+			find(".btn-bcc").click
+			expect{find(".btn-email").click}.to change{ActionMailer::Base.deliveries.count}.by(2)
+		end
+
+		it "clicking the bcc box should send the user a copy via email, when he is faxing" do
+			visit purchase_orders_path
+			@user.company.update_attribute(:addresses, [FactoryGirl.build(:address)])
+			@user.company.update_attribute(:vendors, [FactoryGirl.build(:vendor)])
+			visit new_purchase_order_path
+			expect(current_path).to eq new_purchase_order_path
+			page.select('Test Vendor', from: "purchase_order[vendor]")
+			fill_in("purchase_order[description]", with: "test PO 123")
+			button = find(".btn-email")
+
+			page.select("Home Base", from: "purchase_order[address]")
+			find(".btn-bcc").click
+			expect{find(".btn-fax").click}.to change{ActionMailer::Base.deliveries.count}.by(1)
 		end
 	end
 
-	describe "Archived PO's" do
+	# describe "Archived PO's" do
 
-		it "an Archived PO should keep track of when it was last archived" do
-			purchase_order = FactoryGirl.create(:purchase_order, :as_closed)
-			visit purchase_order_path(purchase_order)
-			find(".btn-archive").click
-			purchase_order.reload
-			expect(purchase_order.last_archived_on).not_to eq nil
-		end
+	# 	it "an Archived PO should keep track of when it was last archived" do
+	# 		purchase_order = FactoryGirl.create(:purchase_order, :as_closed)
+	# 		visit purchase_order_path(purchase_order)
+	# 		find(".btn-archive").click
+	# 		purchase_order.reload
+	# 		expect(purchase_order.last_archived_on).not_to eq nil
+	# 	end
 
-		it "a Deleted PO should keep track of when it was last deleted" do
-			purchase_order = FactoryGirl.create(:purchase_order, :as_cancelled)
-			visit purchase_order_path(purchase_order)
-			find(".btn-delete").click
-			purchase_order.reload
-			expect(purchase_order.last_deleted_on).not_to eq nil
-		end
+	# 	it "a Deleted PO should keep track of when it was last deleted" do
+	# 		purchase_order = FactoryGirl.create(:purchase_order, :as_cancelled)
+	# 		visit purchase_order_path(purchase_order)
+	# 		find(".btn-delete").click
+	# 		purchase_order.reload
+	# 		expect(purchase_order.last_deleted_on).not_to eq nil
+	# 	end
 
-	end
+	# end
 end

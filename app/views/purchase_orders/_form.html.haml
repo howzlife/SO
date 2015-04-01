@@ -69,7 +69,9 @@
 							= link_to new_vendor_path do
 								%span.text Create New Vendor						
 							= link_to vendors_path do
-								%span.text Manage Vendors			
+								%span.text Manage Vendors
+					= check_box_tag 'bcc', 'yes', false, class: "btn-bcc"
+					Send me a copy
 					.dynamic-details
 				.date-required
 					.text-label Date Required
