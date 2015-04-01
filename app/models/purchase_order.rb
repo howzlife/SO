@@ -7,7 +7,6 @@ class PurchaseOrder
   field :date, type: DateTime, default: ->{ DateTime.current } 
   field :status, type: String
   field :description, type: String
-  field :tags, type: String
   field :date_required, type: String
   field :label, type: String
   field :note, type: String

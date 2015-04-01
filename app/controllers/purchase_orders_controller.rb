@@ -305,7 +305,7 @@ class PurchaseOrdersController < ApplicationController
       # It's mandatory to specify the nested attributes that should be whitelisted.
       # If you use `permit` with just the key that points to the nested attributes hash,
       # it will return an empty hash.
-      params.require(:purchase_order).permit(:number, :status, :description, :tags, :archived, :label, :note, :comment, :date_required, :address, :vendor)
+      params.require(:purchase_order).permit(:number, :status, :description, :archived, :label, :note, :comment, :date_required, :address, :vendor)
     end
 
     def has_company_info

@@ -60,6 +60,9 @@ gem 'mailchimp-api', require: 'mailchimp'
 
 gem 'kaminari'
 
+#aws
+gem 'aws-sdk'
+
 #gem factory girl, to use as fixtures for testing
 gem "factory_girl_rails", "~> 4.0"
 
