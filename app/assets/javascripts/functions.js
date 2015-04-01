@@ -132,29 +132,77 @@ $(function() {
     }).attr('autocomplete', 'off').data('oldval', '');
 
 	// vendor select search
-	$('.purchaseorder-vendor .dynamic-select-input').bind('keyup change', function(){
-        if($(this).val() != $(this).data('oldval') && $(this).val() != "") {
-        	$(this).data('oldval', $(this).val());
-        	if(currReqObj != null) currReqObj.abort();
-        	 clearTimeout(searchTimeoutID);
-        	 var term = $(this).val();
-        	 searchTimeoutID = setTimeout(function(){
-				 currReqObj = $.get( "/vendors.json?q=" + term, function( data ) {
-					currReqObj = null;
-					$('.purchaseorder-vendor .dynamic-select-list').show();
-					$('.purchaseorder-vendor .dynamic-select-list .list-body').empty();
-					if (data.length > 0) {
-						$.each(data, function(index, item) {
-							$('.purchaseorder-vendor .dynamic-select-list .list-body').append('<div class="dynamic-name" data-id="' + item.id + '">' + item.name + '</div>');
-						});
-					} else {
-						$('.purchaseorder-vendor .dynamic-select-list .list-body').append('<div class="empty">No results found.</div>');
-					}
-				});
-            }, searchTimeoutThrottle);
+
+	$.widget("custom.autocompletefooter", $.ui.autocomplete, {
+        _renderMenu: function (ul, items) {
+            var self = this;
+            $.each(items, function (index, item) {
+                self._renderItem(ul, item);
+                if (index == items.length - 1) ul.append('<li><a href="/vendors/new"><span class="text">Create New Vendor</span></a></li><li><a href="/vendors"><span class="text">Manage Vendors</span></a></div></li>');
+            });
         }
-		if($(this).val() == "") {
-			$('.purchaseorder-vendor .dynamic-select-list').hide();
+    });
+
+	$( "#purchase_order_date_required" ).datepicker({dateFormat: 'MM d, yy', dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], minDate: 0});
+
+/*
+$('.purchaseorder-vendor .dynamic-select-input').autocomplete({
+    source: function (request, response) {
+        $.getJSON("/vendors.json?q=" + request.term, function (data) {
+            response($.map(data, function (key, value) {
+                return {
+                    label: key.name,
+                    value: key.name
+                };
+            }));
+        });
+    },
+    minLength: 2,
+    delay: 100
+});
+*/
+	$('.purchaseorder-vendor .dynamic-select-input').bind('keyup change', function(e){
+	
+		var code = (e.keyCode ? e.keyCode : e.which);
+		console.log(code);
+		if (code == 40 || code == 38) {
+			if (code == 40) {
+				if ($('.purchaseorder-vendor .dynamic-select-list .list-body .dynamic-name.hover').length == 0){
+					$('.purchaseorder-vendor .dynamic-select-list .list-body .dynamic-name').eq(0).addClass('hover');
+				} else {
+					$('.purchaseorder-vendor .dynamic-select-list .list-body .dynamic-name.hover').eq(0).removeClass("hover").next().addClass("hover");
+				}
+			} else {
+				if ($('.purchaseorder-vendor .dynamic-select-list .list-body .dynamic-name.hover').length > 0){
+					$('.purchaseorder-vendor .dynamic-select-list .list-body .dynamic-name.hover').eq(0).removeClass("hover").prev().addClass("hover");
+				}
+			}
+		} else {
+
+			if($(this).val() != $(this).data('oldval') && $(this).val() != "") {
+				$(this).data('oldval', $(this).val());
+				if(currReqObj != null) currReqObj.abort();
+				 clearTimeout(searchTimeoutID);
+				 var term = $(this).val();
+				 searchTimeoutID = setTimeout(function(){
+					 currReqObj = $.get( "/vendors.json?q=" + term, function( data ) {
+						currReqObj = null;
+						$('.purchaseorder-vendor .dynamic-select-list').show();
+						$('.purchaseorder-vendor .dynamic-select-list .list-body').empty();
+						if (data.length > 0) {
+							$.each(data, function(index, item) {
+								$('.purchaseorder-vendor .dynamic-select-list .list-body').append('<div class="dynamic-name" data-id="' + item.id + '">' + item.name + '</div>');
+							});
+						} else {
+							$('.purchaseorder-vendor .dynamic-select-list .list-body').append('<div class="empty">No results found.</div>');
+						}
+					});
+				}, searchTimeoutThrottle);
+			}
+			if($(this).val() == "") {
+				$('.purchaseorder-vendor .dynamic-select-list').hide();
+			}
+
 		}
     }).attr('autocomplete', 'off').data('oldval', '');
 
@@ -209,7 +257,6 @@ $(function() {
 		$('.purchaseorder-vendor .dynamic-select-input').show().val('');
 		$('.buttons .btn-fax, .buttons .btn-email').prop("disabled", "disabled");
 	});
-
 
 	// deliover to select search
 	$('.purchaseorder-deliverto .dynamic-select-input').bind('keyup change', function(){

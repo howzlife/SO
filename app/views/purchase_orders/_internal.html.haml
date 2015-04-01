@@ -1,10 +1,12 @@
 = simple_form_for @purchase_order do |f|
 	.divider.no-print
-	.wrapper.section.clear.no-print
+	.wrapper.section.clear.no-print.internal
 		.section-description
 			%h3 Internal Use
 			%p Use this area to add additional information about this purchase order.
 		.section-content
 			.card
 				= f.input :label, label: 'Label', :placeholder => "enter a label..."
-				= button_to "Update Label", @purchase_order, :method => :post, class: "btn btn-label"
+				= f.input :note, as: :text, label: 'Note', :placeholder => "enter a note..."
+				.buttons
+					= button_to "Update", @purchase_order, :method => :post, class: "btn btn-label"

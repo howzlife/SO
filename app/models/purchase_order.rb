@@ -9,6 +9,7 @@ class PurchaseOrder
   field :tags, type: String
   field :date_required, type: String
   field :label, type: String
+  field :note, type: String
   field :archived, type: Boolean
   field :was_deleted, type: Boolean
   field :last_archived_on, type: DateTime

@@ -39,13 +39,16 @@
 					.section
 						.text-label Date
 						.date
-							=@purchase_order.date.strftime("%B #{@purchase_order.date.day.ordinalize}, %Y")
+							=@purchase_order.date.strftime("%B #{@purchase_order.date.day}, %Y")
 			.purchaseorder-vendor.clear
 				.to.vendor
 					.text-label Send To
 				.vendor-select
 					-# the instance variable below isn't the vendor document that embedded in the purchase order. It's the one embedded in the company. We use the vendors created there in this form. The data from them is then saved to the purchase order's embedded vendor document. We allow vendor information to be changed for the company but not on the purchase orders. This way, if the Company's vendor data changes, the already saved purchase orders' vendor data doesn't. This vendor data is being passed as a hash string. 
-					= f.select :vendor, @company.vendors.all.map { |r| [r.name, r.id] }, :include_blank => "Select Vendor", :selected => @purchase_order.vendor
+					- if @purchase_order.vendor.name.blank?
+						= f.select :vendor, @company.vendors.all.map { |r| [r.name, r.id] }, :include_blank => "Select Vendor"
+					- else
+						= f.select :vendor, @company.vendors.all.map { |r| [r.name, r.id] }, :include_blank => "Select Vendor", :selected => @company.vendors.where(name: @purchase_order.vendor.name).first.id
 					.dynamic-select-text.search-query
 						.dynamic-selected{ :class => @purchase_order.vendor.name.blank? ? 'hidden' : '' }
 							- if !@purchase_order.vendor.name.blank?
@@ -74,7 +77,7 @@
 				.date-required
 					.text-label Date Required
 					.date-field
-						= f.input :date_required, :placeholder => "ASAP", :defaults => { :input_html => { :class => "text" } }, :id => "datepicker"
+						= f.input :date_required, :placeholder => "ASAP", :input_html => { :class => 'date-picker' }
 			.purchaseorder-description
 				.text-label Description
 			.purchaseorder-input

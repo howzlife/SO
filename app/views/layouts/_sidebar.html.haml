@@ -33,18 +33,18 @@
 		//	= link_to faxes_path, class: cp(faxes_path) do
 		//		%span.text Faxes
 		//		%i.fa.fa-fax.fa-fw
-		- unless current_user.subscription.present? 
-			- if current_user.confirmed?
-				%li.sign_up
-				= link_to new_subscription_path, class: cp(new_subscription_path) do
-					%span.text Sign Up!
-					%i.fa.fa-thumbs-up.fa-fw
+		//- unless current_user.subscription.present? 
+		//	- if current_user.confirmed?
+		//		%li.sign_up
+		//		= link_to new_subscription_path, class: cp(new_subscription_path) do
+		//			%span.text Sign Up!
+		//			%i.fa.fa-thumbs-up.fa-fw
 
-		- if current_user.subscription.present? 
-			%li.update_subscription_info
-			= link_to edit_subscription_path(current_user.subscription), class: cp(edit_subscription_path(current_user.subscription)) do
-				%span.text Edit Subscription Info
-				%i.fa.fa-user.fa-fw
+		//- if current_user.subscription.present? 
+		//	%li.update_subscription_info
+		//	= link_to edit_subscription_path(current_user.subscription), class: cp(edit_subscription_path(current_user.subscription)) do
+		//		%span.text Edit Subscription Info
+		//		%i.fa.fa-user.fa-fw
 		%li.help
 			= link_to purchase_orders_path do
 				%span.text Help
@@ -59,7 +59,7 @@
 		%br
 		= link_to('Resend Confirmation Email', "/users/confirmations#resend_confirmation_email", :method => :post)
 	-else 
-		%p You have #{Plan.find_by(name: current_user.subscription.plan_type).max_monthly_email_count - current_user.subscription.monthly_po_count} Email POs and #{Plan.find_by(name: current_user.subscription.plan_type).max_monthly_fax_count - current_user.subscription.monthly_po_count} Fax POs left
+	//		%p You have #{Plan.find_by(name: current_user.subscription.plan_type).max_monthly_email_count - current_user.subscription.monthly_po_count} Email POs and #{Plan.find_by(name: current_user.subscription.plan_type).max_monthly_fax_count - current_user.subscription.monthly_po_count} Fax POs left
 		
 	//	= link_to('Resend B', user_confirmation_path(user: {:email => current_user.email}), :method => :post)   
 	%br
