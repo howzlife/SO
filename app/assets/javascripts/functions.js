@@ -168,8 +168,8 @@ $(function() {
 			return false;
 		},
 		select: function(event, ui) {
+			$('#purchase_order_vendor option[value="' + ui.item.value + '"]').prop('selected', true);
 			$('.purchaseorder-vendor .dynamic-select-list, .purchaseorder-vendor .dynamic-select-input').hide();
-
 			$.get( "/vendors/"+ ui.item.value +".json", function( data ) {
 				$('.purchaseorder-vendor .dynamic-select-text .dynamic-selected').empty();
 				$.each(data, function(index, name) {
@@ -249,7 +249,7 @@ $(function() {
 			return false;
 		},
 		select: function(event, ui) {
-
+			$('#purchase_order_address option[value="' + ui.item.value + '"]').prop('selected', true);
 			$('.purchaseorder-deliverto .dynamic-select-list, .purchaseorder-deliverto .dynamic-select-input').hide();
 			$.get( "/addresses/"+ ui.item.value +".json", function( data ) {
 				$('.purchaseorder-deliverto .dynamic-select-text .dynamic-selected').empty().show();
