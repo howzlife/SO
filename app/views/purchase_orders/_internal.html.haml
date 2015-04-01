@@ -30,4 +30,4 @@
 								%td
 									= h.action
 								%td
-									= h.date.strftime("%B #{h.date.day.ordinalize}, %Y %H:%M:%S")
+									= h.date.in_time_zone.strftime("%B #{h.date.day.ordinalize}, %Y %H:%M:%S")
