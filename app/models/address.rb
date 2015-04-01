@@ -14,7 +14,6 @@ class Address
 
   embedded_in :addressable, polymorphic: true
 
-
   def self.search(company_id, search)
     if search
       where(name: /#{search}/i)

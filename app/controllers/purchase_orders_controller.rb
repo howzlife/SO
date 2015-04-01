@@ -1,11 +1,16 @@
 class PurchaseOrdersController < ApplicationController
   require 'pdf_mailer'
   require 'format_po_fax'
+
   before_action :set_purchase_order, only: [:show, :edit, :update, :destroy]
   before_action :has_company_info, only: [:new]
   before_action :authenticate_user!
+
+  before_action :write_history, only: [:update]
+
   respond_to :html, :json
   responders :flash
+
   include ActionView::Helpers::NumberHelper
   include ActionController::Base::PurchaseOrdersHelper
 
@@ -94,7 +99,7 @@ class PurchaseOrdersController < ApplicationController
               # Otherwise, we get an error message. 
             else 
               respond_to do |format|
-                format.html {render :new, notice: @sent_fax["message"]}
+                format.html {render :show, notice: @sent_fax["message"]}
                 format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
               end
             end
@@ -286,6 +291,14 @@ class PurchaseOrdersController < ApplicationController
     def set_purchase_order
       @purchase_order = PurchaseOrder.find(params[:id])
     end
+
+		# save PO history
+    def write_history
+    	if params[:status] == "cancelled" || params[:status] == "open" || params[:status] == "archive"  || params[:status] == "deleted" || params[:status] == "closed"
+	    	@purchase_order.purchase_order_history.create({ :action => params[:status] })
+	    end
+    end
+
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def purchase_order_params

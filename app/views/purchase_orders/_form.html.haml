@@ -86,18 +86,43 @@
 			.purchaseorder-deliverto.clear
 				.to.deliverto
 					.text-label Ship To
-
 				.deliverto-select
-					= f.select :address, @company.addresses.all.map { |r| [r.name, r.id] }, :include_blank => "Select Address"
+					- if @purchase_order.address.name.blank?
+						= f.select :address, @company.addresses.all.map { |r| [r.name, r.id] }, :include_blank => "Select Address"
+					- else
+						= f.select :address, @company.addresses.all.map { |r| [r.name, r.id] }, :include_blank => "Select Address", :selected => @company.addresses.where(name: @purchase_order.address.name).first.id
+
+
+
+					- if !@purchase_order.address.name.blank?
+						- a = @purchase_order.address
+					- elsif !@company.addresses.find(@company.shipaddress).name.blank?
+						- a = @company.addresses.find(@company.shipaddress)
+
+
+
 					.dynamic-select-text.search-query
-						.dynamic-selected{ :class => @purchase_order.address.name.blank? ? 'hidden' : '' }
-						/ - if !@purchase_order.address.name.blank?
-						/ 	.name= @purchase_order.address.name
-						/ 	.line_1= "#{@purchase_order.address.read_attribute(:address)["address_line_1"]}"
-						/ 	.city= "#{@purchase_order.address.read_attribute(:address)["city"]}, #{@purchase_order.address.read_attribute(:address)["state"]}, #{@purchase_order.address.read_attribute(:address)["country"]}"
-						/ 	.postal="#{@purchase_order.address.read_attribute(:address)["zip"]}"
-						/ - else 
-						%input.dynamic-select-input{:type => "text",:placeholder => "Address"}/
+						.dynamic-selected{ :class => a.name.blank? ? 'hidden' : '' }
+							- if !a.name.blank?
+								.name= a.name
+								.address_line_1= a.address['address_line_1']
+								- if !a.address['address_line_2'].blank?
+									.address_line_2= a.address['address_line_2']
+								.city= "#{a.address['city']}, #{a.address['state']}, #{a.address['zip']}"
+
+								- if !a.telephone.blank?
+									.telephone= "Tel: #{a.telephone}"
+								- if !a.fax.blank?
+									.fax= "Fax: #{a.fax}"
+								- if !a.agent.blank?
+									.agent= "Attn: #{a.agent}"
+
+								%span.change &times;
+						- if !a.name.blank?
+							%input.dynamic-select-input{:type => "text",:placeholder => "Address", class: "hidden"}
+						- else
+							%input.dynamic-select-input{:type => "text",:placeholder => "Address"}
+
 					.dynamic-select-list
 						.list-body
 						.list-footer

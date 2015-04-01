@@ -57,7 +57,11 @@
 					- classes = ["status-#{purchase_order.status}", ("archived" if purchase_order.archived?)]
 					%tr{class: classes}
 						%td= link_to purchase_order.number, purchase_order, :class=>"inverted-link"
-						%td= purchase_order.date.strftime("%B #{purchase_order.date.day.ordinalize}, %Y")
+						%td
+							- if purchase_order.status == "draft"
+								= raw("&ndash;")
+							- else
+								= purchase_order.date.strftime("%B #{purchase_order.date.day.ordinalize}, %Y")
 						%td.vendor
 							= purchase_order.vendor.name
 							.tool-tip.above

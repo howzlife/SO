@@ -77,10 +77,8 @@
 			.deliverto-agent
 				- if !@purchase_order.address.name.blank?
 					= a['agent']
-					
 	.buttons
 		= simple_form_for @purchase_order, url: purchase_order_path do |f|
-
 			/ - if @purchase_order.status == "open" && @purchase_order.archived != true && @purchase_order.was_deleted != true
 			/ 	= button_tag(type: 'submit', :name => "status", :value => "closed", :data => { :confirm => 'Are you sure?' }, class: "btn btn-close") do
 			/ 		%i.fa.fa-times.fa-fw

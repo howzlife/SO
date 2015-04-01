@@ -33,8 +33,8 @@ $(function() {
     		});
     });
     
-    if ($('p.notice').length) {
-    	$('p.notice').delay( 2750 ).fadeOut(250);
+    if ($('.notice').length) {
+    	$('.notice').delay( 2750 ).fadeOut(250);
     }
     
     $('.sortable').tablesorter();
