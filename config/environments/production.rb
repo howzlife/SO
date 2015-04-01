@@ -58,7 +58,7 @@ Rails.application.configure do
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
   #Ensure you have defined default url options in your environments files for devise gem
   #config.action_mailer.default_url_options = { host: 'swiftorders.com', port: 80 }
   #config.action_mailer.default_options = {  :from => "no-reply@swiftorders.com" }

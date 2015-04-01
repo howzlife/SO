@@ -2,7 +2,7 @@ class User
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::Paranoia
-  after_create :add_subscription_to_user
+  after_create :add_subscription_to_user, :send_confirmation_email
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -52,6 +52,10 @@ class User
     subscription.save_without_payment(selected_plan, email, last_name)
     update_attributes!(subscription: subscription)
     save
+  end
+
+  def send_confirmation_email
+    resend_confirmation_instructions
   end
   
   validates_presence_of :first_name, :last_name
