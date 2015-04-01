@@ -18,13 +18,13 @@ class PurchaseOrdersController < ApplicationController
     puts "params = #{params.inspect}"
     @company = current_user.company
     if params["q"].blank? && params["status"].blank? && params["label"].blank? && params["archived"].blank? && params['was_deleted'].blank?
-      @purchase_orders = @company.purchase_orders.active.page(params[:page]).per(25)
+      @purchase_orders = @company.purchase_orders.active.page params[:page]
     elsif params["all"]
-      @purchase_orders = @company.purchase_orders.active.page(params[:page]).per(25)
+      @purchase_orders = @company.purchase_orders.active.page params[:page]
     else
       if params.has_key?("all")
         # @purchase_orders = PurchaseOrder.status(@company.id, params["status"]).page params[:page]
-        @purchase_orders = PurchaseOrder.search2(@company.id, status: params["status"], label: params.fetch(:label, ''), archived: params.fetch(:archived, nil), was_deleted: params.fetch(:was_deleted, nil)).page(params[:page])
+        @purchase_orders = PurchaseOrder.search2(@company.id, status: params["status"], label: params.fetch(:label, ''), archived: params.fetch(:archived, nil), was_deleted: params.fetch(:was_deleted, nil)).page params[:page]
       elsif params.has_key?("status")
         @purchase_orders = PurchaseOrder.status(@company.id, params["status"]).page params[:page]
       elsif params.has_key?("label")
