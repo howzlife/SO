@@ -1061,32 +1061,84 @@ h1
 				color: $default-grey
 
 @media print
+
 	body
 		background: none
 		font-size: 12px
-	.sidebar, .page-header, .buttons, .no-print
+		color: #000
+	.sidebar, .page-header, .buttons, .no-print, .app-header, .help, .ui-datepicker
 		display: none
 	.content
+		width: 100%
+		.sheet
+			box-shadow: none
+			border: none
 		.card
 			border: none
+			box-shadow: none
 			padding: 0
 			.text-label
 				font-size: 12px
+				color: #000
 		.purchaseorder
+			background: none
+			.purchaseorder-header
+				.purchaseorder-from, .purchaseorder-number
+					color: #000
+					.date, .number
+						color: #000
 			.purchaseorder-vendor
 				.to
 					.text-label
 						font-size: 12px
+						color: #000
 				.date-required
 					.text-label
 						font-size: 12px
+						color: #000
+					.date-picker
+						box-shadow: none
+						border: 0
+						padding: 0
+						margin: 6px 0 0 0
+
 			.purchaseorder-deliverto
 				.to 
 					.text-label
 						font-size: 12px
+						color: #000
+			.purchaseorder-input
+				background: none
 			.purchaseorder-description
 				.text-label
 					font-size: 12px
+					color: #000
+			.change
+				display: none
+			.search-query
+				box-shadow: none
+				border: 0
+				padding: 0
+				.dynamic-select-input
+					display: none
+			&.draft
+				.purchaseorder-description
+					position: relative
+					&:after
+						content: 'This Order is a Draft'
+						font-weight: 700
+						font-size: 60px
+						text-align: center
+						position: absolute
+						top: 165px
+						color: #000
+						opacity: .05
+						width: 100%
+						margin-left: -25px
+						-ms-transform: rotate(-15deg)
+						-webkit-transform: rotate(-15deg)
+						transform: rotate(-15deg)
+
 	.credits
 		display: block
 		text-align: center

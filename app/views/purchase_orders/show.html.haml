@@ -12,7 +12,7 @@
 		.archived.message= "This PO was archived on #{@purchase_order.last_archived_on.strftime('%B')} #{@purchase_order.last_archived_on.day}, #{@purchase_order.last_archived_on.strftime('%Y')}"
 	- elsif @purchase_order.was_deleted == true
 		.deleted.message= "This PO was deleted on #{@purchase_order.last_deleted_on.strftime('%B')} #{@purchase_order.last_deleted_on.day}, #{@purchase_order.last_deleted_on.strftime('%Y')}"
-	#purchaseorder.card.purchaseorder{class: "#{@purchase_order.status}"}
+	.card.purchaseorder{class: "#{@purchase_order.status}"}
 		.purchaseorder-header.clear
 			.purchaseorder-company
 				=@company.name

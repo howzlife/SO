@@ -14,7 +14,7 @@
 	- else
 		- ponumber = @purchase_order.number
 	.wrapper
-		.card.purchaseorder
+		.card.purchaseorder{class: "#{!@purchase_order.status.blank? ? @purchase_order.status : 'draft' }"}
 			.purchaseorder-header.clear
 				.purchaseorder-company
 					= @company.name
@@ -73,9 +73,10 @@
 								%span.text Create New Vendor						
 							= link_to vendors_path do
 								%span.text Manage Vendors
-					= check_box_tag 'bcc', 'yes', false, class: "btn-bcc"
-					Send me a copy
 					.dynamic-details
+					.no-print
+						= check_box_tag 'bcc', 'yes', false, class: "btn-bcc"
+						Send me a copy
 				.date-required
 					.text-label Date Required
 					.date-field
