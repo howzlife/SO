@@ -1,10 +1,33 @@
 = simple_form_for @purchase_order do |f|
 	.divider.no-print
-	.wrapper.section.clear.no-print
+	.wrapper.section.clear.no-print.internal
 		.section-description
 			%h3 Internal Use
 			%p Use this area to add additional information about this purchase order.
 		.section-content
 			.card
-				= f.input :label, label: 'Label', :placeholder => "enter a label..."
-				= button_to "Update Label", @purchase_order, :method => :post, class: "btn btn-label"
+				= f.input :label, label: 'Label', :input_html => { 'id' => 'tagsinput' }, :placeholder => "Add a label..."
+				= f.input :note, as: :text, label: 'Note', :placeholder => "Add a note..."
+				.buttons
+					= button_to "Update", @purchase_order, :method => :post, class: "btn btn-label"
+- if @purchase_order.purchase_order_history.length > 0
+	.wrapper.section.clear.no-print.internal
+		.section-description
+			%h3 PO History
+			%p View the history of this purchase order.
+		.section-content
+			.card
+				%table
+					%thead
+						%tr
+							%th.text-label
+								Status
+							%th.text-label
+								Date
+					%tbody
+						- @purchase_order.purchase_order_history.order('created_at DESC').each do |h|
+							%tr
+								%td
+									= h.action
+								%td
+									= h.date.in_time_zone.strftime("%B #{h.date.in_time_zone.day.ordinalize}, %Y %H:%M:%S")

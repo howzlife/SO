@@ -2,13 +2,14 @@ class PurchaseOrder
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::Paranoia
+
   field :number, type: String
   field :date, type: DateTime, default: ->{ DateTime.current } 
   field :status, type: String
   field :description, type: String
-  field :tags, type: String
   field :date_required, type: String
   field :label, type: String
+  field :note, type: String
   field :archived, type: Boolean
   field :was_deleted, type: Boolean
   field :last_archived_on, type: DateTime
@@ -17,8 +18,9 @@ class PurchaseOrder
   validates_presence_of :number, :date, :description, :vendor, :status
 
   embeds_one :vendor, as: :vendorable, autobuild: true
-  embeds_many :comments
   embeds_one :address, as: :addressable, autobuild: true
+
+  embeds_many :purchase_order_history
 
   belongs_to :company
 

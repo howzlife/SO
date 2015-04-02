@@ -1,11 +1,16 @@
 class PurchaseOrdersController < ApplicationController
   require 'pdf_mailer'
   require 'format_po_fax'
+
   before_action :set_purchase_order, only: [:show, :edit, :update, :destroy]
   before_action :has_company_info, only: [:new]
   before_action :authenticate_user!
+
+  before_action :write_history, only: [:update]
+
   respond_to :html, :json
   responders :flash
+
   include ActionView::Helpers::NumberHelper
   include ActionController::Base::PurchaseOrdersHelper
 
@@ -13,13 +18,13 @@ class PurchaseOrdersController < ApplicationController
     puts "params = #{params.inspect}"
     @company = current_user.company
     if params["q"].blank? && params["status"].blank? && params["label"].blank? && params["archived"].blank? && params['was_deleted'].blank?
-      @purchase_orders = @company.purchase_orders.active.page(params[:page]).per(25)
+      @purchase_orders = @company.purchase_orders.active.page params[:page]
     elsif params["all"]
-      @purchase_orders = @company.purchase_orders.active.page(params[:page]).per(25)
+      @purchase_orders = @company.purchase_orders.active.page params[:page]
     else
       if params.has_key?("all")
         # @purchase_orders = PurchaseOrder.status(@company.id, params["status"]).page params[:page]
-        @purchase_orders = PurchaseOrder.search2(@company.id, status: params["status"], label: params.fetch(:label, ''), archived: params.fetch(:archived, nil), was_deleted: params.fetch(:was_deleted, nil)).page(params[:page])
+        @purchase_orders = PurchaseOrder.search2(@company.id, status: params["status"], label: params.fetch(:label, ''), archived: params.fetch(:archived, nil), was_deleted: params.fetch(:was_deleted, nil)).page params[:page]
       elsif params.has_key?("status")
         @purchase_orders = PurchaseOrder.status(@company.id, params["status"]).page params[:page]
       elsif params.has_key?("label")
@@ -94,7 +99,7 @@ class PurchaseOrdersController < ApplicationController
               # Otherwise, we get an error message. 
             else 
               respond_to do |format|
-                format.html {render :new, notice: @sent_fax["message"]}
+                format.html {render :show, notice: @sent_fax["message"]}
                 format.json { render json: @purchase_order.errors, status: :unprocessable_entity }
               end
             end
@@ -287,12 +292,20 @@ class PurchaseOrdersController < ApplicationController
       @purchase_order = PurchaseOrder.find(params[:id])
     end
 
+		# save PO history
+    def write_history
+    	if params[:status] == "cancelled" || params[:status] == "open" || params[:status] == "archive"  || params[:status] == "deleted" || params[:status] == "closed"
+	    	@purchase_order.purchase_order_history.create({ :action => params[:status] })
+	    end
+    end
+
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def purchase_order_params
       # It's mandatory to specify the nested attributes that should be whitelisted.
       # If you use `permit` with just the key that points to the nested attributes hash,
       # it will return an empty hash.
-      params.require(:purchase_order).permit(:number, :status, :description, :tags, :archived, :label, :comment, :date_required, :address, :vendor)
+      params.require(:purchase_order).permit(:number, :status, :description, :archived, :label, :note, :comment, :date_required, :address, :vendor)
     end
 
     def has_company_info

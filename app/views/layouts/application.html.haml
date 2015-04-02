@@ -18,8 +18,9 @@
 	- else
 		%body
 		- if flash[:notice]
-			%p.notice
-				= notice
+			.notice
+				%p
+					= notice
 		- if flash[:alert]
 			%p.alert
 				= alert
@@ -37,4 +38,5 @@
 							= succeed "." do
 								%a{:href => "#"} Support Page
 			-if !current_user.confirmed? 
-				%p.notice Your account is not yet confirmed; Please click link in confirmation email to fully use the applications
+				.notice
+					%p Your account is not yet confirmed; Please click link in confirmation email to fully use the applications

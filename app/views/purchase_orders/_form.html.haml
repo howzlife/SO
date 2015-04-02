@@ -14,7 +14,7 @@
 	- else
 		- ponumber = @purchase_order.number
 	.wrapper
-		.card.purchaseorder
+		.card.purchaseorder{class: "#{!@purchase_order.status.blank? ? @purchase_order.status : 'draft' }"}
 			.purchaseorder-header.clear
 				.purchaseorder-company
 					= @company.name
@@ -39,13 +39,17 @@
 					.section
 						.text-label Date
 						.date
-							=@purchase_order.date.strftime("%B #{@purchase_order.date.day.ordinalize}, %Y")
+							=@purchase_order.date.in_time_zone.strftime("%B #{@purchase_order.date.in_time_zone.day}, %Y")
 			.purchaseorder-vendor.clear
 				.to.vendor
 					.text-label Send To
 				.vendor-select
 					-# the instance variable below isn't the vendor document that embedded in the purchase order. It's the one embedded in the company. We use the vendors created there in this form. The data from them is then saved to the purchase order's embedded vendor document. We allow vendor information to be changed for the company but not on the purchase orders. This way, if the Company's vendor data changes, the already saved purchase orders' vendor data doesn't. This vendor data is being passed as a hash string. 
-					= f.select :vendor, @company.vendors.all.map { |r| [r.name, r.id] }, :include_blank => "Select Vendor", :selected => @purchase_order.read_attribute(:vendor)
+					- if @purchase_order.vendor.name.blank?
+						= f.select :vendor, @company.vendors.all.map { |r| [r.name, r.id] }, :include_blank => "Select Vendor"
+					- else
+						= f.select :vendor, @company.vendors.all.map { |r| [r.name, r.id] }, :include_blank => "Select Vendor", :selected => @company.vendors.where(name: @purchase_order.vendor.name).first.id
+
 					.dynamic-select-text.search-query
 						.dynamic-selected{ :class => @purchase_order.vendor.name.blank? ? 'hidden' : '' }
 							- if !@purchase_order.vendor.name.blank?
@@ -70,13 +74,14 @@
 								%span.text Create New Vendor						
 							= link_to vendors_path do
 								%span.text Manage Vendors
-					= check_box_tag 'bcc', 'yes', false, class: "btn-bcc"
-					Send me a copy
 					.dynamic-details
+					.no-print
+						= check_box_tag 'bcc', 'yes', false, class: "btn-bcc"
+						Send me a copy
 				.date-required
 					.text-label Date Required
 					.date-field
-						= f.input :date_required, :placeholder => "ASAP", :defaults => { :input_html => { :class => "text" } }, :id => "datepicker"
+						= f.input :date_required, :placeholder => "Select a date", :input_html => { :class => 'date-picker' }
 			.purchaseorder-description
 				.text-label Description
 			.purchaseorder-input
@@ -85,18 +90,43 @@
 			.purchaseorder-deliverto.clear
 				.to.deliverto
 					.text-label Ship To
-
 				.deliverto-select
-					= f.select :address, @company.addresses.all.map { |r| [r.name, r.id] }, :include_blank => "Select Address"
+					- if @purchase_order.address.name.blank?
+						= f.select :address, @company.addresses.all.map { |r| [r.name, r.id] }, :include_blank => "Select Address"
+					- else
+						= f.select :address, @company.addresses.all.map { |r| [r.name, r.id] }, :include_blank => "Select Address", :selected => @company.addresses.where(name: @purchase_order.address.name).first.id
+
+
+
+					- if !@purchase_order.address.name.blank?
+						- a = @purchase_order.address
+					- elsif !@company.addresses.find(@company.shipaddress).name.blank?
+						- a = @company.addresses.find(@company.shipaddress)
+
+
+
 					.dynamic-select-text.search-query
-						.dynamic-selected{ :class => @purchase_order.address.name.blank? ? 'hidden' : '' }
-						/ - if !@purchase_order.address.name.blank?
-						/ 	.name= @purchase_order.address.name
-						/ 	.line_1= "#{@purchase_order.address.read_attribute(:address)["address_line_1"]}"
-						/ 	.city= "#{@purchase_order.address.read_attribute(:address)["city"]}, #{@purchase_order.address.read_attribute(:address)["state"]}, #{@purchase_order.address.read_attribute(:address)["country"]}"
-						/ 	.postal="#{@purchase_order.address.read_attribute(:address)["zip"]}"
-						/ - else 
-						%input.dynamic-select-input{:type => "text",:placeholder => "Address"}/
+						.dynamic-selected{ :class => a.name.blank? ? 'hidden' : '' }
+							- if !a.name.blank?
+								.name= a.name
+								.address_line_1= a.address['address_line_1']
+								- if !a.address['address_line_2'].blank?
+									.address_line_2= a.address['address_line_2']
+								.city= "#{a.address['city']}, #{a.address['state']}, #{a.address['zip']}"
+
+								- if !a.telephone.blank?
+									.telephone= "Tel: #{a.telephone}"
+								- if !a.fax.blank?
+									.fax= "Fax: #{a.fax}"
+								- if !a.agent.blank?
+									.agent= "Attn: #{a.agent}"
+
+								%span.change &times;
+						- if !a.name.blank?
+							%input.dynamic-select-input{:type => "text",:placeholder => "Address", class: "hidden"}
+						- else
+							%input.dynamic-select-input{:type => "text",:placeholder => "Address"}
+
 					.dynamic-select-list
 						.list-body
 						.list-footer

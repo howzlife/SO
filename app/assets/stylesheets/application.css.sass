@@ -10,8 +10,6 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require jquery-ui
- *= require jquery-ui/datepicker
  *= require_self
  */
 
@@ -36,6 +34,8 @@ $row-hover: #fcfae9
 
 $box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1)
 $border-radius: 3px
+
+
 
 body
 	background: #f9f9f9
@@ -80,6 +80,7 @@ h1,h2,h3,h4,h5,h6
 		-moz-box-sizing: border-box
 		box-sizing: border-box
 		vertical-align: top
+		width: auto
 	.link
 		-webkit-display: none
 		background: none
@@ -192,7 +193,7 @@ a.btn-primary
 	padding: 25px
 	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2)
 	background: #fff
-	outline: none  
+	outline: none	
 	border: 1px solid #e7e7e7 
 
 	h2
@@ -259,22 +260,25 @@ a.btn-primary
 	max-width: 1440px
 	margin: 0px auto
 	padding: 0 30px
+	&.internal
+		margin: 0px auto 60px auto
 
 .divider
 	border-bottom: 1px solid $light-grey
 
-p.notice
-	position: absolute
-	margin: 0px
+.notice
+	position: fixed
 	bottom: 0px
 	z-index: 99
 	width: 100%
 	text-align: center
 	font-size: 18px
 	font-weight: 300
-	padding: 15px 20px
-	color: #fff
 	background: rgba(0,0,0,0.85)
+	p
+		padding: 15px 20px
+		margin: 0px
+		color: #fff
 
 a
 	color: $dark-grey
@@ -422,7 +426,7 @@ h1
 		background: asset-url("logo.png", image)
 		width: 102px
 		height: 25px
-		margin: 50px  0px 0px auto
+		margin: 50px	0px 0px auto
 
 	.button
 		margin: 0 0 15px 0
@@ -521,6 +525,7 @@ h1
 		-webkit-box-sizing: border-box
 		-moz-box-sizing: border-box
 		box-sizing: border-box
+		box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075)
 		&:focus
 			border: 1px solid $default-blue
 			outline: none
@@ -622,9 +627,9 @@ h1
 	.divider
 		margin: 30px 0
 	table
-		border-collapse: collapse  
+		border-collapse: collapse	
 		margin: 0 10px
-		padding: 0   
+		padding: 0	 
 		width: calc(100% - 20px)
 		tr
 			&.archived
@@ -692,18 +697,60 @@ h1
 	input, textarea, text_area
 		width: 100%
 
-	input.string, textarea.string, input.password, text_area.string
+	input.string, textarea.string, textarea.text, input.password, text_area.string
 		border: 1px solid #e7e7e7
 		border-radius: $border-radius
-		padding: 6px 10px
+		padding: 8px 10px
 		box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075)
 		-webkit-box-sizing: border-box
 		-moz-box-sizing: border-box
 		box-sizing: border-box
+		font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B',sans-serif
+		font-size: 12px
 
 		&:focus
 			outline: none
 			border: 1px solid #8a9495
+	.bootstrap-tagsinput
+		background: #fff
+		border: 1px solid #e7e7e7
+		border-radius: $border-radius
+		padding: 8px 10px
+		box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075)
+		-webkit-box-sizing: border-box
+		-moz-box-sizing: border-box
+		box-sizing: border-box
+		font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B',sans-serif
+		font-size: 12px
+
+		input
+			background: none
+			border: none
+			outline: none
+			font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B',sans-serif
+			font-size: 12px
+			padding: 0 0 1px 0
+			margin: 0px
+		.label
+			background-color: $default-blue
+			display: inline
+			color: #fff
+			padding: 4px 10px 3px 10px
+			font-size: 12px
+			[data-role="remove"]
+				margin-left: 8px
+				cursor: pointer
+				&:after
+					content: "×"
+					padding: 0px 2px
+		&.bootstrap-tagsinput-max
+			input
+				display: none
+
+		
+
+
+
 	.form-inputs
 		margin: 0 0 10px 0
 		.half
@@ -730,10 +777,18 @@ h1
 
 	.card
 		background: #f7f7f7
-		padding: 25px  
-		outline: none  
+		padding: 25px	
+		outline: none	
 		border: 1px solid $light-grey
-
+		table
+			tr
+				&:hover
+					th
+						background: none
+					td
+						background: $light-grey
+		.control-group
+			margin: 0 0 10px 0
 	.text-label
 		font-size: 13px
 		color: #333333
@@ -796,6 +851,15 @@ h1
 				float: right
 				padding-left: 25px
 				border-left: 1px solid #dedfe3
+				.date-picker
+					font-family: 'Ideal Sans SSm A', 'Ideal Sans SSm B',sans-serif
+					font-size: 14px
+					line-height: 21px
+					border: 1px solid $default-grey
+					padding: 10px 14px
+					margin: 0px
+					box-sizing: border-box
+					border-radius: 0px
 			.vendor-select, .deliverto-select, .deliverto-agent
 				float: left
 				select
@@ -807,11 +871,6 @@ h1
 				margin: 0 25px 0 0
 				width: 240px
 				position: relative
-
-			.dynamic-select-text
-				background: #fff
-				padding: 10px 14px
-				min-height: 43px
 			.dynamic-select-input
 				border: none
 				background: none
@@ -821,6 +880,10 @@ h1
 				line-height: 21px
 				padding: 0
 				margin: 0
+			.dynamic-select-text
+				background: #fff
+				padding: 10px 14px
+				min-height: 43px
 			.dynamic-selected
 				line-height: 21px
 			.dynamic-select-list
@@ -836,7 +899,7 @@ h1
 
 				.dynamic-name
 					padding: 5px 14px
-					&:hover
+					&:hover, &.hover
 						background: $light-grey
 						cursor: pointer
 						text-decoration: underline
@@ -894,10 +957,10 @@ h1
 			.purchaseorder-company, .purchaseorder-address
 				float: left
 			.purchaseorder-address
-				margin: 0  0 0 25px
+				margin: 0	0 0 25px
 			.purchaseorder-number
 				float: right
-				margin:  0 25px 0  0 
+				margin:	0 25px 0	0 
 				.number
 					color: #ea4e1b
 					font-size: 18px
@@ -962,33 +1025,134 @@ h1
 #searchable-table-text
 	text-align: center
 
+.ui-datepicker
+	width: 225px
+	height: auto
+	padding: 4px
+	border: 1px solid $default-grey
+	border-top: none
+	background: #fff
+	-webkit-box-sizing: border-box
+	-moz-box-sizing: border-box
+	box-sizing: border-box
+	.ui-datepicker-header
+		border-bottom: 1px solid $default-grey
+		padding: 10px 0
+		.ui-datepicker-title
+			text-align: center
+			font-weight: 700
+		.ui-datepicker-prev, .ui-datepicker-next
+			display: inline-block
+			cursor: pointer
+			font-size: 12px
+		.ui-datepicker-prev
+			float: left
+		.ui-datepicker-next
+			float: right
+	.ui-datepicker-calendar
+		width: 100%
+		th
+			padding: 5px 0
+			font-size: 10px
+		td
+			text-align: right
+			padding: 5px 0
+			&.ui-datepicker-unselectable
+				color: $default-grey
+
+.ui-menu
+	list-style: none
+	padding: 0
+	margin: 0
+	.ui-menu-item
+		margin: 0
+		padding: 5px 14px
+		zoom: 1
+		&.ui-state-focus, &.ui-state-active
+			background: $light-grey
+			cursor: pointer
+			text-decoration: underline
+
+
 @media print
+
 	body
 		background: none
 		font-size: 12px
-	.sidebar, .page-header, .buttons, .no-print
+		color: #000
+	.sidebar, .page-header, .buttons, .no-print, .app-header, .help, .ui-datepicker
 		display: none
 	.content
+		width: 100%
+		.sheet
+			box-shadow: none
+			border: none
 		.card
 			border: none
+			box-shadow: none
 			padding: 0
 			.text-label
 				font-size: 12px
+				color: #000
 		.purchaseorder
+			background: none
+			.purchaseorder-header
+				.purchaseorder-from, .purchaseorder-number
+					color: #000
+					.date, .number
+						color: #000
 			.purchaseorder-vendor
 				.to
 					.text-label
 						font-size: 12px
+						color: #000
 				.date-required
 					.text-label
 						font-size: 12px
+						color: #000
+					.date-picker
+						box-shadow: none
+						border: 0
+						padding: 0
+						margin: 6px 0 0 0
+
 			.purchaseorder-deliverto
 				.to 
 					.text-label
 						font-size: 12px
+						color: #000
+			.purchaseorder-input
+				background: none
 			.purchaseorder-description
 				.text-label
 					font-size: 12px
+					color: #000
+			.change
+				display: none
+			.search-query
+				box-shadow: none
+				border: 0
+				padding: 0
+				.dynamic-select-input
+					display: none
+			&.draft
+				.purchaseorder-description
+					position: relative
+					&:after
+						content: 'This Order is a Draft'
+						font-weight: 700
+						font-size: 60px
+						text-align: center
+						position: absolute
+						top: 165px
+						color: #000
+						opacity: .05
+						width: 100%
+						margin-left: -25px
+						-ms-transform: rotate(-15deg)
+						-webkit-transform: rotate(-15deg)
+						transform: rotate(-15deg)
+
 	.credits
 		display: block
 		text-align: center
