@@ -96,14 +96,12 @@
 					- else
 						= f.select :address, @company.addresses.all.map { |r| [r.name, r.id] }, :include_blank => "Select Address", :selected => @company.addresses.where(name: @purchase_order.address.name).first.id
 
-
-
 					- if !@purchase_order.address.name.blank?
 						- a = @purchase_order.address
-					- elsif !@company.addresses.find(@company.shipaddress).name.blank?
+					- elsif !@company.shipaddress.blank? #!@company.addresses.find(@company.shipaddress).name.blank?
 						- a = @company.addresses.find(@company.shipaddress)
 
-
+					= f.select :address, @company.addresses.all.map { |r| [r.name, r.id] }, :include_blank => "Select Address", :selected => @company.addresses.where(name: a.name).first.id
 
 					.dynamic-select-text.search-query
 						.dynamic-selected{ :class => a.name.blank? ? 'hidden' : '' }

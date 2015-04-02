@@ -28,8 +28,6 @@ class CompaniesController < ApplicationController
 
   def update
     @company.update(company_params)
-    puts @company.billaddress
-    puts @company.shipaddress
     # NOTE - SET COMPANIES BILLADDRESS and SHIPADDRESS 
     #respond_with(@company)
     redirect_to action: "edit"

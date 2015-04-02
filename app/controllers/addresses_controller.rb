@@ -18,10 +18,15 @@ class AddressesController < ApplicationController
   # POST /addresses
   # POST /addresses.json
   def create
-    @address = @company.addresses.build(address_params)    
+    @address = @company.addresses.build(address_params) 
 
     respond_to do |format|
       if @address.save
+        # If this is first address, set as bill and ship address
+        @company.billaddress ||= @address.id
+        @company.shipaddress ||= @address.id
+        @company.save!
+
         format.html { redirect_to edit_company_path(@company), notice: 'Address was successfully created.' }
         format.json { render :show, status: :created, location: @address }
       else
