@@ -7,7 +7,6 @@ class Address
   field :telephone, type: String
   field :fax, type: String
   field :agent, type: String
-  field :_id, type: String, default: ->{ name }
 
   validates_presence_of :name
   validates_uniqueness_of :name
