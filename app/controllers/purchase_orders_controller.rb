@@ -70,7 +70,7 @@ class PurchaseOrdersController < ApplicationController
         ## Response for send by Fax or Email 
         if params[:status] == "email" 
           if current_user.subscription.can_send_po 
-       			PDFMailer.send_pdf(@purchase_order, @company, current_user, params["bcc"]).deliver
+       			PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
             @purchase_order.status = "open"
             flash[:notice] = 'Success, your PO has been sent by Email.' if @purchase_order.save
             current_user.subscription.update_attribute(:monthly_po_count, current_user.subscription.monthly_po_count + 1)

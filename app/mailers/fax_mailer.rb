@@ -5,7 +5,7 @@ class FAXMailer < ActionMailer::Base
 	include ActionView::Helpers::NumberHelper
 	include ActionView::Helpers::TextHelper
 
-  def save_pdf(fax, user, bcc)
+  def save_pdf(fax, user)
 
 		#create instance variables
     @recipient = fax.recipient_name
@@ -65,9 +65,9 @@ h4 {
     end
 
     #bcc if checkbox is selected
-    if bcc
-      mail(to: current_user.email, subject: 'Purchase Order '+@purchase_order.number.to_s, from: @company.email, reply_to: @company.email)
-    end
+    # if bcc
+    #   mail(to: current_user.email, subject: 'Purchase Order '+@purchase_order.number.to_s, from: @company.email, reply_to: @company.email)
+    # end
 
 		return pdf_html, file_name
 

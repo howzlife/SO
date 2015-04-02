@@ -7,7 +7,7 @@ class PDFMailer < ActionMailer::Base
 
   default from: "from@example.com"
 
-  def send_pdf(purchase_order, company, current_user, bcc)
+  def send_pdf(purchase_order, company, current_user)
     
 		#create instance variables
 
