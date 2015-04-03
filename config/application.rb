@@ -9,14 +9,13 @@ require "action_view/railtie"
 require "sprockets/railtie"
 require "rails/test_unit/railtie"
 require 'phaxio'
-require 'aws-sdk'
 
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module Myorderboard
+module Swiftorders
   class Application < Rails::Application
 
     #config.middleware.use ActionDispatch::Cookies
@@ -33,6 +32,7 @@ module Myorderboard
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
+		config.exceptions_app = self.routes
 		config.time_zone = "Eastern Time (US & Canada)"
 
     config.generators do |g|

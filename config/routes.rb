@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
   
+  get 'errors/file_not_found'
+
+  get 'errors/unprocessable'
+
+  get 'errors/internal_server_error'
+
   # Note: Resource "faxes" removed at the moment, may be reinserted later. 
   # resources :faxes
 
@@ -29,6 +35,9 @@ Rails.application.routes.draw do
   get '/login' => 'marketing#login'
   get '/signup' => 'marketing#signup'
 
+	match '/404', to: 'errors#file_not_found', via: :all
+	match '/422', to: 'errors#unprocessable', via: :all
+	match '/500', to: 'errors#internal_server_error', via: :all
 
   # You can have the root of your site routed with "root"
   #http://stackoverflow.com/questions/3791096/devise-logged-in-root-route-rails-3
