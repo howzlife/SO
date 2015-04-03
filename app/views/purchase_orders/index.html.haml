@@ -52,6 +52,9 @@
 					%th.text-label
 						Status
 						.arrow
+					%th.text-label
+						Viewed
+						.arrow
 			%tbody
 				- @purchase_orders.order('created_at DESC').each do |purchase_order|
 					- classes = ["status-#{purchase_order.status}", ("archived" if purchase_order.archived?)]
@@ -75,7 +78,8 @@
 							= !purchase_order.label.blank? ? purchase_order.label : raw("&ndash;")
 						%td
 							%span{class: "label status-#{purchase_order.status}"}= purchase_order.status
-
+						%td
+							=raw("&ndash;")
 
 					-#= %td= link_to 'Show', purchase_order
 					-#= %td= link_to 'Destroy', purchase_order, :method => :delete, :data => { :confirm => 'Are you sure?' }
