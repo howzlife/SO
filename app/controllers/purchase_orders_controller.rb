@@ -147,7 +147,7 @@ class PurchaseOrdersController < ApplicationController
     #Email and Fax actions, to actually resend the information
     if params[:status] == "email"
       if current_user.subscription.can_send_po 
-        @purchase_order.update_attributes!(organize_purchase_order_params(purchase_order_params)) 
+        if @purchase_order.status == "draft" then @purchase_order.update_attributes!(organize_purchase_order_params(purchase_order_params)) end
         PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
         @purchase_order.update_attribute(:status, "open")   
         flash[:notice] = "Success, your PO has been sent by Email." if @purchase_order.save
@@ -159,7 +159,7 @@ class PurchaseOrdersController < ApplicationController
       end
     elsif params[:status] == "fax"
      if current_user.subscription.can_send_po 
-        @purchase_order.update_attributes!(organize_purchase_order_params(purchase_order_params)) 
+      if @purchase_order.status == "draft" then @purchase_order.update_attributes!(organize_purchase_order_params(purchase_order_params)) end
         @sent_fax = send_po_fax(@purchase_order)
         @successful_send = @sent_fax["success"]
         if @successful_send
@@ -180,7 +180,7 @@ class PurchaseOrdersController < ApplicationController
     #State transitions - Open, Closed, Cancelled, Deleted, Draft, Archived
 
     elsif params[:status] == "open"
-      @purchase_order.update_attributes!(organize_purchase_order_params(purchase_order_params)) 
+      if @purchase_order.status == "draft" then @purchase_order.update_attributes!(organize_purchase_order_params(purchase_order_params)) end
       @purchase_order.update_attribute(:status, "open")
       flash[:notice] = "Purchase Order was successfully Saved." if @purchase_order.save
       respond_with(@purchase_order)

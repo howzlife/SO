@@ -22,24 +22,24 @@
 					- if @address.address.blank?
 						.form-inputs
 							= af.label 'Address Line 1'
-							= af.text_field :address_line_1, class: 'string'
+							= af.text_field :address_line_1, class: 'string', id: 'address_line_1'
 						.form-inputs
 							= af.label 'Address Line 2', required: false
-							= af.text_field :address_line_2, class: 'string', required: false
+							= af.text_field :address_line_2, class: 'string', id: 'address_line_2', required: false
 						.form-inputs.clear
 							.half.first
 								= af.label 'City'
-								= af.text_field :city, class: 'string'
+								= af.text_field :city, class: 'string', id: 'city'
 							.half
 								= af.label 'State / Province'
-								= af.text_field :state, class: 'string'
+								= af.text_field :state, class: 'string', id: 'state'
 						.form-inputs.clear
 							.half.first
 								= af.label 'Country'
-								= af.text_field :country, class: 'string'
+								= af.text_field :country, class: 'string', id: 'country'
 							.half
 								= af.label 'Zip / Postal Code'
-								= af.text_field :zip, class: 'string'
+								= af.text_field :zip, class: 'string', id: 'zip'
 					- else					
 						.form-inputs
 							= af.label 'Address Line 1'
@@ -64,6 +64,6 @@
 
 				.form-inputs.clear
 					.half.first
-						= f.input :agent, label: 'Receiving agent'
+						= f.input :agent, label: 'Receiving agent', id: 'agent'
 					.half.phone
 						= f.input :telephone
