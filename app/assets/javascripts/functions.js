@@ -44,7 +44,8 @@ $(function() {
 	});
 
 	$('#tagsinput').tagsinput({
-		maxTags: 1
+		maxTags: 1,
+		maxChars: 24
 	});
 
 	// sidebar search
