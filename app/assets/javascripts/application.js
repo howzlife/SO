@@ -156,7 +156,7 @@ $(function() {
     }).attr('autocomplete', 'off').data('oldval', '');
 
 	// date select datepicker
-	$( "#purchase_order_date_required" ).datepicker({dateFormat: 'MM d, yy', dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], minDate: 0});
+	$( "#purchase_order_date_required" ).datepicker({ dateFormat: 'MM d, yy', dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], minDate: 0, showAnim: '' });
 
 	// vendor select autocomplete
 	$('.purchaseorder-vendor .dynamic-select-input').autocomplete({
@@ -230,6 +230,8 @@ $(function() {
 		},
 		minLength: 0,
 		delay: 100
+	}).focus(function(){
+		$(this).autocomplete("search");
 	});
 
 	// vendor select change
@@ -301,6 +303,8 @@ $(function() {
 		},
 		minLength: 0,
 		delay: 100
+	}).focus(function(){
+		$(this).autocomplete("search");
 	});
 
 	// deliverto select change
