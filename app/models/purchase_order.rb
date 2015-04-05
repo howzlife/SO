@@ -57,10 +57,32 @@ class PurchaseOrder
     end
   end
 
-  def write_history
-     if status != "draft" #== ("cancelled" ||  "open" || "archive"  || "deleted" || "closed" ) 
-        purchase_order_histories.create({ action: status }) 
-     end
+  def write_history(action)
+    if status != "draft" #== ("cancelled" ||  "open" || "archive"  || "deleted" || "closed" ) 
+      case action
+        when "email"
+          new_action = "emailed"
+        when "fax"
+          new_action = "faxed"
+        when "open"
+          new_action = "opened"
+        when "closed"
+          new_action = "closed"
+        when "cancelled"
+          new_action = "cancelled"
+        when "deleted"
+          new_action = "deleted"
+        when "undelete"
+          new_action = "undeleted"
+        when "archive"
+          new_action = "archived"
+        when "unarchive"
+          new_action = "unarchived"
+        when "duplicate"
+          new_action = "duplicated"
+      end 
+      purchase_order_histories.create({ action: new_action }) 
+    end
   end
 
   def self.label(company_id, label)
