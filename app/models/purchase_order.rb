@@ -15,7 +15,7 @@ class PurchaseOrder
   field :last_archived_on, type: DateTime
   field :last_deleted_on, type: DateTime
 
-  after_save :write_history
+  # after_save :write_history
 
   validates_presence_of :number, :date, :description, :vendor, :status
 
@@ -59,7 +59,7 @@ class PurchaseOrder
 
   def write_history
      if status != "draft" #== ("cancelled" ||  "open" || "archive"  || "deleted" || "closed" ) 
-           purchase_order_histories.create({ action: status }) 
+        purchase_order_histories.create({ action: status }) 
      end
   end
 

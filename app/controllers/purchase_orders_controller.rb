@@ -77,6 +77,7 @@ class PurchaseOrdersController < ApplicationController
           if current_user.subscription.can_send_po
        			PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
             @purchase_order.status = "open"
+            @purchase_order.write_history
             flash[:notice] = 'Success, your PO has been sent by Email.' if @purchase_order.save
             current_user.subscription.update_attribute(:monthly_po_count, current_user.subscription.monthly_po_count + 1)
             respond_with(@purchase_order)
@@ -94,6 +95,7 @@ class PurchaseOrdersController < ApplicationController
               puts "check here 101"
               puts current_user.subscription.monthly_po_count
               @purchase_order.update_attribute(:status, "open")
+              @purchase_order.write_history
               flash[:notice] = 'Success, your PO has been sent by fax.' 
               respond_with(@purchase_order)
               # Otherwise, we get an error message. 
@@ -111,6 +113,7 @@ class PurchaseOrdersController < ApplicationController
         #State transitions without send -> Mark as Open, Save as Draft
         elsif params[:status] == "open"
           @purchase_order.status = "open"
+          @purchase_order.write_history
           flash[:notice] = 'Success, your PO has been Opened.' if @purchase_order.save
           respond_with(@purchase_order)
 
@@ -149,7 +152,7 @@ class PurchaseOrdersController < ApplicationController
       if current_user.subscription.can_send_po 
         if @purchase_order.status == "draft" then @purchase_order.update_attributes!(organize_purchase_order_params(purchase_order_params)) end
         PDFMailer.send_pdf(@purchase_order, @company, current_user).deliver
-        @purchase_order.update_attribute(:status, "open")   
+        @purchase_order.update_attribute(:status, "open").write_history   
         flash[:notice] = "Success, your PO has been sent by Email." if @purchase_order.save
         current_user.subscription.update_attribute(:monthly_po_count, current_user.subscription.monthly_po_count + 1)
         respond_with(@purchase_order)  
@@ -165,8 +168,8 @@ class PurchaseOrdersController < ApplicationController
         if @successful_send
           current_user.subscription.update_attribute(:monthly_po_count, current_user.subscription.monthly_po_count + 1)
           @purchase_order.update_attribute(:status, "open")
+          @purchase_order.write_history
           flash[:notice] = "Success, your PO has been sent by Fax." if @purchase_order.save 
-          @purchase_order.save
           respond_with(@purchase_order)
         else 
           flash[:notice] = @sent_fax["message"]
@@ -182,6 +185,7 @@ class PurchaseOrdersController < ApplicationController
     elsif params[:status] == "open"
       if @purchase_order.status == "draft" then @purchase_order.update_attributes!(organize_purchase_order_params(purchase_order_params)) end
       @purchase_order.update_attribute(:status, "open")
+      @purchase_order.write_history
       flash[:notice] = "Purchase Order was successfully Saved." if @purchase_order.save
       respond_with(@purchase_order)
 
@@ -204,11 +208,13 @@ class PurchaseOrdersController < ApplicationController
     elsif params[:status] == "closed"
       @purchase_order.update_attribute(:status, "closed") 
       flash[:notice] = "Purchase Order has been Closed." if @purchase_order.save
+      @purchase_order.write_history
       respond_with(@purchase_order)
 
     elsif params[:status] == "cancelled"
       @purchase_order.update_attribute(:status, "cancelled")
       flash[:notice] = "Purchase Order has been Cancelled" if @purchase_order.save
+      @purchase_order.write_history
       respond_to do |format|
         format.html { redirect_to purchase_orders_path }
       end
@@ -220,6 +226,7 @@ class PurchaseOrdersController < ApplicationController
       @purchase_order.update_attribute(:last_deleted_on, DateTime.now)
       @purchase_order.update_attribute(:status, "deleted")
       flash[:notice] = "Purchase Order has been Deleted." if @purchase_order.save
+      @purchase_order.write_history
       respond_to do |format|
         format.html { redirect_to purchase_orders_path }
         format.json
@@ -228,17 +235,20 @@ class PurchaseOrdersController < ApplicationController
       @purchase_order.update_attribute(:was_deleted, false)
       @purchase_order.update_attribute(:status, "cancelled")
       flash[:notice] = "Purchase Order has been Un-Deleted." if @purchase_order.save
+      @purchase_order.write_history
       respond_with(@purchase_order)
 
     elsif params[:status] == "archive"
       @purchase_order.update_attribute(:archived, true)
       @purchase_order.update_attribute(:last_archived_on, DateTime.now)
       flash[:notice] = "Purchase Order has been Archived." if @purchase_order.save
+      @purchase_order.write_history
       respond_with(@purchase_order)
 
     elsif params[:status] == "unarchive"
       @purchase_order.update_attribute(:archived, false)
       flash[:notice] = "Purchase order has been Un-Archived." if @purchase_order.save
+      @purchase_order.write_history
       respond_with(@purchase_order)
 
     elsif params[:status] == "print"
