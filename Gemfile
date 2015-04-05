@@ -87,6 +87,12 @@ gem 'spring-commands-rspec', group: :development
 # for mongoid enums, for plans and max amount of po's
 gem 'mongoid-enum'
 
+# missing dependency
+gem 'mime-types'
+
+# http interactions
+gem 'typhoeus'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -112,6 +118,7 @@ group :development, :test do
   gem 'better_errors'
   gem 'capybara'
   gem 'byebug'
+  gem 'vcr'
 end
 
 group :test do

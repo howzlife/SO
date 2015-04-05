@@ -15,12 +15,14 @@ class PurchaseOrder
   field :last_archived_on, type: DateTime
   field :last_deleted_on, type: DateTime
 
+  after_save :write_history
+
   validates_presence_of :number, :date, :description, :vendor, :status
 
   embeds_one :vendor, as: :vendorable, autobuild: true
   embeds_one :address, as: :addressable, autobuild: true
 
-  embeds_many :purchase_order_history
+  embeds_many :purchase_order_histories, as: :trackable
 
   belongs_to :company
 
@@ -53,6 +55,12 @@ class PurchaseOrder
     if status
       where(company_id: company_id, status: status)
     end
+  end
+
+  def write_history
+     if status != "draft" #== ("cancelled" ||  "open" || "archive"  || "deleted" || "closed" ) 
+           purchase_order_histories.create({ action: status }) 
+     end
   end
 
   def self.label(company_id, label)

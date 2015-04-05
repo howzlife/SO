@@ -92,7 +92,7 @@
 					.text-label Ship To
 				.deliverto-select
 					- if @purchase_order.address.name.blank?
-						= f.select :address, @company.addresses.all.map { |r| [r.name, r.id] }, :include_blank => "Select Address"
+						= f.select :address, @company.addresses.all.map { |r| [r.name, r.id] }, :include_blank => "Select Address", :selected => @company.shipaddress
 					- else
 						= f.select :address, @company.addresses.all.map { |r| [r.name, r.id] }, :include_blank => "Select Address", :selected => @company.addresses.where(name: @purchase_order.address.name).first.id
 
@@ -100,8 +100,6 @@
 						- a = @purchase_order.address
 					- elsif !@company.shipaddress.blank? #!@company.addresses.find(@company.shipaddress).name.blank?
 						- a = @company.addresses.find(@company.shipaddress)
-
-					= f.select :address, @company.addresses.all.map { |r| [r.name, r.id] }, :include_blank => "Select Address", :selected => @company.addresses.where(name: a.name).first.id
 
 					.dynamic-select-text.search-query
 						.dynamic-selected{ :class => a.name.blank? ? 'hidden' : '' }
@@ -135,8 +133,8 @@
 					.dynamic-details
 
 		.buttons
-			= button_tag(type: 'submit', :disabled => @purchase_order.vendor.email.blank?, :name => "status", :value => "email", :data => { :confirm => 'Are you sure? Once you email this purchase order, you will not be able to edit its contents.' }, class: "btn btn-email") do
+			= button_tag(type: 'submit', :disabled => @purchase_order.vendor.email.blank?, :name => "status", :value => "email", :data => { :confirm => 'Are you sure? Once you email this purchase order, you will not be able to edit its contents.' }, class: "btn btn-email", id: "btn-email") do
 				%span.text Send by Email
-			= button_tag(type: 'submit', :disabled => @purchase_order.vendor.fax.blank?, :name => "status", :value => "fax", :data => { :confirm => 'Are you sure? Once you fax this purchase order, you will not be able to edit its contents.' }, class: "btn btn-fax") do
+			= button_tag(type: 'submit', :disabled => @purchase_order.vendor.fax.blank?, :name => "status", :value => "fax", :data => { :confirm => 'Are you sure? Once you fax this purchase order, you will not be able to edit its contents.' }, class: "btn btn-fax", id: "btn-fax") do
 				%span.text Send by Fax
 = render 'internal'

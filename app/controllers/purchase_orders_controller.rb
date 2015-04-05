@@ -6,7 +6,7 @@ class PurchaseOrdersController < ApplicationController
   before_action :has_company_info, only: [:new]
   before_action :authenticate_user!
 
-  before_action :write_history, only: [:update]
+  #before_action :write_history, only: [:update]
 
   respond_to :html, :json
   responders :flash
@@ -297,11 +297,11 @@ class PurchaseOrdersController < ApplicationController
     end
 
 		# save PO history
-    def write_history
-    	if params[:status] == "cancelled" || params[:status] == "open" || params[:status] == "archive"  || params[:status] == "deleted" || params[:status] == "closed"
-	    	@purchase_order.purchase_order_history.create({ :action => params[:status] })
-	    end
-    end
+    # def write_history
+    # 	if params[:status] == "cancelled" || params[:status] == "open" || params[:status] == "archive"  || params[:status] == "deleted" || params[:status] == "closed"
+	   #  	@purchase_order.purchase_order_histories.create({ :action => params[:status] })
+	   #  end
+    # end
 
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -42,6 +42,11 @@ FactoryGirl.define do
     content "MyText"
   end
 
+  factory :po_history, class: PurchaseOrderHistory do
+      action "open"
+      date DateTime.current 
+  end
+
   # FFaker
   factory :purchase_order do
     number { "WDC-021-#{rand(100..999)}" }
@@ -63,30 +68,37 @@ FactoryGirl.define do
 
    trait :as_open do
       status "open"
+      purchase_order_history [FactoryGirl.attributes_for(:po_history)]
     end
 
    trait :as_closed do
       status "closed"
+      purchase_order_histories [FactoryGirl.attributes_for(:po_history)]
     end
 
     trait :as_cancelled do
       status "cancelled"
+      purchase_order_histories [FactoryGirl.attributes_for(:po_history)]      
     end
 
    trait :as_archived do
       was_archived true
+      purchase_order_histories [FactoryGirl.attributes_for(:po_history)]      
    end
 
    trait :unarchive do
       was_archived false
+      purchase_order_histories [FactoryGirl.attributes_for(:po_history)]
    end
 
    trait :was_deleted do
       was_deleted true
+      purchase_order_histories [FactoryGirl.attributes_for(:po_history)]
    end
 
    trait :undelete do
      was_deleted false
+     purchase_order_histories [FactoryGirl.attributes_for(:po_history)]
    end
   end
 

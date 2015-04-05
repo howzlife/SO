@@ -7,6 +7,6 @@ class PurchaseOrderHistory
   field :action, type: String
   field :date, type: DateTime, default: ->{ DateTime.current } 
 
-  embedded_in :purchase_order
-
+  embedded_in :trackable
+  
 end

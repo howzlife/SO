@@ -10,7 +10,7 @@
 				= f.input :note, as: :text, label: 'Note', :placeholder => "Add a note..."
 				.buttons
 					= button_to "Update", @purchase_order, :method => :post, class: "btn btn-label"
-- if @purchase_order.purchase_order_history.length > 0
+- if @purchase_order.purchase_order_histories.length > 0
 	.wrapper.section.clear.no-print.internal
 		.section-description
 			%h3 PO History
@@ -25,7 +25,7 @@
 							%th.text-label
 								Date
 					%tbody
-						- @purchase_order.purchase_order_history.order('created_at DESC').each do |h|
+						- @purchase_order.purchase_order_histories.order('created_at DESC').each do |h|
 							%tr
 								%td
 									= h.action

@@ -19,11 +19,11 @@
 					%span.text
 						&middot;&middot;&middot;
 					.tool-tip.below.left-align
-						= button_tag(type: 'submit', :name => "status", :value => "open", class: "link") do
+						= button_tag(type: 'submit', :name => "status", :value => "open", class: "link btn-open") do
 							%span.text Mark As Open
 						= button_tag(type: 'submit', :name => "status", :value => "print", class: "link btn-print edit-print") do
 							%span.text Print
-				= link_to purchase_orders_path, class: 'btn btn-danger' do
+				= link_to purchase_orders_path, class: 'btn btn-danger btn-discard' do
 					%span.text Discard
 				= button_tag(type: 'submit', :name => "status", :value => "draft", class: "btn btn-save") do
 					%span.text Save as Draft
@@ -32,11 +32,11 @@
 					%span.text
 						&middot;&middot;&middot;
 					.tool-tip.below.left-align
-						= button_tag(type: 'submit', :name => "status", :value => "open", class: "link") do
+						= button_tag(type: 'submit', :name => "status", :value => "open", class: "link btn-open") do
 							%span.text Mark As Open
 						= button_tag(type: 'submit', :name => "status", :value => "print", class: "link btn-print show-print") do
 							%span.text Print
-				= button_tag(type: 'submit', :name => 'status', :value => 'discard', :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger') do
+				= button_tag(type: 'submit', :name => 'status', :value => 'discard', :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger btn-discard') do
 					%span.text Discard
 				= button_tag(type: 'submit', :name => 'status', :value => 'cancel_changes', class: 'btn btn-danger') do
 					%span.text Cancel Changes
@@ -64,7 +64,7 @@
 						%span.text
 							&middot;&middot;&middot;
 						.tool-tip.below.left-align
-							= button_tag(type: 'submit', :name => "status", :value => "open", class: "link") do
+							= button_tag(type: 'submit', :name => "status", :value => "open", class: "link btn-open") do
 								%span.text Mark As Open
 							= button_tag(type: 'submit', :name => "status", :value => "duplicate", :data => { :confirm => 'Are you sure?' }, class: "link link-duplicate", id: "duplicate-as-new") do
 								%span.text Duplicate as New
